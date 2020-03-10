@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head></head>
+<body>
+	<aside class="main-sidebar"> 
+		<section class="sidebar"> 
+		<div class="user-panel">
+			<div class="pull-left image">
+				<img src="../img/logo.jpg" class="img-circle" alt="User Image">
+			</div>
+			<div class="pull-left info">
+				<p th:text="${session.SPRING_SECURITY_CONTEXT.authentication.principal.username}"> </p>
+				
+				<a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+			</div>
+		</div>
+
+
+
+		<!-- Sidebar Menu -->
+		<ul class="sidebar-menu" data-widget="tree">
+
+
+
+
+
+			<li class="treeview"><a href="#"><i class="fa fa-user "></i>
+				<span>问答中心</span> <span class="pull-right-container"> <i
+						class="fa fa-angle-left pull-right"></i>
+				</span> </a>
+				<ul class="treeview-menu">
+					<li><a href="/emp/index">最新问答</a></li>
+					<li><a href="/emp/index">Java基础</a></li>
+					<li><a href="/emp/index">Java OOP</a></li>
+					<li><a href="/emp/index">Java SE</a></li>
+					<li><a href="/emp/index">WebServer</a></li>
+					<li><a href="/emp/index">二进制</a></li>
+					<li><a href="/emp/index">Web</a></li>
+					<li><a href="/emp/index">Mysql</a></li>
+					<li><a href="/emp/index">Servlet</a></li>
+					<li><a href="/emp/index">Spring</a></li>
+					<li><a href="/emp/index">SpringMVC</a></li>
+					<li><a href="/emp/index">Mybatis</a></li>
+					<li><a href="/emp/index">Ajax</a></li>
+					<li><a href="/emp/index">SpringBoot</a></li>
+					<li><a href="/emp/index">其它</a></li>
+
+
+				</ul>
+			</li>
+			<li class="treeview"><a href="#"><i class="fa fa-user "></i>
+					<span>个人中心</span> <span class="pull-right-container"> <i
+						class="fa fa-angle-left pull-right"></i>
+				</span> </a>
+				<ul class="treeview-menu">
+					<li><a href="/emp/index">&nbsp;个人资料</a></li>
+					<li><a href="/emp/empLevel">&nbsp;我的提问</a></li>
+					<li><a href="/emp/empLevel">&nbsp;我的回答</a></li>
+					<li><a href="/emp/superiorScore">我的关注</a></li>
+				</ul>
+			</li>
+
+
+			
+
+		</ul>
+
+		</section>
+		
+		</aside>
+</body>
+</html>

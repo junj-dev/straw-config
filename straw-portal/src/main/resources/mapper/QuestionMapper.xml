@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.tedu.straw.portal.mapper.QuestionMapper">
+
+
+    <resultMap id="questionWithTags" type="cn.tedu.straw.portal.model.Question">
+        <id column="id" property="id" />
+        <result column="title" property="title" />
+        <result column="content" property="content" />
+        <result column="qust_username" property="qustUsername" />
+        <result column="user_id" property="userId" />
+        <result column="createtime" property="createtime" />
+        <result column="tag_id" property="tagId" />
+        <result column="status" property="status"/>
+        <!--嵌套查询-->
+        <collection property="tags" javaType="ArrayList" column="id" ofType="cn.tedu.straw.portal.mapper.TagMapper.BaseResultMap" select="cn.tedu.straw.portal.mapper.TagMapper.selectTagsByQuestionId"/>
+    </resultMap>
+
+
+    <select id="selectQuestionWithTags" resultMap="questionWithTags">
+        select * from  question
+    </select>
+
+
+</mapper>

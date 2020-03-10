@@ -1,0 +1,81 @@
+2020-03-10 00:00:58.685  INFO 10152 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
+2020-03-10 00:01:58.685  INFO 10152 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
+2020-03-10 00:02:58.685  INFO 10152 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
+2020-03-10 00:03:58.685  INFO 10152 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
+2020-03-10 00:04:58.383  WARN 10152 --- [Eureka-PeerNodesUpdater] c.n.eureka.cluster.PeerEurekaNodes       : The replica size seems to be empty. Check the route 53 DNS Registry
+2020-03-10 00:04:58.685  INFO 10152 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
+2020-03-10 00:05:58.686  INFO 10152 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
+2020-03-10 00:06:58.686  INFO 10152 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
+2020-03-10 00:07:58.686  INFO 10152 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
+2020-03-10 00:08:58.686  INFO 10152 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
+2020-03-10 00:09:58.687  INFO 10152 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
+2020-03-10 00:10:58.688  INFO 10152 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
+2020-03-10 00:11:58.689  INFO 10152 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
+2020-03-10 00:12:58.690  INFO 10152 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
+2020-03-10 00:13:58.690  INFO 10152 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
+2020-03-10 00:14:58.283  INFO 10152 --- [ReplicaAwareInstanceRegistry - RenewalThresholdUpdater] c.n.e.r.PeerAwareInstanceRegistryImpl    : Current renewal threshold is : 1
+2020-03-10 00:14:58.392  WARN 10152 --- [Eureka-PeerNodesUpdater] c.n.eureka.cluster.PeerEurekaNodes       : The replica size seems to be empty. Check the route 53 DNS Registry
+2020-03-10 00:14:58.690  INFO 10152 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
+2020-03-10 00:15:58.690  INFO 10152 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
+2020-03-10 00:16:58.691  INFO 10152 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
+2020-03-10 00:17:58.691  INFO 10152 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
+2020-03-10 00:18:58.692  INFO 10152 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
+2020-03-10 00:19:58.693  INFO 10152 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 1ms
+2020-03-10 00:20:58.693  INFO 10152 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
+2020-03-10 00:21:58.694  INFO 10152 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
+2020-03-10 00:22:58.695  INFO 10152 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
+2020-03-10 00:23:58.695  INFO 10152 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
+2020-03-10 00:24:58.396  WARN 10152 --- [Eureka-PeerNodesUpdater] c.n.eureka.cluster.PeerEurekaNodes       : The replica size seems to be empty. Check the route 53 DNS Registry
+2020-03-10 00:24:58.696  INFO 10152 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
+2020-03-10 00:25:58.696  INFO 10152 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
+2020-03-10 00:26:58.696  INFO 10152 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
+2020-03-10 11:04:08.751  INFO 18320 --- [main] c.t.s.eureka.EurekaServerApplication     : No active profile set, falling back to default profiles: default
+2020-03-10 11:04:09.408  WARN 18320 --- [main] o.s.boot.actuate.endpoint.EndpointId     : Endpoint ID 'service-registry' contains invalid characters, please migrate to a valid format.
+2020-03-10 11:04:09.516  INFO 18320 --- [main] o.s.cloud.context.scope.GenericScope     : BeanFactory id=1a3e2e02-d225-3f7e-aa37-e4864886d887
+2020-03-10 11:04:09.806  INFO 18320 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8000 (http)
+2020-03-10 11:04:09.816  INFO 18320 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2020-03-10 11:04:09.816  INFO 18320 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.31]
+2020-03-10 11:04:09.928  INFO 18320 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2020-03-10 11:04:09.928  INFO 18320 --- [main] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 1164 ms
+2020-03-10 11:04:10.005  WARN 18320 --- [main] c.n.c.sources.URLConfigurationSource     : No URLs will be polled as dynamic configuration sources.
+2020-03-10 11:04:10.005  INFO 18320 --- [main] c.n.c.sources.URLConfigurationSource     : To enable URLs as dynamic configuration sources, define System property archaius.configurationSource.additionalUrls or make config.properties available on classpath.
+2020-03-10 11:04:10.014  INFO 18320 --- [main] c.netflix.config.DynamicPropertyFactory  : DynamicPropertyFactory is initialized with configuration sources: com.netflix.config.ConcurrentCompositeConfiguration@6a9b9909
+2020-03-10 11:04:11.532  INFO 18320 --- [main] o.s.cloud.commons.util.InetUtils         : Cannot determine local hostname
+2020-03-10 11:04:11.763  INFO 18320 --- [main] c.s.j.s.i.a.WebApplicationImpl           : Initiating Jersey application, version 'Jersey: 1.19.1 03/11/2016 02:08 PM'
+2020-03-10 11:04:11.821  INFO 18320 --- [main] c.n.d.provider.DiscoveryJerseyProvider   : Using JSON encoding codec LegacyJacksonJson
+2020-03-10 11:04:11.822  INFO 18320 --- [main] c.n.d.provider.DiscoveryJerseyProvider   : Using JSON decoding codec LegacyJacksonJson
+2020-03-10 11:04:11.919  INFO 18320 --- [main] c.n.d.provider.DiscoveryJerseyProvider   : Using XML encoding codec XStreamXml
+2020-03-10 11:04:11.920  INFO 18320 --- [main] c.n.d.provider.DiscoveryJerseyProvider   : Using XML decoding codec XStreamXml
+2020-03-10 11:04:12.345  INFO 18320 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@3079c26a, org.springframework.security.web.context.SecurityContextPersistenceFilter@120aa40b, org.springframework.security.web.header.HeaderWriterFilter@29bbc63c, org.springframework.security.web.authentication.logout.LogoutFilter@2ee4706d, org.springframework.security.web.authentication.www.BasicAuthenticationFilter@6aae0e6f, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@6ad6443, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@451e2fa9, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@1e2445f6, org.springframework.security.web.session.SessionManagementFilter@236c098, org.springframework.security.web.access.ExceptionTranslationFilter@6c4ce583, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@325162e9]
+2020-03-10 11:04:12.354  WARN 18320 --- [main] c.n.c.sources.URLConfigurationSource     : No URLs will be polled as dynamic configuration sources.
+2020-03-10 11:04:12.355  INFO 18320 --- [main] c.n.c.sources.URLConfigurationSource     : To enable URLs as dynamic configuration sources, define System property archaius.configurationSource.additionalUrls or make config.properties available on classpath.
+2020-03-10 11:04:12.446  INFO 18320 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2020-03-10 11:04:13.940  INFO 18320 --- [main] o.s.cloud.commons.util.InetUtils         : Cannot determine local hostname
+2020-03-10 11:04:15.156  INFO 18320 --- [main] o.s.cloud.commons.util.InetUtils         : Cannot determine local hostname
+2020-03-10 11:04:15.177  WARN 18320 --- [main] ockingLoadBalancerClientRibbonWarnLogger : You already have RibbonLoadBalancerClient on your classpath. It will be used by default. As Spring Cloud Ribbon is in maintenance mode. We recommend switching to BlockingLoadBalancerClient instead. In order to use it, set the value of `spring.cloud.loadbalancer.ribbon.enabled` to `false` or remove spring-cloud-starter-netflix-ribbon from your project.
+2020-03-10 11:04:15.211  INFO 18320 --- [main] o.s.c.n.eureka.InstanceInfoFactory       : Setting initial instance status as: STARTING
+2020-03-10 11:04:15.251  INFO 18320 --- [main] com.netflix.discovery.DiscoveryClient    : Initializing Eureka in region us-east-1
+2020-03-10 11:04:15.251  INFO 18320 --- [main] com.netflix.discovery.DiscoveryClient    : Client configured to neither register nor query for data.
+2020-03-10 11:04:15.261  INFO 18320 --- [main] com.netflix.discovery.DiscoveryClient    : Discovery Client initialized at timestamp 1583809455260 with initial instances count: 0
+2020-03-10 11:04:15.296  INFO 18320 --- [main] c.n.eureka.DefaultEurekaServerContext    : Initializing ...
+2020-03-10 11:04:15.298  WARN 18320 --- [main] c.n.eureka.cluster.PeerEurekaNodes       : The replica size seems to be empty. Check the route 53 DNS Registry
+2020-03-10 11:04:15.315  INFO 18320 --- [main] c.n.e.registry.AbstractInstanceRegistry  : Finished initializing remote region registries. All known remote regions: []
+2020-03-10 11:04:15.316  INFO 18320 --- [main] c.n.eureka.DefaultEurekaServerContext    : Initialized
+2020-03-10 11:04:15.326  INFO 18320 --- [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 2 endpoint(s) beneath base path '/actuator'
+2020-03-10 11:04:15.377  INFO 18320 --- [main] o.s.c.n.e.s.EurekaServiceRegistry        : Registering application STRAW-EUREKA with eureka with status UP
+2020-03-10 11:04:15.379  INFO 18320 --- [Thread-28] o.s.c.n.e.server.EurekaServerBootstrap   : Setting the eureka configuration..
+2020-03-10 11:04:15.379  INFO 18320 --- [Thread-28] o.s.c.n.e.server.EurekaServerBootstrap   : Eureka data center value eureka.datacenter is not set, defaulting to default
+2020-03-10 11:04:15.380  INFO 18320 --- [Thread-28] o.s.c.n.e.server.EurekaServerBootstrap   : Eureka environment value eureka.environment is not set, defaulting to test
+2020-03-10 11:04:15.395  INFO 18320 --- [Thread-28] o.s.c.n.e.server.EurekaServerBootstrap   : isAws returned false
+2020-03-10 11:04:15.396  INFO 18320 --- [Thread-28] o.s.c.n.e.server.EurekaServerBootstrap   : Initialized server context
+2020-03-10 11:04:15.396  INFO 18320 --- [Thread-28] c.n.e.r.PeerAwareInstanceRegistryImpl    : Got 1 instances from neighboring DS node
+2020-03-10 11:04:15.396  INFO 18320 --- [Thread-28] c.n.e.r.PeerAwareInstanceRegistryImpl    : Renew threshold is: 1
+2020-03-10 11:04:15.396  INFO 18320 --- [Thread-28] c.n.e.r.PeerAwareInstanceRegistryImpl    : Changing status to UP
+2020-03-10 11:04:15.403  INFO 18320 --- [Thread-28] e.s.EurekaServerInitializerConfiguration : Started Eureka Server
+2020-03-10 11:04:15.414  INFO 18320 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8000 (http) with context path ''
+2020-03-10 11:04:15.414  INFO 18320 --- [main] .s.c.n.e.s.EurekaAutoServiceRegistration : Updating port to 8000
+2020-03-10 11:04:16.632  INFO 18320 --- [main] o.s.cloud.commons.util.InetUtils         : Cannot determine local hostname
+2020-03-10 11:04:16.634  INFO 18320 --- [main] c.t.s.eureka.EurekaServerApplication     : Started EurekaServerApplication in 11.069 seconds (JVM running for 11.875)
+2020-03-10 11:04:17.045  INFO 18320 --- [RMI TCP Connection(5)-192.168.123.1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2020-03-10 11:04:17.045  INFO 18320 --- [RMI TCP Connection(5)-192.168.123.1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2020-03-10 11:04:17.054  INFO 18320 --- [RMI TCP Connection(5)-192.168.123.1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 9 ms
