@@ -8,6 +8,7 @@
         <result column="content" property="content" />
         <result column="like_count" property="likeCount" />
         <result column="user_id" property="userId" />
+        <result column="user_nick_name" property="userNickName"/>
         <result column="quest_id" property="questId" />
         <result column="createtime" property="createtime" />
     </resultMap>

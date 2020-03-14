@@ -8,6 +8,7 @@ import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -25,35 +26,31 @@ import java.security.Principal;
 public class IndexController {
 
     @Autowired
-    private IUserService userService;
-    @Autowired
     private IQuestionService questionService;
 
 
-    @GetMapping("/")
+    @GetMapping(value = {"/index","/"})
     @ApiOperation("转到首页")
+    @PreAuthorize("hasAuthority('index')")
     public  String  index(Model model,
-                          @RequestParam(value = "pageNum",defaultValue = "0") Integer pageNum,
-                          @RequestParam(value = "pageSize",defaultValue = "10") Integer pageSize){
+                          @RequestParam(value = "pageNum",defaultValue = "1") Integer pageNum,
+                          @RequestParam(value = "pageSize",defaultValue = "5") Integer pageSize){
 
         PageInfo<Question> pageInfo = questionService.selectPage(pageNum, pageSize);
         model.addAttribute("pageInfo",pageInfo);
         return "index";
     }
 
-    @GetMapping("/login")
-    public String toLogin(){
-        return  "login";
-    }
     @GetMapping("/error")
     public String toError(){
-        return  "login";
+        return  "error";
     }
 
-    @RequestMapping(value = "/username", method = RequestMethod.GET)
-    @ResponseBody
-    public String currentUserName(Principal principal) {
-        return principal.getName();
+
+    @GetMapping("/login.html")
+    public String toLogin(){
+        return "login";
     }
+
 
 }

@@ -49,5 +49,7 @@ public class User implements Serializable {
     @TableField("createtime")
     private Date createtime;
 
-
+    @ApiModelProperty("角色id")
+    @TableField("role_id")
+    private Integer roleId;
 }

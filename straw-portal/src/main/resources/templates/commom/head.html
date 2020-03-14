@@ -8,15 +8,15 @@
 	content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
 	name="viewport">
 <link rel="stylesheet"
-	href="../css/bootstrap.min.css">
+	th:href="@{/css/bootstrap.min.css}">
 <link rel="stylesheet"
-	href="../css/font-awesome.min.css">
+	th:href="@{/css/font-awesome.min.css}">
 <link rel="stylesheet"
-	href="../css/ionicons.min.css">
+	th:href="@{/css/ionicons.min.css}">
 <link rel="stylesheet"
-	href="../css/select2.min.css">
-<link rel="stylesheet" href="../css/AdminLTE.min.css">
-<link rel="stylesheet" href="../css/_all-skins.min.css">
+	th:href="@{/css/select2.min.css}">
+<link rel="stylesheet" th:href="@{/css/AdminLTE.min.css}">
+<link rel="stylesheet" th:href="@{/css/_all-skins.min.css}">
  <style>
 th {
 	color: #0048AB;
@@ -42,21 +42,21 @@ th {
 				<li class="dropdown user user-menu">
 					<!-- Menu Toggle Button --> <a href="#" class="dropdown-toggle"
 					data-toggle="dropdown"> <!-- The user image in the navbar--> <img
-						src="../img/logo.jpg" class="user-image" alt="User Image"> <!-- hidden-xs hides the username on small devices so only the image appears. -->
-						<span class="hidden-xs" th:text="${session.SPRING_SECURITY_CONTEXT.authentication.principal.username}"></span>
+						th:src="@{/img/logo.jpg}" class="user-image" alt="User Image"> <!-- hidden-xs hides the username on small devices so only the image appears. -->
+						<span class="hidden-xs" th:text="${session.SPRING_SECURITY_CONTEXT.authentication.principal.nickName}"></span>
 				</a>
 					<ul class="dropdown-menu">
 						<!-- The user image in the menu -->
-						<li class="user-header"><img src="../img/logo.jpg"
+						<li class="user-header"><img th:src="@{/img/logo.jpg}"
 							class="img-circle" alt="User Image">
 
-							<p th:text="${session.SPRING_SECURITY_CONTEXT.authentication.principal.username}"></p></li>
+							<p th:text="${session.SPRING_SECURITY_CONTEXT.authentication.principal.nickName}"></p></li>
 
 						<!-- Menu Footer-->
 						<li class="user-footer">
 
 							<div class="pull-right">
-								<a href="#" class="btn btn-default btn-flat">登出</a>
+								<a href="/logout" class="btn btn-default btn-flat">登出</a>
 							</div>
 						</li>
 					</ul>

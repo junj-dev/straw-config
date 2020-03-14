@@ -6,10 +6,10 @@
 		<section class="sidebar"> 
 		<div class="user-panel">
 			<div class="pull-left image">
-				<img src="../img/logo.jpg" class="img-circle" alt="User Image">
+				<img th:src="@{/img/logo.jpg}" class="img-circle" alt="User Image">
 			</div>
 			<div class="pull-left info">
-				<p th:text="${session.SPRING_SECURITY_CONTEXT.authentication.principal.username}"> </p>
+				<p th:text="${session.SPRING_SECURITY_CONTEXT.authentication.principal.nickName}"> </p>
 				
 				<a href="#"><i class="fa fa-circle text-success"></i> Online</a>
 			</div>
@@ -23,7 +23,10 @@
 
 
 
+			<li class="treeview" onclick="location.href='/index'"><a href="#"><i class="fa fa-user "></i>
+				<span>首页</span> </a>
 
+			</li>
 			<li class="treeview"><a href="#"><i class="fa fa-user "></i>
 				<span>问答中心</span> <span class="pull-right-container"> <i
 						class="fa fa-angle-left pull-right"></i>

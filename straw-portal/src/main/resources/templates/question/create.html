@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+	<head th:replace="commom/head :: head">
+		
+	</head>
+	<head>
+		<link rel="stylesheet" th:href="@{/plugins/summernote/summernote.min.css}">
+	</head>
+	<body class="hold-transition skin-blue sidebar-mini">
+		<div class="wrapper">
+			<header th:replace="commom/head :: header"></header>
+			<aside th:replace="commom/aside :: aside"></aside>
+			<div class="content-wrapper">
+					<section class="content-header">
+						<h1>问答中心</h1>
+						<ol class="breadcrumb">
+							<li><a href="#"><i class="fa fa-dashboard"></i>问答中心</a></li>
+							<li class="active">提问</li>
+						</ol>
+					</section>
+					<section class="content ">
+						<div class="row" style="margin-top: 30px">
+							<div class="col-lg-10 col-lg-offset-1">
+								<form class="form-horizontal" action="/question/create" method="post" enctype="application/x-www-form-urlencoded">
+									<div class="form-group">
+										<label for="inputEmail3" class="col-sm-2 control-label">标题</label>
+										<div class="col-sm-10">
+											<input type="text" class="form-control" name="title" id="inputEmail3" placeholder="请填写标题">
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="inputPassword3" class="col-sm-2 control-label">请选择标签</label>
+										<div class="col-sm-10">
+											<select class="form-control select2" name="tags" multiple="multiple" data-placeholder="请选择标签"
+													style="width: 100%;">
+												<option th:each="tag : ${tags}"  th:value="${tag.id}" th:text="${tag.name}">Alaba</option>
+
+											</select>
+										</div>
+									</div>
+									<div class="form-group">
+										<div class="col-sm-offset-2 col-sm-10">
+											<textarea id="summernote" name="content"></textarea>
+										</div>
+									</div>
+									<div class="form-group">
+
+										<div class="col-sm-offset-2 col-sm-10">
+											<button type="submit" class="btn btn-primary">提交问题</button>
+										</div>
+									</div>
+								</form>
+							</div>
+
+
+
+						</div>
+					</section>
+			</div>
+			<footer th:replace="commom/footer :: footer"></footer>
+		</div>
+	</body>
+	<script th:src="@{/plugins/summernote/summernote.min.js}"></script>
+	<script th:src="@{/plugins/summernote/summernote-zh-CN.min.js}"></script>
+
+	<script>
+
+
+		$(function () {
+			$('#summernote').summernote({
+				height: 500,
+				tabsize: 2,
+				lang: 'zh-CN',
+				callbacks:{
+					onImageUpload: function(files, editor, $editable) {
+						UploadFiles(files,insertImg);
+					}
+				},
+			});
+			$('.select2').select2();
+		})
+		function insertImg(imgeList){
+			//for(i in imageUrl){
+            console.log("imgeList:"+imgeList);
+			for(var i=0;i<imgeList.length;i++){
+				$('#summernote').summernote('insertImage', imgeList[i], 'img');
+			}
+
+
+			//}
+		}
+
+		function UploadFiles(files,func){
+		//这里files是因为我设置了可上传多张图片，所以需要依次添加到formData中
+			var formData = new FormData();
+			for(f in files){
+				formData.append("file", files[f]);
+			}
+
+			$.ajax({
+				data: formData,
+				type: "POST",
+				url: "/question/uploadMultipleFile",
+				cache: false,
+				contentType: false,
+				processData: false,
+				success: function(result) {
+					if(result.code=="200"){
+						console.log("上传成功");
+						func(result.data);
+					}else if(result.code=='400'){
+						console.log("上传失败!");
+						alert(result.message);
+					}else {
+						alert("服务繁忙，图片上传失败，请稍后重试！");
+					}
+
+
+				},
+				error: function() {
+					alert("服务繁忙，请稍后重试！");
+				}
+			})
+		}
+
+
+	</script>
+</html>

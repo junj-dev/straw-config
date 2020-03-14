@@ -27,7 +27,7 @@
 								</form>
 							</div>
 							<div class="col-lg-3">
-								<button type="button" class="btn btn-primary">我要提问</button>
+								<button type="button" class="btn btn-primary" onclick="location.href='/question/toCreate'">我要提问</button>
 							</div>
 						</div>
 							<br>
@@ -38,24 +38,24 @@
 									<!-- Default panel contents -->
 									<div class="panel-heading">
 										<h4>
-											<span class="label label-warning" >待解决</span>
-											<!--<span class="label label-info">Info</span>-->
-											<!--<span class="label label-warning">Warning</span>-->
-											<a href="index.html" th:text="${question.title}">互帮互助——那些年遇到的面试题</a>
+											<span class="label label-warning" th:if="${question.status=='0'}">未回答</span>
+											<span class="label label-info" th:if="${question.status=='1'}">待解决</span>
+											<span class="label label-success" th:if="${question.status=='2'}">已解决</span>
+											<a th:href="@{'/question/detail/'+${question.id}}" th:text="${question.title}">互帮互助——那些年遇到的面试题</a>
 										</h4>
 									</div>
-									<div class="panel-body" th:text="${question.content}">
+									<div class="panel-body" th:utext="${question.content}" style="max-height: 100px;overflow: hidden;text-overflow:ellipsis">
 										可以在本帖回复面试的公司，遇到的面试题，面试题答案
 										人多力量大，咕泡的泡泡们再也不怕面试题啦~~~~~~~~
-										</ul>
+
 									</div>
 
 									<div class="panel-footer">
-										<span class="label label-default"><a href="">java基础</a></span>
-										<span class="label label-default"><a href="">面试题</a></span>
-										<span style="float:right;margin-right: 10px">99浏览</span>
-										<span style="float:right;margin-right: 10px" th:text="${question.distanceTime}">3天前</span>
-										<span style="float:right;margin-right: 10px" th:text="${question.qustUsername}">小明</span>
+										<span class="label label-default" style="margin-right: 2px" th:each="tag : ${question.tags}"><a href="" th:text="${tag.name}">java基础</a></span>
+
+										<span  style="float:right;margin-right: 10px" th:text="|${question.pageViews}浏览|">99浏览</span>
+										<span  style="float:right;margin-right: 10px" th:text="${question.distanceTime}">3天前</span>
+										<span  style="float:right;margin-right: 10px" th:text="${question.userNickName}">小明</span>
 									</div>
 
 								</div>
@@ -65,26 +65,41 @@
 
 						</div>
 						<div class="row">
-							<div class="col-lg-6 col-lg-offset-1"></div>
-							<nav aria-label="...">
-								<ul class="pagination">
-									<li><a href="#">Previous</a></li>
-									<li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
-									<li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
-									<li><a href="#">2<span class="sr-only">(current)</span></a></li>
-									<li ><a href="#">3 <span class="sr-only">(current)</span></a></li>
-									<li ><a href="#">4 <span class="sr-only">(current)</span></a></li>
-									<li ><a href="#">5 <span class="sr-only">(current)</span></a></li>
-									<li>
-										<a href="#" aria-label="Next">
-											<span aria-hidden="true">»</span>
+
+							<!--显示分页信息-->
+							<div class="modal-footer no-margin-top">
+								<div class="col-md-6">
+									当前第 [[${pageInfo.pageNum}]]页,共 [[${pageInfo.pages}]] 页.一共 [[${pageInfo.total}]] 条记录
+								</div>
+
+								<ul class="pagination pull-right no-margin">
+									<li th:if="${pageInfo.hasPreviousPage}">
+										<a th:href="'/index?pageNum=1'">首页</a>
+									</li>
+
+									<li class="prev" th:if="${pageInfo.hasPreviousPage}">
+										<a th:href="'/index?pageNum='+${pageInfo.prePage}">
+											<i class="ace-icon fa fa-angle-double-left"></i>
 										</a>
 									</li>
-									<li><a href="#">Next</a></li>
-								</ul>
-							</nav>
-						</div>
+									<!--遍历条数-->
+									<li th:each="nav:${pageInfo.navigatepageNums}">
+										<a th:href="'/index?pageNum='+${nav}" th:text="${nav}" th:if="${nav != pageInfo.pageNum}"></a>
+										<span style="font-weight: bold;background: #6faed9;" th:if="${nav == pageInfo.pageNum}" th:text="${nav}" ></span>
+									</li>
 
+									<li class="next" th:if="${pageInfo.hasNextPage}">
+										<a th:href="'/index?pageNum='+${pageInfo.nextPage}">
+											<i class="ace-icon fa fa-angle-double-right"></i>
+										</a>
+									</li>
+
+									<li  th:if="${pageInfo.hasNextPage}">
+										<a th:href="'/index?pageNum='+${pageInfo.pages}">尾页</a>
+									</li>
+								</ul>
+							</div>
+						</div>
 
 					</section>
 			</div>

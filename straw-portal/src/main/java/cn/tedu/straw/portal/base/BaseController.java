@@ -1,12 +1,13 @@
 package cn.tedu.straw.portal.base;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import cn.tedu.straw.portal.security.StrawUserDetails;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 
-import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Date;
@@ -15,7 +16,7 @@ import java.util.List;
 @Controller
 public class BaseController {
 
-	
+
 
 	public List<String> getErrorInfo(BindingResult bindingResult){
 		List<String> errorList=new ArrayList<String>();
@@ -29,19 +30,22 @@ public class BaseController {
 		
 	}
 
-	@Autowired
-	protected HttpServletRequest request;
-
 	protected String getUsername() {
-		String username= (String) request.getAttribute("username");
-		if(StringUtils.isEmpty(username)) {
-			throw new RuntimeException("账号不存在");
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if (!(authentication instanceof AnonymousAuthenticationToken)) {
+			String currentUserName = authentication.getName();
+			return currentUserName;
 		}
-		return username;
+
+		throw  new RuntimeException("服务繁忙，请稍后重试!");
 	}
 	protected Integer getUseId() {
-		Integer userId= (Integer) request.getAttribute("userId");
-		return userId;
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if (!(authentication instanceof AnonymousAuthenticationToken)) {
+			StrawUserDetails user = (StrawUserDetails)authentication.getPrincipal();
+			return user.getId();
+		}
+		throw  new RuntimeException("服务繁忙，请稍后再试!");
 	}
 
 

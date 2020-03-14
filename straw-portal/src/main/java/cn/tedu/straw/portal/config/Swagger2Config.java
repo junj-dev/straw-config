@@ -35,7 +35,7 @@ public class Swagger2Config {
     @Bean
     public Docket portal_member_api() {
         return new Docket(DocumentationType.SWAGGER_2).select().apis(RequestHandlerSelectors.any())
-                .paths(PathSelectors.ant("/straw/portal/**")).build().groupName("用户中心模块").pathMapping("/")
+                .paths(PathSelectors.ant("/**")).build().groupName("问答系统").pathMapping("/")
                 .apiInfo(portal_member_apiInfo())
                 .directModelSubstitute(LocalDate.class, String.class)
                 .genericModelSubstitutes(ResponseEntity.class)

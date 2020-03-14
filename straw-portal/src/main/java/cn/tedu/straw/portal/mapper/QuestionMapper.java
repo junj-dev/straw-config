@@ -19,7 +19,7 @@ public interface QuestionMapper extends BaseMapper<Question> {
 
 
     /**
-     * 查询带有标签的问题
+     * 查询所有带有标签的问题
      * @return
      */
     List<Question> selectQuestionWithTags();
