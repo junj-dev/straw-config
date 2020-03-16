@@ -17,11 +17,12 @@ import java.util.List;
 public interface QuestionMapper extends BaseMapper<Question> {
 
 
-
     /**
-     * 查询所有带有标签的问题
+     * 查询问题详情
+     * @param userId 用户id
+     * @param publicStatus 是否公开,0->否，1-》是
      * @return
      */
-    List<Question> selectQuestionWithTags();
+    List<Question> selectQuestionWithTags(Integer userId,String publicStatus);
 
 }

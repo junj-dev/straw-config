@@ -9,7 +9,15 @@
         <result column="nickname" property="nickname" />
         <result column="password" property="password" />
         <result column="createtime" property="createtime" />
-        <result column="role_id" property="roleId"/>
+        <result column="enabled" property="enabled"/>
+        <result column="locked" property="locked"/>
+        <!--嵌套查询-->
+        <collection property="roles" javaType="ArrayList" column="id" ofType="cn.tedu.straw.portal.mapper.RoleMapper.BaseResultMap" select="cn.tedu.straw.portal.mapper.RoleMapper.findAllRoleByUserId"/>
+
     </resultMap>
+    <select id="findUserWithRoleByUserName" parameterType="string" resultMap="BaseResultMap">
+        select  * from user where username=#{username}
+
+    </select>
 
 </mapper>

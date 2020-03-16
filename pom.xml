@@ -29,12 +29,11 @@
 		<springfox-swagger-ui.version>2.9.2</springfox-swagger-ui.version>
 		<springfox-swagger2.version>2.9.2</springfox-swagger2.version>
 		<swagger-bootstrap-ui.version>1.9.6</swagger-bootstrap-ui.version>
-		<thymeleaf-extras-springsecurity4.version>3.0.0.RELEASE</thymeleaf-extras-springsecurity4.version>
+		<thymeleaf-extras-springsecurity5.version>3.0.4.RELEASE</thymeleaf-extras-springsecurity5.version>
 		<springbootPageHelper.version>1.2.5</springbootPageHelper.version>
 		<jsqlparser.version>1.2</jsqlparser.version>
 		<fastdfs-client-java.version>1.27</fastdfs-client-java.version>
 		<fastjson.version>1.2.61</fastjson.version>
-		<validation-api.version>1.1.0.Final</validation-api.version>
 	</properties>
 
 
@@ -82,11 +81,11 @@
 				<artifactId>mybatis-plus-generator</artifactId>
 				<version>${mybatisplus.version}</version>
 			</dependency>
-			<dependency>
-				<groupId>org.thymeleaf.extras</groupId>
-				<artifactId>thymeleaf-extras-springsecurity4</artifactId>
-				<version>${thymeleaf-extras-springsecurity4.version}</version>
-			</dependency>
+            <dependency>
+                <groupId>org.thymeleaf.extras</groupId>
+                <artifactId>thymeleaf-extras-springsecurity5</artifactId>
+                <version>${thymeleaf-extras-springsecurity5.version}</version>
+            </dependency>
 			<!--分页插件-->
 			<dependency>
 				<groupId>com.github.pagehelper</groupId>
@@ -109,12 +108,7 @@
 				<artifactId>fastjson</artifactId>
 				<version>${fastjson.version}</version>
 			</dependency>
-			<!--参数校验-->
-			<dependency>
-				<groupId>javax.validation</groupId>
-				<artifactId>validation-api</artifactId>
-				<version>${validation-api.version}</version>
-			</dependency>
+
 			<!--<dependency>
 				<groupId>org.springframework.cloud</groupId>
 				<artifactId>spring-cloud-starter-openfeign</artifactId>

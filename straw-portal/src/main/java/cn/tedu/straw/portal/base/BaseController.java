@@ -1,6 +1,6 @@
 package cn.tedu.straw.portal.base;
 
-import cn.tedu.straw.portal.security.StrawUserDetails;
+import cn.tedu.straw.portal.model.User;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,7 +18,7 @@ public class BaseController {
 
 
 
-	public List<String> getErrorInfo(BindingResult bindingResult){
+	protected List<String> getErrorInfo(BindingResult bindingResult){
 		List<String> errorList=new ArrayList<String>();
 		List<ObjectError> allErrors = bindingResult.getAllErrors();
 		for (ObjectError error : allErrors) {
@@ -42,7 +42,7 @@ public class BaseController {
 	protected Integer getUseId() {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if (!(authentication instanceof AnonymousAuthenticationToken)) {
-			StrawUserDetails user = (StrawUserDetails)authentication.getPrincipal();
+			User user = (User)authentication.getPrincipal();
 			return user.getId();
 		}
 		throw  new RuntimeException("服务繁忙，请稍后再试!");
@@ -53,7 +53,7 @@ public class BaseController {
 	 * 利用反射设置shopUserId,创建者，创建时间
 	 * @param object
 	 */
-	public void setCreateParam(Object object) {
+	protected void setCreateParam(Object object) {
 
 
 		try {
@@ -82,6 +82,9 @@ public class BaseController {
 		}
 
 	}
+
+
+
 	
  
 }

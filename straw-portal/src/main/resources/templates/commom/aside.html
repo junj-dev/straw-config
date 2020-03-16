@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head></head>
 <body>
 	<aside class="main-sidebar"> 
@@ -9,7 +9,7 @@
 				<img th:src="@{/img/logo.jpg}" class="img-circle" alt="User Image">
 			</div>
 			<div class="pull-left info">
-				<p th:text="${session.SPRING_SECURITY_CONTEXT.authentication.principal.nickName}"> </p>
+				<p th:text="${session.SPRING_SECURITY_CONTEXT.authentication.principal.nickname}"> </p>
 				
 				<a href="#"><i class="fa fa-circle text-success"></i> Online</a>
 			</div>
@@ -23,7 +23,7 @@
 
 
 
-			<li class="treeview" onclick="location.href='/index'"><a href="#"><i class="fa fa-user "></i>
+			<li class="treeview" onclick="location.href='/index.html'"><a href="#"><i class="fa fa-user "></i>
 				<span>首页</span> </a>
 
 			</li>

@@ -1,7 +1,9 @@
-package cn.tedu.straw.portal.security;
+package cn.tedu.straw.portal.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
+import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -20,11 +22,6 @@ import java.util.Arrays;
 @EnableGlobalMethodSecurity(prePostEnabled=true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Resource
-    private StrawAuthenctiationSuccessHandler myAuthenctiationSuccessHandler;
-
-   // @Resource
-    //private  LoginFailureHandler loginFailureHandler;
 
    @Resource
     private UserDetailsService userDetailsService;
@@ -33,12 +30,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public BCryptPasswordEncoder bCryptPasswordEncoder(){
         return new BCryptPasswordEncoder();
     }
-
-    @Bean
-    public AccessDeniedHandler getAccessDeniedHandler() {
-        return new StrawAccessDeniedHandler();
-    }
-
 
 
     @Override
@@ -50,10 +41,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
         http.httpBasic().disable().cors().and().csrf().disable()
-                //没有权限时
-                .exceptionHandling()
-                .accessDeniedHandler(getAccessDeniedHandler())
-                .and()
                 .authorizeRequests()
                 .antMatchers(
                         "/webjars/**",
@@ -74,9 +61,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         .anyRequest().authenticated()   // 其他地址的访问均需验证权限
                         .and()
                         .formLogin()
-                         .loginPage("/login.html")
-                         .loginProcessingUrl("/login/doLogin")
-                        .successHandler(myAuthenctiationSuccessHandler)
+                        .loginProcessingUrl("/login")
+                        .loginPage("/login.html")
+                        .failureUrl("/login-error.html")
+                        .defaultSuccessUrl("/index.html")
                         .permitAll()
                         .and()
                         .logout()
@@ -98,11 +86,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
           return source;
     }
 
-//    public static void main(String[] args) {
-//        BCryptPasswordEncoder passwordEncoder=new BCryptPasswordEncoder();
-//        String encode = passwordEncoder.encode("123456");
-//        System.out.println("encode:"+encode);
-//    }
+
+    /**
+     * 角色继承，管理员角色>老师角色>学生角色，前者包含后者
+     *
+     * @return
+     */
+    @Bean
+    RoleHierarchy roleHierarchy(){
+        RoleHierarchyImpl roleHierarchy=new RoleHierarchyImpl();
+        String hiererchy="ROLE_ADMIN > ROLE_TEACHER  ROLE_TEACHER > ROLE_STUDENT";
+        roleHierarchy.setHierarchy(hiererchy);
+        return roleHierarchy;
+    }
     
 }
 

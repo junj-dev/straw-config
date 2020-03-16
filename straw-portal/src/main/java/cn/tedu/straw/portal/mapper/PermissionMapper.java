@@ -3,6 +3,7 @@ package cn.tedu.straw.portal.mapper;
 import cn.tedu.straw.portal.model.Permission;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.util.List;
 
@@ -16,6 +17,6 @@ import java.util.List;
  */
 public interface PermissionMapper extends BaseMapper<Permission> {
 
-    List<GrantedAuthority> getPermissionsByRoleId(Integer roleId);
+    List<SimpleGrantedAuthority> getPermissionsByRoleId(Integer roleId);
 
 }

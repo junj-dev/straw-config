@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
@@ -29,7 +30,7 @@ public class TestPermissionMapper {
      */
     @Test
     public void testGetPermissionsByRoleId(){
-        List<GrantedAuthority> authorities = permissionMapper.getPermissionsByRoleId(1);
+        List<SimpleGrantedAuthority> authorities = permissionMapper.getPermissionsByRoleId(1);
         authorities.forEach(System.out::println);
     }
 }

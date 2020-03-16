@@ -1,6 +1,7 @@
 package cn.tedu.straw.portal.base;
 
-import cn.tedu.straw.portal.security.StrawUserDetails;
+import cn.tedu.straw.portal.model.Role;
+import cn.tedu.straw.portal.model.User;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -38,8 +39,8 @@ public class BaseServiceImpl<M extends BaseMapper<T>, T> extends ServiceImpl<Bas
 	protected String getUserNickname() {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if (!(authentication instanceof AnonymousAuthenticationToken)) {
-			StrawUserDetails user = (StrawUserDetails)authentication.getPrincipal();
-			return user.getNickName();
+			User user = (User)authentication.getPrincipal();
+			return user.getNickname();
 		}
 
 		throw  new RuntimeException("服务繁忙，请稍后重试!");
@@ -52,7 +53,7 @@ public class BaseServiceImpl<M extends BaseMapper<T>, T> extends ServiceImpl<Bas
 	protected Integer getUseId() {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if (!(authentication instanceof AnonymousAuthenticationToken)) {
-			StrawUserDetails user = (StrawUserDetails)authentication.getPrincipal();
+			User user = (User)authentication.getPrincipal();
 			return user.getId();
 		}
 		throw  new RuntimeException("服务繁忙，请稍后再试!");
@@ -62,11 +63,11 @@ public class BaseServiceImpl<M extends BaseMapper<T>, T> extends ServiceImpl<Bas
 	 * 获取登录用户的角色
 	 * @return
 	 */
-	protected String getUserRole() {
+	protected List<Role> getUserRole() {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if (!(authentication instanceof AnonymousAuthenticationToken)) {
-			StrawUserDetails user = (StrawUserDetails)authentication.getPrincipal();
-			return user.getRole();
+			User user = (User)authentication.getPrincipal();
+			return user.getRoles();
 		}
 		throw  new RuntimeException("服务繁忙，请稍后再试!");
 	}

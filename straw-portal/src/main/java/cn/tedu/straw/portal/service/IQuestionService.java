@@ -1,6 +1,7 @@
 package cn.tedu.straw.portal.service;
 
 import cn.tedu.straw.portal.domian.StrawResult;
+import cn.tedu.straw.portal.domian.param.QuestionParam;
 import cn.tedu.straw.portal.model.Question;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -23,7 +24,7 @@ public interface IQuestionService extends IService<Question> {
 
     StrawResult uploadImg(MultipartFile[] files, HttpServletRequest request);
 
-    boolean create(String title, String[] tags, String content);
+    boolean create(QuestionParam param);
 
     Question getQuestionDetailById(Long id);
 

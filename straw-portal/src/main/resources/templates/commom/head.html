@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -43,14 +43,14 @@ th {
 					<!-- Menu Toggle Button --> <a href="#" class="dropdown-toggle"
 					data-toggle="dropdown"> <!-- The user image in the navbar--> <img
 						th:src="@{/img/logo.jpg}" class="user-image" alt="User Image"> <!-- hidden-xs hides the username on small devices so only the image appears. -->
-						<span class="hidden-xs" th:text="${session.SPRING_SECURITY_CONTEXT.authentication.principal.nickName}"></span>
+						<span class="hidden-xs" th:text="${session.SPRING_SECURITY_CONTEXT.authentication.principal.nickname}"></span>
 				</a>
 					<ul class="dropdown-menu">
 						<!-- The user image in the menu -->
 						<li class="user-header"><img th:src="@{/img/logo.jpg}"
 							class="img-circle" alt="User Image">
 
-							<p th:text="${session.SPRING_SECURITY_CONTEXT.authentication.principal.nickName}"></p></li>
+							<p th:text="${session.SPRING_SECURITY_CONTEXT.authentication.principal.nickname}"></p></li>
 
 						<!-- Menu Footer-->
 						<li class="user-footer">

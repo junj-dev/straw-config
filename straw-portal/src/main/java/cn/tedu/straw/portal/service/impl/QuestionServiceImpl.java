@@ -1,32 +1,32 @@
 package cn.tedu.straw.portal.service.impl;
 
+import cn.tedu.straw.constant.QuestionPublicStatus;
 import cn.tedu.straw.portal.base.BaseServiceImpl;
 import cn.tedu.straw.portal.config.FastDfsConfig;
 import cn.tedu.straw.portal.domian.StrawResult;
+import cn.tedu.straw.portal.domian.param.QuestionParam;
 import cn.tedu.straw.portal.exception.BusinessException;
 import cn.tedu.straw.portal.mapper.AnswerMapper;
 import cn.tedu.straw.portal.mapper.QuestionMapper;
 import cn.tedu.straw.portal.mapper.QuestionTagMapper;
 import cn.tedu.straw.portal.mapper.TagMapper;
-import cn.tedu.straw.portal.model.Answer;
-import cn.tedu.straw.portal.model.Question;
-import cn.tedu.straw.portal.model.QuestionTag;
-import cn.tedu.straw.portal.model.Tag;
+import cn.tedu.straw.portal.model.*;
 import cn.tedu.straw.portal.service.IQuestionService;
 import cn.tedu.straw.utils.ImgUtils;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
-import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
-import com.alibaba.fastjson.JSON;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 /**
@@ -62,12 +62,23 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
         PageHelper.startPage(pageNum,pageSize);
         List<Question> questionList=new ArrayList<>();
         //根据不同的角色请求不同的资源
-        if("ROLE_STUDENT".equals(getUserRole())){//学生角色
-            
-            questionList = questionMapper.selectQuestionWithTags();
+        List<Role> roles= getUserRole();
+        if(CollectionUtils.isEmpty(roles)){
+            log.error("该用户没有角色，请检查该用户信息是否正常");
+            throw  new RuntimeException("系统繁忙，请稍后重试!");
         }
+        //把Role的集合转换成角色名称集合
+      List<String> roleNames=  roles.stream().map(role -> {
+            return role.getName();
+        }).collect(Collectors.toList());
 
-
+        if(roleNames.contains("ROLE_STUDENT")){//学生角色
+            //只查找本人发布的问题和已经公开的问题
+             questionList=questionMapper.selectQuestionWithTags(getUseId(), QuestionPublicStatus.PUBLIC.getStatus());
+        }else if(roleNames.contains("ROLE_TEACHER")){
+            //老师角色和管理员可以查看所有的问题
+            questionList=questionMapper.selectQuestionWithTags(null,null);
+        }
         PageInfo<Question> pageInfo=new PageInfo<>(questionList);
         return pageInfo;
     }
@@ -105,11 +116,11 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public boolean create(String title, String[] tags, String content) {
+    public boolean create(QuestionParam param) {
         //保存问题
         Question question=new Question();
-        question.setTitle(title);
-        question.setContent(content);
+        question.setTitle(param.getTitle());
+        question.setContent(param.getContent());
         question.setCreatetime(new Date());
         question.setPageViews(0);
         question.setUserNickName(getUserNickname());
@@ -117,6 +128,7 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
         question.setStatus("0");
         questionMapper.insert(question);
         //保存问题标签
+       String[] tags= param.getTags();
        for(int i=0;i<tags.length;i++){
            Long tagId=Long.parseLong(tags[i]);
            QuestionTag questionTag=new QuestionTag();

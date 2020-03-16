@@ -12,14 +12,26 @@
         <result column="createtime" property="createtime" />
         <result column="status" property="status"/>
         <result column="page_views" property="pageViews"/>
+        <result column="public_status" property="publicStatus"/>
         <!--嵌套查询-->
         <collection property="tags" javaType="ArrayList" column="id" ofType="cn.tedu.straw.portal.mapper.TagMapper.BaseResultMap" select="cn.tedu.straw.portal.mapper.TagMapper.selectTagsByQuestionId"/>
+
     </resultMap>
 
 
-    <select id="selectQuestionWithTags" resultMap="questionWithTags">
-        select * from  question order by createtime desc
+    <select id="selectQuestionWithTags"  resultMap="questionWithTags">
+        select *
+        from  question  q
+        where 1=1
+        <if test="userId!=null">
+            AND  user_id=#{userId}
+        </if>
+        <if test="publicStatus!=null">
+            OR  public_status=#{publicStatus}
+        </if>
+        order by createtime desc
     </select>
+    
 
 
 </mapper>

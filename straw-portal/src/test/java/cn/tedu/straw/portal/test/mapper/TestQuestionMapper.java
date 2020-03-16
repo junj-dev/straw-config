@@ -28,11 +28,11 @@ public class TestQuestionMapper {
 
     /**
      *
-     * @see  QuestionMapper#selectQuestionWithTags()
+     * @see  QuestionMapper#selectQuestionWithTags(Integer, String)
      */
     @Test
     public void testSelectQuestion(){
-        List<Question> questionList = questionMapper.selectQuestionWithTags();
+        List<Question> questionList = questionMapper.selectQuestionWithTags(null,null);
         questionList.forEach(System.out::println);
     }
 }

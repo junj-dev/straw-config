@@ -65,7 +65,9 @@ public class Question implements Serializable {
     @TableField("page_views")
     private Integer pageViews;
 
-
+    @ApiModelProperty(value = "该问题是否公开，所有学生可见，0-》否，1-》是")
+    @TableField("public_status")
+    private String publicStatus;
 
     @ApiModelProperty(value = "提问时间")
     @TableField(exist = false)
@@ -119,8 +121,6 @@ public class Question implements Serializable {
     public String getContent() {
         return content;
     }
-
-
 
     public void setContent(String content) {
         this.content = content;
@@ -181,5 +181,31 @@ public class Question implements Serializable {
 
     public void setTags(List<Tag> tags) {
         this.tags = tags;
+    }
+
+    public String getPublicStatus() {
+        return publicStatus;
+    }
+
+    public void setPublicStatus(String publicStatus) {
+        this.publicStatus = publicStatus;
+    }
+
+    @Override
+    public String toString() {
+        return "Question{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", content='" + content + '\'' +
+                ", userNickName='" + userNickName + '\'' +
+                ", userId=" + userId +
+                ", createtime=" + createtime +
+                ", status='" + status + '\'' +
+                ", pageViews=" + pageViews +
+                ", publicStatus='" + publicStatus + '\'' +
+                ", distanceTime='" + distanceTime + '\'' +
+                ", tags=" + tags +
+                ", answers=" + answers +
+                '}';
     }
 }
