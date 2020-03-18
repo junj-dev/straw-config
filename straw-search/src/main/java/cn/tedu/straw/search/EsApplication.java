@@ -1,22 +1,19 @@
-package cn.tedu.straw.portal;
+package cn.tedu.straw.search;
 
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.cloud.openfeign.EnableFeignClients;
 
 /**
  * @Description: 启动类
  * @Author: ChenHaiBao
- * @CreateDate: 2020/3/3$ 9:57$
+ * @CreateDate: 2020/3/17$ 11:04$
  * @Version: 1.0
  */
 @SpringBootApplication
 @EnableDiscoveryClient
-@EnableFeignClients(basePackages = "cn.tedu.straw.portal.api")
-public class StrawPortalApplication {
+public class EsApplication {
     public static void main(String[] args) {
-        SpringApplication.run(StrawPortalApplication.class,args);
+        SpringApplication.run(EsApplication.class,args);
     }
 }

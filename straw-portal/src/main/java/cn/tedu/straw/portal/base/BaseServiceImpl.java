@@ -4,6 +4,7 @@ import cn.tedu.straw.portal.model.Role;
 import cn.tedu.straw.portal.model.User;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -14,7 +15,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
+@Slf4j
 public class BaseServiceImpl<M extends BaseMapper<T>, T> extends ServiceImpl<BaseMapper<T>, T>{
 
 
@@ -60,14 +63,20 @@ public class BaseServiceImpl<M extends BaseMapper<T>, T> extends ServiceImpl<Bas
 	}
 
 	/**
-	 * 获取登录用户的角色
+	 * 获取登录用户所拥有的所有角色名称
 	 * @return
 	 */
-	protected List<Role> getUserRole() {
+	protected List<String> getUserRoleNames() {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if (!(authentication instanceof AnonymousAuthenticationToken)) {
 			User user = (User)authentication.getPrincipal();
-			return user.getRoles();
+			List<Role> roles= user.getRoles();
+			if(CollectionUtils.isEmpty(roles)){
+				log.error("用户id为:"+user.getId()+"的用户信息丢失，请检查数据库");
+				throw new RuntimeException("服务繁忙，请稍后再试!");
+			}
+			List<String> roleNames=roles.stream().map(Role::getName).collect(Collectors.toList());
+			return roleNames;
 		}
 		throw  new RuntimeException("服务繁忙，请稍后再试!");
 	}

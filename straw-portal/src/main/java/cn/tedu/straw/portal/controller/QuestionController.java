@@ -1,8 +1,8 @@
 package cn.tedu.straw.portal.controller;
 
 
+import cn.tedu.straw.commom.StrawResult;
 import cn.tedu.straw.portal.base.BaseController;
-import cn.tedu.straw.portal.domian.StrawResult;
 import cn.tedu.straw.portal.domian.param.QuestionParam;
 import cn.tedu.straw.portal.model.Question;
 import cn.tedu.straw.portal.model.Tag;
@@ -104,9 +104,6 @@ public class QuestionController extends BaseController {
        }else {
            return "redirect:/error";
        }
-
-
-
     }
 
 }

@@ -28,12 +28,14 @@ public class IndexController {
     @GetMapping(value = {"/index.html","/"})
     @ApiOperation("转到首页")
     @PreAuthorize("hasAuthority('/index.html')")
-    public  String  index(Model model,
-                          @RequestParam(value = "pageNum",defaultValue = "1") Integer pageNum,
-                          @RequestParam(value = "pageSize",defaultValue = "5") Integer pageSize){
+    public  String  index(
+//            Model model,
+//            @RequestParam(value = "pageNum",defaultValue = "1") Integer pageNum,
+//            @RequestParam(value = "pageSize",defaultValue = "5") Integer pageSize
+    ){
 
-        PageInfo<Question> pageInfo = questionService.selectPage(pageNum, pageSize);
-        model.addAttribute("pageInfo",pageInfo);
+       // PageInfo<Question> pageInfo = questionService.selectPage(pageNum, pageSize);
+      //  model.addAttribute("pageInfo",pageInfo);
         return "index";
     }
 

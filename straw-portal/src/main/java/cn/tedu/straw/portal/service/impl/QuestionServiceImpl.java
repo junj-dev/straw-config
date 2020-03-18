@@ -1,11 +1,12 @@
 package cn.tedu.straw.portal.service.impl;
 
+import cn.tedu.straw.commom.StrawResult;
 import cn.tedu.straw.constant.QuestionPublicStatus;
 import cn.tedu.straw.portal.base.BaseServiceImpl;
 import cn.tedu.straw.portal.config.FastDfsConfig;
-import cn.tedu.straw.portal.domian.StrawResult;
 import cn.tedu.straw.portal.domian.param.QuestionParam;
 import cn.tedu.straw.portal.exception.BusinessException;
+import cn.tedu.straw.portal.exception.PageNotExistException;
 import cn.tedu.straw.portal.mapper.AnswerMapper;
 import cn.tedu.straw.portal.mapper.QuestionMapper;
 import cn.tedu.straw.portal.mapper.QuestionTagMapper;
@@ -19,14 +20,12 @@ import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
-import java.util.stream.Collectors;
 
 
 /**
@@ -62,23 +61,15 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
         PageHelper.startPage(pageNum,pageSize);
         List<Question> questionList=new ArrayList<>();
         //根据不同的角色请求不同的资源
-        List<Role> roles= getUserRole();
-        if(CollectionUtils.isEmpty(roles)){
-            log.error("该用户没有角色，请检查该用户信息是否正常");
-            throw  new RuntimeException("系统繁忙，请稍后重试!");
-        }
-        //把Role的集合转换成角色名称集合
-      List<String> roleNames=  roles.stream().map(role -> {
-            return role.getName();
-        }).collect(Collectors.toList());
-
-        if(roleNames.contains("ROLE_STUDENT")){//学生角色
+        List<String> userRoleNames = getUserRoleNames();
+        if(userRoleNames.contains("ROLE_STUDENT")&&userRoleNames.size()==1){//只有学生角色一个角色，没有其它的角色
             //只查找本人发布的问题和已经公开的问题
              questionList=questionMapper.selectQuestionWithTags(getUseId(), QuestionPublicStatus.PUBLIC.getStatus());
-        }else if(roleNames.contains("ROLE_TEACHER")){
+        }else if(userRoleNames.contains("ROLE_TEACHER")){//只要拥有老师角色就ok,管理员拥有学生和老师的角色
             //老师角色和管理员可以查看所有的问题
             questionList=questionMapper.selectQuestionWithTags(null,null);
         }
+
         PageInfo<Question> pageInfo=new PageInfo<>(questionList);
         return pageInfo;
     }
@@ -141,11 +132,21 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public Question getQuestionDetailById(Long id) {
+        //学生角色只能查看自己和公开的问题，老师可以访问所有的问题
         Question question = questionMapper.selectById(id);
         if(question==null){
-            throw  new BusinessException("该页面不存在！");
+            throw  new PageNotExistException();
         }
+        //如果该问题既不是本人发表的问题又不是公开的问题，角色又是学生
+        if(getUserRoleNames().contains("ROLE_STUDENT") //学生角色
+                &&getUserRoleNames().size()==1//只拥有一个角色，该角色是学生
+                &&question.getUserId().intValue()!=getUseId().intValue() //问题不是本人发表
+                &&QuestionPublicStatus.PRIVATE.getStatus().equals(question.getPublicStatus())){ //问题不是公开的
+            throw  new PageNotExistException();//表示该问题不存在，无权访问
+        }
+
         //设置标签
         List<Tag> tags = tagMapper.selectTagsByQuestionId(id);
         question.setTags(tags);
@@ -155,6 +156,12 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
         query.orderBy(true,false,"createtime");
         List<Answer> answers = answerMapper.selectList(query);
         question.setAnswers(answers);
+
+        //浏览量加1
+        // TODO 2.0版本应该改成kafka消息队列
+        question.setPageViews(question.getPageViews()+1);
+        questionMapper.updateById(question);
+
 
         return question;
     }

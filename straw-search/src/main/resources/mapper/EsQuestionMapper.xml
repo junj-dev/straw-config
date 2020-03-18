@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.tedu.straw.search.mapper.EsQuestionMapper">
+
+
+    <resultMap id="questionWithTags" type="cn.tedu.straw.search.model.EsQuestion">
+        <id column="id" property="id" />
+        <result column="title" property="title" />
+        <result column="content" property="content" />
+        <result column="user_nick_name" property="userNickName" />
+        <result column="user_id" property="userId" />
+        <result column="createtime" property="createtime" />
+        <result column="status" property="status"/>
+        <result column="page_views" property="pageViews"/>
+        <result column="public_status" property="publicStatus"/>
+        <!--嵌套查询Tags-->
+        <collection property="tags" javaType="ArrayList" column="id" ofType="cn.tedu.straw.search.model.EsTag" select="selectTagsByQuestionId"/>
+        <!--嵌套查询Answer-->
+        <collection property="answers" javaType="ArrayList" column="id" ofType="cn.tedu.straw.search.model.EsAnswer" select="selectAnswersByQuestionId"/>
+    </resultMap>
+    <!-- 通用查询映射结果 -->
+    <resultMap id="TagBaseResultMap" type="cn.tedu.straw.search.model.EsTag">
+        <id column="id" property="id" />
+        <result column="name" property="tagName" />
+        <result column="createby" property="createby" />
+        <result column="createtime" property="createtime" />
+    </resultMap>
+    <!-- 通用查询映射结果 -->
+    <resultMap id="answerBaseResultMap" type="cn.tedu.straw.search.model.EsAnswer">
+        <id column="id" property="id" />
+        <result column="content" property="answerContent" />
+        <result column="like_count" property="likeCount" />
+        <result column="user_id" property="userId" />
+        <result column="user_nick_name" property="userNickName"/>
+        <result column="quest_id" property="questId" />
+        <result column="createtime" property="createtime" />
+    </resultMap>
+
+    <select id="selectTagsByQuestionId" parameterType="long" resultMap="TagBaseResultMap">
+        select  *
+        from tag t
+        left join question_tag qt on qt.tag_id=t.id
+        where qt.question_id=#{id}
+
+    </select>
+
+
+    <select id="selectQuestionWithTagsWithAnswer"  resultMap="questionWithTags">
+        select *
+        from  question  q
+    </select>
+    <!--根据问题id查询答案-->
+    <select id="selectAnswersByQuestionId" parameterType="long" resultMap="answerBaseResultMap">
+        select *
+        from answer
+        where quest_id=#{questId}
+    </select>
+
+
+</mapper>

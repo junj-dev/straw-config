@@ -3,72 +3,79 @@
 	<head th:replace="commom/head :: head">
 		
 	</head>
+	<head>
+		<link th:href="@{/css/zpageNav.css}" rel="stylesheet" />
+	</head>
 
 	<body class="hold-transition skin-blue sidebar-mini">
-		<div class="wrapper">
+		<div class="wrapper" >
 			<header th:replace="commom/head :: header"></header>
 			<aside th:replace="commom/aside :: aside"></aside>
-			<div class="content-wrapper">
+			<div class="content-wrapper" id="app">
 					<section class="content-header">
 
 
 					</section>
 					<section class="content ">
-						<div class="row">
-							<div class="col-lg-6 col-lg-offset-1">
-								<form action="#" method="get" >
-									<div class="input-group">
-										<input type="text" name="q"  class="form-control" placeholder="搜索....">
-										<span class="input-group-btn">
-										<button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
-										</button>
-									  </span>
-									</div>
-								</form>
+						<div class="row" >
+							<div class="row" >
+								<div class="col-lg-6 col-lg-offset-1">
+									<form action="#" method="get" >
+										<div class="input-group">
+											<input type="text" name="q"  class="form-control" placeholder="搜索....">
+											<span class="input-group-btn">
+											<button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
+											</button>
+										  </span>
+										</div>
+									</form>
+								</div>
+								<div class="col-lg-3" >
+									<button type="button" class="btn btn-primary" onclick="location.href='/question/create.html'">我要提问</button>
+								</div>
 							</div>
-							<div class="col-lg-3">
-								<button type="button" class="btn btn-primary" onclick="location.href='/question/create.html'">我要提问</button>
-							</div>
-						</div>
-							<br>
-							<br>
-						<div class="row">
-							<div class="col-lg-10 col-lg-offset-1" th:each="question : ${pageInfo.list}">
-								<div class="panel panel-default">
-									<!-- Default panel contents -->
-									<div class="panel-heading">
-										<h4>
-											<span class="label label-warning" th:if="${question.status=='0'}">未回答</span>
-											<span class="label label-info" th:if="${question.status=='1'}">待解决</span>
-											<span class="label label-success" th:if="${question.status=='2'}">已解决</span>
-											<a th:href="@{'/question/detail/'+${question.id}}" th:text="${question.title}">互帮互助——那些年遇到的面试题</a>
-										</h4>
-									</div>
-									<div class="panel-body" th:utext="${question.content}" style="max-height: 100px;overflow: hidden;text-overflow:ellipsis">
-										可以在本帖回复面试的公司，遇到的面试题，面试题答案
-										人多力量大，咕泡的泡泡们再也不怕面试题啦~~~~~~~~
+
+							<div class="row">
+								<div class="col-lg-10 col-lg-offset-1">
+									<div class="panel panel-default" v-for="question in questions">
+										<!-- Default panel contents -->
+										<div class="panel-heading">
+											<h4>
+												<span class="label label-warning" v-if="quetion.status == '0'">未回答</span>
+												<span class="label label-info" v-if="question.status == '1'">待解决</span>
+												<span class="label label-success" v-if="question.status == '2'">已解决</span>
+												<a href="/question/detail/">{{question.title}}</a>
+											</h4>
+										</div>
+										<div class="panel-body" style="max-height: 100px;overflow: hidden;text-overflow:ellipsis">{{question.content}}</div>
+
+										<div class="panel-footer">
+											<span class="label label-default" style="margin-right: 2px" ><a href="" >java基础</a></span>
+
+											<span  style="float:right;margin-right: 10px" >99浏览</span>
+											<span  style="float:right;margin-right: 10px" >3天前</span>
+											<span  style="float:right;margin-right: 10px" >小明</span>
+										</div>
 
 									</div>
 
-									<div class="panel-footer">
-										<span class="label label-default" style="margin-right: 2px" th:each="tag : ${question.tags}"><a href="" th:text="${tag.name}">java基础</a></span>
-
-										<span  style="float:right;margin-right: 10px" th:text="|${question.pageViews}浏览|">99浏览</span>
-										<span  style="float:right;margin-right: 10px" th:text="${question.distanceTime}">3天前</span>
-										<span  style="float:right;margin-right: 10px" th:text="${question.userNickName}">小明</span>
-									</div>
 
 								</div>
 
-
 							</div>
-
 						</div>
 						<div class="row">
 
 							<!--显示分页信息-->
-							<div class="modal-footer no-margin-top">
-								<div class="col-md-6">
+							<div class="modal-footer no-margin-top" >
+
+								<zpagenav v-bind:page="page" v-bind:page-size="pageSize" v-bind:total="total"
+										  v-bind:max-page="maxPage"  v-on:pagehandler="pageHandler">
+								</zpagenav>
+
+
+
+								<!--<div class="col-md-6">
 									当前第 [[${pageInfo.pageNum}]]页,共 [[${pageInfo.pages}]] 页.一共 [[${pageInfo.total}]] 条记录
 								</div>
 
@@ -82,7 +89,7 @@
 											<i class="ace-icon fa fa-angle-double-left"></i>
 										</a>
 									</li>
-									<!--遍历条数-->
+									&lt;!&ndash;遍历条数&ndash;&gt;
 									<li th:each="nav:${pageInfo.navigatepageNums}">
 										<a th:href="'/index?pageNum='+${nav}" th:text="${nav}" th:if="${nav != pageInfo.pageNum}"></a>
 										<span style="font-weight: bold;background: #6faed9;" th:if="${nav == pageInfo.pageNum}" th:text="${nav}" ></span>
@@ -97,14 +104,63 @@
 									<li  th:if="${pageInfo.hasNextPage}">
 										<a th:href="'/index?pageNum='+${pageInfo.pages}">尾页</a>
 									</li>
-								</ul>
+								</ul>-->
 							</div>
 						</div>
-
 					</section>
 			</div>
 			<footer th:replace="commom/footer :: footer"></footer>
 		</div>
 	</body>
+
+	<script th:src="@{/js/vue.js}"></script>
+	<script th:src="@{/js/zpageNav.js}"></script>
+	<script>
+
+		var vm = new Vue({
+			el: '#app',
+			data: {
+				page: 1,  //显示的是哪一页
+				pageSize: 10, //每一页显示的数据条数
+				total: 150, //记录总数
+				maxPage:9, //最大页数
+				keyword:'',
+				questions:[],
+				status:'0'
+
+			},
+			methods: {
+				//pagehandler方法 跳转到page页
+				pageHandler: function (page) {
+					//here you can do custom state update
+					this.page = page;
+					var _this=this;
+					$.ajax({
+						type:"post",
+						url:"/esQuestion/search",
+						data:{
+							"page":page,
+							"pageSize":this.pageSize,
+							"keyword":this.keyword
+						},
+						dataType: "json",
+						success:function (res) {
+							console.log(res);
+							if(res.code==200){
+								_this.total=res.data.total;
+								_this.pages=res.data.totalPage;
+								_this.questions=res.data.list;
+							}
+						}
+					});
+				}
+			},
+			created:function(){
+				//created  表示页面加载完毕，立即执行
+				this.pageHandler(1);
+			}
+		});
+
+	</script>
 
 </html>

@@ -1,16 +1,11 @@
 package cn.tedu.straw.portal.model;
 
 import cn.tedu.straw.utils.DateUtils;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.elasticsearch.annotations.Field;
+import org.springframework.data.elasticsearch.annotations.FieldType;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -25,61 +20,40 @@ import java.util.List;
  * @author ChenHaiBao
  * @since 2020-03-09
  */
-@EqualsAndHashCode(callSuper = false)
-@Accessors(chain = true)
-@TableName("question")
+@Document(indexName = "straw",type = "question")
 @Slf4j
-@ApiModel(value="Question对象", description="")
-public class Question implements Serializable {
+public class EsQuestion implements Serializable {
 
-    private static final long serialVersionUID = 1L;
 
-    @TableId(value = "id", type = IdType.AUTO)
+    private static final long serialVersionUID = -2551847857874479192L;
+    @Id
     private Long id;
 
-    @ApiModelProperty(value = "问题的标题")
-    @TableField("title")
+    @Field(type = FieldType.Keyword)
     private String title;
 
-    @ApiModelProperty(value = "提问内容")
-    @TableField("content")
+    @Field(type = FieldType.Keyword)
     private String content;
 
-    @ApiModelProperty(value = "提问者昵称")
-    @TableField("user_nick_name")
     private String userNickName;
 
-    @ApiModelProperty(value = "提问者id")
-    @TableField("user_id")
     private Integer userId;
 
-    @ApiModelProperty(value = "创建时间")
-    @TableField("createtime")
     private Date createtime;
 
-    @ApiModelProperty(value = "状态，0-》未回答，1-》待解决，2-》已解决")
-    @TableField("status")
     private  String status;
 
-    @ApiModelProperty(value = "浏览量")
-    @TableField("page_views")
     private Integer pageViews;
 
-    @ApiModelProperty(value = "该问题是否公开，所有学生可见，0-》否，1-》是")
-    @TableField("public_status")
     private String publicStatus;
 
-    @ApiModelProperty(value = "提问时间")
-    @TableField(exist = false)
     private String distanceTime;
 
-    @ApiModelProperty(value = "标签列表")
-    @TableField(exist = false)
-    List<Tag> tags=new ArrayList<>();
+    @Field(type = FieldType.Nested)
+    List<EsTag> tags=new ArrayList<>();
 
-    @ApiModelProperty(value = "答案")
-    @TableField(exist =false )
-    List<Answer> answers=new ArrayList<>();
+    @Field(type = FieldType.Nested)
+    List<EsAnswer> answers=new ArrayList<>();
 
 
 
@@ -87,11 +61,11 @@ public class Question implements Serializable {
         return answers.size();
     }
 
-    public List<Answer> getAnswers() {
+    public List<EsAnswer> getAnswers() {
         return answers;
     }
 
-    public void setAnswers(List<Answer> answers) {
+    public void setAnswers(List<EsAnswer> answers) {
         this.answers = answers;
     }
 
@@ -177,11 +151,11 @@ public class Question implements Serializable {
         this.distanceTime = distanceTime;
     }
 
-    public List<Tag> getTags() {
+    public List<EsTag> getTags() {
         return tags;
     }
 
-    public void setTags(List<Tag> tags) {
+    public void setTags(List<EsTag> tags) {
         this.tags = tags;
     }
 

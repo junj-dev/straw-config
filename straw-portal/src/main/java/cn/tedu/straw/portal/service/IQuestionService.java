@@ -1,6 +1,6 @@
 package cn.tedu.straw.portal.service;
 
-import cn.tedu.straw.portal.domian.StrawResult;
+import cn.tedu.straw.commom.StrawResult;
 import cn.tedu.straw.portal.domian.param.QuestionParam;
 import cn.tedu.straw.portal.model.Question;
 import com.baomidou.mybatisplus.core.metadata.IPage;

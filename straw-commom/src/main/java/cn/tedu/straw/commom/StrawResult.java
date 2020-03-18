@@ -1,7 +1,5 @@
-package cn.tedu.straw.portal.domian;
+package cn.tedu.straw.commom;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
 import lombok.Data;
 import org.springframework.validation.BindingResult;
@@ -10,7 +8,6 @@ import org.springframework.validation.BindingResult;
  * 通用返回对象
  * Created by zscat on 2018/4/26.
  */
-@ApiModel
 @Data
 @Builder
 public class StrawResult<T> {
@@ -24,11 +21,8 @@ public class StrawResult<T> {
     public static final int UNAUTHORIZED = 401;
     //未授权
     public static final int FORBIDDEN = 403;
-    @ApiModelProperty(required = true, value = "返回状态码", dataType = "int", example = "200", position = 0)
     private int code;
-    @ApiModelProperty(required = true, value = "返回message 信息", dataType = "string", example = "success", position = 2)
     private String msg;
-    @ApiModelProperty("返回数据")
     private T data;
 
 

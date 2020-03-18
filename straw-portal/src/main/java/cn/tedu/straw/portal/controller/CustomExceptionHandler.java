@@ -1,7 +1,8 @@
 package cn.tedu.straw.portal.controller;
 
-import cn.tedu.straw.portal.domian.StrawResult;
+import cn.tedu.straw.commom.StrawResult;
 import cn.tedu.straw.portal.exception.BusinessException;
+import cn.tedu.straw.portal.exception.PageNotExistException;
 import com.fasterxml.jackson.databind.util.JSONPObject;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.AccessDeniedException;
@@ -10,6 +11,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 /**
  * 自定义全局异常处理
@@ -68,6 +72,19 @@ public class CustomExceptionHandler {
             log.error(exception.getMessage());
             return new JSONPObject(callback, StrawResult.builder().build().forbidden());
         }
+    }
+
+    /**
+     * 页面不存在
+     * @return
+     */
+    @ExceptionHandler(PageNotExistException.class)
+    public void PageNotFoundExceptionHandler(Exception exception, HttpServletRequest request, HttpServletResponse response) throws IOException {
+        log.error(exception.getMessage());
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("application/json; charset=utf-8");
+        PrintWriter writer = response.getWriter();
+        writer.println("页面不存在！");
     }
 
 }

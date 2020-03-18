@@ -32,8 +32,8 @@
 								</div>
 						</div>
 						</div>
-
-						<div class="row" style="margin-top: 30px"  >
+						<!--如果没有回答问题的权限就不显示回答框-->
+						<div class="row" style="margin-top: 30px"  sec:authorize="hasAuthority('/question/answer')">
 							<div class="col-lg-12" style="margin-left: 10px">
 								<div class="well-sm"><h3>填写答案</h3></div>
 								<form class="form-horizontal" action="/question/answer" method="post" enctype="application/x-www-form-urlencoded">
