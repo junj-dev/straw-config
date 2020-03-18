@@ -1,5 +1,6 @@
 package cn.tedu.straw.portal.controller;
 
+
 import cn.tedu.straw.commom.StrawResult;
 import cn.tedu.straw.portal.exception.BusinessException;
 import cn.tedu.straw.portal.exception.PageNotExistException;
@@ -57,7 +58,7 @@ public class CustomExceptionHandler {
 
     /**
      * 无权访问
-     * @return
+     *
      */
     @ExceptionHandler(AccessDeniedException.class)
     public Object AccessDeniedHandler(Exception exception, HttpServletRequest request){
@@ -76,7 +77,7 @@ public class CustomExceptionHandler {
 
     /**
      * 页面不存在
-     * @return
+     *
      */
     @ExceptionHandler(PageNotExistException.class)
     public void PageNotFoundExceptionHandler(Exception exception, HttpServletRequest request, HttpServletResponse response) throws IOException {
