@@ -3,7 +3,7 @@
 <mapper namespace="cn.tedu.straw.search.mapper.EsQuestionMapper">
 
 
-    <resultMap id="questionWithTags" type="cn.tedu.straw.search.model.EsQuestion">
+    <resultMap id="ResultMap" type="cn.tedu.straw.search.model.EsQuestion">
         <id column="id" property="id" />
         <result column="title" property="title" />
         <result column="content" property="content" />
@@ -14,30 +14,12 @@
         <result column="page_views" property="pageViews"/>
         <result column="public_status" property="publicStatus"/>
         <!--嵌套查询Tags-->
-        <collection property="tags" javaType="ArrayList" column="id" ofType="cn.tedu.straw.search.model.EsTag" select="selectTagsByQuestionId"/>
-        <!--嵌套查询Answer-->
-        <collection property="answers" javaType="ArrayList" column="id" ofType="cn.tedu.straw.search.model.EsAnswer" select="selectAnswersByQuestionId"/>
-    </resultMap>
-    <!-- 通用查询映射结果 -->
-    <resultMap id="TagBaseResultMap" type="cn.tedu.straw.search.model.EsTag">
-        <id column="id" property="id" />
-        <result column="name" property="tagName" />
-        <result column="createby" property="createby" />
-        <result column="createtime" property="createtime" />
-    </resultMap>
-    <!-- 通用查询映射结果 -->
-    <resultMap id="answerBaseResultMap" type="cn.tedu.straw.search.model.EsAnswer">
-        <id column="id" property="id" />
-        <result column="content" property="answerContent" />
-        <result column="like_count" property="likeCount" />
-        <result column="user_id" property="userId" />
-        <result column="user_nick_name" property="userNickName"/>
-        <result column="quest_id" property="questId" />
-        <result column="createtime" property="createtime" />
+        <collection property="tags" javaType="ArrayList" column="id" ofType="string" select="selectTagsByQuestionId"/>
     </resultMap>
 
-    <select id="selectTagsByQuestionId" parameterType="long" resultMap="TagBaseResultMap">
-        select  *
+
+    <select id="selectTagsByQuestionId" parameterType="long" resultType="string">
+        select  t.name
         from tag t
         left join question_tag qt on qt.tag_id=t.id
         where qt.question_id=#{id}
@@ -45,16 +27,11 @@
     </select>
 
 
-    <select id="selectQuestionWithTagsWithAnswer"  resultMap="questionWithTags">
+    <select id="selectQuestionWithTagsWithAnswer"  resultMap="ResultMap">
         select *
-        from  question  q
+        from  question
     </select>
-    <!--根据问题id查询答案-->
-    <select id="selectAnswersByQuestionId" parameterType="long" resultMap="answerBaseResultMap">
-        select *
-        from answer
-        where quest_id=#{questId}
-    </select>
+
 
 
 </mapper>

@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger.models.auth.In;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -59,7 +60,7 @@ public class Question implements Serializable {
 
     @ApiModelProperty(value = "状态，0-》未回答，1-》待解决，2-》已解决")
     @TableField("status")
-    private  String status;
+    private  Integer status;
 
     @ApiModelProperty(value = "浏览量")
     @TableField("page_views")
@@ -67,7 +68,7 @@ public class Question implements Serializable {
 
     @ApiModelProperty(value = "该问题是否公开，所有学生可见，0-》否，1-》是")
     @TableField("public_status")
-    private String publicStatus;
+    private Integer publicStatus;
 
     @ApiModelProperty(value = "提问时间")
     @TableField(exist = false)
@@ -153,11 +154,11 @@ public class Question implements Serializable {
     }
 
 
-    public String getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 
@@ -185,11 +186,11 @@ public class Question implements Serializable {
         this.tags = tags;
     }
 
-    public String getPublicStatus() {
+    public Integer getPublicStatus() {
         return publicStatus;
     }
 
-    public void setPublicStatus(String publicStatus) {
+    public void setPublicStatus(Integer publicStatus) {
         this.publicStatus = publicStatus;
     }
 
@@ -202,9 +203,9 @@ public class Question implements Serializable {
                 ", userNickName='" + userNickName + '\'' +
                 ", userId=" + userId +
                 ", createtime=" + createtime +
-                ", status='" + status + '\'' +
+                ", status=" + status +
                 ", pageViews=" + pageViews +
-                ", publicStatus='" + publicStatus + '\'' +
+                ", publicStatus=" + publicStatus +
                 ", distanceTime='" + distanceTime + '\'' +
                 ", tags=" + tags +
                 ", answers=" + answers +

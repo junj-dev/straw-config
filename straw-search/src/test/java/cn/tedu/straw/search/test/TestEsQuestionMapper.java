@@ -1,7 +1,6 @@
 package cn.tedu.straw.search.test;
 
 import cn.tedu.straw.search.EsApplication;
-import cn.tedu.straw.search.model.EsAnswer;
 import cn.tedu.straw.search.model.EsQuestion;
 import cn.tedu.straw.search.mapper.EsQuestionMapper;
 import org.junit.Test;
@@ -33,12 +32,12 @@ public class TestEsQuestionMapper {
         esQuestions.forEach(System.out::println);
     }
 
-    /**
-     * @see EsQuestionMapper#selectAnswersByQuestionId(Long) 
-     */
-    @Test
-    public  void testSelectAnswersByQuestionId(){
-        List<EsAnswer> esAnswers = esQuestionMapper.selectAnswersByQuestionId(13l);
-        esAnswers.forEach(System.out::println);
-    }
+//    /**
+//     * @see EsQuestionMapper#selectAnswersByQuestionId(Long)
+//     */
+//    @Test
+//    public  void testSelectAnswersByQuestionId(){
+//        List<String> esAnswers = esQuestionMapper.selectAnswersByQuestionId(13l);
+//        esAnswers.forEach(System.out::println);
+//    }
 }

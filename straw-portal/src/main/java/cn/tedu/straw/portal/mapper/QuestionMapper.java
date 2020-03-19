@@ -23,6 +23,6 @@ public interface QuestionMapper extends BaseMapper<Question> {
      * @param publicStatus 是否公开,0->否，1-》是
      * @return
      */
-    List<Question> selectQuestionWithTags(Integer userId,String publicStatus);
+    List<Question> selectQuestionWithTags(Integer userId,Integer publicStatus);
 
 }

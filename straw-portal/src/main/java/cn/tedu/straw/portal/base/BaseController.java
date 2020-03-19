@@ -1,10 +1,13 @@
 package cn.tedu.straw.portal.base;
 
+import cn.tedu.straw.portal.model.Role;
 import cn.tedu.straw.portal.model.User;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.CollectionUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 
@@ -12,8 +15,10 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
+@Slf4j
 public class BaseController {
 
 
@@ -35,6 +40,15 @@ public class BaseController {
 		if (!(authentication instanceof AnonymousAuthenticationToken)) {
 			String currentUserName = authentication.getName();
 			return currentUserName;
+		}
+
+		throw  new RuntimeException("服务繁忙，请稍后重试!");
+	}
+	protected User getUser() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if (!(authentication instanceof AnonymousAuthenticationToken)) {
+			User user = (User)authentication.getPrincipal();
+			return user;
 		}
 
 		throw  new RuntimeException("服务繁忙，请稍后重试!");
@@ -83,7 +97,24 @@ public class BaseController {
 
 	}
 
-
+	/**
+	 * 获取登录用户所拥有的所有角色名称
+	 * @return
+	 */
+	protected List<String> getUserRoleNames() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if (!(authentication instanceof AnonymousAuthenticationToken)) {
+			User user = (User)authentication.getPrincipal();
+			List<Role> roles= user.getRoles();
+			if(CollectionUtils.isEmpty(roles)){
+				log.error("用户id为:"+user.getId()+"的用户信息丢失，请检查数据库");
+				throw new RuntimeException("服务繁忙，请稍后再试!");
+			}
+			List<String> roleNames=roles.stream().map(Role::getName).collect(Collectors.toList());
+			return roleNames;
+		}
+		throw  new RuntimeException("服务繁忙，请稍后再试!");
+	}
 
 	
  

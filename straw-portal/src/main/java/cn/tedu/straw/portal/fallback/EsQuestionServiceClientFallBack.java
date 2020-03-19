@@ -16,4 +16,9 @@ public class EsQuestionServiceClientFallBack  implements EsQuestionServiceApi {
     public StrawResult<CommonPage<EsQuestion>> search(String keyword, Integer pageNum, Integer pageSize) {
         return StrawResult.<CommonPage<EsQuestion>>builder().build().failed("服务繁忙，请稍后重试！");
     }
+
+    @Override
+    public StrawResult<CommonPage<EsQuestion>> searchOpenQuestion(String keyword, Integer pageNum, Integer pageSize, Integer userId, Integer publicStatus) {
+        return StrawResult.<CommonPage<EsQuestion>>builder().build().failed("服务繁忙，请稍后重试！");
+    }
 }

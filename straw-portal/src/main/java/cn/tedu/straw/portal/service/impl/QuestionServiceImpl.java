@@ -1,5 +1,6 @@
 package cn.tedu.straw.portal.service.impl;
 
+import cn.tedu.straw.commom.CommonPage;
 import cn.tedu.straw.commom.StrawResult;
 import cn.tedu.straw.constant.QuestionPublicStatus;
 import cn.tedu.straw.portal.base.BaseServiceImpl;
@@ -116,7 +117,8 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
         question.setPageViews(0);
         question.setUserNickName(getUserNickname());
         question.setUserId(getUseId());
-        question.setStatus("0");
+        question.setStatus(0);
+        question.setPublicStatus(QuestionPublicStatus.PRIVATE.getStatus());
         questionMapper.insert(question);
         //保存问题标签
        String[] tags= param.getTags();
@@ -188,9 +190,11 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
          //修改问题的状态为未解决
         Question question=new Question();
         question.setId(id);
-        question.setStatus("1");
+        question.setStatus(1);
         questionMapper.updateById(question);
 
          return true;
     }
+
+
 }

@@ -7,18 +7,18 @@ public enum QuestionPublicStatus {
     /**
      * 公开
      */
-    PUBLIC("1"),
+    PUBLIC(1),
     /**
      * 私密
      */
-    PRIVATE("0");
-    private String status;
+    PRIVATE(0);
+    private Integer status;
 
-    private QuestionPublicStatus(String status){
+    private QuestionPublicStatus(Integer status){
         this.status=status;
     }
 
-    public String getStatus() {
+    public Integer getStatus() {
         return status;
     }
 }

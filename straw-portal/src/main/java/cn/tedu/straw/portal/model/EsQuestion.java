@@ -27,47 +27,34 @@ public class EsQuestion implements Serializable {
 
     private static final long serialVersionUID = -2551847857874479192L;
     @Id
+    @Field(type = FieldType.Keyword)
     private Long id;
 
-    @Field(type = FieldType.Keyword)
+
+    @Field(analyzer = "ik_max_word",type = FieldType.Text,searchAnalyzer="ik_max_word")
     private String title;
 
-    @Field(type = FieldType.Keyword)
+    @Field(analyzer = "ik_max_word",type = FieldType.Text,searchAnalyzer="ik_max_word")
     private String content;
 
+    @Field(type = FieldType.Keyword)
     private String userNickName;
 
     private Integer userId;
 
     private Date createtime;
 
-    private  String status;
+    private  Integer status;
 
     private Integer pageViews;
 
-    private String publicStatus;
+    private Integer publicStatus;
 
     private String distanceTime;
 
-    @Field(type = FieldType.Nested)
-    List<EsTag> tags=new ArrayList<>();
+    @Field(type = FieldType.Keyword)
+    List<String> tags=new ArrayList<>();
 
-    @Field(type = FieldType.Nested)
-    List<EsAnswer> answers=new ArrayList<>();
-
-
-
-    public int getAnswersize(){
-        return answers.size();
-    }
-
-    public List<EsAnswer> getAnswers() {
-        return answers;
-    }
-
-    public void setAnswers(List<EsAnswer> answers) {
-        this.answers = answers;
-    }
 
     public Integer getPageViews() {
         return pageViews;
@@ -127,11 +114,11 @@ public class EsQuestion implements Serializable {
     }
 
 
-    public String getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 
@@ -151,37 +138,21 @@ public class EsQuestion implements Serializable {
         this.distanceTime = distanceTime;
     }
 
-    public List<EsTag> getTags() {
+    public List<String> getTags() {
         return tags;
     }
 
-    public void setTags(List<EsTag> tags) {
+    public void setTags(List<String> tags) {
         this.tags = tags;
     }
 
-    public String getPublicStatus() {
+    public Integer getPublicStatus() {
         return publicStatus;
     }
 
-    public void setPublicStatus(String publicStatus) {
+    public void setPublicStatus(Integer publicStatus) {
         this.publicStatus = publicStatus;
     }
 
-    @Override
-    public String toString() {
-        return "Question{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", content='" + content + '\'' +
-                ", userNickName='" + userNickName + '\'' +
-                ", userId=" + userId +
-                ", createtime=" + createtime +
-                ", status='" + status + '\'' +
-                ", pageViews=" + pageViews +
-                ", publicStatus='" + publicStatus + '\'' +
-                ", distanceTime='" + distanceTime + '\'' +
-                ", tags=" + tags +
-                ", answers=" + answers +
-                '}';
-    }
+
 }

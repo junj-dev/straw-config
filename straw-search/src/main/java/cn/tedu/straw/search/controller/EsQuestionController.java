@@ -34,7 +34,7 @@ public class EsQuestionController {
     }
 
     /**
-     * 简单搜索
+     * 搜索所有问题
      * @param keyword
      * @param pageNum
      * @param pageSize
@@ -42,12 +42,34 @@ public class EsQuestionController {
      */
     @GetMapping("/search")
     public StrawResult<CommonPage<EsQuestion>> search(@RequestParam(required = false) String keyword,
-                                                      @RequestParam(required = false, defaultValue = "0") Integer pageNum,
+                                                      @RequestParam(required = false, defaultValue = "1") Integer pageNum,
                                                       @RequestParam(required = false, defaultValue = "5") Integer pageSize){
 
         Page<EsQuestion> esQuestionPage = questionService.search(keyword,pageNum,pageSize);
 
         return StrawResult.<CommonPage<EsQuestion>>builder().build().success(CommonPage.restPage(esQuestionPage));
     }
+
+    /**
+     * 查找开放问题，包括自己的问题
+     * @param keyword
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
+    @GetMapping("/searchOpenQuestion")
+    public StrawResult<CommonPage<EsQuestion>> searchOpenQuestion(@RequestParam(required = false,value = "keyword") String keyword,
+                                                      @RequestParam(required = false, defaultValue = "1",value = "pageNum") Integer pageNum,
+                                                      @RequestParam(required = false, defaultValue = "5",value = "pageSize") Integer pageSize,
+                                                      @RequestParam(required = true,value = "userId")Integer userId,
+                                                      @RequestParam(required = true,value = "publicStatus")Integer publicStatus){
+
+        Page<EsQuestion> esQuestionPage = questionService.searchByUserIdAndPublicStatus(keyword,pageNum,pageSize,userId,publicStatus);
+
+        return StrawResult.<CommonPage<EsQuestion>>builder().build().success(CommonPage.restPage(esQuestionPage));
+    }
+
+
+
 
 }

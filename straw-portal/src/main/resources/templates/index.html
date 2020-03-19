@@ -19,12 +19,12 @@
 					<section class="content ">
 						<div class="row" >
 							<div class="row" >
-								<div class="col-lg-6 col-lg-offset-1">
+								<div class="col-lg-8 col-lg-offset-1">
 									<form action="#" method="get" >
 										<div class="input-group">
-											<input type="text" name="q"  class="form-control" placeholder="搜索....">
+											<input type="text"  class="form-control" placeholder="输入问题的关键字" v-model="keyword" >
 											<span class="input-group-btn">
-											<button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
+											<button type="submit" name="search" id="search-btn" class="btn btn-flat" v-on:click="pageHandler(1)" ><i class="fa fa-search"></i>
 											</button>
 										  </span>
 										</div>
@@ -34,32 +34,31 @@
 									<button type="button" class="btn btn-primary" onclick="location.href='/question/create.html'">我要提问</button>
 								</div>
 							</div>
-
+							<br>
+							<br>
 							<div class="row">
 								<div class="col-lg-10 col-lg-offset-1">
 									<div class="panel panel-default" v-for="question in questions">
 										<!-- Default panel contents -->
 										<div class="panel-heading">
 											<h4>
-												<span class="label label-warning" v-if="quetion.status == '0'">未回答</span>
+												<span class="label label-warning" v-if="question.status == '0'">未回答</span>
 												<span class="label label-info" v-if="question.status == '1'">待解决</span>
 												<span class="label label-success" v-if="question.status == '2'">已解决</span>
-												<a href="/question/detail/">{{question.title}}</a>
+												<a :href="'/question/detail/'+question.id">{{question.title}}</a>
 											</h4>
 										</div>
-										<div class="panel-body" style="max-height: 100px;overflow: hidden;text-overflow:ellipsis">{{question.content}}</div>
+										<div class="panel-body" style="max-height: 100px;overflow: hidden;text-overflow:ellipsis" v-html="question.content"></div>
 
 										<div class="panel-footer">
-											<span class="label label-default" style="margin-right: 2px" ><a href="" >java基础</a></span>
+											<span class="label label-default" style="margin-right: 2px"  v-for="tag in question.tags"><a href="" >{{tag}}</a></span>
 
-											<span  style="float:right;margin-right: 10px" >99浏览</span>
-											<span  style="float:right;margin-right: 10px" >3天前</span>
-											<span  style="float:right;margin-right: 10px" >小明</span>
+											<span  style="float:right;margin-right: 10px" >{{question.pageViews}}浏览</span>
+											<span  style="float:right;margin-right: 10px" >{{question.distanceTime}}</span>
+											<span  style="float:right;margin-right: 10px" >{{question.userNickName}}</span>
 										</div>
 
 									</div>
-
-
 								</div>
 
 							</div>
@@ -73,38 +72,6 @@
 										  v-bind:max-page="maxPage"  v-on:pagehandler="pageHandler">
 								</zpagenav>
 
-
-
-								<!--<div class="col-md-6">
-									当前第 [[${pageInfo.pageNum}]]页,共 [[${pageInfo.pages}]] 页.一共 [[${pageInfo.total}]] 条记录
-								</div>
-
-								<ul class="pagination pull-right no-margin">
-									<li th:if="${pageInfo.hasPreviousPage}">
-										<a th:href="'/index?pageNum=1'">首页</a>
-									</li>
-
-									<li class="prev" th:if="${pageInfo.hasPreviousPage}">
-										<a th:href="'/index?pageNum='+${pageInfo.prePage}">
-											<i class="ace-icon fa fa-angle-double-left"></i>
-										</a>
-									</li>
-									&lt;!&ndash;遍历条数&ndash;&gt;
-									<li th:each="nav:${pageInfo.navigatepageNums}">
-										<a th:href="'/index?pageNum='+${nav}" th:text="${nav}" th:if="${nav != pageInfo.pageNum}"></a>
-										<span style="font-weight: bold;background: #6faed9;" th:if="${nav == pageInfo.pageNum}" th:text="${nav}" ></span>
-									</li>
-
-									<li class="next" th:if="${pageInfo.hasNextPage}">
-										<a th:href="'/index?pageNum='+${pageInfo.nextPage}">
-											<i class="ace-icon fa fa-angle-double-right"></i>
-										</a>
-									</li>
-
-									<li  th:if="${pageInfo.hasNextPage}">
-										<a th:href="'/index?pageNum='+${pageInfo.pages}">尾页</a>
-									</li>
-								</ul>-->
 							</div>
 						</div>
 					</section>
@@ -116,30 +83,35 @@
 	<script th:src="@{/js/vue.js}"></script>
 	<script th:src="@{/js/zpageNav.js}"></script>
 	<script>
+		$(document).ready(function(){
+			if(event.keyCode ===13){
+				vm.pageHandler(1);
+			}
+		});
 
 		var vm = new Vue({
 			el: '#app',
 			data: {
-				page: 1,  //显示的是哪一页
-				pageSize: 10, //每一页显示的数据条数
-				total: 150, //记录总数
+				page: 0,  //显示的是哪一页
+				pageSize: 5, //每一页显示的数据条数
+				total: 0, //记录总数
 				maxPage:9, //最大页数
 				keyword:'',
-				questions:[],
-				status:'0'
+				questions:[]
+
 
 			},
 			methods: {
 				//pagehandler方法 跳转到page页
-				pageHandler: function (page) {
+				pageHandler: function (pageNum) {
 					//here you can do custom state update
-					this.page = page;
+					this.page = pageNum;
 					var _this=this;
 					$.ajax({
 						type:"post",
-						url:"/esQuestion/search",
+						url:"/question/search",
 						data:{
-							"page":page,
+							"pageNum":pageNum,
 							"pageSize":this.pageSize,
 							"keyword":this.keyword
 						},

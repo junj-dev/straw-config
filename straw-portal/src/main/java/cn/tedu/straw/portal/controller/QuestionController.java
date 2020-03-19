@@ -1,9 +1,13 @@
 package cn.tedu.straw.portal.controller;
 
 
+import cn.tedu.straw.commom.CommonPage;
 import cn.tedu.straw.commom.StrawResult;
+import cn.tedu.straw.constant.QuestionPublicStatus;
+import cn.tedu.straw.portal.api.EsQuestionServiceApi;
 import cn.tedu.straw.portal.base.BaseController;
 import cn.tedu.straw.portal.domian.param.QuestionParam;
+import cn.tedu.straw.portal.model.EsQuestion;
 import cn.tedu.straw.portal.model.Question;
 import cn.tedu.straw.portal.model.Tag;
 import cn.tedu.straw.portal.service.IQuestionService;
@@ -44,6 +48,8 @@ public class QuestionController extends BaseController {
     private ITagService tagService;
     @Resource
     private IQuestionService questionService;
+    @Resource
+    private  EsQuestionServiceApi  questionServiceApi;
 
     @GetMapping("/create.html")
     public  String create(Model model){
@@ -106,4 +112,15 @@ public class QuestionController extends BaseController {
        }
     }
 
+    @RequestMapping("/search")
+    @ResponseBody
+    public StrawResult<CommonPage<EsQuestion>> search(String keyword, Integer pageNum, Integer pageSize) {
+        List<String> userRoleNames = getUserRoleNames();
+        //只有学生角色
+        if(userRoleNames.contains("ROLE_STUDENT")&&userRoleNames.size()==1){
+            return  questionServiceApi.searchOpenQuestion(keyword,pageNum,pageSize,getUseId(), QuestionPublicStatus.PUBLIC.getStatus());
+        }
+        return questionServiceApi.search(keyword,pageNum,pageSize);
+
+    }
 }

@@ -13,4 +13,13 @@ public interface IEsQuestionService {
     int importAllQuestionFromDB();
 
     Page<EsQuestion> search(String keyword, Integer pageNum, Integer pageSize);
+
+    /**
+     * 只查询本人的问题和公开的问题
+     * @param keyword
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
+    Page<EsQuestion> searchByUserIdAndPublicStatus(String keyword, Integer pageNum, Integer pageSize,Integer userId,Integer publicStatus);
 }

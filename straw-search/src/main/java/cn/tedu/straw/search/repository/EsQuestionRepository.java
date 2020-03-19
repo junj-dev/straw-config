@@ -1,7 +1,11 @@
 package cn.tedu.straw.search.repository;
 
 import cn.tedu.straw.search.model.EsQuestion;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
+
+import java.util.List;
 
 /**
  * @Description: java类作用描述
@@ -10,4 +14,6 @@ import org.springframework.data.elasticsearch.repository.ElasticsearchRepository
  * @Version: 1.0
  */
 public interface EsQuestionRepository extends ElasticsearchRepository<EsQuestion,Long> {
+   // List<EsQuestion> findByTitleOrContentOrTagsOrAnswersOrderByCreatetimeDesc(String title,String content,String tags,String answer);
+
 }
