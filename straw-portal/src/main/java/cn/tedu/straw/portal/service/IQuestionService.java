@@ -24,12 +24,15 @@ public interface IQuestionService extends IService<Question> {
 
     PageInfo<Question> selectPage(Integer pageNum, Integer pageSize);
 
+    PageInfo<Question> selectPage(Integer tagId,Integer pageNum, Integer pageSize);
+
     StrawResult uploadImg(MultipartFile[] files, HttpServletRequest request);
 
     boolean create(QuestionParam param);
 
-    Question getQuestionDetailById(Long id);
+    Question getQuestionDetailById(Integer id);
 
-    Boolean answer(Long id, String content);
+    Boolean answer(Integer id, String content);
 
+    StrawResult<CommonPage<EsQuestion>> search(String keyword, Integer pageNum, Integer pageSize);
 }

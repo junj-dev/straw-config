@@ -28,7 +28,7 @@ public class EsQuestion implements Serializable {
     private static final long serialVersionUID = -2551847857874479192L;
     @Id
     @Field(type = FieldType.Keyword)
-    private Long id;
+    private Integer id;
 
 
     @Field(analyzer = "ik_max_word",type = FieldType.Text,searchAnalyzer="ik_max_word")
@@ -54,7 +54,36 @@ public class EsQuestion implements Serializable {
 
     @Field(type = FieldType.Keyword)
     List<String> tags=new ArrayList<>();
+    /**
+     * 问题的标签，为了搜索的时候页面展示用
+     */
+    List<Tag> tagList=new ArrayList<>();
 
+    public  EsQuestion(){
+
+    }
+    public EsQuestion(Integer id, String title, String content, String userNickName, Integer userId, Date createtime, Integer status, Integer pageViews, Integer publicStatus, String distanceTime, List<String> tags,List<Tag> tagList) {
+        this.id = id;
+        this.title = title;
+        this.content = content;
+        this.userNickName = userNickName;
+        this.userId = userId;
+        this.createtime = createtime;
+        this.status = status;
+        this.pageViews = pageViews;
+        this.publicStatus = publicStatus;
+        this.distanceTime = distanceTime;
+        this.tags = tags;
+        this.tagList=tagList;
+    }
+
+    public List<Tag> getTagList() {
+        return tagList;
+    }
+
+    public void setTagList(List<Tag> tagList) {
+        this.tagList = tagList;
+    }
 
     public Integer getPageViews() {
         return pageViews;
@@ -64,11 +93,11 @@ public class EsQuestion implements Serializable {
         this.pageViews = pageViews;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -154,5 +183,21 @@ public class EsQuestion implements Serializable {
         this.publicStatus = publicStatus;
     }
 
-
+    @Override
+    public String toString() {
+        return "EsQuestion{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", content='" + content + '\'' +
+                ", userNickName='" + userNickName + '\'' +
+                ", userId=" + userId +
+                ", createtime=" + createtime +
+                ", status=" + status +
+                ", pageViews=" + pageViews +
+                ", publicStatus=" + publicStatus +
+                ", distanceTime='" + distanceTime + '\'' +
+                ", tags=" + tags +
+                ", tagList=" + tagList +
+                '}';
+    }
 }

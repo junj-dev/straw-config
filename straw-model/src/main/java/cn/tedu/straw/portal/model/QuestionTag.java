@@ -29,13 +29,13 @@ public class QuestionTag implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "id", type = IdType.AUTO)
-    private Long id;
+    private Integer id;
 
     @TableField("question_id")
-    private Long questionId;
+    private Integer questionId;
 
     @TableField("tag_id")
-    private Long tagId;
+    private Integer tagId;
 
 
 }

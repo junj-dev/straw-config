@@ -1,6 +1,6 @@
 package cn.tedu.straw.search.service;
 
-import cn.tedu.straw.search.model.EsQuestion;
+import cn.tedu.straw.portal.model.EsQuestion;
 import org.springframework.data.domain.Page;
 
 /**
@@ -22,4 +22,6 @@ public interface IEsQuestionService {
      * @return
      */
     Page<EsQuestion> searchByUserIdAndPublicStatus(String keyword, Integer pageNum, Integer pageSize,Integer userId,Integer publicStatus);
+
+    boolean insert(EsQuestion question);
 }

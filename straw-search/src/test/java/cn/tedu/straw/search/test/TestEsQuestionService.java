@@ -1,7 +1,7 @@
 package cn.tedu.straw.search.test;
 
+import cn.tedu.straw.portal.model.EsQuestion;
 import cn.tedu.straw.search.EsApplication;
-import cn.tedu.straw.search.model.EsQuestion;
 import cn.tedu.straw.search.service.IEsQuestionService;
 import org.junit.Test;
 import org.junit.runner.RunWith;

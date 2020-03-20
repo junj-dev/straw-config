@@ -10,8 +10,15 @@
         <result column="createtime" property="createtime" />
     </resultMap>
 
-    <select id="selectTagsByQuestionId" parameterType="long" resultMap="BaseResultMap">
+    <select id="selectTagsByQuestionId" parameterType="int" resultMap="BaseResultMap">
         select  *
+        from tag t
+        left join question_tag qt on qt.tag_id=t.id
+        where qt.question_id=#{id}
+
+    </select>
+    <select id="selectTagNamesByQuestionId" parameterType="int" resultType="string">
+        select  t.name
         from tag t
         left join question_tag qt on qt.tag_id=t.id
         where qt.question_id=#{id}

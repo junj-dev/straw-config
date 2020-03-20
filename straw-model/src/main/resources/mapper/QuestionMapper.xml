@@ -19,6 +19,7 @@
     </resultMap>
 
 
+
     <select id="selectQuestionWithTags"  resultMap="questionWithTags">
         select *
         from  question  q
@@ -29,9 +30,9 @@
         <if test="publicStatus!=null">
             OR  public_status=#{publicStatus}
         </if>
-        order by createtime desc
+        ORDER BY createtime desc
     </select>
-    
+
 
 
 </mapper>

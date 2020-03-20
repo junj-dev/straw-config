@@ -3,6 +3,7 @@ package cn.tedu.straw.portal.service.impl;
 import cn.tedu.straw.commom.CommonPage;
 import cn.tedu.straw.commom.StrawResult;
 import cn.tedu.straw.constant.QuestionPublicStatus;
+import cn.tedu.straw.portal.api.EsQuestionServiceApi;
 import cn.tedu.straw.portal.base.BaseServiceImpl;
 import cn.tedu.straw.portal.config.FastDfsConfig;
 import cn.tedu.straw.portal.domian.param.QuestionParam;
@@ -16,6 +17,7 @@ import cn.tedu.straw.portal.model.*;
 import cn.tedu.straw.portal.service.IQuestionService;
 import cn.tedu.straw.utils.ImgUtils;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +29,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 /**
@@ -51,6 +54,8 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
     private TagMapper tagMapper;
     @Resource
     private AnswerMapper answerMapper;
+    @Resource
+    private EsQuestionServiceApi questionServiceApi;
 
 
     @Override
@@ -69,6 +74,32 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
         }else if(userRoleNames.contains("ROLE_TEACHER")){//只要拥有老师角色就ok,管理员拥有学生和老师的角色
             //老师角色和管理员可以查看所有的问题
             questionList=questionMapper.selectQuestionWithTags(null,null);
+        }
+
+        PageInfo<Question> pageInfo=new PageInfo<>(questionList);
+        return pageInfo;
+    }
+
+    @Override
+    public PageInfo<Question> selectPage(Integer tagId, Integer pageNum, Integer pageSize) {
+        //使用分页插件
+        if (pageNum == null || pageSize == null) {
+            throw  new BusinessException("分页参数不能为空！");
+        }
+
+        List<Question> questionList=new ArrayList<>();
+
+        //根据tag找出所有拥有tag标签的问题
+       // PageHelper.startPage(pageNum,pageSize);
+
+        //根据不同的角色请求不同的资源
+        List<String> userRoleNames = getUserRoleNames();
+        if(userRoleNames.contains("ROLE_STUDENT")&&userRoleNames.size()==1){//只有学生角色一个角色，没有其它的角色
+            //只查找本人发布的问题和已经公开的问题
+
+        }else if(userRoleNames.contains("ROLE_TEACHER")){//只要拥有老师角色就ok,管理员拥有学生和老师的角色
+            //老师角色和管理员可以查看所有的问题
+
         }
 
         PageInfo<Question> pageInfo=new PageInfo<>(questionList);
@@ -110,32 +141,56 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
     @Transactional(rollbackFor = Exception.class)
     public boolean create(QuestionParam param) {
         //保存问题
-        Question question=new Question();
-        question.setTitle(param.getTitle());
-        question.setContent(param.getContent());
-        question.setCreatetime(new Date());
-        question.setPageViews(0);
-        question.setUserNickName(getUserNickname());
-        question.setUserId(getUseId());
-        question.setStatus(0);
-        question.setPublicStatus(QuestionPublicStatus.PRIVATE.getStatus());
-        questionMapper.insert(question);
+        Question question=new Question(param.getTitle(),param.getContent()
+                ,getUserNickname(),getUseId(),new Date(),0,0,QuestionPublicStatus.PRIVATE.getStatus());
+        int n=questionMapper.insert(question);
+        if(n!=1){
+            throw  new BusinessException("服务器繁忙，请稍后重试");
+        }
         //保存问题标签
-       String[] tags= param.getTags();
+       Integer[] tags= param.getTags();
        for(int i=0;i<tags.length;i++){
-           Long tagId=Long.parseLong(tags[i]);
            QuestionTag questionTag=new QuestionTag();
-           questionTag.setTagId(tagId);
+           questionTag.setTagId(tags[i]);
            questionTag.setQuestionId(question.getId());
-           questionTagMapper.insert(questionTag);
+          int m= questionTagMapper.insert(questionTag);
+          if(m!=1){
+              throw  new BusinessException("服务器繁忙，请稍后重试");
+          }
        }
+    // TODO 2.0版本把该功能迁移到Kafka消息队列处理
 
+
+       //保存到es
+        List<String> tagNames=new ArrayList<>();
+       List<Tag> tagList=new ArrayList<>();
+        for(Integer tagId:tags){
+            Tag tag = tagMapper.selectById(tagId);
+            if (tag == null) {
+                log.error("id为"+tagId+"的标签不存在");
+                throw  new RuntimeException("服务器繁忙，请稍后重试");
+            }
+            tagNames.add(tag.getName());
+            tagList.add(tag);
+
+        }
+
+
+
+
+        EsQuestion esQuestion=new EsQuestion(question.getId(),question.getTitle(),question.getContent(),
+                question.getUserNickName(),question.getUserId(),question.getCreatetime(),question.getStatus(),question.getPageViews(),
+                question.getPublicStatus(),question.getDistanceTime(),tagNames,tagList);
+       boolean flag= questionServiceApi.saveQuestion(esQuestion);
+        if(!flag){
+            throw  new BusinessException("服务器繁忙，请稍后重试");
+        }
         return true;
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Question getQuestionDetailById(Long id) {
+    public Question getQuestionDetailById(Integer id) {
         //学生角色只能查看自己和公开的问题，老师可以访问所有的问题
         Question question = questionMapper.selectById(id);
         if(question==null){
@@ -170,7 +225,7 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Boolean answer(Long id, String content) {
+    public Boolean answer(Integer id, String content) {
         if(StringUtils.isEmpty(id)){
             log.error("问题id为空");
             throw  new BusinessException("系统繁忙，请稍后重试");
@@ -194,6 +249,17 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
         questionMapper.updateById(question);
 
          return true;
+    }
+
+    @Override
+    public StrawResult<CommonPage<EsQuestion>> search(String keyword, Integer pageNum, Integer pageSize) {
+        List<String> userRoleNames = getUserRoleNames();
+        //只有学生角色
+        if(userRoleNames.contains("ROLE_STUDENT")&&userRoleNames.size()==1){
+            return  questionServiceApi.searchOpenQuestion(keyword,pageNum,pageSize,getUseId(), QuestionPublicStatus.PUBLIC.getStatus());
+        }
+        return questionServiceApi.search(keyword,pageNum,pageSize);
+
     }
 
 

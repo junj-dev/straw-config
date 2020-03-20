@@ -5,9 +5,7 @@ import cn.tedu.straw.commom.StrawResult;
 import cn.tedu.straw.portal.fallback.EsQuestionServiceClientFallBack;
 import cn.tedu.straw.portal.model.EsQuestion;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 /**
  *
@@ -38,5 +36,11 @@ public interface EsQuestionServiceApi {
                                                                    @RequestParam(required = false, defaultValue = "5",value = "pageSize") Integer pageSize,
                                                                    @RequestParam(required = true,value = "userId")Integer userId,
                                                                    @RequestParam(required = true,value = "publicStatus")Integer publicStatus);
+
+
+    @PostMapping("/esQuestion/save")
+    boolean saveQuestion(@RequestBody  EsQuestion question);
+
+
 }
 

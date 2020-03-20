@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:replace="commom/head :: head">
+
+</head>
+
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+	<header th:replace="commom/head :: header"></header>
+	<aside th:replace="commom/aside :: aside"></aside>
+	<div class="content-wrapper">
+		<section class="content-header">
+
+
+		</section>
+		<section class="content ">
+
+			<br>
+			<br>
+			<div class="row">
+				<div class="col-lg-10 col-lg-offset-1" th:each="question : ${pageInfo.list}">
+					<div class="panel panel-default">
+						<!-- Default panel contents -->
+						<div class="panel-heading">
+							<h4>
+								<span class="label label-warning" >待解决</span>
+								<!--<span class="label label-info">Info</span>-->
+								<!--<span class="label label-warning">Warning</span>-->
+								<a href="index.html" th:text="${question.title}">互帮互助——那些年遇到的面试题</a>
+							</h4>
+						</div>
+						<div class="panel-body" th:text="${question.content}">
+							可以在本帖回复面试的公司，遇到的面试题，面试题答案
+							人多力量大，咕泡的泡泡们再也不怕面试题啦~~~~~~~~
+							</ul>
+						</div>
+
+						<div class="panel-footer">
+							<span class="label label-default"><a href="">java基础</a></span>
+							<span class="label label-default"><a href="">面试题</a></span>
+							<span style="float:right;margin-right: 10px">99浏览</span>
+							<span style="float:right;margin-right: 10px" th:text="${question.distanceTime}">3天前</span>
+							<span style="float:right;margin-right: 10px" th:text="${question.qustUsername}">小明</span>
+						</div>
+
+					</div>
+
+
+				</div>
+
+			</div>
+			<div class="row">
+				<div class="col-lg-6 col-lg-offset-1"></div>
+				<nav aria-label="...">
+					<ul class="pagination">
+						<li><a href="#">Previous</a></li>
+						<li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+						<li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
+						<li><a href="#">2<span class="sr-only">(current)</span></a></li>
+						<li ><a href="#">3 <span class="sr-only">(current)</span></a></li>
+						<li ><a href="#">4 <span class="sr-only">(current)</span></a></li>
+						<li ><a href="#">5 <span class="sr-only">(current)</span></a></li>
+						<li>
+							<a href="#" aria-label="Next">
+								<span aria-hidden="true">»</span>
+							</a>
+						</li>
+						<li><a href="#">Next</a></li>
+					</ul>
+				</nav>
+			</div>
+
+
+		</section>
+	</div>
+	<footer th:replace="commom/footer :: footer"></footer>
+</div>
+</body>
+
+</html>

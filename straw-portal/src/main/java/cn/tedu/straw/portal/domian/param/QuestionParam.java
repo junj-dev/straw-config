@@ -20,7 +20,7 @@ public class QuestionParam {
     @Size(min = 1,max = 50,message = "标题字数必须在50个字以内！")
     private  String title;
     @NotEmpty(message = "标签不能为空")
-    private  String[] tags;
+    private  Integer[] tags;
     @NotEmpty(message = "问题的内容不能为空!")
     private  String content;
 }

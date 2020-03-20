@@ -51,7 +51,7 @@
 										<div class="panel-body" style="max-height: 100px;overflow: hidden;text-overflow:ellipsis" v-html="question.content"></div>
 
 										<div class="panel-footer">
-											<span class="label label-default" style="margin-right: 2px"  v-for="tag in question.tags"><a href="" >{{tag}}</a></span>
+											<span class="label label-default" style="margin-right: 2px"  v-for="tag in question.tagList"><a :href="'/question/tag/'+tag.id+''" >{{tag.name}}</a></span>
 
 											<span  style="float:right;margin-right: 10px" >{{question.pageViews}}浏览</span>
 											<span  style="float:right;margin-right: 10px" >{{question.distanceTime}}</span>
@@ -83,11 +83,11 @@
 	<script th:src="@{/js/vue.js}"></script>
 	<script th:src="@{/js/zpageNav.js}"></script>
 	<script>
-		$(document).ready(function(){
-			if(event.keyCode ===13){
-				vm.pageHandler(1);
-			}
-		});
+		// $(document).ready(function(){
+		// 	if(event.keyCode ===13){
+		// 		vm.pageHandler(1);
+		// 	}
+		// });
 
 		var vm = new Vue({
 			el: '#app',
@@ -125,6 +125,10 @@
 							}
 						}
 					});
+				},
+				tagPage: function (tag) {
+					this.keyword=tag;
+					this.pageHandler(1);
 				}
 			},
 			created:function(){

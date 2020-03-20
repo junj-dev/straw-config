@@ -87,18 +87,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
 
-    /**
-     * 角色继承，管理员角色>老师角色>学生角色，前者包含后者
-     *
-     * @return
-     */
-    @Bean
-    RoleHierarchy roleHierarchy(){
-        RoleHierarchyImpl roleHierarchy=new RoleHierarchyImpl();
-        String hiererchy="ROLE_ADMIN > ROLE_TEACHER  ROLE_TEACHER > ROLE_STUDENT";
-        roleHierarchy.setHierarchy(hiererchy);
-        return roleHierarchy;
-    }
+//    /**
+//     * 角色继承，管理员角色>老师角色>学生角色，前者包含后者
+//     *
+//     * @return
+//     */
+//    @Bean
+//    RoleHierarchy roleHierarchy(){
+//        RoleHierarchyImpl roleHierarchy=new RoleHierarchyImpl();
+//        String hiererchy="ROLE_ADMIN > ROLE_TEACHER  ROLE_TEACHER > ROLE_STUDENT";
+//        roleHierarchy.setHierarchy(hiererchy);
+//        return roleHierarchy;
+//    }
     
 }
 

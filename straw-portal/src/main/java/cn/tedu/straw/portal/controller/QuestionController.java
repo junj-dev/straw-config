@@ -12,6 +12,7 @@ import cn.tedu.straw.portal.model.Question;
 import cn.tedu.straw.portal.model.Tag;
 import cn.tedu.straw.portal.service.IQuestionService;
 import cn.tedu.straw.portal.service.ITagService;
+import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -94,7 +95,7 @@ public class QuestionController extends BaseController {
 
     @GetMapping("/detail/{id}")
     @ApiOperation("查看某个问题详情")
-    public String datail(@PathVariable("id")Long id,Model model){
+    public String datail(@PathVariable("id")Integer id,Model model){
        Question question= questionService.getQuestionDetailById(id);
         model.addAttribute("question",question);
         return "/question/detail";
@@ -103,7 +104,7 @@ public class QuestionController extends BaseController {
     @PostMapping("/answer")
     @PreAuthorize("hasAuthority('/question/answer')")
     @ApiOperation("回答问题")
-    public  String answer(@RequestParam("id")Long id,@RequestParam("content")String content){
+    public  String answer(@RequestParam("id")Integer id,@RequestParam("content")String content){
        Boolean isSuccess= questionService.answer(id,content);
        if(isSuccess){
            return "redirect:/question/detail/"+id;
@@ -112,15 +113,16 @@ public class QuestionController extends BaseController {
        }
     }
 
-    @RequestMapping("/search")
+    @PostMapping("/search")
     @ResponseBody
     public StrawResult<CommonPage<EsQuestion>> search(String keyword, Integer pageNum, Integer pageSize) {
-        List<String> userRoleNames = getUserRoleNames();
-        //只有学生角色
-        if(userRoleNames.contains("ROLE_STUDENT")&&userRoleNames.size()==1){
-            return  questionServiceApi.searchOpenQuestion(keyword,pageNum,pageSize,getUseId(), QuestionPublicStatus.PUBLIC.getStatus());
-        }
-        return questionServiceApi.search(keyword,pageNum,pageSize);
+        return questionService.search(keyword,pageNum,pageSize);
+    }
 
+    @GetMapping("/tag/{id}")
+    public String toTagPage(@PathVariable("id")Integer tagId,@RequestParam("pageNum") Integer pageNum,@RequestParam("pageSize")Integer pageSize,Model model){
+        PageInfo<Question> pageInfo = questionService.selectPage(tagId,pageNum, pageSize);
+        model.addAttribute("pageInfo",pageInfo);
+        return "/question/tag";
     }
 }

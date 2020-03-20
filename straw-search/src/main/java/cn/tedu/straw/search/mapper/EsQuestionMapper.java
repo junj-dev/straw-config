@@ -1,6 +1,8 @@
 package cn.tedu.straw.search.mapper;
 
-import cn.tedu.straw.search.model.EsQuestion;
+import cn.tedu.straw.portal.model.EsQuestion;
+import cn.tedu.straw.portal.model.Tag;
+
 import java.util.List;
 
 /**
@@ -12,9 +14,9 @@ import java.util.List;
 public interface EsQuestionMapper {
 
 
-    List<String> selectTagsByQuestionId(Long questionId);
 
-    List<EsQuestion> selectQuestionWithTagsWithAnswer();
+
+    List<EsQuestion> selectQuestionWithTags();
 
 
 }

@@ -36,7 +36,7 @@ public class Question implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "id", type = IdType.AUTO)
-    private Long id;
+    private Integer id;
 
     @ApiModelProperty(value = "问题的标题")
     @TableField("title")
@@ -82,7 +82,20 @@ public class Question implements Serializable {
     @TableField(exist =false )
     List<Answer> answers=new ArrayList<>();
 
+    public  Question(){
 
+    }
+    public Question( String title, String content, String userNickName, Integer userId, Date createtime, Integer status, Integer pageViews, Integer publicStatus) {
+        this.title = title;
+        this.content = content;
+        this.userNickName = userNickName;
+        this.userId = userId;
+        this.createtime = createtime;
+        this.status = status;
+        this.pageViews = pageViews;
+        this.publicStatus = publicStatus;
+
+    }
 
     public int getAnswersize(){
         return answers.size();
@@ -104,11 +117,11 @@ public class Question implements Serializable {
         this.pageViews = pageViews;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

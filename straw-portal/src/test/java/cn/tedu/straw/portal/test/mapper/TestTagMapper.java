@@ -25,12 +25,12 @@ public class TestTagMapper {
     private TagMapper tagMapper;
 
     /**
-     * @see  TagMapper#selectTagsByQuestionId(Long)
+     * @see  TagMapper#selectTagsByQuestionId(Integer)
      */
     @Test
     public void testSelectTagsByQuestionId(){
 
-        List<Tag> tags = tagMapper.selectTagsByQuestionId(1l);
+        List<Tag> tags = tagMapper.selectTagsByQuestionId(1);
         tags.forEach(System.out::println);
 
     }

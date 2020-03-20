@@ -1,7 +1,7 @@
 package cn.tedu.straw.search.service.impl;
 
+import cn.tedu.straw.portal.model.EsQuestion;
 import cn.tedu.straw.search.mapper.EsQuestionMapper;
-import cn.tedu.straw.search.model.EsQuestion;
 import cn.tedu.straw.search.repository.EsQuestionRepository;
 import cn.tedu.straw.search.service.IEsQuestionService;
 import org.elasticsearch.common.lucene.search.function.FunctionScoreQuery;
@@ -19,6 +19,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
@@ -42,7 +43,7 @@ public class EsQuestionServiceImpl implements IEsQuestionService {
 
     @Override
     public int importAllQuestionFromDB() {
-        List<EsQuestion> questions = questionMapper.selectQuestionWithTagsWithAnswer();
+        List<EsQuestion> questions = questionMapper.selectQuestionWithTags();
         if (CollectionUtils.isEmpty(questions)) {
             return 0;
         }
@@ -124,6 +125,13 @@ public class EsQuestionServiceImpl implements IEsQuestionService {
         nativeSearchQueryBuilder.withSort(sortBuilder);
         NativeSearchQuery searchQuery = nativeSearchQueryBuilder.build();
         return questionRepository.search(searchQuery);
+    }
+
+    @Override
+    @Transactional
+    public boolean insert(EsQuestion question) {
+        questionRepository.save(question);
+        return true;
     }
 }
 

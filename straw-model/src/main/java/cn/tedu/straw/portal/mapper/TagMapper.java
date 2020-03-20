@@ -15,5 +15,14 @@ import java.util.List;
  */
 public interface TagMapper extends BaseMapper<Tag> {
 
-    List<Tag> selectTagsByQuestionId(Long questionId);
+    List<Tag> selectTagsByQuestionId(Integer questionId);
+
+    /**
+     * 查询标签
+     * @param questionId
+     * @return
+     */
+    List<String> selectTagNamesByQuestionId(Integer questionId);
+
+
 }

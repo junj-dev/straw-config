@@ -1,6 +1,6 @@
 package cn.tedu.straw.search.repository;
 
-import cn.tedu.straw.search.model.EsQuestion;
+import cn.tedu.straw.portal.model.EsQuestion;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;

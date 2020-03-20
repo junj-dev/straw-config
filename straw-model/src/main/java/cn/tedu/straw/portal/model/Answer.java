@@ -33,7 +33,7 @@ public class Answer implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "id", type = IdType.AUTO)
-    private Long id;
+    private Integer id;
 
     @ApiModelProperty(value = "回答内容")
     @TableField("content")
@@ -53,7 +53,7 @@ public class Answer implements Serializable {
 
     @ApiModelProperty(value = "对应的问题id")
     @TableField("quest_id")
-    private Long questId;
+    private Integer questId;
 
     @ApiModelProperty(value = "回答时间")
     @TableField("createtime")
@@ -63,11 +63,11 @@ public class Answer implements Serializable {
     @TableField(exist = false)
     private String distanceTime;
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -103,11 +103,11 @@ public class Answer implements Serializable {
         this.userNickName = userNickName;
     }
 
-    public Long getQuestId() {
+    public Integer getQuestId() {
         return questId;
     }
 
-    public void setQuestId(Long questId) {
+    public void setQuestId(Integer questId) {
         this.questId = questId;
     }
 
