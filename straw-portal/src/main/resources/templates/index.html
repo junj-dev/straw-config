@@ -5,6 +5,19 @@
 	</head>
 	<head>
 		<link th:href="@{/css/zpageNav.css}" rel="stylesheet" />
+		<style>
+			.question{
+				max-height: 108px;
+				line-height: 18px;
+				display: -webkit-box;
+				-webkit-line-clamp: 2;
+				-webkit-box-orient: vertical/*! autoprefixer: on */;
+				overflow: hidden;
+				text-overflow: ellipsis;
+
+			}
+
+		</style>
 	</head>
 
 	<body class="hold-transition skin-blue sidebar-mini">
@@ -17,18 +30,19 @@
 
 					</section>
 					<section class="content ">
+
 						<div class="row" >
 							<div class="row" >
 								<div class="col-lg-8 col-lg-offset-1">
-									<form action="#" method="get" >
+
 										<div class="input-group">
-											<input type="text"  class="form-control" placeholder="输入问题的关键字" v-model="keyword" >
+											<input type="text"  class="form-control"  v-on:keyup.13="pageHandler(1)" placeholder="输入问题的关键字" v-model="keyword" >
 											<span class="input-group-btn">
-											<button type="submit" name="search" id="search-btn" class="btn btn-flat" v-on:click="pageHandler(1)" ><i class="fa fa-search"></i>
+											<button type="button" name="search" id="search-btn" class="btn btn-primary" v-on:click="pageHandler(1)" ><i class="fa fa-search"></i>
 											</button>
 										  </span>
 										</div>
-									</form>
+
 								</div>
 								<div class="col-lg-3" >
 									<button type="button" class="btn btn-primary" onclick="location.href='/question/create.html'">我要提问</button>
@@ -36,6 +50,16 @@
 							</div>
 							<br>
 							<br>
+							<div class="row">
+								<div class="col-lg-10 col-lg-offset-1">
+									<ol class="breadcrumb">
+										<li><a href="javascript:void(0)" :data-id="0" v-on:click="pageHandler3($event,1)"  >全部</a></li>
+										<li v-for="tag in tags"><a href="javascript:void(0)" :data-id="tag.id" v-on:click="pageHandler3($event,1)"  >{{tag.name}}</a></li>
+
+									</ol>
+								</div>
+							</div>
+							<br><br>
 							<div class="row">
 								<div class="col-lg-10 col-lg-offset-1">
 									<div class="panel panel-default" v-for="question in questions">
@@ -48,10 +72,10 @@
 												<a :href="'/question/detail/'+question.id">{{question.title}}</a>
 											</h4>
 										</div>
-										<div class="panel-body" style="max-height: 100px;overflow: hidden;text-overflow:ellipsis" v-html="question.content"></div>
+										<div class="panel-body question"  v-html="question.content"></div>
 
 										<div class="panel-footer">
-											<span class="label label-default" style="margin-right: 2px"  v-for="tag in question.tagList"><a :href="'/question/tag/'+tag.id+''" >{{tag.name}}</a></span>
+											<span class="label label-default" style="margin-right: 2px"  v-for="tag in question.tags"><a href="javascript:void(0)" :data-id="tag.id" v-on:click="pageHandler3($event,1)"  >{{tag.name}}</a></span>
 
 											<span  style="float:right;margin-right: 10px" >{{question.pageViews}}浏览</span>
 											<span  style="float:right;margin-right: 10px" >{{question.distanceTime}}</span>
@@ -66,10 +90,17 @@
 						<div class="row">
 
 							<!--显示分页信息-->
-							<div class="modal-footer no-margin-top" >
+							<div class="modal-footer no-margin-top" v-if="show">
 
 								<zpagenav v-bind:page="page" v-bind:page-size="pageSize" v-bind:total="total"
 										  v-bind:max-page="maxPage"  v-on:pagehandler="pageHandler">
+								</zpagenav>
+
+							</div>
+							<div class="modal-footer no-margin-top" v-else >
+
+								<zpagenav v-bind:page="page" v-bind:page-size="pageSize" v-bind:total="total"
+										  v-bind:max-page="maxPage"  v-on:pageHandler2="pageHandler2">
 								</zpagenav>
 
 							</div>
@@ -80,8 +111,9 @@
 		</div>
 	</body>
 
-	<script th:src="@{/js/vue.js}"></script>
+
 	<script th:src="@{/js/zpageNav.js}"></script>
+	<script th:src="@{/js/zpageNav2.js}"></script>
 	<script>
 		// $(document).ready(function(){
 		// 	if(event.keyCode ===13){
@@ -97,7 +129,11 @@
 				total: 0, //记录总数
 				maxPage:9, //最大页数
 				keyword:'',
-				questions:[]
+				questions:[],
+				tags:[],
+				show:false,
+				tagId:null
+
 
 
 			},
@@ -106,17 +142,22 @@
 				pageHandler: function (pageNum) {
 					//here you can do custom state update
 					this.page = pageNum;
+					var keyword=this.keyword;
+					var pageSize=this.pageSize;
+					this.show=true;
 					var _this=this;
+
 					$.ajax({
 						type:"post",
 						url:"/question/search",
 						data:{
 							"pageNum":pageNum,
-							"pageSize":this.pageSize,
-							"keyword":this.keyword
+							"pageSize":pageSize,
+							"keyword":keyword
 						},
 						dataType: "json",
 						success:function (res) {
+
 							console.log(res);
 							if(res.code==200){
 								_this.total=res.data.total;
@@ -126,14 +167,84 @@
 						}
 					});
 				},
-				tagPage: function (tag) {
-					this.keyword=tag;
-					this.pageHandler(1);
+				//加载标签
+				loadTgs: function () {
+					var _this=this;
+					$.get("/tag/findAllTags",function(result){
+						if(result.code==200){
+							_this.tags=result.data;
+							console.log("tags:"+result.data);
+						}
+					});
+				},
+				//根据标签加载问题
+				pageHandler2:function (pageNum) {
+					//here you can do custom state update
+
+					this.page = pageNum;
+					var pageSize=this.pageSize;
+					var tagId=this.tagId;
+					this.show=false;
+					var _this=this;
+					$.ajax({
+						type:"post",
+						url:"/question/findQuestionByTagId",
+						data:{
+							"pageNum":pageNum,
+							"pageSize":pageSize,
+							"tagId":tagId
+						},
+						dataType: "json",
+						success:function (res) {
+
+							console.log(res);
+							if(res.code==200){
+								_this.total=res.data.total;
+								_this.pages=res.data.pages;
+								_this.questions=res.data.list;
+							}
+						}
+					});
+				},
+				pageHandler3:function (ev,pageNum) {
+					//here you can do custom state update
+					console.log(ev.target.dataset.id);
+
+					this.page = pageNum;
+					var pageSize=this.pageSize;
+					var tagId=ev.target.dataset.id;
+					this.tagId=tagId;
+					this.show=false;
+					var _this=this;
+					$.ajax({
+						type:"post",
+						url:"/question/findQuestionByTagId",
+						data:{
+							"pageNum":pageNum,
+							"pageSize":pageSize,
+							"tagId":tagId
+						},
+						dataType: "json",
+						success:function (res) {
+
+							console.log(res);
+							if(res.code==200){
+								_this.total=res.data.total;
+								_this.pages=res.data.pages;
+								_this.questions=res.data.list;
+							}
+						}
+					});
 				}
+
+
+
 			},
 			created:function(){
 				//created  表示页面加载完毕，立即执行
-				this.pageHandler(1);
+				this.tagId=0;
+				this.pageHandler2();
+				this.loadTgs();
 			}
 		});
 
