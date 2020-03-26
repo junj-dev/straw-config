@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+	<head th:replace="commom/head :: head">
+		
+	</head>
+	<head>
+		<link th:href="@{/css/zpageNav.css}" rel="stylesheet" />
+		<link rel="stylesheet" th:href="@{/plugins/bootstrap-daterangepicker/daterangepicker.css}">
+	</head>
+
+
+	<body class="hold-transition skin-blue sidebar-mini">
+		<div class="wrapper" >
+			<header th:replace="commom/head :: header"></header>
+            <aside class="main-sidebar" >
+                <section class="sidebar">
+                    <div class="user-panel">
+                        <div class="pull-left image">
+                            <img th:src="@{/img/logo.jpg}" class="img-circle" alt="User Image">
+                        </div>
+                        <div class="pull-left info">
+                            <p th:text="${session.SPRING_SECURITY_CONTEXT.authentication.principal.nickname}"> </p>
+
+                            <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+                        </div>
+                    </div>
+
+
+
+                    <!-- Sidebar Menu -->
+                    <ul class="sidebar-menu" data-widget="tree">
+
+
+
+
+                        <li class="treeview" onclick="location.href='/index.html'"><a href="#"><i class="fa fa-dashboard "></i>
+                            <span>首页</span> </a>
+
+                        </li>
+                        <li class="treeview" onclick="location.href='/question/create.html'"><a href="#"><i class="fa fa-question-circle "></i>
+                            <span>我要提问</span> </a>
+
+                        </li>
+						<li class="treeview" sec:authorize="hasRole('ROLE_TEACHER')"><a href="#"><i class="fa fa-gear "></i>
+							<span>提题中心</span> <span class="pull-right-container"> <i
+									class="fa fa-angle-left pull-right"></i>
+							</span> </a>
+							<ul class="treeview-menu">
+								<li><a href="/question/questionManager.html">&nbsp;提问管理</a></li>
+							</ul>
+						</li>
+                        <li class="treeview active"><a href="#"><i class="fa fa-user "></i>
+                            <span>个人中心</span> <span class="pull-right-container"> <i
+                                    class="fa fa-angle-left pull-right"></i>
+							</span> </a>
+                            <ul class="treeview-menu">
+                               <!-- <li><a href="#">&nbsp;个人资料</a></li>-->
+                                <li><a href="/personal/myquestion.html">&nbsp;我的提问</a></li>
+                                <li class="active" sec:authorize="hasRole('ROLE_TEACHER')"><a href="/personal/mytask.html">&nbsp;我的任务</a></li>
+                                <!--					<li><a href="/emp/superiorScore">我的关注</a></li>-->
+                            </ul>
+                        </li>
+
+
+
+
+                    </ul>
+
+                </section>
+
+            </aside>
+			<div class="content-wrapper" id="app">
+					<section class="content-header">
+						<h4>
+							我的任务
+
+						</h4>
+						<ol class="breadcrumb">
+							<li><a href="#"><i class="fa fa-dashboard"></i> 个人中心</a></li>
+							<li><a href="#">我的任务</a></li>
+
+						</ol>
+
+					</section>
+					<section class="content">
+
+						<div class="row">
+							<div class="col-xs-12">
+								<div class="box">
+									<div class="box-header">
+										<ul id="myTab" class="nav nav-tabs">
+											<li class="active">
+												<a href="#noAnswer" style="font-size: 15px; color: red" data-toggle="tab">
+													<span class="fa fa-question"></span> &nbsp; 待回答
+												</a>
+											</li>
+											<li>
+												<a href="#unSolve" data-toggle="tab" style="color: blue;font-size: 15px;">
+													<span class="fa fa-wrench"></span> &nbsp;待解决
+												</a>
+											</li>
+											<li>
+												<a href="#solved" data-toggle="tab" style="color: green;font-size: 15px;">
+													<span class="fa fa-check"></span> &nbsp;已解决
+												</a>
+											</li>
+
+										</ul>
+									</div>
+									<div class="box-body ">
+										<div id="myTabContent" class="tab-content">
+											<div class="tab-pane fade in active" id="noAnswer">
+												<div class="row" id="app1">
+													<div class="col-lg-12">
+														<table class="table table-hover border" >
+															<tr>
+																<th>编号</th>
+																<th>标题</th>
+																<th>标签</th>
+																<th>提问者</th>
+																<th>提问时间</th>
+																<th>回答状态</th>
+																<th>浏览量</th>
+																<th>是否解决问题</th>
+															</tr>
+															<tr v-for="question in questions">
+																<td>{{question.id}}</td>
+																<td>
+																	<a :href="'/question/detail/'+question.id" target= _blank>{{question.title}}</a>
+																</td>
+																<td>
+																	<span class="label label-default" style="margin-right: 2px"  v-for="tag in question.tags">{{tag.name}}</span>
+																</td>
+																<td>{{question.userNickName}}</td>
+																<td>{{question.createtimestr}}</td>
+																<td>
+																	<span class="label label-warning" v-if="question.status == '0'">未回答</span>
+																	<span class="label label-info" v-if="question.status == '1'">待解决</span>
+																	<span class="label label-success" v-if="question.status == '2'">已解决</span>
+																</td>
+																<td>{{question.pageViews}}浏览</td>
+																<td>
+																	<button class="btn btn-primary btn-xs" type="button"  :data-id="question.id" v-on:click="setQuestionSolved($event)">已解决</button>
+																</td>
+															</tr>
+
+														</table>
+													</div>
+													<div class="row">
+
+														<!--显示分页信息-->
+														<div class="modal-footer no-margin-top" >
+
+															<zpagenav v-bind:page="page" v-bind:page-size="pageSize" v-bind:total="total"
+																	  v-bind:max-page="maxPage"  v-on:pagehandler="pageHandler">
+															</zpagenav>
+
+														</div>
+
+													</div>
+												</div>
+
+
+											</div>
+											<div class="tab-pane fade" id="unSolve">
+												<div class="row" id="app2">
+													<div class="col-lg-12">
+														<table class="table table-hover border" >
+															<tr>
+																<th>编号</th>
+																<th>标题</th>
+																<th>标签</th>
+																<th>提问者</th>
+																<th>提问时间</th>
+																<th>回答状态</th>
+																<th>浏览量</th>
+																<th>是否解决问题</th>
+															</tr>
+															<tr v-for="question in questions">
+																<td>{{question.id}}</td>
+																<td>
+																	<a :href="'/question/detail/'+question.id" target= _blank>{{question.title}}</a>
+																</td>
+																<td>
+																	<span class="label label-default" style="margin-right: 2px"  v-for="tag in question.tags">{{tag.name}}</span>
+																</td>
+																<td>{{question.userNickName}}</td>
+																<td>{{question.createtimestr}}</td>
+																<td>
+																	<span class="label label-warning" v-if="question.status == '0'">未回答</span>
+																	<span class="label label-info" v-if="question.status == '1'">待解决</span>
+																	<span class="label label-success" v-if="question.status == '2'">已解决</span>
+																</td>
+																<td>{{question.pageViews}}浏览</td>
+																<td>
+																	<button class="btn btn-primary btn-xs" type="button"  :data-id="question.id" v-on:click="setQuestionSolved($event)">已解决</button>
+																</td>
+															</tr>
+
+														</table>
+													</div>
+													<div class="row">
+
+														<!--显示分页信息-->
+														<div class="modal-footer no-margin-top" >
+
+															<zpagenav v-bind:page="page" v-bind:page-size="pageSize" v-bind:total="total"
+																	  v-bind:max-page="maxPage"  v-on:pagehandler="pageHandler">
+															</zpagenav>
+
+														</div>
+
+													</div>
+												</div>
+											</div>
+											<div class="tab-pane fade" id="solved">
+												<div class="row" id="app3">
+													<div class="col-lg-12">
+														<table class="table table-hover border" >
+															<tr>
+																<th>编号</th>
+																<th>标题</th>
+																<th>标签</th>
+																<th>提问者</th>
+																<th>提问时间</th>
+																<th>回答状态</th>
+																<th>浏览量</th>
+															</tr>
+															<tr v-for="question in questions">
+																<td>{{question.id}}</td>
+																<td>
+																	<a :href="'/question/detail/'+question.id" target= _blank>{{question.title}}</a>
+																</td>
+																<td>
+																	<span class="label label-default" style="margin-right: 2px"  v-for="tag in question.tags">{{tag.name}}</span>
+																</td>
+																<td>{{question.userNickName}}</td>
+																<td>{{question.createtimestr}}</td>
+																<td>
+																	<span class="label label-warning" v-if="question.status == '0'">未回答</span>
+																	<span class="label label-info" v-if="question.status == '1'">待解决</span>
+																	<span class="label label-success" v-if="question.status == '2'">已解决</span>
+																</td>
+																<td>{{question.pageViews}}浏览</td>
+															</tr>
+
+														</table>
+													</div>
+													<div class="row">
+
+														<!--显示分页信息-->
+														<div class="modal-footer no-margin-top" >
+
+															<zpagenav v-bind:page="page" v-bind:page-size="pageSize" v-bind:total="total"
+																	  v-bind:max-page="maxPage"  v-on:pagehandler="pageHandler">
+															</zpagenav>
+
+														</div>
+
+													</div>
+												</div>
+											</div>
+
+										</div>
+									</div>
+								</div>
+
+
+							</div>
+						</div>
+
+
+
+					</section>
+			</div>
+			<footer th:replace="commom/footer :: footer"></footer>
+		</div>
+		<script th:src="@{/js/zpageNav.js}"></script>
+		<script th:src="@{/plugins/moment/moment.js}"></script>
+		<script th:src="@{/plugins/bootstrap-daterangepicker/daterangepicker.js}"></script>
+		<script th:src="@{/js/mytask.js?v=1.0}"></script>
+	</body>
+</html>

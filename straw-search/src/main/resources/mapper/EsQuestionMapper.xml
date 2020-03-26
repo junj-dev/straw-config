@@ -14,9 +14,9 @@
         <result column="page_views" property="pageViews"/>
         <result column="public_status" property="publicStatus"/>
         <!--嵌套查询Tag名称集合-->
-        <collection property="tags" javaType="ArrayList" column="id" ofType="string" select="cn.tedu.straw.portal.mapper.TagMapper.selectTagNamesByQuestionId"/>
+        <collection property="tagNames" javaType="ArrayList" column="id" ofType="string" select="cn.tedu.straw.portal.mapper.TagMapper.selectTagNamesByQuestionId"/>
         <!--嵌套查询Tag集合-->
-        <collection property="tagList" javaType="ArrayList" column="id" ofType="cn.tedu.straw.portal.model.Tag" select="cn.tedu.straw.portal.mapper.TagMapper.selectTagsByQuestionId"/>
+        <collection property="tags" javaType="ArrayList" column="id" ofType="cn.tedu.straw.portal.model.Tag" select="cn.tedu.straw.portal.mapper.TagMapper.selectTagsByQuestionId"/>
     </resultMap>
 
 

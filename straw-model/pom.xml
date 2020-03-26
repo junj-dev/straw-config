@@ -8,13 +8,12 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-
     <artifactId>straw-model</artifactId>
     <dependencies>
         <dependency>
             <groupId>cn.tedu</groupId>
-            <artifactId>straw-commom</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <artifactId>straw-common</artifactId>
+           <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.baomidou</groupId>

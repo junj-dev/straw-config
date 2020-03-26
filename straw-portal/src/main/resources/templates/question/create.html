@@ -9,7 +9,65 @@
 	<body class="hold-transition skin-blue sidebar-mini">
 		<div class="wrapper">
 			<header th:replace="commom/head :: header"></header>
-			<aside th:replace="commom/aside :: aside"></aside>
+			<aside class="main-sidebar" >
+				<section class="sidebar">
+					<div class="user-panel">
+						<div class="pull-left image">
+							<img th:src="@{/img/logo.jpg}" class="img-circle" alt="User Image">
+						</div>
+						<div class="pull-left info">
+							<p th:text="${session.SPRING_SECURITY_CONTEXT.authentication.principal.nickname}"> </p>
+
+							<a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+						</div>
+					</div>
+
+
+
+					<!-- Sidebar Menu -->
+					<ul class="sidebar-menu" data-widget="tree">
+
+
+
+
+						<li class="treeview" onclick="location.href='/index.html'"><a href="#"><i class="fa fa-dashboard "></i>
+							<span>首页</span> </a>
+
+						</li>
+						<li class="treeview active" onclick="location.href='/question/create.html'"><a href="#"><i class="fa fa-question-circle "></i>
+							<span>我要提问</span> </a>
+
+						</li>
+						<li class="treeview" sec:authorize="hasRole('ROLE_TEACHER')"><a href="#"><i class="fa fa-gear "></i>
+							<span>提题中心</span> <span class="pull-right-container"> <i
+									class="fa fa-angle-left pull-right"></i>
+							</span> </a>
+							<ul class="treeview-menu">
+								<li><a href="/question/questionManager.html">&nbsp;提问管理</a></li>
+							</ul>
+						</li>
+
+						<li class="treeview"><a href="#"><i class="fa fa-user "></i>
+							<span>个人中心</span> <span class="pull-right-container"> <i
+									class="fa fa-angle-left pull-right"></i>
+				</span> </a>
+							<ul class="treeview-menu">
+								<!--<li><a href="#">&nbsp;个人资料</a></li>-->
+								<li class="active"><a href="/personal/myquestion.html">&nbsp;我的提问</a></li>
+								<li sec:authorize="hasRole('ROLE_TEACHER')"><a href="/personal/mytask.html">&nbsp;我的任务</a></li>
+								<!--					<li><a href="/emp/empLevel">&nbsp;我的回答</a></li>-->
+								<!--					<li><a href="/emp/superiorScore">我的关注</a></li>-->
+							</ul>
+						</li>
+
+
+
+
+					</ul>
+
+				</section>
+
+			</aside>
 			<div class="content-wrapper">
 					<section class="content-header">
 <!--						<h1>问答中心</h1>-->
@@ -37,7 +95,7 @@
 									<div class="form-group">
 										<label for="inputPassword3" class="col-sm-2 control-label">请选择标签</label>
 										<div class="col-sm-10">
-											<select class="form-control select2" name="tags" multiple="multiple" data-placeholder="请选择标签"
+											<select class="form-control select2" name="tags" multiple="multiple" data-placeholder="&nbsp;&nbsp;请选择标签"
 													style="width: 100%;">
 												<option th:each="tag : ${tags}"  th:value="${tag.id}" th:text="${tag.name}">Alaba</option>
 
@@ -74,7 +132,7 @@
 
 		$(function () {
 			$('#summernote').summernote({
-				height: 500,
+				height: 300,
 				tabsize: 2,
 				lang: 'zh-CN',
 				callbacks:{

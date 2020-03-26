@@ -3,36 +3,110 @@
 <mapper namespace="cn.tedu.straw.portal.mapper.QuestionMapper">
 
 
+<!--    <resultMap id="questionWithTags" type="cn.tedu.straw.portal.model.Question">-->
+<!--        <id column="id" property="id" />-->
+<!--        <result column="title" property="title" />-->
+<!--        <result column="content" property="content" />-->
+<!--        <result column="user_nick_name" property="userNickName" />-->
+<!--        <result column="user_id" property="userId" />-->
+<!--        <result column="createtime" property="createtime" />-->
+<!--        <result column="status" property="status"/>-->
+<!--        <result column="page_views" property="pageViews"/>-->
+<!--        <result column="public_status" property="publicStatus"/>-->
+<!--        &lt;!&ndash;嵌套查询&ndash;&gt;-->
+<!--        <collection property="tags" javaType="ArrayList" column="id" ofType="cn.tedu.straw.portal.mapper.TagMapper.BaseResultMap" select="cn.tedu.straw.portal.mapper.TagMapper.selectTagsByQuestionId"/>-->
+
+<!--    </resultMap>-->
     <resultMap id="questionWithTags" type="cn.tedu.straw.portal.model.Question">
         <id column="id" property="id" />
         <result column="title" property="title" />
         <result column="content" property="content" />
-        <result column="user_nick_name" property="userNickName" />
+        <result column="qust_username" property="qustUsername" />
         <result column="user_id" property="userId" />
         <result column="createtime" property="createtime" />
+        <result column="tag_id" property="tagId" />
         <result column="status" property="status"/>
-        <result column="page_views" property="pageViews"/>
-        <result column="public_status" property="publicStatus"/>
         <!--嵌套查询-->
         <collection property="tags" javaType="ArrayList" column="id" ofType="cn.tedu.straw.portal.mapper.TagMapper.BaseResultMap" select="cn.tedu.straw.portal.mapper.TagMapper.selectTagsByQuestionId"/>
-
     </resultMap>
 
+    <!--查找用户自己提出的问题-->
+    <select id="findQuestionByUserId" parameterType="int" resultMap="questionWithTags">
+       select * from question
+        where  user_id=#{userId}
+        order by createtime desc
+    </select>
+    <!--查找用户提出的拥有某个标签的问题-->
+    <select id="findQuestionByUserIdAndTagId"  resultMap="questionWithTags">
+        select q.*
+        from  question as q
+        left outer  join question_tag as qt on q.id=qt.question_id
+        where qt.tag_id=#{tagId}
+        /*本人提出的或者被公开的问题*/
+         and ( q.user_id=#{userId} or q.public_status=1)
+         order by createtime desc
+    </select>
+    <!--通过标签查找问题，该方法只能拥有老师的角色使用，可以查看所有学生提出的问题-->
+    <select id="findQuestionByTagId" parameterType="int" resultMap="questionWithTags">
+         select q.*
+         from  question as q
+         left outer  join question_tag as qt on q.id=qt.question_id
+         where qt.tag_id=#{tagId}
+        order by createtime desc
+    </select>
+    <!--老师或者管理员角色，查看所有人提出的问题-->
+    <select id="findAllQuestion" resultMap="questionWithTags">
+        select * from question order by createtime desc
+    </select>
+    <!--学生角色在首页点击‘所有’标签的时候，查询该用户的所有问题或公开的提题-->
+    <select id="findQuestionByUserIdOrPublicStatus" resultMap="questionWithTags">
+        select  * from question where user_id=#{userId} or public_status=#{publicStatus} order by createtime desc
+    </select>
+    <!--按条件搜索提问-->
+    <select id="findQuestionByCondition" parameterType="cn.tedu.straw.portal.model.QuestionQueryParam"  resultMap="questionWithTags">
+        select q.*
+        from question q
+        <if test="tagId!=null">
+            left outer  join question_tag as qt on q.id=qt.question_id
+        </if>
+        <where>
+            <if test="tagId!=null">
+                and qt.tag_id=#{tagId}
+            </if>
+            <if test="publicStatus!=null">
+                and q.public_status=#{publicStatus}
+            </if>
+            <if test="questUserName!=null">
+                and q.user_nick_name like concat(concat("%",#{questUserName}),"%")
+            </if>
+            <if test="answerStatus!=null">
+                and q.status=#{answerStatus}
+            </if>
+            <if test="startDate!=null">
+               and q.createtime &gt;=#{startDate}
+            </if>
+            <if test="endDate!=null">
+               and q.createtime &lt;=#{endDate}
+            </if>
+        </where>
 
 
-    <select id="selectQuestionWithTags"  resultMap="questionWithTags">
-        select *
-        from  question  q
-        where 1=1
-        <if test="userId!=null">
-            AND  user_id=#{userId}
-        </if>
-        <if test="publicStatus!=null">
-            OR  public_status=#{publicStatus}
-        </if>
-        ORDER BY createtime desc
     </select>
 
-
-
+    <select id="findQuestionByTagIdsAndStatus" resultMap="questionWithTags">
+        select  q.*
+        from question as q
+        left  outer join question_tag as qt on q.id=qt.question_id
+        <where>
+            <if test="tagIds!=null">
+                and qt.tag_id in
+                <foreach collection="tagIds" item="item" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="status!=null">
+                and q.status =#{status}
+            </if>
+        </where>
+    </select>
 </mapper>

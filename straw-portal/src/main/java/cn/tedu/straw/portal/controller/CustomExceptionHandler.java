@@ -1,7 +1,7 @@
 package cn.tedu.straw.portal.controller;
 
 
-import cn.tedu.straw.commom.StrawResult;
+import cn.tedu.straw.common.util.StrawResult;
 import cn.tedu.straw.portal.exception.BusinessException;
 import cn.tedu.straw.portal.exception.PageNotExistException;
 import com.fasterxml.jackson.databind.util.JSONPObject;
@@ -32,12 +32,12 @@ public class CustomExceptionHandler {
         if (StringUtils.isEmpty(callback)) {
             exception.printStackTrace();
             log.error(exception.getMessage());
-            return StrawResult.builder().build().failed("服务繁忙，请稍后重试！");
+            return new StrawResult().failed("服务繁忙，请稍后重试！");
         } else {
             //用户跨域请求
             exception.printStackTrace();
             log.error(exception.getMessage());
-            return new JSONPObject(callback, StrawResult.builder().build().failed("服务繁忙，请稍后重试！"));
+            return new JSONPObject(callback, new StrawResult().failed("服务繁忙，请稍后重试！"));
         }
     }
 
@@ -47,12 +47,12 @@ public class CustomExceptionHandler {
         if (StringUtils.isEmpty(callback)) {
             exception.printStackTrace();
             log.error(exception.getMessage());
-            return StrawResult.builder().build().failed(exception.getMessage());
+            return new StrawResult().failed(exception.getMessage());
         } else {
             //用户跨域请求
             exception.printStackTrace();
             log.error(exception.getMessage());
-            return new JSONPObject(callback, StrawResult.builder().build().failed(exception.getMessage()));
+            return new JSONPObject(callback, new StrawResult().failed(exception.getMessage()));
         }
     }
 
@@ -66,12 +66,12 @@ public class CustomExceptionHandler {
         if (StringUtils.isEmpty(callback)) {
             exception.printStackTrace();
             log.error(exception.getMessage());
-            return StrawResult.builder().build().forbidden();
+            return new StrawResult().forbidden();
         } else {
             //用户跨域请求
             exception.printStackTrace();
             log.error(exception.getMessage());
-            return new JSONPObject(callback, StrawResult.builder().build().forbidden());
+            return new JSONPObject(callback, new StrawResult().forbidden());
         }
     }
 

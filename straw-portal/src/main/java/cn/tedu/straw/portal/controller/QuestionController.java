@@ -1,14 +1,14 @@
 package cn.tedu.straw.portal.controller;
 
 
-import cn.tedu.straw.commom.CommonPage;
-import cn.tedu.straw.commom.StrawResult;
-import cn.tedu.straw.constant.QuestionPublicStatus;
+import cn.tedu.straw.common.CommonPage;
+import cn.tedu.straw.common.util.StrawResult;
 import cn.tedu.straw.portal.api.EsQuestionServiceApi;
 import cn.tedu.straw.portal.base.BaseController;
 import cn.tedu.straw.portal.domian.param.QuestionParam;
 import cn.tedu.straw.portal.model.EsQuestion;
 import cn.tedu.straw.portal.model.Question;
+import cn.tedu.straw.portal.model.QuestionQueryParam;
 import cn.tedu.straw.portal.model.Tag;
 import cn.tedu.straw.portal.service.IQuestionService;
 import cn.tedu.straw.portal.service.ITagService;
@@ -119,10 +119,114 @@ public class QuestionController extends BaseController {
         return questionService.search(keyword,pageNum,pageSize);
     }
 
-    @GetMapping("/tag/{id}")
-    public String toTagPage(@PathVariable("id")Integer tagId,@RequestParam("pageNum") Integer pageNum,@RequestParam("pageSize")Integer pageSize,Model model){
+    @PostMapping("/findQuestionByTagId")
+    @ResponseBody
+    @ApiOperation("根据标签查找问题")
+    public  StrawResult<PageInfo<Question>>  findQuestionByTagId(@RequestParam("tagId")Integer tagId,@RequestParam(value = "pageNum",defaultValue = "1") Integer pageNum,@RequestParam(value = "pageSize",defaultValue = "5")Integer pageSize){
+        //0代表查询所有标签的问题
+        if(tagId.intValue()==0){
+            PageInfo<Question> pageInfo = questionService.selectPage(pageNum, pageSize);
+            return new StrawResult<PageInfo<Question>>().success(pageInfo);
+        }
+        //否则按照标签查找问题
         PageInfo<Question> pageInfo = questionService.selectPage(tagId,pageNum, pageSize);
-        model.addAttribute("pageInfo",pageInfo);
-        return "/question/tag";
+        return new StrawResult<PageInfo<Question>>().success(pageInfo);
     }
+
+    @PostMapping("/findPersonalAllQuestions")
+    @ResponseBody
+    @ApiOperation("查找本人提出的所有问题")
+    public StrawResult<PageInfo<Question>> findPersonalAllQuestions(@RequestParam(value = "pageNum",defaultValue = "1") Integer pageNum,@RequestParam(value = "pageSize",defaultValue = "10")Integer pageSize){
+        PageInfo<Question> pageInfo = questionService.selectPersonalQuestion(pageNum, pageSize);
+        return new StrawResult<PageInfo<Question>>().success(pageInfo);
+    }
+
+
+    @GetMapping("/questionManager.html")
+    @PreAuthorize("hasRole('ROLE_TEACHER')")
+    public String toQuestionManagerPage(){
+        return "/question/questionmanager";
+    }
+
+
+    @PostMapping("findQuestionByCondition")
+    @ApiOperation("条件查询提问")
+    @PreAuthorize("hasRole('ROLE_TEACHER')")
+    @ResponseBody
+    public StrawResult<PageInfo<Question>> findQuestionByCondition( QuestionQueryParam queryParam){
+        PageInfo<Question> pageInfo =questionService.findQuestionByCondition(queryParam);
+        return new StrawResult<PageInfo<Question>>().success(pageInfo);
+    }
+
+    @GetMapping("/setQuestionPublic/{id}")
+    @ResponseBody
+    @PreAuthorize("hasRole('ROLE_TEACHER')")
+    @ApiOperation("提问设置为公开提问")
+    public StrawResult setQuestionPublic(@PathVariable("id")Integer id){
+       boolean isSuccess= questionService.setQuestionPublic(id);
+       if(isSuccess){
+           return new StrawResult().success("操作成功");
+       }else {
+           return new StrawResult().failed("操作失败");
+       }
+    }
+
+
+    @GetMapping("/cancelQuestionPublic/{id}")
+    @ResponseBody
+    @PreAuthorize("hasRole('ROLE_TEACHER')")
+    @ApiOperation("取消公开提问")
+    public StrawResult cancelQuestionPublic(@PathVariable("id")Integer id){
+        boolean isSuccess= questionService.cancelQuestionPublic(id);
+        if(isSuccess){
+            return new StrawResult().success("操作成功");
+        }else {
+            return new StrawResult().failed("操作失败");
+        }
+    }
+
+
+    @PostMapping("/findMyUnAnwerQuestion")
+    @ResponseBody
+    @PreAuthorize("hasRole('ROLE_TEACHER')")
+    @ApiOperation("老师获取未回答的问题列表")
+    public StrawResult<PageInfo<Question>> findMyUnAnwerQuestion(@RequestParam(value = "pageNum",defaultValue = "1") Integer pageNum,
+                                                                 @RequestParam(value = "pageSize",defaultValue = "10")Integer pageSize){
+        PageInfo<Question> pageInfo =questionService.findMyUnAnwerQuestion(pageNum,pageSize);
+        return new StrawResult<PageInfo<Question>>().success(pageInfo);
+    }
+
+    @PostMapping("/findMyUnSolveQuestion")
+    @ResponseBody
+    @PreAuthorize("hasRole('ROLE_TEACHER')")
+    @ApiOperation("老师获取未解决的问题列表")
+    public StrawResult<PageInfo<Question>> findMyUnSolveQuestion(@RequestParam(value = "pageNum",defaultValue = "1") Integer pageNum,
+                                                                 @RequestParam(value = "pageSize",defaultValue = "10")Integer pageSize){
+        PageInfo<Question> pageInfo =questionService.findMyUnSolveQuestion(pageNum,pageSize);
+        return new StrawResult<PageInfo<Question>>().success(pageInfo);
+    }
+
+    @PostMapping("/findMySolvedQuestion")
+    @ResponseBody
+    @PreAuthorize("hasRole('ROLE_TEACHER')")
+    @ApiOperation("老师获取已解决的问题列表")
+    public StrawResult<PageInfo<Question>> findMySolvedQuestion(@RequestParam(value = "pageNum",defaultValue = "1") Integer pageNum,
+                                                                 @RequestParam(value = "pageSize",defaultValue = "10")Integer pageSize){
+        PageInfo<Question> pageInfo =questionService.findMySolvedQuestion(pageNum,pageSize);
+        return new StrawResult<PageInfo<Question>>().success(pageInfo);
+    }
+
+    @GetMapping("/setQuestionSolved/{id}")
+    @ResponseBody
+    @PreAuthorize("hasRole('ROLE_TEACHER')")
+    @ApiOperation("提问设置为已解决")
+    public StrawResult setQuestionSolved(@PathVariable("id")Integer id){
+        boolean isSuccess= questionService.setQuestionSolved(id);
+        if(isSuccess){
+            return new StrawResult().success("操作成功");
+        }else {
+            return new StrawResult().failed("操作失败");
+        }
+    }
+
 }

@@ -1,7 +1,7 @@
 package cn.tedu.straw.search.controller;
 
-import cn.tedu.straw.commom.CommonPage;
-import cn.tedu.straw.commom.StrawResult;
+import cn.tedu.straw.common.CommonPage;
+import cn.tedu.straw.common.util.StrawResult;
 import cn.tedu.straw.portal.model.EsQuestion;
 import cn.tedu.straw.search.service.IEsQuestionService;
 import org.springframework.data.domain.Page;
@@ -26,7 +26,7 @@ public class EsQuestionController {
     @GetMapping("/importAllQuestion")
     public StrawResult importAllQuestionFromDB(){
         int count = questionService.importAllQuestionFromDB();
-        return StrawResult.builder().build().success("成功导入"+count+"条数据");
+        return new StrawResult().success("成功导入"+count+"条数据");
 
     }
 
@@ -44,7 +44,7 @@ public class EsQuestionController {
 
         Page<EsQuestion> esQuestionPage = questionService.search(keyword,pageNum,pageSize);
 
-        return StrawResult.<CommonPage<EsQuestion>>builder().build().success(CommonPage.restPage(esQuestionPage));
+        return new StrawResult().success(CommonPage.restPage(esQuestionPage));
     }
 
     /**
@@ -63,7 +63,7 @@ public class EsQuestionController {
 
         Page<EsQuestion> esQuestionPage = questionService.searchByUserIdAndPublicStatus(keyword,pageNum,pageSize,userId,publicStatus);
 
-        return StrawResult.<CommonPage<EsQuestion>>builder().build().success(CommonPage.restPage(esQuestionPage));
+        return new StrawResult().success(CommonPage.restPage(esQuestionPage));
     }
 
 

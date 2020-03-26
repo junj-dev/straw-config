@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head></head>
 <body>
-	<aside class="main-sidebar"> 
+	<aside class="main-sidebar" >
 		<section class="sidebar"> 
 		<div class="user-panel">
 			<div class="pull-left image">
@@ -31,26 +31,28 @@
 				<span>我要提问</span> </a>
 
 			</li>
-			<!--<li class="treeview"><a href="#"><i class="fa fa-user "></i>
-				<span>问答中心</span> <span class="pull-right-container"> <i
+			<li class="treeview"><a href="#"><i class="fa fa-gear "></i>
+				<span>问题中心</span> <span class="pull-right-container"> <i
 						class="fa fa-angle-left pull-right"></i>
 				</span> </a>
 				<ul class="treeview-menu">
-					<li><a href="/emp/index">最新问答</a></li>
-					<li><a href="/emp/index">最新问答</a></li>
+					<li><a href="/emp/index">&nbsp;问题管理</a></li>
 				</ul>
-			</li>-->
+			</li>
+
 			<li class="treeview"><a href="#"><i class="fa fa-user "></i>
 					<span>个人中心</span> <span class="pull-right-container"> <i
 						class="fa fa-angle-left pull-right"></i>
 				</span> </a>
 				<ul class="treeview-menu">
-					<li><a href="/emp/index">&nbsp;个人资料</a></li>
-					<li><a href="/emp/empLevel">&nbsp;我的提问</a></li>
-					<li><a href="/emp/empLevel">&nbsp;我的回答</a></li>
-					<li><a href="/emp/superiorScore">我的关注</a></li>
+					<li><a href="#">&nbsp;个人资料</a></li>
+					<li><a href="/personal/myquestion.html">&nbsp;我的提问</a></li>
+					<li><a href="/personal/mytask.html">&nbsp;我的任务</a></li>
+<!--					<li><a href="/emp/empLevel">&nbsp;我的回答</a></li>-->
+<!--					<li><a href="/emp/superiorScore">我的关注</a></li>-->
 				</ul>
 			</li>
+
 
 
 			
@@ -60,5 +62,6 @@
 		</section>
 		
 		</aside>
+
 </body>
 </html>

@@ -1,6 +1,7 @@
 package cn.tedu.straw.portal.model;
 
-import cn.tedu.straw.utils.DateUtils;
+
+import cn.tedu.straw.common.util.DateUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
@@ -53,16 +54,16 @@ public class EsQuestion implements Serializable {
     private String distanceTime;
 
     @Field(type = FieldType.Keyword)
-    List<String> tags=new ArrayList<>();
+    List<String> tagNames=new ArrayList<>();
     /**
      * 问题的标签，为了搜索的时候页面展示用
      */
-    List<Tag> tagList=new ArrayList<>();
+    List<Tag> tags=new ArrayList<>();
 
     public  EsQuestion(){
 
     }
-    public EsQuestion(Integer id, String title, String content, String userNickName, Integer userId, Date createtime, Integer status, Integer pageViews, Integer publicStatus, String distanceTime, List<String> tags,List<Tag> tagList) {
+    public EsQuestion(Integer id, String title, String content, String userNickName, Integer userId, Date createtime, Integer status, Integer pageViews, Integer publicStatus, String distanceTime, List<String> tagNames,List<Tag> tags) {
         this.id = id;
         this.title = title;
         this.content = content;
@@ -73,16 +74,8 @@ public class EsQuestion implements Serializable {
         this.pageViews = pageViews;
         this.publicStatus = publicStatus;
         this.distanceTime = distanceTime;
-        this.tags = tags;
-        this.tagList=tagList;
-    }
-
-    public List<Tag> getTagList() {
-        return tagList;
-    }
-
-    public void setTagList(List<Tag> tagList) {
-        this.tagList = tagList;
+        this.tagNames = tagNames;
+        this.tags=tags;
     }
 
     public Integer getPageViews() {
@@ -104,8 +97,6 @@ public class EsQuestion implements Serializable {
     public String getTitle() {
         return title;
     }
-
-
     public void setTitle(String title) {
         this.title = title;
     }
@@ -141,8 +132,6 @@ public class EsQuestion implements Serializable {
     public void setCreatetime(Date createtime) {
         this.createtime = createtime;
     }
-
-
     public Integer getStatus() {
         return status;
     }
@@ -162,25 +151,31 @@ public class EsQuestion implements Serializable {
         return distanceTime;
 
     }
-
     public void setDistanceTime(String distanceTime) {
         this.distanceTime = distanceTime;
     }
-
-    public List<String> getTags() {
-        return tags;
-    }
-
-    public void setTags(List<String> tags) {
-        this.tags = tags;
-    }
-
     public Integer getPublicStatus() {
         return publicStatus;
     }
 
     public void setPublicStatus(Integer publicStatus) {
         this.publicStatus = publicStatus;
+    }
+
+    public List<String> getTagNames() {
+        return tagNames;
+    }
+
+    public void setTagNames(List<String> tagNames) {
+        this.tagNames = tagNames;
+    }
+
+    public List<Tag> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<Tag> tags) {
+        this.tags = tags;
     }
 
     @Override
@@ -196,8 +191,8 @@ public class EsQuestion implements Serializable {
                 ", pageViews=" + pageViews +
                 ", publicStatus=" + publicStatus +
                 ", distanceTime='" + distanceTime + '\'' +
+                ", tagNames=" + tagNames +
                 ", tags=" + tags +
-                ", tagList=" + tagList +
                 '}';
     }
 }

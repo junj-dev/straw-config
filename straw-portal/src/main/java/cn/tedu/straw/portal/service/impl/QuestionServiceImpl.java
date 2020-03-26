@@ -1,28 +1,25 @@
 package cn.tedu.straw.portal.service.impl;
 
-import cn.tedu.straw.commom.CommonPage;
-import cn.tedu.straw.commom.StrawResult;
-import cn.tedu.straw.constant.QuestionPublicStatus;
+import cn.tedu.straw.common.CommonPage;
+import cn.tedu.straw.common.constant.QuestionPublicStatus;
+import cn.tedu.straw.common.util.ImgUtils;
+import cn.tedu.straw.common.util.StrawResult;
 import cn.tedu.straw.portal.api.EsQuestionServiceApi;
 import cn.tedu.straw.portal.base.BaseServiceImpl;
 import cn.tedu.straw.portal.config.FastDfsConfig;
 import cn.tedu.straw.portal.domian.param.QuestionParam;
 import cn.tedu.straw.portal.exception.BusinessException;
 import cn.tedu.straw.portal.exception.PageNotExistException;
-import cn.tedu.straw.portal.mapper.AnswerMapper;
-import cn.tedu.straw.portal.mapper.QuestionMapper;
-import cn.tedu.straw.portal.mapper.QuestionTagMapper;
-import cn.tedu.straw.portal.mapper.TagMapper;
+import cn.tedu.straw.portal.mapper.*;
 import cn.tedu.straw.portal.model.*;
 import cn.tedu.straw.portal.service.IQuestionService;
-import cn.tedu.straw.utils.ImgUtils;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -56,6 +53,8 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
     private AnswerMapper answerMapper;
     @Resource
     private EsQuestionServiceApi questionServiceApi;
+    @Resource
+    private UserTagMapper userTagMapper;
 
 
     @Override
@@ -70,12 +69,25 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
         List<String> userRoleNames = getUserRoleNames();
         if(userRoleNames.contains("ROLE_STUDENT")&&userRoleNames.size()==1){//只有学生角色一个角色，没有其它的角色
             //只查找本人发布的问题和已经公开的问题
-             questionList=questionMapper.selectQuestionWithTags(getUseId(), QuestionPublicStatus.PUBLIC.getStatus());
+           questionList=questionMapper.findQuestionByUserIdOrPublicStatus(getUseId(),QuestionPublicStatus.PUBLIC.getStatus());
         }else if(userRoleNames.contains("ROLE_TEACHER")){//只要拥有老师角色就ok,管理员拥有学生和老师的角色
             //老师角色和管理员可以查看所有的问题
-            questionList=questionMapper.selectQuestionWithTags(null,null);
+            questionList=questionMapper.findAllQuestion();
         }
 
+        PageInfo<Question> pageInfo=new PageInfo<>(questionList);
+        return pageInfo;
+    }
+
+    @Override
+    public PageInfo<Question> selectPersonalQuestion(Integer pageNum, Integer pageSize) {
+        //使用分页插件
+        if (pageNum == null || pageSize == null) {
+            throw  new BusinessException("分页参数不能为空！");
+        }
+        //只查找本人发布的问题和已经公开的问题
+        PageHelper.startPage(pageNum,pageSize);
+        List<Question> questionList=questionMapper.findQuestionByUserId(getUseId());
         PageInfo<Question> pageInfo=new PageInfo<>(questionList);
         return pageInfo;
     }
@@ -90,16 +102,17 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
         List<Question> questionList=new ArrayList<>();
 
         //根据tag找出所有拥有tag标签的问题
-       // PageHelper.startPage(pageNum,pageSize);
+        PageHelper.startPage(pageNum,pageSize);
 
         //根据不同的角色请求不同的资源
         List<String> userRoleNames = getUserRoleNames();
         if(userRoleNames.contains("ROLE_STUDENT")&&userRoleNames.size()==1){//只有学生角色一个角色，没有其它的角色
             //只查找本人发布的问题和已经公开的问题
+            questionList=questionMapper.findQuestionByUserIdAndTagId(getUseId(),tagId);
 
         }else if(userRoleNames.contains("ROLE_TEACHER")){//只要拥有老师角色就ok,管理员拥有学生和老师的角色
             //老师角色和管理员可以查看所有的问题
-
+            questionList=questionMapper.findQuestionByTagId(tagId);
         }
 
         PageInfo<Question> pageInfo=new PageInfo<>(questionList);
@@ -115,7 +128,7 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
                     MultipartFile file = files[i];
                     String fileName = file.getOriginalFilename();
                     if (!fileName.endsWith(".jpg") && !fileName.endsWith(".png")) {
-                       return StrawResult.builder().code(400).msg("图片格式不正确，仅支持后缀名为.jpg,.png的图片").build();
+                       return new StrawResult().paramFailed("图片格式不正确，仅支持后缀名为.jpg,.png的图片");
                     }
                     //save file
                     if (!file.isEmpty()) {
@@ -129,10 +142,10 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
                     }
                 }
             }
-           return StrawResult.builder().build().success(images);
+           return new StrawResult().success(images);
         }catch (Exception e){
             log.error(e.getMessage());
-            return StrawResult.builder().build().failed();
+            return new StrawResult().failed();
         }
 
     }
@@ -142,7 +155,7 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
     public boolean create(QuestionParam param) {
         //保存问题
         Question question=new Question(param.getTitle(),param.getContent()
-                ,getUserNickname(),getUseId(),new Date(),0,0,QuestionPublicStatus.PRIVATE.getStatus());
+                ,getUserNickname(),getUseId(),new Date(),0,0, QuestionPublicStatus.PRIVATE.getStatus());
         int n=questionMapper.insert(question);
         if(n!=1){
             throw  new BusinessException("服务器繁忙，请稍后重试");
@@ -260,6 +273,105 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
         }
         return questionServiceApi.search(keyword,pageNum,pageSize);
 
+    }
+
+    @Override
+    public PageInfo<Question> findAllQuestion(Integer pageNum, Integer pageSize) {
+        PageHelper.startPage(pageNum,pageSize);
+        List<Question> questions = questionMapper.findAllQuestion();
+        PageInfo<Question> pageInfo=new PageInfo<>(questions);
+        return pageInfo;
+    }
+
+    /**
+     *
+     * 按条件查询提问
+     * @param condition
+     * @return
+     */
+    @Override
+    public PageInfo<Question> findQuestionByCondition(QuestionQueryParam condition) {
+        if(condition==null){throw  new BusinessException("请求参数不能为空");}
+        Integer pageNum=1;
+        Integer pageSize=10;
+        if(condition.getPageNum()!=null){
+            pageNum=condition.getPageNum();
+        }
+        if(condition.getPageSize()!=null){
+            pageSize=condition.getPageSize();
+        }
+        PageHelper.startPage(pageNum,pageSize);
+        List<Question> questions =  questionMapper.findQuestionByCondition(condition);
+        PageInfo<Question> pageInfo=new PageInfo<>(questions);
+        return pageInfo;
+    }
+
+    /**
+     * 设置提问为开放问题
+     * @param id
+     * @return
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public boolean setQuestionPublic(Integer id) {
+        Question question=new Question();
+        question.setId(id);
+        question.setPublicStatus(QuestionPublicStatus.PUBLIC.getStatus());
+        questionMapper.updateById(question);
+        return questionMapper.updateById(question)==1;
+    }
+
+    /**
+     * 取消公开问题，设置为私密问题，只能提问者和老师查看
+     * @param id
+     * @return
+     */
+    @Override
+    public boolean cancelQuestionPublic(Integer id) {
+        Question question=new Question();
+        question.setId(id);
+        question.setPublicStatus(QuestionPublicStatus.PRIVATE.getStatus());
+        questionMapper.updateById(question);
+        return questionMapper.updateById(question)==1;
+    }
+
+    @Override
+    public PageInfo<Question> findMyUnAnwerQuestion(Integer pageNum, Integer pageSize) {
+        return getQuestionPageInfo(pageNum, pageSize,0);
+    }
+
+    private PageInfo<Question> getQuestionPageInfo(Integer pageNum, Integer pageSize,Integer status) {
+        QueryWrapper queryWrapper = new QueryWrapper();
+        queryWrapper.eq("user_id", getUseId());
+        List<UserTag> userTags = userTagMapper.selectList(queryWrapper);
+        if (CollectionUtils.isEmpty(userTags)) {
+            //返回空
+            return new PageInfo<>(new ArrayList<Question>());
+        }
+        //获取该老师的所有标签
+        List<Integer> tagIds = userTags.stream().map(UserTag::getTagId).collect(Collectors.toList());
+        PageHelper.startPage(pageNum, pageSize);
+        List<Question> questions = questionMapper.findQuestionByTagIdsAndStatus(tagIds, status);
+        return new PageInfo<>(new ArrayList<Question>(questions));
+    }
+
+    @Override
+    public PageInfo<Question> findMyUnSolveQuestion(Integer pageNum, Integer pageSize) {
+        return getQuestionPageInfo(pageNum, pageSize,1);
+    }
+
+    @Override
+    public PageInfo<Question> findMySolvedQuestion(Integer pageNum, Integer pageSize) {
+        return getQuestionPageInfo(pageNum, pageSize,2);
+    }
+
+    @Override
+    public boolean setQuestionSolved(Integer id) {
+        Question question=new Question();
+        question.setId(id);
+        question.setStatus(2);
+        questionMapper.updateById(question);
+        return questionMapper.updateById(question)==1;
     }
 
 

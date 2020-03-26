@@ -1,7 +1,7 @@
 package cn.tedu.straw.portal.api;
 
-import cn.tedu.straw.commom.CommonPage;
-import cn.tedu.straw.commom.StrawResult;
+import cn.tedu.straw.common.CommonPage;
+import cn.tedu.straw.common.util.StrawResult;
 import cn.tedu.straw.portal.fallback.EsQuestionServiceClientFallBack;
 import cn.tedu.straw.portal.model.EsQuestion;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -19,8 +19,8 @@ public interface EsQuestionServiceApi {
 
      @RequestMapping("/esQuestion/search")
      StrawResult<CommonPage<EsQuestion>> search(@RequestParam(required = false) String keyword,
-                                                      @RequestParam(required = false, defaultValue = "0") Integer pageNum,
-                                                      @RequestParam(required = false, defaultValue = "5") Integer pageSize);
+                                                @RequestParam(required = false, defaultValue = "0") Integer pageNum,
+                                                @RequestParam(required = false, defaultValue = "5") Integer pageSize);
 
 
      /**

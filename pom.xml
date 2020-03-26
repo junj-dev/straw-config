@@ -5,10 +5,10 @@
     <modules>
         <module>straw-portal</module>
 		<module>straw-eureka-server</module>
-		<module>straw-commom</module>
 		<module>straw-generator</module>
 		<module>straw-search</module>
         <module>straw-model</module>
+        <module>straw-common</module>
     </modules>
     <parent>
 		<groupId>org.springframework.boot</groupId>
@@ -125,13 +125,6 @@
 
 	</dependencyManagement>
 
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
-		</plugins>
-	</build>
+
 
 </project>

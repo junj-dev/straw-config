@@ -1,19 +1,18 @@
 package cn.tedu.straw.portal.model;
 
-import cn.tedu.straw.utils.DateUtils;
+import cn.tedu.straw.common.util.DateUtils;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import io.swagger.models.auth.In;
-import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -166,6 +165,13 @@ public class Question implements Serializable {
         this.createtime = createtime;
     }
 
+    public  String getCreatetimestr(){
+        if(createtime!=null){
+            SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            return sdf.format(createtime);
+        }
+        return "未知时间";
+    }
 
     public Integer getStatus() {
         return status;

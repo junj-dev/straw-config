@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+	<head th:replace="commom/head :: head">
+		
+	</head>
+	<head>
+		<link th:href="@{/css/zpageNav.css}" rel="stylesheet" />
+		<link rel="stylesheet" th:href="@{/plugins/bootstrap-daterangepicker/daterangepicker.css}">
+	</head>
+
+
+	<body class="hold-transition skin-blue sidebar-mini">
+		<div class="wrapper" >
+			<header th:replace="commom/head :: header"></header>
+            <aside class="main-sidebar" >
+                <section class="sidebar">
+                    <div class="user-panel">
+                        <div class="pull-left image">
+                            <img th:src="@{/img/logo.jpg}" class="img-circle" alt="User Image">
+                        </div>
+                        <div class="pull-left info">
+                            <p th:text="${session.SPRING_SECURITY_CONTEXT.authentication.principal.nickname}"> </p>
+
+                            <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+                        </div>
+                    </div>
+
+
+
+                    <!-- Sidebar Menu -->
+                    <ul class="sidebar-menu" data-widget="tree">
+
+
+
+
+                        <li class="treeview" onclick="location.href='/index.html'"><a href="#"><i class="fa fa-dashboard "></i>
+                            <span>首页</span> </a>
+
+                        </li>
+                        <li class="treeview" onclick="location.href='/question/create.html'"><a href="#"><i class="fa fa-question-circle "></i>
+                            <span>我要提问</span> </a>
+
+                        </li>
+						<li class="treeview active" sec:authorize="hasRole('ROLE_TEACHER')"><a href="#"><i class="fa fa-gear "></i>
+							<span>提题中心</span> <span class="pull-right-container"> <i
+									class="fa fa-angle-left pull-right"></i>
+							</span> </a>
+							<ul class="treeview-menu">
+								<li class="active"><a href="/question/questionManager.html">&nbsp;提问管理</a></li>
+							</ul>
+						</li>
+                        <li class="treeview"><a href="#"><i class="fa fa-user "></i>
+                            <span>个人中心</span> <span class="pull-right-container"> <i
+                                    class="fa fa-angle-left pull-right"></i>
+							</span> </a>
+                            <ul class="treeview-menu">
+                               <!-- <li><a href="#">&nbsp;个人资料</a></li>-->
+                                <li><a href="/personal/myquestion.html">&nbsp;我的提问</a></li>
+								<li sec:authorize="hasRole('ROLE_TEACHER')"><a href="/personal/mytask.html">&nbsp;我的任务</a></li>
+                                <!--					<li><a href="/emp/empLevel">&nbsp;我的回答</a></li>-->
+                                <!--					<li><a href="/emp/superiorScore">我的关注</a></li>-->
+                            </ul>
+                        </li>
+
+
+
+
+                    </ul>
+
+                </section>
+
+            </aside>
+			<div class="content-wrapper" id="app">
+					<section class="content-header">
+						<h4>
+							提问管理
+
+						</h4>
+						<ol class="breadcrumb">
+							<li><a href="#"><i class="fa fa-dashboard"></i> 提问中心</a></li>
+							<li><a href="#">提问管理</a></li>
+
+						</ol>
+
+					</section>
+					<section class="content">
+
+						<div class="row">
+							<div class="col-xs-12">
+								<div class="box">
+									<br>
+									<div class="row">
+										<div class="col-lg-12">
+											<form class="form-inline">
+												<div class="form-group col-lg-2" >
+													<select class="select2 col-lg-12" style="width: 100%;"  id="tagSelect">
+														<option  value="">请选择标签</option>
+														<option  value="">全部</option>
+														<option v-for="tag in tags" :value="tag.id" >{{tag.name}}</option>
+
+
+													</select>
+												</div>
+												<div class="form-group col-lg-2">
+														<input type="text" style="width: 100%" id="questionUserName" class="form-control pull-right" placeholder="提问者姓名">
+												</div>
+												<div class="form-group col-lg-3">
+													<div class="input-group">
+														<div class="input-group-addon">
+															<i class="fa fa-clock-o"></i>
+														</div>
+														<input style="width:100%" name="period" type="text"  class="form-control pull-right" id="period">
+													</div>
+												</div>
+
+												<div class="form-group col-lg-2">
+													<select class="select2 col-lg-12" id="answerStatusSelected">
+														<option value="">-回答状态-</option>
+														<option value="">全部</option>
+														<option value="0">未回答</option>
+														<option value="1">待解决</option>
+														<option value="2">已解决</option>
+													</select>
+												</div>
+												<div class="form-group col-lg-2">
+													<select class="select2 col-lg-12" id="publicStatusSelected">
+														<option value="">-公开状态-</option>
+														<option value="">全部</option>
+														<option value="0">未公开</option>
+														<option value="1">公开</option>
+													</select>
+												</div>
+
+												<button type="button" class="btn btn-primary" v-on:click="pageHandler(1)">查询</button>
+											</form>
+										</div>
+
+									</div>
+									<br>
+
+									<!-- /.box-header -->
+									<div class="box-body table-responsive no-padding" id="app1">
+										<table class="table table-hover border" >
+											<tr>
+												<th>编号</th>
+												<th>标题</th>
+												<th>标签</th>
+												<th>提问者</th>
+												<th>提问时间</th>
+												<th>回答状态</th>
+												<th>浏览量</th>
+												<th>是否公开</th>
+												<th>操作</th>
+											</tr>
+											<tr v-for="question in questions">
+												<td>{{question.id}}</td>
+												<td>
+													<a :href="'/question/detail/'+question.id">{{question.title}}</a>
+												</td>
+												<td>
+													<span class="label label-default" style="margin-right: 2px"  v-for="tag in question.tags">{{tag.name}}</span>
+												</td>
+												<td>{{question.userNickName}}</td>
+												<td>{{question.createtimestr}}</td>
+												<td>
+													<span class="label label-warning" v-if="question.status == '0'">未回答</span>
+													<span class="label label-info" v-if="question.status == '1'">待解决</span>
+													<span class="label label-success" v-if="question.status == '2'">已解决</span>
+												</td>
+												<td>{{question.pageViews}}浏览</td>
+												<td>
+													<span class="label label-warning" v-if="question.publicStatus == '0'">未公开</span>
+													<span class="label label-success" v-if="question.publicStatus == '1'">已公开</span>
+												</td>
+												<td>
+													<button class="btn btn-primary btn-xs" type="button" v-if="question.publicStatus=='0'" :data-id="question.id" v-on:click="setQuestionPublic($event)">设置公开</button>
+													<button class="btn btn-warning btn-xs" type="button" v-if="question.publicStatus=='1'" :data-id="question.id" v-on:click="cancelQuestionPublic($event)">取消公开</button>
+													<button class="btn btn-danger btn-xs" type="button">删除</button>
+												</td>
+											</tr>
+
+										</table>
+									</div>
+									<!-- /.box-body -->
+								</div>
+								<!-- /.box -->
+							</div>
+						</div>
+						<div class="row">
+
+							<!--显示分页信息-->
+							<div class="modal-footer no-margin-top" >
+
+								<zpagenav v-bind:page="page" v-bind:page-size="pageSize" v-bind:total="total"
+										  v-bind:max-page="maxPage"  v-on:pagehandler="pageHandler">
+								</zpagenav>
+
+							</div>
+
+						</div>
+
+
+					</section>
+			</div>
+			<footer th:replace="commom/footer :: footer"></footer>
+		</div>
+		<script th:src="@{/js/zpageNav.js}"></script>
+		<script th:src="@{/plugins/moment/moment.js}"></script>
+		<script th:src="@{/plugins/bootstrap-daterangepicker/daterangepicker.js}"></script>
+		<script th:src="@{/js/questionManager.js?v=1.0}"></script>
+	</body>
+</html>
