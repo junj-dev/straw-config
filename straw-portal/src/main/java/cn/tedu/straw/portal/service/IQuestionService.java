@@ -1,12 +1,11 @@
 package cn.tedu.straw.portal.service;
 
 import cn.tedu.straw.common.CommonPage;
-import cn.tedu.straw.common.util.StrawResult;
+import cn.tedu.straw.common.StrawResult;
 import cn.tedu.straw.portal.domian.param.QuestionParam;
 import cn.tedu.straw.portal.model.EsQuestion;
 import cn.tedu.straw.portal.model.Question;
 import cn.tedu.straw.portal.model.QuestionQueryParam;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.github.pagehelper.PageInfo;
 import org.springframework.web.multipart.MultipartFile;

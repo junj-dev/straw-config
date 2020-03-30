@@ -1,7 +1,7 @@
 package cn.tedu.straw.portal.controller;
 
 
-import cn.tedu.straw.common.util.StrawResult;
+import cn.tedu.straw.common.StrawResult;
 import cn.tedu.straw.portal.exception.BusinessException;
 import cn.tedu.straw.portal.exception.PageNotExistException;
 import com.fasterxml.jackson.databind.util.JSONPObject;

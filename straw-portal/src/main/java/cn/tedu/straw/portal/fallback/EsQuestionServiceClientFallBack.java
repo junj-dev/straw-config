@@ -1,7 +1,7 @@
 package cn.tedu.straw.portal.fallback;
 
 import cn.tedu.straw.common.CommonPage;
-import cn.tedu.straw.common.util.StrawResult;
+import cn.tedu.straw.common.StrawResult;
 import cn.tedu.straw.portal.api.EsQuestionServiceApi;
 import cn.tedu.straw.portal.model.EsQuestion;
 

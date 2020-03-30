@@ -49,13 +49,17 @@ public class User implements Serializable , UserDetails {
     @TableField("password")
     private String password;
 
+    @ApiModelProperty(value = "手机号码")
+    @TableField("phone")
+    private String phone;
+
     @ApiModelProperty(value = "账号是否可用，0-》否，1-》是")
     @TableField("enabled")
-    private String enabled;
+    private Boolean enabled;
 
     @ApiModelProperty("账号是否被锁住，0-》否，1-》是")
     @TableField("locked")
-    private String locked;
+    private Boolean locked;
 
     @ApiModelProperty(value = "注册时间")
     @TableField("createtime")
@@ -95,7 +99,7 @@ public class User implements Serializable , UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return "0".equals(locked) ;
+        return locked ;
     }
 
     @Override
@@ -105,7 +109,7 @@ public class User implements Serializable , UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return "1".equals(enabled);
+        return enabled;
     }
 
     public Integer getId() {
@@ -132,20 +136,20 @@ public class User implements Serializable , UserDetails {
         this.password = password;
     }
 
-    public String getEnabled() {
-        return enabled;
-    }
-
-    public void setEnabled(String enabled) {
+    public void setEnabled(Boolean enabled) {
         this.enabled = enabled;
     }
 
-    public String getLocked() {
-        return locked;
+    public void setLocked(Boolean locked) {
+        this.locked = locked;
     }
 
-    public void setLocked(String locked) {
-        this.locked = locked;
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public Date getCreatetime() {
@@ -171,6 +175,7 @@ public class User implements Serializable , UserDetails {
                 ", username='" + username + '\'' +
                 ", nickname='" + nickname + '\'' +
                 ", password='" + password + '\'' +
+                ", phone='" + phone + '\'' +
                 ", enabled='" + enabled + '\'' +
                 ", locked='" + locked + '\'' +
                 ", createtime=" + createtime +

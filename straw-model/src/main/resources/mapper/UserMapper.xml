@@ -8,6 +8,7 @@
         <result column="username" property="username" />
         <result column="nickname" property="nickname" />
         <result column="password" property="password" />
+        <result column="phone" property="phone"/>
         <result column="createtime" property="createtime" />
         <result column="enabled" property="enabled"/>
         <result column="locked" property="locked"/>

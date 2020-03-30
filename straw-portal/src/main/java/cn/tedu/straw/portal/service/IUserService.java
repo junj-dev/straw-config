@@ -1,5 +1,7 @@
 package cn.tedu.straw.portal.service;
 
+import cn.tedu.straw.common.StrawResult;
+import cn.tedu.straw.portal.domian.param.RegisterParam;
 import cn.tedu.straw.portal.model.User;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -13,4 +15,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IUserService extends IService<User> {
 
+    StrawResult register(RegisterParam param);
 }

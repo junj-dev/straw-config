@@ -1,6 +1,5 @@
-package cn.tedu.straw.common.util;
+package cn.tedu.straw.common;
 
-import lombok.Builder;
 import lombok.Data;
 import org.springframework.validation.BindingResult;
 

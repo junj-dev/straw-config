@@ -2,7 +2,7 @@ package cn.tedu.straw.portal.controller;
 
 
 import cn.tedu.straw.common.CommonPage;
-import cn.tedu.straw.common.util.StrawResult;
+import cn.tedu.straw.common.StrawResult;
 import cn.tedu.straw.portal.api.EsQuestionServiceApi;
 import cn.tedu.straw.portal.base.BaseController;
 import cn.tedu.straw.portal.domian.param.QuestionParam;
@@ -19,20 +19,15 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.constraints.NotNull;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  *
@@ -57,7 +52,7 @@ public class QuestionController extends BaseController {
         //查询出所有的标签
         List<Tag> tags = tagService.list();
         model.addAttribute("tags",tags);
-        return "/question/create.html";
+        return "question/create";
     }
 
     /**
@@ -98,7 +93,7 @@ public class QuestionController extends BaseController {
     public String datail(@PathVariable("id")Integer id,Model model){
        Question question= questionService.getQuestionDetailById(id);
         model.addAttribute("question",question);
-        return "/question/detail";
+        return "question/detail";
     }
 
     @PostMapping("/answer")
@@ -145,7 +140,7 @@ public class QuestionController extends BaseController {
     @GetMapping("/questionManager.html")
     @PreAuthorize("hasRole('ROLE_TEACHER')")
     public String toQuestionManagerPage(){
-        return "/question/questionmanager";
+        return "question/questionmanager";
     }
 
 

@@ -2,11 +2,10 @@ package cn.tedu.straw.portal.service.impl;
 
 import cn.tedu.straw.common.CommonPage;
 import cn.tedu.straw.common.constant.QuestionPublicStatus;
-import cn.tedu.straw.common.util.ImgUtils;
-import cn.tedu.straw.common.util.StrawResult;
+import cn.tedu.straw.common.StrawResult;
 import cn.tedu.straw.portal.api.EsQuestionServiceApi;
 import cn.tedu.straw.portal.base.BaseServiceImpl;
-import cn.tedu.straw.portal.config.FastDfsConfig;
+import cn.tedu.straw.portal.config.UploadFileConfig;
 import cn.tedu.straw.portal.domian.param.QuestionParam;
 import cn.tedu.straw.portal.exception.BusinessException;
 import cn.tedu.straw.portal.exception.PageNotExistException;
@@ -25,6 +24,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -43,8 +45,7 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
 
     @Resource
     private  QuestionMapper questionMapper;
-    @Resource
-    private FastDfsConfig fastDfsConfig;
+
     @Resource
     private QuestionTagMapper questionTagMapper;
     @Resource
@@ -55,6 +56,8 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
     private EsQuestionServiceApi questionServiceApi;
     @Resource
     private UserTagMapper userTagMapper;
+    @Resource
+    private UploadFileConfig fileConfig;
 
 
     @Override
@@ -122,31 +125,39 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
     @Override
     public StrawResult uploadImg(MultipartFile[] files, HttpServletRequest request) {
         List<String> images=new ArrayList<>();
-        try {
-            if (files != null && files.length > 0) {
-                for (int i = 0; i < files.length; i++) {
-                    MultipartFile file = files[i];
-                    String fileName = file.getOriginalFilename();
-                    if (!fileName.endsWith(".jpg") && !fileName.endsWith(".png")) {
-                       return new StrawResult().paramFailed("图片格式不正确，仅支持后缀名为.jpg,.png的图片");
-                    }
-                    //save file
-                    if (!file.isEmpty()) {
-                        String savePath = ImgUtils.upload(file);
-                        if (savePath!=null){
-                            String hostUrl = fastDfsConfig.getHostUrl();
-                             String url = hostUrl + savePath;
-                            System.out.println("url:"+url);
-                            images.add(url);
-                        }
-                    }
-                }
+        for(MultipartFile file:files){
+
+            //获取绝对路径
+            String realPath=fileConfig.getFilePath();
+            SimpleDateFormat sdf=new SimpleDateFormat("yyyy/MM/dd/");
+            String format=sdf.format(new Date());
+            //文件存放的目录
+            File folder=new File(realPath+format);
+            if(!folder.isDirectory()){
+                folder.mkdirs();
             }
-           return new StrawResult().success(images);
-        }catch (Exception e){
-            log.error(e.getMessage());
-            return new StrawResult().failed();
+            String oldName=file.getOriginalFilename();
+            //文件后缀
+            String suffix=oldName.substring(oldName.lastIndexOf("."),oldName.length());
+            //文件新名字
+            String newName=UUID.randomUUID().toString()+suffix;
+            try {
+                File targetFile=new File(folder,newName);
+
+                if(!targetFile.exists()){
+                    targetFile.mkdirs();
+                }else {
+                    targetFile.delete();
+                }
+                file.transferTo(targetFile);
+                String filePath=request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+"/uploadFile/"+format+newName;
+                images.add(filePath);
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+
         }
+       return new StrawResult().success(images);
 
     }
 

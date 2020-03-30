@@ -1,7 +1,7 @@
 package cn.tedu.straw.search.controller;
 
 import cn.tedu.straw.common.CommonPage;
-import cn.tedu.straw.common.util.StrawResult;
+import cn.tedu.straw.common.StrawResult;
 import cn.tedu.straw.portal.model.EsQuestion;
 import cn.tedu.straw.search.service.IEsQuestionService;
 import org.springframework.data.domain.Page;

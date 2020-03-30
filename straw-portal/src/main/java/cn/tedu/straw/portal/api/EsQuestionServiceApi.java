@@ -1,7 +1,7 @@
 package cn.tedu.straw.portal.api;
 
 import cn.tedu.straw.common.CommonPage;
-import cn.tedu.straw.common.util.StrawResult;
+import cn.tedu.straw.common.StrawResult;
 import cn.tedu.straw.portal.fallback.EsQuestionServiceClientFallBack;
 import cn.tedu.straw.portal.model.EsQuestion;
 import org.springframework.cloud.openfeign.FeignClient;

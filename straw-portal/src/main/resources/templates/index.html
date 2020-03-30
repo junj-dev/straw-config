@@ -108,8 +108,8 @@
 							</div>
 							<br>
 							<br>
-							<div class="row">
-								<div class="col-lg-10 col-lg-offset-1">
+							<div class="row" v-if="tags !==undefined && tags.length > 0 ">
+								<div class="col-lg-10 col-lg-offset-1" >
 									<ol class="breadcrumb">
 										<li><a href="javascript:void(0)" :data-id="0" v-on:click="pageHandler3($event,1)"  >全部</a></li>
 										<li v-for="tag in tags"><a href="javascript:void(0)" :data-id="tag.id" v-on:click="pageHandler3($event,1)"  >{{tag.name}}</a></li>
@@ -118,9 +118,14 @@
 								</div>
 							</div>
 							<br><br>
-							<div class="row">
-								<div class="col-lg-10 col-lg-offset-1">
-									<div class="panel panel-default" v-for="question in questions">
+							<div class="row" v-if="questions == undefined ||  questions.length == 0 ">
+								<div class="col-lg-4 col-lg-offset-3" >
+									抱歉，没有搜索到数据，请更换标签或者关键字
+								</div>
+							</div>
+							<div class="row" v-if="questions !==undefined && questions.length > 0 ">
+								<div class="col-lg-10 col-lg-offset-1" >
+									<div class="panel panel-default" v-for="question in questions" >
 										<!-- Default panel contents -->
 										<div class="panel-heading">
 											<h4>
@@ -145,7 +150,7 @@
 
 							</div>
 						</div>
-						<div class="row">
+						<div class="row" v-if="questions !==undefined && questions.length > 0 ">
 
 							<!--显示分页信息-->
 							<div class="modal-footer no-margin-top" v-if="show">

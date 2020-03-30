@@ -18,13 +18,13 @@ public class PersonalController extends BaseController {
 
     @GetMapping("/myquestion.html")
     public String toMyQuetionPage(){
-        return "/personal/myquestion";
+        return "personal/myquestion";
     }
 
     @GetMapping("/mytask.html")
     @PreAuthorize("hasRole('ROLE_TEACHER')")
     public String toMyTaskPage(){
-        return "/personal/task";
+        return "personal/task";
     }
 
 

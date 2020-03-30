@@ -36,6 +36,8 @@
 		<fastdfs-client-java.version>1.27</fastdfs-client-java.version>
 		<fastjson.version>1.2.61</fastjson.version>
 		<mybatis-spring-boot-starter.version>2.1.2</mybatis-spring-boot-starter.version>
+		<aliyun-java-sdk-core.version>4.4.6</aliyun-java-sdk-core.version>
+		<aliyun-java-sdk-ecs.version>4.17.6</aliyun-java-sdk-ecs.version>
 	</properties>
 
 
@@ -116,10 +118,17 @@
 				<version>${fastjson.version}</version>
 			</dependency>
 
-			<!--<dependency>
-				<groupId>org.springframework.cloud</groupId>
-				<artifactId>spring-cloud-starter-openfeign</artifactId>
-			</dependency>-->
+			<!--阿里云短信接口依赖-->
+			<dependency>
+				<groupId>com.aliyun</groupId>
+				<artifactId>aliyun-java-sdk-core</artifactId>
+				<version>${aliyun-java-sdk-core.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.aliyun</groupId>
+				<artifactId>aliyun-java-sdk-ecs</artifactId>
+				<version>${aliyun-java-sdk-ecs.version}</version>
+			</dependency>
 
 		</dependencies>
 

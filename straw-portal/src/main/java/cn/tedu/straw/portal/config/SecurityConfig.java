@@ -56,7 +56,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/v2/api-docs",
                         "/favicon.ico",
                         "/swagger-ui.html",
-                        "/actuator/**"
+                        "/actuator/**",
+                        "/register.html",
+                        "/register",
+                        "/resetpassword.html",
+                        "/resetpassword",
+                        "/aliyunMessage/sendRegisterCode"//阿里云注册短信
                 ).permitAll()
                         .anyRequest().authenticated()   // 其他地址的访问均需验证权限
                         .and()
