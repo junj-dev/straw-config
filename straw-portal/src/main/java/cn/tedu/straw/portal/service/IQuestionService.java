@@ -46,6 +46,7 @@ public interface IQuestionService extends IService<Question> {
     boolean setQuestionPublic(Integer[] ids);
 
     boolean cancelQuestionPublic(Integer id);
+    boolean cancelQuestionPublic(Integer[] ids);
 
     PageInfo<Question> findMyUnAnwerQuestion(Integer pageNum, Integer pageSize);
 

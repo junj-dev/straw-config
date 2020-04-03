@@ -175,7 +175,7 @@
 												<td>
 													<button class="btn btn-primary btn-xs" type="button" v-if="question.publicStatus=='0'" :data-id="question.id" v-on:click="setQuestionPublic($event)">设置公开</button>
 													<button class="btn btn-warning btn-xs" type="button" v-if="question.publicStatus=='1'" :data-id="question.id" v-on:click="cancelQuestionPublic($event)">取消公开</button>
-													<button class="btn btn-danger btn-xs" type="button">删除</button>
+
 												</td>
 											</tr>
 
@@ -207,6 +207,6 @@
 		<script th:src="@{/js/zpageNav.js}"></script>
 		<script th:src="@{/plugins/moment/moment.js}"></script>
 		<script th:src="@{/plugins/bootstrap-daterangepicker/daterangepicker.js}"></script>
-		<script th:src="@{/js/questionManager.js?v=1.0}"></script>
+		<script th:src="@{/js/questionManager.js?v=1.1}"></script>
 	</body>
 </html>

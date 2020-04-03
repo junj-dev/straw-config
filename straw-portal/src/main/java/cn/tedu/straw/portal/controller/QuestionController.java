@@ -179,6 +179,19 @@ public class QuestionController extends BaseController {
        }
     }
 
+    @PostMapping("/setQuestionPublic")
+    @ResponseBody
+    @PreAuthorize("hasRole('ROLE_TEACHER')")
+    @ApiOperation("提问设置为公开提问")
+    public StrawResult setQuestionPublic(@RequestParam("ids[]") Integer[] ids){
+        boolean isSuccess= questionService.setQuestionPublic(ids);
+        if(isSuccess){
+            return new StrawResult().success("操作成功");
+        }else {
+            return new StrawResult().failed("操作失败");
+        }
+    }
+
 
 
     @GetMapping("/cancelQuestionPublic/{id}")
@@ -187,6 +200,18 @@ public class QuestionController extends BaseController {
     @ApiOperation("取消公开提问")
     public StrawResult cancelQuestionPublic(@PathVariable("id")Integer id){
         boolean isSuccess= questionService.cancelQuestionPublic(id);
+        if(isSuccess){
+            return new StrawResult().success("操作成功");
+        }else {
+            return new StrawResult().failed("操作失败");
+        }
+    }
+    @PostMapping("/cancelQuestionPublic")
+    @ResponseBody
+    @PreAuthorize("hasRole('ROLE_TEACHER')")
+    @ApiOperation("取消公开提问")
+    public StrawResult cancelQuestionPublic(@RequestParam("ids[]") Integer[] ids){
+        boolean isSuccess= questionService.cancelQuestionPublic(ids);
         if(isSuccess){
             return new StrawResult().success("操作成功");
         }else {

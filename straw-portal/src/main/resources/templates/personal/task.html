@@ -175,9 +175,18 @@
 											</div>
 											<div class="tab-pane fade" id="unSolve">
 												<div class="row" id="app2">
+													<div class="alsrtInfo" :style="{display: displayStsates}" ref="alertMsg">
+														<div class="profPrompt_test">{{aletMsg}}</div>
+													</div>
 													<div class="col-lg-12">
+														<caption>
+
+															<button type="button" class="btn btn-default" v-on:click="setQuestionSolved()"><label class="glyphicon glyphicon-tag"></label>&nbsp;标记为已解决</button>
+															<button type="button" class="btn btn-default" v-on:click="transferToTeacher()"><label class="glyphicon glyphicon-share-alt"></label>&nbsp;邀请其他老师作答</button>
+														</caption>
 														<table class="table table-hover border" >
 															<tr>
+																<th><input type="checkbox" v-model="checked"  @change="changeAllChecked"></th>
 																<th>编号</th>
 																<th>标题</th>
 																<th>标签</th>
@@ -185,9 +194,10 @@
 																<th>提问时间</th>
 																<th>回答状态</th>
 																<th>浏览量</th>
-																<th>是否解决问题</th>
+
 															</tr>
 															<tr v-for="question in questions">
+																<td><input type="checkbox"    v-model="checkedQuestionIds" :value="question.id"></td>
 																<td>{{question.id}}</td>
 																<td>
 																	<a :href="'/question/detail/'+question.id" target= _blank>{{question.title}}</a>
@@ -203,9 +213,6 @@
 																	<span class="label label-success" v-if="question.status == '2'">已解决</span>
 																</td>
 																<td>{{question.pageViews}}浏览</td>
-																<td>
-																	<button class="btn btn-primary btn-xs" type="button"  :data-id="question.id" v-on:click="setQuestionSolved($event)">已解决</button>
-																</td>
 															</tr>
 
 														</table>
@@ -227,17 +234,28 @@
 											<div class="tab-pane fade" id="solved">
 												<div class="row" id="app3">
 													<div class="col-lg-12">
+														<div class="alsrtInfo" :style="{display: displayStsates}" ref="alertMsg">
+															<div class="profPrompt_test">{{aletMsg}}</div>
+														</div>
 														<table class="table table-hover border" >
+															<caption>
+
+																<button type="button" class="btn btn-default" v-on:click="setQuestionPublic()"><label class="glyphicon glyphicon-eye-open"></label>&nbsp;设置为所有人可见</button>
+																<button type="button" class="btn btn-default" v-on:click="setQuestionPrivate()"><label class="glyphicon glyphicon-eye-close"></label>&nbsp;设置为本人和老师可见</button>
+															</caption>
 															<tr>
+																<th><input type="checkbox" v-model="checked"  @change="changeAllChecked"></th>
 																<th>编号</th>
 																<th>标题</th>
 																<th>标签</th>
 																<th>提问者</th>
 																<th>提问时间</th>
 																<th>回答状态</th>
+																<th>是否公开</th>
 																<th>浏览量</th>
 															</tr>
 															<tr v-for="question in questions">
+																<td><input type="checkbox"    v-model="checkedQuestionIds" :value="question.id"></td>
 																<td>{{question.id}}</td>
 																<td>
 																	<a :href="'/question/detail/'+question.id" target= _blank>{{question.title}}</a>
@@ -251,6 +269,10 @@
 																	<span class="label label-warning" v-if="question.status == '0'">未回答</span>
 																	<span class="label label-info" v-if="question.status == '1'">待解决</span>
 																	<span class="label label-success" v-if="question.status == '2'">已解决</span>
+																</td>
+																<td>
+																	<span class="label label-warning" v-if="question.publicStatus == '0'">未公开</span>
+																	<span class="label label-success" v-if="question.publicStatus == '1'">已公开</span>
 																</td>
 																<td>{{question.pageViews}}浏览</td>
 															</tr>
@@ -330,12 +352,56 @@
 					</div><!-- /.modal-content -->
 				</div><!-- /.modal-dialog -->
 			</div><!-- /.modal -->
+			<!-- 模态框（Modal） -->
+			<div class="modal fade" id="app5" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal"
+									aria-hidden="true">×
+							</button>
+							<h4 class="modal-title" >
+								邀请其他老师作答
+							</h4>
+						</div>
+						<div class="modal-body">
+							<form class="form-horizontal" >
+
+								<div class="form-group">
+									<label class="col-sm-2 control-label">选择老师</label>
+									<div class="col-sm-10">
+										<v-select placeholder="请选择老师，支持多选"
+												  multiple
+												  :options="options"
+												  label="name"
+												  @input="select_teacher"
+												  :value.sync="teacher_obj"></v-select>
+									</div>
+								</div>
+
+								<div class="form-group">
+
+									<div class="col-sm-offset-2 col-sm-10">
+										<button type="button"  class="btn btn-primary" v-on:click="submitTransferToTeacher()">提交</button>
+									</div>
+								</div>
+							</form>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default"
+									data-dismiss="modal">关闭
+							</button>
+
+						</div>
+					</div><!-- /.modal-content -->
+				</div><!-- /.modal-dialog -->
+			</div><!-- /.modal -->
 			<footer th:replace="commom/footer :: footer"></footer>
 		</div>
 		<script th:src="@{/js/zpageNav.js}"></script>
 		<script th:src="@{/plugins/moment/moment.js}"></script>
 		<script th:src="@{/plugins/bootstrap-daterangepicker/daterangepicker.js}"></script>
 		<script src="https://unpkg.com/vue-select@2.0.0/dist/vue-select.js"></script>
-		<script th:src="@{/js/mytask.js?v=1.0}"></script>
+		<script th:src="@{/js/mytask.js?v=1.1}"></script>
 	</body>
 </html>

@@ -362,6 +362,16 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
         question.setPublicStatus(QuestionPublicStatus.PRIVATE.getStatus());
         return questionMapper.updateById(question)==1;
     }
+    @Override
+    public boolean cancelQuestionPublic(Integer[] ids) {
+        Question question=new Question();
+        question.setPublicStatus(QuestionPublicStatus.PRIVATE.getStatus());
+        questionMapper.updateById(question);
+        QueryWrapper queryWrapper=new QueryWrapper();
+        queryWrapper.in("id",ids);
+        int update = questionMapper.update(question, queryWrapper);
+        return update>=1;
+    }
 
     @Override
     public PageInfo<Question> findMyUnAnwerQuestion(Integer pageNum, Integer pageSize) {
