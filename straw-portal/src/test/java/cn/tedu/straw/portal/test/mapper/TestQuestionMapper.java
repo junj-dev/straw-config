@@ -115,4 +115,13 @@ public class TestQuestionMapper {
         System.out.println(questions.size());
         questions.forEach(System.out::println);
     }
+
+    /**
+     * @see QuestionMapper#findQuestionByUserIdAndStatus(Integer, Integer)
+     */
+    @Test
+    public  void findQuestionByUserIdAndStatus(){
+        List<Question> questions = questionMapper.findQuestionByUserIdAndStatus(4, 1);
+        questions.forEach(System.out::println);
+    }
 }

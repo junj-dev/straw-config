@@ -6,6 +6,7 @@
 	<head>
 		<link th:href="@{/css/zpageNav.css}" rel="stylesheet" />
 		<link rel="stylesheet" th:href="@{/plugins/bootstrap-daterangepicker/daterangepicker.css}">
+		<link rel="stylesheet" th:href="@{/css/vueAlert.css}">
 	</head>
 
 
@@ -70,6 +71,7 @@
 
             </aside>
 			<div class="content-wrapper" id="app">
+
 					<section class="content-header">
 						<h4>
 							我的任务
@@ -108,12 +110,22 @@
 										</ul>
 									</div>
 									<div class="box-body ">
+
 										<div id="myTabContent" class="tab-content">
 											<div class="tab-pane fade in active" id="noAnswer">
 												<div class="row" id="app1">
 													<div class="col-lg-12">
+														<div class="alsrtInfo" :style="{display: displayStsates}" ref="alertMsg">
+															<div class="profPrompt_test">{{aletMsg}}</div>
+														</div>
 														<table class="table table-hover border" >
+															<caption>
+
+																<button type="button" class="btn btn-default" v-on:click="setQuestionSolved()"><label class="glyphicon glyphicon-tag"></label>&nbsp;标记为已解决</button>
+																<button type="button" class="btn btn-default" v-on:click="transferToTeacher()"><label class="glyphicon glyphicon-share-alt"></label>&nbsp;邀请其他老师作答</button>
+															</caption>
 															<tr>
+																<th><input type="checkbox" v-model="checked"  @change="changeAllChecked"></th>
 																<th>编号</th>
 																<th>标题</th>
 																<th>标签</th>
@@ -121,9 +133,10 @@
 																<th>提问时间</th>
 																<th>回答状态</th>
 																<th>浏览量</th>
-																<th>是否解决问题</th>
+
 															</tr>
 															<tr v-for="question in questions">
+																<td><input type="checkbox"    v-model="checkedQuestionIds" :value="question.id"></td>
 																<td>{{question.id}}</td>
 																<td>
 																	<a :href="'/question/detail/'+question.id" target= _blank>{{question.title}}</a>
@@ -139,9 +152,7 @@
 																	<span class="label label-success" v-if="question.status == '2'">已解决</span>
 																</td>
 																<td>{{question.pageViews}}浏览</td>
-																<td>
-																	<button class="btn btn-primary btn-xs" type="button"  :data-id="question.id" v-on:click="setQuestionSolved($event)">已解决</button>
-																</td>
+
 															</tr>
 
 														</table>
@@ -267,17 +278,64 @@
 
 
 							</div>
+
 						</div>
+
 
 
 
 					</section>
 			</div>
+			<!-- 模态框（Modal） -->
+			<div class="modal fade" id="app4" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal"
+									aria-hidden="true">×
+							</button>
+							<h4 class="modal-title" id="myModalLabel">
+								邀请其他老师作答
+							</h4>
+						</div>
+						<div class="modal-body">
+							<form class="form-horizontal" >
+
+								<div class="form-group">
+									<label class="col-sm-2 control-label">选择老师</label>
+									<div class="col-sm-10">
+										<v-select placeholder="请选择老师，支持多选"
+												  multiple
+												  :options="options"
+												  label="name"
+												  @input="select_teacher"
+												  :value.sync="teacher_obj"></v-select>
+									</div>
+								</div>
+
+								<div class="form-group">
+
+									<div class="col-sm-offset-2 col-sm-10">
+										<button type="button"  class="btn btn-primary" v-on:click="submitTransferToTeacher()">提交</button>
+									</div>
+								</div>
+							</form>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default"
+									data-dismiss="modal">关闭
+							</button>
+
+						</div>
+					</div><!-- /.modal-content -->
+				</div><!-- /.modal-dialog -->
+			</div><!-- /.modal -->
 			<footer th:replace="commom/footer :: footer"></footer>
 		</div>
 		<script th:src="@{/js/zpageNav.js}"></script>
 		<script th:src="@{/plugins/moment/moment.js}"></script>
 		<script th:src="@{/plugins/bootstrap-daterangepicker/daterangepicker.js}"></script>
+		<script src="https://unpkg.com/vue-select@2.0.0/dist/vue-select.js"></script>
 		<script th:src="@{/js/mytask.js?v=1.0}"></script>
 	</body>
 </html>

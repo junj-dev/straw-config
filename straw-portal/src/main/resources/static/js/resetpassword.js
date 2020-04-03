@@ -1,14 +1,14 @@
 var vm=new Vue({
     el:"#app",
     data:{
-        "phone":'',
-        "code":'',
-        "password":'',
-        "comfirmPassword":'',
-        "message":"发送验证码",
-        "disabled":false ,//是否禁用发送按钮
-        "aletMsg": '', // 弹出框中的提示语
-        "displayStsates": 'none'
+        phone:'',
+        code:'',
+        password:'',
+        comfirmPassword:'',
+        message:"发送验证码",
+        disabled:false ,//是否禁用发送按钮
+        aletMsg: '', // 弹出框中的提示语
+        displayStsates: 'none'
 
     },
     methods:{
@@ -72,12 +72,7 @@ var vm=new Vue({
                 this.alertDia("验证码格式不正确！请输入4位的数字的验证码！",2500);
                 return;
             }
-            //昵称
-            var nickname=_this.nickname;
-            if(nickname==''||nickname.length<3||nickname.length>10){
-                this.alertDia("昵称请设置2至20字!",2000);
-                return;
-            }
+
             //密码
             var password=_this.password;
             //只能输入6-20个字母、数字、下划线
@@ -94,23 +89,22 @@ var vm=new Vue({
             }
             //发送注册请求
             $.ajax({
-               "url":"/register",
+               "url":"/resetpassword",
                "type":"post",
                "data":{
                    "phone":phone,
                    "code":code,
-                   "nickname":nickname,
                    "password":password
                } ,
                 "dataType":"json",
                 success:function(result){
                    if(result.code==200){
-                       _this.alertDia("注册成功！正在跳转到登录界面..",3000);
+                       _this.alertDia("密码修改成功！正在跳转到登录界面..",3000);
                        setTimeout(function () {
                            location.href="/login.html";
                        },3000);
                    }else{
-                       _this.alertDia(result.msg);
+                       _this.alertDia(result.msg,2000);
                    }
                 },
                 error:function(){

@@ -1,6 +1,6 @@
 package cn.tedu.straw.portal.service;
 
-import cn.tedu.straw.portal.model.UserTag;
+import cn.tedu.straw.portal.model.Teacher;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -9,8 +9,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * </p>
  *
  * @author ChenHaiBao
- * @since 2020-03-25
+ * @since 2020-04-01
  */
-public interface IUserTagService extends IService<UserTag> {
+public interface ITeacherService extends IService<Teacher> {
 
 }

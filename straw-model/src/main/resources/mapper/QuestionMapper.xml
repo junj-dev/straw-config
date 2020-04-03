@@ -109,4 +109,15 @@
             </if>
         </where>
     </select>
+    <select id="findQuestionByUserIdAndStatus" resultMap="questionWithTags">
+        SELECT q.*
+        FROM question AS q
+        left outer  join teacher_question AS tq on  tq.question_id = q.id
+        left  outer join  teacher AS t on t.id = tq.teacher_id
+        where  t.user_id = #{userId} and
+               q.status=#{status}
+        order by q.id desc
+
+
+    </select>
 </mapper>

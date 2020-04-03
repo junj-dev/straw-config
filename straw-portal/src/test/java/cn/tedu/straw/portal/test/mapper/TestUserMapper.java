@@ -25,10 +25,22 @@ public class TestUserMapper {
     @Resource
     private UserMapper userMapper;
 
+    /**
+     * @see  UserMapper#findUserWithRoleByUserName(String)
+     */
     @Test
     public void testFindUserWithRoleByUsername(){
       User user= userMapper.findUserWithRoleByUserName("admin");
         System.out.println(user);
+    }
+
+    /**
+     * @see  UserMapper#updatePasswordByUsername(String, String)
+     */
+    @Test
+    public void updatePasswordByUsername(){
+        //int n = userMapper.updatePasswordByUsername("18501927843", "11111111");
+       // System.out.println("n:"+n);
     }
 
 }

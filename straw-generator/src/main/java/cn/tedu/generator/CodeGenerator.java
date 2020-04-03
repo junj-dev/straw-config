@@ -20,7 +20,7 @@ import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
 
 /**
- * @Description: java类作用描述
+ * @Description: 代码生成类
  * @Author: ChenHaiBao
  * @CreateDate: 2020/3/3$ 11:18$
  * @Version: 1.0

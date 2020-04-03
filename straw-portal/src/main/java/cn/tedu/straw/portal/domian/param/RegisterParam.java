@@ -22,4 +22,6 @@ public class RegisterParam {
     private  String  nickname;
     @Size(min=6,max = 20,message = "密码字数为6-20之间")
     private  String  password;
+    @NotEmpty(message = "邀请码不能为空")
+    private  String inviteCode;
 }

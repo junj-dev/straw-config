@@ -43,6 +43,10 @@
 
     <form>
       <div class="form-group has-feedback">
+        <input type="text"  v-model="inviteCode" class="form-control" placeholder="请输入邀请码">
+        <span class="glyphicon glyphicon-barcode form-control-feedback"></span>
+      </div>
+      <div class="form-group has-feedback">
         <input type="text" name="username" v-model="phone" class="form-control" placeholder="请输入手机号">
         <span class=" glyphicon glyphicon-phone form-control-feedback"></span>
       </div>
@@ -58,9 +62,10 @@
       </div>
 
       <div class="form-group has-feedback">
-        <input type="text"  v-model="nickname" class="form-control" placeholder="昵称请设置2至20字">
+        <input type="text"  v-model="nickname" class="form-control" placeholder="请设置昵称，字数为2-20之间">
         <span class="glyphicon glyphicon-user form-control-feedback"></span>
       </div>
+
       <div class="form-group has-feedback">
         <input type="password"  v-model="password" class="form-control" placeholder="设置密码6-20个字母、数字、下划线">
         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
@@ -89,8 +94,7 @@
 <script th:src="@{/js/bootstrap.min.js}"></script>
 <!-- iCheck -->
 <script th:src="@{/js/icheck.min.js}"></script>
-<script th:src="@{/js/vue.js}"></script>
-<script th:src="@{/js/sweetalert.min.js}"></script>
+<script src="https://unpkg.com/vue@2.1.10/dist/vue.js"></script>
 <script th:src="@{/js/register.js?v=1.0}"></script>
 
 

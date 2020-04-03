@@ -2,6 +2,7 @@ package cn.tedu.straw.portal.controller;
 
 import cn.tedu.straw.common.StrawResult;
 import cn.tedu.straw.portal.domian.param.RegisterParam;
+import cn.tedu.straw.portal.domian.param.ResetPasswordParam;
 import cn.tedu.straw.portal.service.IUserService;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
@@ -59,5 +60,15 @@ public class SystemController {
     @ApiOperation("手机找回密码")
     public String resetPassword(){
         return "resetpassword";
+    }
+
+    @PostMapping("/resetpassword")
+    @ResponseBody
+    @ApiOperation("重置密码")
+    public StrawResult resetPassword(@Validated ResetPasswordParam param,BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            return new StrawResult().validateFailed(bindingResult);
+        }
+        return userService.resetPassword(param);
     }
 }

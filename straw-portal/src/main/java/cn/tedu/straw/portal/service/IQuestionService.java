@@ -43,6 +43,7 @@ public interface IQuestionService extends IService<Question> {
     PageInfo<Question> findQuestionByCondition(QuestionQueryParam queryParam);
 
     boolean setQuestionPublic(Integer id);
+    boolean setQuestionPublic(Integer[] ids);
 
     boolean cancelQuestionPublic(Integer id);
 
@@ -53,4 +54,7 @@ public interface IQuestionService extends IService<Question> {
     PageInfo<Question> findMySolvedQuestion(Integer pageNum, Integer pageSize);
 
     boolean setQuestionSolved(Integer id);
+    boolean setQuestionSolved(Integer[] id);
+
+    boolean transferToTeacher(Integer[] teacherIds,Integer[] questionIds);
 }

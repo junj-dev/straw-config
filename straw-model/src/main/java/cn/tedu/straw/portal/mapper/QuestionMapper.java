@@ -71,4 +71,8 @@ public interface QuestionMapper extends BaseMapper<Question> {
      * @return
      */
     List<Question> findQuestionByTagIdsAndStatus(List<Integer> tagIds,Integer status);
+
+
+    List<Question> findQuestionByUserIdAndStatus(Integer userId,Integer status);
+
 }

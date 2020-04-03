@@ -1,6 +1,8 @@
 package cn.tedu.straw.common.util;
 
 import java.util.Random;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @Description: 数字工具类
@@ -26,6 +28,9 @@ public class NumberUtils {
     }
 
     public static void main(String[] args) {
-        System.out.println(generateRandomNum(6));
+//        Pattern pattern=Pattern.compile("^JSD\\d{4}-\\d{6}");
+//        Matcher matcher = pattern.matcher("JsD1912-23456a");
+//        boolean matches = matcher.matches();
+//        System.out.println(matches);
     }
 }

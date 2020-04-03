@@ -1,6 +1,6 @@
 package cn.tedu.straw.portal.mapper;
 
-import cn.tedu.straw.portal.model.UserTag;
+import cn.tedu.straw.portal.model.Teacher;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -9,8 +9,8 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * </p>
  *
  * @author ChenHaiBao
- * @since 2020-03-25
+ * @since 2020-04-01
  */
-public interface UserTagMapper extends BaseMapper<UserTag> {
+public interface TeacherMapper extends BaseMapper<Teacher> {
 
 }

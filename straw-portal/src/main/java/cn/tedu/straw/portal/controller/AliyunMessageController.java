@@ -28,9 +28,17 @@ public class AliyunMessageController {
     @GetMapping("/sendRegisterCode")
     @ResponseBody
     @ApiOperation("发送注册验证码")
-    public StrawResult sendRegisterCode(@RequestParam("phone")String phone){
-       return messageService.sendRegisterCode(phone);
+    public StrawResult sendRegisterCode(@RequestParam("phone")String phone,@RequestParam("inviteCode")String inviteCode){
+       return messageService.sendRegisterCode(phone,inviteCode);
 
+
+    }
+
+    @GetMapping("/sendResetPasswordCode")
+    @ResponseBody
+    @ApiOperation("发送忘记密码短信验证码")
+    public StrawResult sendResetPasswordCode (@RequestParam("phone")String phone){
+        return messageService.sendResetPasswordCode(phone);
 
     }
 

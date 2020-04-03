@@ -15,4 +15,6 @@ public interface UserMapper extends BaseMapper<User> {
 
     User findUserWithRoleByUserName(String username);
 
+    int updatePasswordByUsername(String username,String password);
+
 }

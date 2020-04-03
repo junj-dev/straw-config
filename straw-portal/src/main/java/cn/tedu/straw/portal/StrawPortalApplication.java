@@ -5,6 +5,7 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
  * @Description: 启动类
@@ -14,6 +15,8 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
  */
 @SpringBootApplication
 @EnableDiscoveryClient
+//开启定时任务
+@EnableScheduling
 @EnableFeignClients(basePackages = "cn.tedu.straw.portal.api")
 public class StrawPortalApplication {
     public static void main(String[] args) {

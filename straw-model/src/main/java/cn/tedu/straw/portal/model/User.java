@@ -49,9 +49,7 @@ public class User implements Serializable , UserDetails {
     @TableField("password")
     private String password;
 
-    @ApiModelProperty(value = "手机号码")
-    @TableField("phone")
-    private String phone;
+
 
     @ApiModelProperty(value = "账号是否可用，0-》否，1-》是")
     @TableField("enabled")
@@ -64,6 +62,8 @@ public class User implements Serializable , UserDetails {
     @ApiModelProperty(value = "注册时间")
     @TableField("createtime")
     private Date createtime;
+
+
 
     @ApiModelProperty("角色")
     @TableField(exist = false)
@@ -144,13 +144,6 @@ public class User implements Serializable , UserDetails {
         this.locked = locked;
     }
 
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
 
     public Date getCreatetime() {
         return createtime;
@@ -168,6 +161,8 @@ public class User implements Serializable , UserDetails {
         this.roles = roles;
     }
 
+
+
     @Override
     public String toString() {
         return "User{" +
@@ -175,9 +170,8 @@ public class User implements Serializable , UserDetails {
                 ", username='" + username + '\'' +
                 ", nickname='" + nickname + '\'' +
                 ", password='" + password + '\'' +
-                ", phone='" + phone + '\'' +
-                ", enabled='" + enabled + '\'' +
-                ", locked='" + locked + '\'' +
+                ", enabled=" + enabled +
+                ", locked=" + locked +
                 ", createtime=" + createtime +
                 ", roles=" + roles +
                 ", authorities=" + authorities +

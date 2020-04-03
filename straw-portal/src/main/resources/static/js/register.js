@@ -1,15 +1,17 @@
 var vm=new Vue({
     el:"#app",
     data:{
-        "phone":'',
-        "code":'',
-        "nickname":'',
-        "password":'',
-        "comfirmPassword":'',
-        "message":"发送验证码",
-        "disabled":false ,//是否禁用发送按钮
-        "aletMsg": '', // 弹出框中的提示语
-        "displayStsates": 'none'
+        phone:'',
+        code:'',
+        nickname:'',
+        password:'',
+        comfirmPassword:'',
+        message:"发送验证码",
+        disabled:false ,//是否禁用发送按钮
+        aletMsg: '', // 弹出框中的提示语
+        displayStsates: 'none',
+        inviteCode:''
+
 
     },
     methods:{
@@ -17,6 +19,13 @@ var vm=new Vue({
         sendMessage:function () {
             var _this=this;
             var phone=_this.phone;
+            //判断是否有邀请码
+            var inviteCode=this.inviteCode;
+
+            if(inviteCode==''){
+                this.alertDia("请输入邀请码",1500);
+                return;
+            }
             //先对phone格式做判断
             var reg = new RegExp(/^1\d{10}$/);
             if(!reg.test(phone)){
@@ -24,7 +33,7 @@ var vm=new Vue({
                  return;
             }
             //发送验证码
-            $.get("/aliyunMessage/sendRegisterCode?phone="+phone, function(result){
+            $.get("/aliyunMessage/sendRegisterCode?phone="+phone+"&inviteCode="+inviteCode, function(result){
                 if(result.code==200){
                     _this.alertDia("短信发送成功！",2000);
 
@@ -76,7 +85,12 @@ var vm=new Vue({
             //昵称
             var nickname=_this.nickname;
             if(nickname==''||nickname.length<3||nickname.length>10){
-                this.alertDia("昵称请设置2至20字!",2000);
+                this.alertDia("昵称字数必须在2-20之间!",2000);
+                return;
+            }
+            //邀请码
+            if(this.inviteCode==''){
+                this.alertDia("邀请码不能为空!",2000);
                 return;
             }
             //密码
@@ -101,7 +115,8 @@ var vm=new Vue({
                    "phone":phone,
                    "code":code,
                    "nickname":nickname,
-                   "password":password
+                   "password":password,
+                   "inviteCode":this.inviteCode
                } ,
                 "dataType":"json",
                 success:function(result){
@@ -111,7 +126,7 @@ var vm=new Vue({
                            location.href="/login.html";
                        },3000);
                    }else{
-                       _this.alertDia(result.msg);
+                       _this.alertDia(result.msg,2000);
                    }
                 },
                 error:function(){

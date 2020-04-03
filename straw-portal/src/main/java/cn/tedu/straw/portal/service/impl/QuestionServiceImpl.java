@@ -24,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.constraints.NotEmpty;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -47,6 +48,8 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
     private  QuestionMapper questionMapper;
 
     @Resource
+    private  TeacherQuestionMapper teacherQuestionMapper;
+    @Resource
     private QuestionTagMapper questionTagMapper;
     @Resource
     private TagMapper tagMapper;
@@ -54,8 +57,6 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
     private AnswerMapper answerMapper;
     @Resource
     private EsQuestionServiceApi questionServiceApi;
-    @Resource
-    private UserTagMapper userTagMapper;
     @Resource
     private UploadFileConfig fileConfig;
 
@@ -172,23 +173,33 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
             throw  new BusinessException("服务器繁忙，请稍后重试");
         }
         //保存问题标签
-       Integer[] tags= param.getTags();
-       for(int i=0;i<tags.length;i++){
+       Integer[] tagIds= param.getTagIds();
+       for(Integer tagId:tagIds){
            QuestionTag questionTag=new QuestionTag();
-           questionTag.setTagId(tags[i]);
+           questionTag.setTagId(tagId);
            questionTag.setQuestionId(question.getId());
           int m= questionTagMapper.insert(questionTag);
           if(m!=1){
               throw  new BusinessException("服务器繁忙，请稍后重试");
           }
        }
-    // TODO 2.0版本把该功能迁移到Kafka消息队列处理
+       //保存老师和问题的关系
+        Integer[] teacherIds = param.getTeacherIds();
+       for(Integer teacherId:teacherIds){
+            TeacherQuestion teacherQuestion=new TeacherQuestion(teacherId,question.getId(),new Date());
+           int i = teacherQuestionMapper.insert(teacherQuestion);
+           if(i!=1){
+               throw  new BusinessException("服务器繁忙，请稍后重试");
+           }
+
+       }
+        // TODO 2.0版本把该功能迁移到Kafka消息队列处理
 
 
        //保存到es
         List<String> tagNames=new ArrayList<>();
        List<Tag> tagList=new ArrayList<>();
-        for(Integer tagId:tags){
+        for(Integer tagId:tagIds){
             Tag tag = tagMapper.selectById(tagId);
             if (tag == null) {
                 log.error("id为"+tagId+"的标签不存在");
@@ -198,9 +209,6 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
             tagList.add(tag);
 
         }
-
-
-
 
         EsQuestion esQuestion=new EsQuestion(question.getId(),question.getTitle(),question.getContent(),
                 question.getUserNickName(),question.getUserId(),question.getCreatetime(),question.getStatus(),question.getPageViews(),
@@ -328,8 +336,18 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
         Question question=new Question();
         question.setId(id);
         question.setPublicStatus(QuestionPublicStatus.PUBLIC.getStatus());
-        questionMapper.updateById(question);
         return questionMapper.updateById(question)==1;
+    }
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public boolean setQuestionPublic(Integer[] ids) {
+        Question question=new Question();
+        question.setPublicStatus(QuestionPublicStatus.PUBLIC.getStatus());
+        questionMapper.updateById(question);
+        QueryWrapper queryWrapper=new QueryWrapper();
+        queryWrapper.in("id",ids);
+        int update = questionMapper.update(question, queryWrapper);
+        return update>=1;
     }
 
     /**
@@ -342,7 +360,6 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
         Question question=new Question();
         question.setId(id);
         question.setPublicStatus(QuestionPublicStatus.PRIVATE.getStatus());
-        questionMapper.updateById(question);
         return questionMapper.updateById(question)==1;
     }
 
@@ -352,18 +369,9 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
     }
 
     private PageInfo<Question> getQuestionPageInfo(Integer pageNum, Integer pageSize,Integer status) {
-        QueryWrapper queryWrapper = new QueryWrapper();
-        queryWrapper.eq("user_id", getUseId());
-        List<UserTag> userTags = userTagMapper.selectList(queryWrapper);
-        if (CollectionUtils.isEmpty(userTags)) {
-            //返回空
-            return new PageInfo<>(new ArrayList<Question>());
-        }
-        //获取该老师的所有标签
-        List<Integer> tagIds = userTags.stream().map(UserTag::getTagId).collect(Collectors.toList());
         PageHelper.startPage(pageNum, pageSize);
-        List<Question> questions = questionMapper.findQuestionByTagIdsAndStatus(tagIds, status);
-        return new PageInfo<>(new ArrayList<Question>(questions));
+        List<Question> questions = questionMapper.findQuestionByUserIdAndStatus(getUseId(), status);
+        return new PageInfo<>(questions);
     }
 
     @Override
@@ -381,9 +389,54 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
         Question question=new Question();
         question.setId(id);
         question.setStatus(2);
-        questionMapper.updateById(question);
         return questionMapper.updateById(question)==1;
     }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public boolean setQuestionSolved(Integer[] ids) {
+        Question question=new Question();
+        question.setStatus(2);
+        QueryWrapper queryWrapper=new QueryWrapper();
+        queryWrapper.in("id",ids);
+        return  questionMapper.update(question,queryWrapper)>=1;
+    }
+
+    /**
+     * 把问题转发给其他老师
+     * @param teacherIds
+     * @param questionIds
+     * @return
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public boolean transferToTeacher(Integer[] teacherIds, Integer[] questionIds) {
+       if(teacherIds.length==0||questionIds.length==0){
+           throw  new BusinessException("所选的老师和问题都不能为空！");
+       }
+       Date now=new Date();
+       for(Integer teacherId:teacherIds){
+           for(Integer questionId:questionIds){
+               TeacherQuestion teacherQuestion=new TeacherQuestion(teacherId,questionId,now);
+               //先查找该TeacherQuestion是否已存在，如果存在则不做处理
+               QueryWrapper queryWrapper=new QueryWrapper();
+               queryWrapper.eq("teacher_id",teacherId);
+               queryWrapper.eq("question_id",questionId);
+               TeacherQuestion t = teacherQuestionMapper.selectOne(queryWrapper);
+               //不存在则添加，防止重复
+               if(t==null){
+                   int n = teacherQuestionMapper.insert(teacherQuestion);
+                   if(n!=1){
+                       throw  new BusinessException("服务繁忙，请稍后再试！");
+                   }
+               }
+
+           }
+       }
+        return true;
+    }
+
+
 
 
 }

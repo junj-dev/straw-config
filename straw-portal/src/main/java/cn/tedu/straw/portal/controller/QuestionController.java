@@ -3,6 +3,7 @@ package cn.tedu.straw.portal.controller;
 
 import cn.tedu.straw.common.CommonPage;
 import cn.tedu.straw.common.StrawResult;
+import cn.tedu.straw.portal.annotation.NoRepeatSubmit;
 import cn.tedu.straw.portal.api.EsQuestionServiceApi;
 import cn.tedu.straw.portal.base.BaseController;
 import cn.tedu.straw.portal.domian.param.QuestionParam;
@@ -12,6 +13,8 @@ import cn.tedu.straw.portal.model.QuestionQueryParam;
 import cn.tedu.straw.portal.model.Tag;
 import cn.tedu.straw.portal.service.IQuestionService;
 import cn.tedu.straw.portal.service.ITagService;
+import cn.tedu.straw.portal.service.ITeacherService;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -45,6 +48,8 @@ public class QuestionController extends BaseController {
     @Resource
     private IQuestionService questionService;
     @Resource
+    private ITeacherService teacherService;
+    @Resource
     private  EsQuestionServiceApi  questionServiceApi;
 
     @GetMapping("/create.html")
@@ -52,6 +57,11 @@ public class QuestionController extends BaseController {
         //查询出所有的标签
         List<Tag> tags = tagService.list();
         model.addAttribute("tags",tags);
+        //查询所有的老师
+        QueryWrapper query=new QueryWrapper();
+        query.eq("enabled",true);
+        List teachers = teacherService.list(query);
+        model.addAttribute("teachers",teachers);
         return "question/create";
     }
 
@@ -74,7 +84,9 @@ public class QuestionController extends BaseController {
 
     @PostMapping("/create")
     @ApiOperation("创建问题")
+    @NoRepeatSubmit
     public String create(@Validated  QuestionParam question, BindingResult result,RedirectAttributes attributes){
+        System.err.println(question);
         if(result.hasErrors()){
             List<String> errors= getErrorInfo(result);
             attributes.addFlashAttribute("errors",errors);
@@ -82,6 +94,7 @@ public class QuestionController extends BaseController {
             attributes.addFlashAttribute("content",question.getContent());
             return "redirect:/question/create.html";
         }
+
         questionService.create(question);
         return "redirect:/index.html";
 
@@ -167,6 +180,7 @@ public class QuestionController extends BaseController {
     }
 
 
+
     @GetMapping("/cancelQuestionPublic/{id}")
     @ResponseBody
     @PreAuthorize("hasRole('ROLE_TEACHER')")
@@ -223,5 +237,31 @@ public class QuestionController extends BaseController {
             return new StrawResult().failed("操作失败");
         }
     }
+    @PostMapping("/setQuestionSolved")
+    @ResponseBody
+    @PreAuthorize("hasRole('ROLE_TEACHER')")
+    @ApiOperation("提问设置为已解决")
+    public StrawResult setQuestionSolved(@RequestParam("ids[]") Integer[] ids){
+        boolean isSuccess= questionService.setQuestionSolved(ids);
+        if(isSuccess){
+            return new StrawResult().success("操作成功");
+        }else {
+            return new StrawResult().failed("操作失败");
+        }
+    }
+
+    @PostMapping("/transferToTeacher")
+    @ResponseBody
+    @PreAuthorize("hasRole('ROLE_TEACHER')")
+    @ApiOperation("将问题转发给其他老师")
+    public StrawResult transferToTeacher(@RequestParam("teacherIds[]") Integer[] teacherIds,@RequestParam("questionIds[]")Integer[] questionIds){
+       boolean isSuccess= questionService.transferToTeacher(teacherIds,questionIds);
+        if(isSuccess){
+            return new StrawResult().success("操作成功");
+        }else {
+            return new StrawResult().failed("操作失败");
+        }
+    }
+
 
 }

@@ -27,8 +27,8 @@ public class SpringBootRedisApplicationTests {
 
     @Test
     public void testString() {
-        strRedisTemplate.opsForValue().set("strKey", "zwqh");
-        System.out.println(strRedisTemplate.opsForValue().get("strKey"));
+        //strRedisTemplate.opsForValue().set("strKey", "zwqh");
+        System.out.println(strRedisTemplate.opsForValue().get("DD0770D1ADE5E11EDBF43EAFD17CDD8A-/question/create"));
     }
 
     @Test

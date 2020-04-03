@@ -10,5 +10,7 @@ import com.aliyuncs.CommonResponse;
  * @Version: 1.0
  */
 public interface IMessageService {
-    StrawResult sendRegisterCode(String phone);
+    StrawResult sendRegisterCode(String phone,String inviteCode);
+
+    StrawResult sendResetPasswordCode(String phone);
 }

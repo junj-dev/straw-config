@@ -1,16 +1,14 @@
-package cn.tedu.straw.portal.config;
+package cn.tedu.straw.portal.security;
 
+import cn.tedu.straw.portal.security.strategy.StrawExpiredSessionStrategy;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
-import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -31,6 +29,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
+//    @Bean
+//    public LoginSuccessHandler loginSuccessHandler(){
+//        return new LoginSuccessHandler();
+//    }
+
+
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -40,40 +44,51 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
 
-        http.httpBasic().disable().cors().and().csrf().disable()
-                .authorizeRequests()
-                .antMatchers(
-                        "/webjars/**",
-                        "/doc.html",
-                        "/plugins/**",
-                        "/logout",
-                        "/css/**",
-                        "/dist/**",
-                        "/js/**",
-                        "/img/**",
-                        "/fonts/**",
-                        "/swagger-resources/**",
-                        "/v2/api-docs",
-                        "/favicon.ico",
-                        "/swagger-ui.html",
-                        "/actuator/**",
-                        "/register.html",
-                        "/register",
-                        "/resetpassword.html",
-                        "/resetpassword",
-                        "/aliyunMessage/sendRegisterCode"//阿里云注册短信
-                ).permitAll()
-                        .anyRequest().authenticated()   // 其他地址的访问均需验证权限
+        http.httpBasic().disable().cors()
+                .and()
+                    .csrf()
+                    .disable()
+                    .authorizeRequests()
+                    .antMatchers(
+                            "/webjars/**",
+                            "/doc.html",
+                            "/plugins/**",
+                            "/logout",
+                            "/css/**",
+                            "/dist/**",
+                            "/js/**",
+                            "/img/**",
+                            "/fonts/**",
+                            "/swagger-resources/**",
+                            "/v2/api-docs",
+                            "/favicon.ico",
+                            "/swagger-ui.html",
+                            "/actuator/**",
+                            "/register.html",
+                            "/register",
+                            "/resetpassword.html",
+                            "/resetpassword",
+                            "/aliyunMessage/sendResetPasswordCode",
+                            "/aliyunMessage/sendRegisterCode")//阿里云注册短信
+                    .permitAll()
+                    .anyRequest()
+                    .authenticated()   // 其他地址的访问均需验证权限
                         .and()
-                        .formLogin()
-                        .loginProcessingUrl("/login")
-                        .loginPage("/login.html")
-                        .failureUrl("/login-error.html")
-                        .defaultSuccessUrl("/index.html")
-                        .permitAll()
+                            .formLogin()
+                            .loginProcessingUrl("/login")
+                           // .successHandler(loginSuccessHandler())
+                            .loginPage("/login.html")
+                            .failureUrl("/login-error.html")
+                            .defaultSuccessUrl("/index.html")
+                            .permitAll()
                         .and()
-                        .logout()
-                        .logoutSuccessUrl("/login.html")
+                            .logout()
+                            .logoutSuccessUrl("/login.html")
+                .and()
+                .sessionManagement()
+                .maximumSessions(1)
+                .maxSessionsPreventsLogin(false) // 当达到maximumSessions时，true表示不能踢掉前面的登录，false表示踢掉前面的用户
+                .expiredSessionStrategy(new StrawExpiredSessionStrategy()) // 当达到maximumSessions时，踢掉前面登录用户后的操作
 
 
         ;
