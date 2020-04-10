@@ -1,5 +1,6 @@
 package cn.tedu.straw.portal.security;
 
+import cn.tedu.straw.portal.security.handler.LoginSuccessHandler;
 import cn.tedu.straw.portal.security.strategy.StrawExpiredSessionStrategy;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,7 +29,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public BCryptPasswordEncoder bCryptPasswordEncoder(){
         return new BCryptPasswordEncoder();
     }
-
+//
 //    @Bean
 //    public LoginSuccessHandler loginSuccessHandler(){
 //        return new LoginSuccessHandler();
@@ -76,7 +77,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         .and()
                             .formLogin()
                             .loginProcessingUrl("/login")
-                           // .successHandler(loginSuccessHandler())
+                            //.successHandler(loginSuccessHandler())
                             .loginPage("/login.html")
                             .failureUrl("/login-error.html")
                             .defaultSuccessUrl("/index.html")

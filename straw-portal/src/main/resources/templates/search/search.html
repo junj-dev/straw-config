@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="renderer" content="webkit" />
+<meta name="Author" content="刘苍松">
+<title>稻草FAQ</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="author" content="Robin Liu">
+<link rel="stylesheet" th:href="@{/bower_components/bootstrap-4.4.1/dist/css/bootstrap.min.css}">
+<link rel="stylesheet" th:href="@{/bower_components/font-awesome-4.7.0/css/font-awesome.min.css}" />
+<link th:href="@{/css/zpageNav.css}" rel="stylesheet" />
+</head>
+<body>
+
+
+  <div class="container mt-5 mb-1" id="app">
+    <div class="row">
+      <div class="col-8 pb-2">
+
+        <div class="container mb-3">
+
+          <div class="row">
+            <div class="col-3">
+              <h3 class="text-center text-info">稻草搜索</h3>
+            </div>
+            <div class="col-9">
+              <div class="form-inline my-2 my-lg-0 "  >
+                <input type="hidden" th:value="${keyword}" id="keyword">
+                <input class="form-control form-control-md mr-sm-2 rounded-pill" v-model="keyword"  v-on:keyup.13="pageHandler()" style="width: 75%"  type="search" placeholder="请输入问题的关键字/标签" aria-label="Search">
+                <button class="btn btn-sm btn-outline-secondary my-2 my-sm-0 rounded-pill"  v-on:click="pageHandler()" type="button"><i class="fa fa-search" aria-hidden="true"></i></button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+
+        <div class="container bg-light">
+          <h4 class="border-bottom m-2 p-2 font-weight-light"><i class="fa fa-comments-o" aria-hidden="true"></i> 问答列表</h4>
+          <div class="row" v-if="questions == undefined ||  questions.length == 0 ">
+            <div class="alert alert-warning w-100" role="alert">
+              抱歉您还没有提问内容， <a href="#" class="alert-link">您可以点击此处提问</a>，或者点击标签查看其它问答
+            </div>
+          </div>
+          <div class="media bg-white m-2 p-3" v-for="(question,index) in questions"  v-if="questions !==undefined && questions.length > 0 ">
+            <div class="media-body w-50">
+              <div class="row">
+                <div class="col-2">
+                  <span class="badge badge-pill badge-warning" v-if="question.status == '0'">未回复</span>
+                  <span class="badge badge-pill badge-info" v-if="question.status == '1'">待解决</span>
+                  <span class="badge badge-pill badge-success" v-if="question.status == '2'">已解决</span>
+                </div>
+                <div class="col-10">
+                  <h5 class="mt-0 mb-1 text-truncate"><a class="text-dark" :href="'/question/detail/'+question.id" >{{question.title}}</a></h5>
+                </div>
+              </div>
+
+              <div class="font-weight-light text-truncate text-wrap text-justify mb-2" style="height: 70px;">
+                <p v-html="question.content">
+                </p>
+              </div>
+              <div class="row">
+                <div class="col-7 mt-1 text-info">
+                  <i class="fa fa-tags" aria-hidden="true"></i>
+                  <a class="text-info" :href="'/question/tag_question.html?tagId='+tag.id" v-for="tag in question.tags"><small>{{tag.name}} &nbsp;</small></a>
+                </div>
+                <div class="col-5">
+                  <ul class="list-inline mb-1 ">
+                    <li class="list-inline-item"><small><span class="font-weight-light"></span>{{question.userNickName}}</small></li>
+                    <li class="list-inline-item"><small><span class="font-weight-light"></span>{{question.pageViews}}浏览</small></li>
+                    <li class="list-inline-item"><small><span class="font-weight-light"></span>{{question.distanceTime}}</small></li>
+                  </ul>
+                </div>
+              </div>
+
+            </div>
+            <!-- / class="media-body"-->
+            <img :src="'/img/tags/example'+index+'.jpg'" class="ml-3 border img-fluid rounded" alt="" width="208" height="116">
+          </div>
+          <!-- / class="media"-->
+        </div>
+
+      </div>
+      <!-- / class="col-8"-->
+      <div class="col-4 pb-2">
+
+        <div class="container bg-light mt-5">
+          <h4 class="m-2 p-2 font-weight-light"><i class="fa fa-list" aria-hidden="true"></i> 搜索排行榜</h4>
+          <div class="list-group list-group-flush">
+            <a href="#" class="list-group-item list-group-item-action">
+              <div class="d-flex w-100 justify-content-between">
+                <h6 class="mb-1">无代码开发，站到了程序员鄙视链顶端</h6>
+                <small><span class="badge badge-primary badge-pill">14</span></small>
+              </div>
+              <small>2020-1-1</small>
+            </a>
+
+            <a href="#" class="list-group-item list-group-item-action">
+              <div class="d-flex w-100 justify-content-between">
+                <h6 class="mb-1">内容量大增，带来的安全挑战应如何应对？</h6>
+                <small><span class="badge badge-primary badge-pill">4</span></small>
+              </div>
+              <small>2020-3-1</small>
+            </a>
+
+            <a href="#" class="list-group-item list-group-item-action">
+              <div class="d-flex w-100 justify-content-between">
+                <h6 class="mb-1">F5 发布 2020 年应用服务状况报告：大多数企业处于云原生转型阶段</h6>
+                <small><span class="badge badge-primary badge-pill">22</span></small>
+              </div>
+              <small>2020-2-1</small>
+            </a>
+
+            <a href="#" class="list-group-item list-group-item-action">
+              <div class="d-flex w-100 justify-content-between">
+                <h6 class="mb-1">号称准确率 97% 的开源肺炎检测模型：照搬 PyTorch 教程、50 张图片就训练完了</h6>
+                <small><span class="badge badge-primary badge-pill">14</span></small>
+              </div>
+              <small>2019-12-1</small>
+            </a>
+
+            <a href="#" class="list-group-item list-group-item-action">
+              <div class="d-flex w-100 justify-content-between">
+                <h6 class="mb-1">腾讯会议如何保证语音质量？音频信号处理中有这些秘籍</h6>
+                <small><span class="badge badge-primary badge-pill">1</span></small>
+              </div>
+              <small>2019-2-21</small>
+            </a>
+          </div>
+        </div>
+
+      </div>
+      <!-- / class="col-4"-->
+    </div>
+    <!-- / class="row"-->
+    <div class="row" v-if="questions !==undefined && questions.length > 0 ">
+      <!--显示分页信息-->
+        <zpagenav v-bind:page="page" v-bind:page-size="pageSize" v-bind:total="total"
+                  v-bind:max-page="maxPage"  v-on:pagehandler="pageHandler">
+        </zpagenav>
+    </div>
+  </div>
+  <footer class="container  bg-light mt-1 py-3"> 
+    <p class="text-center font-weight-light">达内教育-Java教研部 版权所有<br><a href="http://tedu.cn">tedu.cn</a></p>
+  </footer>
+  <script th:src="@{/js/jquery.min.js}"></script>
+  <script th:src="@{/bower_components/poper/dist/popper.min.js}"></script>
+  <script th:src="@{/bower_components/bootstrap-4.4.1/dist/js/bootstrap.min.js}"></script>
+  <script th:src="@{/js/vue.js}"></script>
+  <script th:src="@{/js/zpageNav.js}"></script>
+  <script th:src="@{/js/search.js?v=1.1}"></script>
+</body>
+</html>

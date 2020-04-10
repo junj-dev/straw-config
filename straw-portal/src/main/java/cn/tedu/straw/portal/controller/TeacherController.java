@@ -3,6 +3,8 @@ package cn.tedu.straw.portal.controller;
 
 import cn.tedu.straw.common.StrawResult;
 import cn.tedu.straw.portal.base.BaseController;
+import cn.tedu.straw.portal.domian.vo.TeacherVo;
+import cn.tedu.straw.portal.model.Teacher;
 import cn.tedu.straw.portal.service.ITeacherService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import io.swagger.annotations.ApiOperation;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.Resource;
 import java.lang.annotation.Retention;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -38,5 +41,33 @@ public class TeacherController extends BaseController {
         List teachers = teacherService.list(queryWrapper);
         return new StrawResult().success(teachers);
     }
+    @GetMapping("/loadAllTeacherNames")
+    @ResponseBody
+    @ApiOperation("加载所有老师")
+    public StrawResult<List<String>> loadAllTeacherNames(){
+        QueryWrapper queryWrapper=new QueryWrapper();
+        queryWrapper.eq("enabled",true);
+        List<Teacher> teachers = teacherService.list(queryWrapper);
+        List<String> teacherNames = teachers.stream().map(Teacher::getName).collect(Collectors.toList());
+        return new StrawResult().success(teacherNames);
+    }
+
+    @GetMapping("/loadAllTeacherVos")
+    @ResponseBody
+    @ApiOperation("加载所有老师,用于复选框展示")
+    public StrawResult loadAllTeacherVos(){
+        QueryWrapper queryWrapper=new QueryWrapper();
+        queryWrapper.eq("enabled",true);
+        List<Teacher> teachers = teacherService.list(queryWrapper);
+        //把老师封装成页面的复选框数组内容
+        List<TeacherVo> teacherVos = teachers.stream().map(t -> {
+            TeacherVo vo = new TeacherVo();
+            vo.setText(t.getName());
+            vo.setValue(t.getId());
+            return vo;
+        }).collect(Collectors.toList());
+        return new StrawResult().success(teacherVos);
+    }
+
 
 }

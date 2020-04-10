@@ -1,5 +1,6 @@
 package cn.tedu.straw.portal.controller;
 
+import cn.tedu.straw.portal.base.BaseController;
 import cn.tedu.straw.portal.model.Question;
 import cn.tedu.straw.portal.service.IQuestionService;
 import com.github.pagehelper.PageInfo;
@@ -11,6 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * @Description: 主页控制器
  * @Author: ChenHaiBao
@@ -19,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @Controller
 @Api(value = "首页控制器",tags = "首页控制器")
-public class IndexController {
+public class IndexController extends BaseController {
 
     @Autowired
     private IQuestionService questionService;
@@ -28,14 +31,11 @@ public class IndexController {
     @GetMapping(value = {"/index.html","/"})
     @ApiOperation("转到首页")
     @PreAuthorize("hasAuthority('/index.html')")
-    public  String  index(
-//            Model model,
-//            @RequestParam(value = "pageNum",defaultValue = "1") Integer pageNum,
-//            @RequestParam(value = "pageSize",defaultValue = "5") Integer pageSize
-    ){
-
-       // PageInfo<Question> pageInfo = questionService.selectPage(pageNum, pageSize);
-      //  model.addAttribute("pageInfo",pageInfo);
+    public  String  index(){
+        List<String> roles = getUserRoleNames();
+        if(roles!=null&&roles.contains("ROLE_TEACHER")){
+            return "index_teacher";
+        }
         return "index";
     }
 

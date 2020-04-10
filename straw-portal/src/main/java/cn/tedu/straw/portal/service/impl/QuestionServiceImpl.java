@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
@@ -59,6 +60,8 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
     private EsQuestionServiceApi questionServiceApi;
     @Resource
     private UploadFileConfig fileConfig;
+    @Resource
+    private TeacherMapper teacherMapper;
 
 
     @Override
@@ -164,7 +167,7 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public boolean create(QuestionParam param) {
+    public boolean create( QuestionParam param) {
         //保存问题
         Question question=new Question(param.getTitle(),param.getContent()
                 ,getUserNickname(),getUseId(),new Date(),0,0, QuestionPublicStatus.PRIVATE.getStatus());
@@ -173,46 +176,44 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
             throw  new BusinessException("服务器繁忙，请稍后重试");
         }
         //保存问题标签
-       Integer[] tagIds= param.getTagIds();
-       for(Integer tagId:tagIds){
+       String[] tagNames= param.getTagNames();
+        List<Tag> tagList=new ArrayList<>();
+       for(String tagName:tagNames){
+           QueryWrapper tagQuery=new QueryWrapper();
+           tagQuery.eq("name",tagName);
+           Tag tag = tagMapper.selectOne(tagQuery);
+           if(tag==null){
+               throw  new BusinessException(tagName+"标签已被删除,请重新选择!");
+           }
+           tagList.add(tag);
            QuestionTag questionTag=new QuestionTag();
-           questionTag.setTagId(tagId);
+           questionTag.setTagId(tag.getId());
            questionTag.setQuestionId(question.getId());
           int m= questionTagMapper.insert(questionTag);
           if(m!=1){
               throw  new BusinessException("服务器繁忙，请稍后重试");
           }
+
+
        }
        //保存老师和问题的关系
-        Integer[] teacherIds = param.getTeacherIds();
-       for(Integer teacherId:teacherIds){
-            TeacherQuestion teacherQuestion=new TeacherQuestion(teacherId,question.getId(),new Date());
+        String[] teacherNames = param.getTeacherNames();
+       for(String teaherName:teacherNames){
+           QueryWrapper teacherQuery=new QueryWrapper();
+           teacherQuery.eq("name",teaherName);
+           Teacher teacher = teacherMapper.selectOne(teacherQuery);
+           if(teacher==null){throw  new BusinessException(teaherName+":该老师名称已被删除,请重新选择!");}
+           TeacherQuestion teacherQuestion=new TeacherQuestion(teacher.getId(),question.getId(),new Date());
            int i = teacherQuestionMapper.insert(teacherQuestion);
            if(i!=1){
                throw  new BusinessException("服务器繁忙，请稍后重试");
            }
-
        }
         // TODO 2.0版本把该功能迁移到Kafka消息队列处理
 
-
-       //保存到es
-        List<String> tagNames=new ArrayList<>();
-       List<Tag> tagList=new ArrayList<>();
-        for(Integer tagId:tagIds){
-            Tag tag = tagMapper.selectById(tagId);
-            if (tag == null) {
-                log.error("id为"+tagId+"的标签不存在");
-                throw  new RuntimeException("服务器繁忙，请稍后重试");
-            }
-            tagNames.add(tag.getName());
-            tagList.add(tag);
-
-        }
-
         EsQuestion esQuestion=new EsQuestion(question.getId(),question.getTitle(),question.getContent(),
                 question.getUserNickName(),question.getUserId(),question.getCreatetime(),question.getStatus(),question.getPageViews(),
-                question.getPublicStatus(),question.getDistanceTime(),tagNames,tagList);
+                question.getPublicStatus(),question.getDistanceTime(),Arrays.asList(param.getTagNames()),tagList);
        boolean flag= questionServiceApi.saveQuestion(esQuestion);
         if(!flag){
             throw  new BusinessException("服务器繁忙，请稍后重试");

@@ -10,7 +10,7 @@ $(function () {
             }
         },
     });
-    $('.select2').select2();
+     $('.select2').select2();
 })
 function insertImg(imgeList){
     //for(i in imageUrl){
@@ -55,4 +55,120 @@ function UploadFiles(files,func){
         }
     })
 }
+
+var vm=new Vue( {
+    el:"#app",
+    data: {
+            title: '', //标题内容
+            tagNames:[], //所选择的标签
+            teacherNames:[], //所选择的老师
+            content:'', //问题的内容
+            teachers:[], //所有老师
+            tags:[], //所有标签
+            show: true,
+            aletMsg: '',//提示消息
+            displayStsates: 'none',//是否隐藏
+    },
+    computed: {
+        //检查标题有没有写
+        titleState() {
+            return this.title.length > 3 && this.title.length<50 ? true : false
+        },
+        availableTags() {
+            return this.tags.filter(opt => this.tagNames.indexOf(opt) === -1)
+        },
+        availableTeachers() {
+            return this.teachers.filter(opt => this.teacherNames.indexOf(opt) === -1)
+        }
+    },
+    methods: {
+        // 提示弹框
+        alertDia (msg,timeout) {
+            this.displayStsates = 'block'
+            this.aletMsg = msg
+            // 延迟2秒后消失 自己可以更改时间
+            window.setTimeout(() => {
+                this.displayStsates = 'none'
+            }, timeout)
+        },
+        //加载老师
+        loadTeachers:function () {
+            var _this=this;
+            $.get("/teacher/loadAllTeacherNames",function (result) {
+                if(result.code==200){
+                    _this.teachers=result.data;
+                }else {
+                    console.log("加载老师失败!");
+                }
+            });
+        },
+        //加载标签
+        loadTgs: function () {
+            var _this=this;
+            $.get("/tag/findAllTagNames",function(result){
+                if(result.code==200){
+                    _this.tags=result.data;
+                    console.log("tags:"+result.data);
+                }
+            });
+        },
+        onSubmit(evt) {
+            evt.preventDefault()
+            var _this=this;
+            //校验标题内容
+            if(!_this.titleState){
+               _this.alertDia("标题字数请控制在3到50字之间",2000);
+               return;
+            }
+            //校验所选标签
+            if(_this.tagNames.length==0){
+                _this.alertDia("请至少选择一个标签!",2000);
+                return;
+            }
+            //校验所选老师
+            if(_this.teacherNames.length==0){
+                _this.alertDia("请至少选择一位老师!",2000);
+                return;
+            }
+            //校验问题的内容是否为空
+           var content= $('#summernote').summernote('code');
+            console.log("content:"+content);
+            if(content.length==0||content=='<p><br></p>'){
+                _this.alertDia("问题的内容不能为空",2000);
+                return;
+            }
+            var data={
+                "title":_this.title,
+                "content":content,
+                "tagNames":_this.tagNames,
+                "teacherNames": _this.teacherNames
+            };
+            $.ajax({
+                url:"/question/askQuestion",
+                type:"post",
+                data:JSON.stringify(data),
+                dataTye:'json',
+                contentType:"application/json",
+                success:function (res) {
+                    if(res.code==200){
+                        _this.alertDia("提交成功!",1300);
+                        setTimeout(function () {
+                            location.href="/";
+                        },1000)
+                    }else {
+                        _this.alertDia(res.msg,2000);
+                    }
+                }
+            })
+
+
+
+
+        }
+    },
+    created:function () {
+        this.loadTgs();
+        this.loadTeachers();
+    }
+})
 

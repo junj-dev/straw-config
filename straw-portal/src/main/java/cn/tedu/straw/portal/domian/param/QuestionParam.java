@@ -17,12 +17,12 @@ import javax.validation.constraints.Size;
 @Data
 public class QuestionParam {
 
-    @Size(min = 1,max = 50,message = "标题字数必须在50个字以内！")
+    @Size(min = 3,max = 50,message = "标题字数必须控制在3到50字之间！")
     private  String title;
     @NotEmpty(message = "标签不能为空")
-    private  Integer[] tagIds;
+    private  String[] tagNames;
     @NotEmpty(message = "回答问题的老师不能为空")
-    private  Integer[] teacherIds;
+    private  String[] teacherNames;
     @NotEmpty(message = "问题的内容不能为空!")
     private  String content;
 }

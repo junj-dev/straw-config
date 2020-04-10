@@ -1,24 +1,14 @@
-Vue.component('v-select', VueSelect.VueSelect);
-$(function () {
-    $('.select2').select2();
-});
 
 var vm5=new Vue({
     el: '#app5',
     data: function() {
         return {
             options: [],
-            placeholder: 'Choose a student..',
-            teachers: [1],
-            teacher_obj: []
+            selected: [],
+            show: true
         }
     },
-    mounted: function() {
-        var teacher_filter = function (obj) {
-            return this.teachers.indexOf(obj.id) > -1
-        }
-        this.teacher_obj = this.options.filter(teacher_filter, this)
-    },
+
     methods:{
         // 提示弹框
         alertDia (msg,timeout) {
@@ -29,15 +19,11 @@ var vm5=new Vue({
                 this.displayStsates = 'none'
             }, timeout)
         },
-        select_teacher: function(values){
-            this.teachers =values.map(function(obj){
-                return obj.id
-            })
-        },
+
         //加载老师
         loadTeachers:function () {
             var _this=this;
-            $.get("/teacher/loadAllTeachers",function (result) {
+            $.get("/teacher/loadAllTeacherVos",function (result) {
                 if(result.code==200){
                     _this.options=result.data;
                 }else {
@@ -58,18 +44,15 @@ var vm5=new Vue({
                 url:"/question/transferToTeacher",
                 data:{
                     "questionIds":questionIds,
-                    "teacherIds":_this.teachers,
-
-
+                    "teacherIds":_this.selected
                 },
                 dataType: "json",
                 success:function (res) {
                     if(res.code==200){
                         $("#app5").modal("hide");
-                        alert("操作成功！");
-
+                        alert("操作成功!");
                     }else {
-                        _this.alertDia(res.msg,1500);
+                        alert(res.msg);
                     }
                 }
             });
@@ -85,16 +68,9 @@ var vm4=new Vue({
     data: function() {
         return {
             options: [],
-            placeholder: 'Choose a student..',
-            teachers: [1],
-            teacher_obj: []
+            selected: [],
+            show: true
         }
-    },
-    mounted: function() {
-        var teacher_filter = function (obj) {
-            return this.teachers.indexOf(obj.id) > -1
-        }
-        this.teacher_obj = this.options.filter(teacher_filter, this)
     },
     methods:{
         // 提示弹框
@@ -106,15 +82,10 @@ var vm4=new Vue({
                 this.displayStsates = 'none'
             }, timeout)
         },
-        select_teacher: function(values){
-            this.teachers =values.map(function(obj){
-                return obj.id
-            })
-        },
         //加载老师
         loadTeachers:function () {
             var _this=this;
-            $.get("/teacher/loadAllTeachers",function (result) {
+            $.get("/teacher/loadAllTeacherVos",function (result) {
                 if(result.code==200){
                     _this.options=result.data;
                 }else {
@@ -135,19 +106,15 @@ var vm4=new Vue({
                 url:"/question/transferToTeacher",
                 data:{
                     "questionIds":questionIds,
-                    "teacherIds":_this.teachers,
-
-
+                    "teacherIds":_this.selected
                 },
                 dataType: "json",
                 success:function (res) {
                     if(res.code==200){
                         $("#app4").modal("hide");
-                        alert("操作成功！");
-
-
+                        alert("操作成功!");
                     }else {
-                        _this.alertDia(res.msg,1500);
+                        alert(res.msg);
                     }
                 }
             });
@@ -158,8 +125,6 @@ var vm4=new Vue({
         this.loadTeachers();
     }
 });
-
-
 var vm = new Vue({
     el: '#app1',
     data: {
@@ -173,13 +138,8 @@ var vm = new Vue({
         checked:false,
         aletMsg: '', // 弹出框中的提示语
         displayStsates: 'none',
-
-
-
-
     },
     methods: {
-
         // 提示弹框
         alertDia (msg,timeout) {
             this.displayStsates = 'block'

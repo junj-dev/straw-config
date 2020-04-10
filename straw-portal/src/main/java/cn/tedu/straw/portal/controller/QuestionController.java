@@ -7,6 +7,7 @@ import cn.tedu.straw.portal.annotation.NoRepeatSubmit;
 import cn.tedu.straw.portal.api.EsQuestionServiceApi;
 import cn.tedu.straw.portal.base.BaseController;
 import cn.tedu.straw.portal.domian.param.QuestionParam;
+import cn.tedu.straw.portal.exception.BusinessException;
 import cn.tedu.straw.portal.model.EsQuestion;
 import cn.tedu.straw.portal.model.Question;
 import cn.tedu.straw.portal.model.QuestionQueryParam;
@@ -82,24 +83,46 @@ public class QuestionController extends BaseController {
 
 
 
-    @PostMapping("/create")
+//    @PostMapping("/create")
+//    @ApiOperation("创建问题")
+//    @NoRepeatSubmit
+//    public String create(@Validated  QuestionParam question, BindingResult result,RedirectAttributes attributes){
+//        System.err.println(question);
+//        if(result.hasErrors()){
+//            List<String> errors= getErrorInfo(result);
+//            attributes.addFlashAttribute("errors",errors);
+//            attributes.addFlashAttribute("title",question.getTitle());
+//            attributes.addFlashAttribute("content",question.getContent());
+//            return "redirect:/question/create.html";
+//        }
+//
+//        questionService.create(question);
+//        return "redirect:/index.html";
+//
+//
+//    }
+
+    @PostMapping("/askQuestion")
     @ApiOperation("创建问题")
     @NoRepeatSubmit
-    public String create(@Validated  QuestionParam question, BindingResult result,RedirectAttributes attributes){
+    @ResponseBody
+    public StrawResult create(@Validated @RequestBody  QuestionParam question, BindingResult bindingResult){
         System.err.println(question);
-        if(result.hasErrors()){
-            List<String> errors= getErrorInfo(result);
-            attributes.addFlashAttribute("errors",errors);
-            attributes.addFlashAttribute("title",question.getTitle());
-            attributes.addFlashAttribute("content",question.getContent());
-            return "redirect:/question/create.html";
+        if(bindingResult.hasErrors()){
+            return new StrawResult().validateFailed(bindingResult);
+        }
+      boolean isSucess=questionService.create(question);
+        if(isSucess){
+            return new StrawResult().success();
+        }else {
+            return new StrawResult().failed("服务繁忙,请稍后重试!");
         }
 
-        questionService.create(question);
-        return "redirect:/index.html";
 
 
     }
+
+
 
     @GetMapping("/detail/{id}")
     @ApiOperation("查看某个问题详情")
@@ -288,5 +311,31 @@ public class QuestionController extends BaseController {
         }
     }
 
+    @GetMapping("/tag_question.html")
+    @ApiOperation("访问标签页问题")
+    public String toTagQuestionPge(@RequestParam("tagId")Integer tagId,Model model){
+        if(tagId==0){
+            Tag tag=new Tag();
+            tag.setId(0);
+            tag.setName("全部");
+            model.addAttribute("tag",tag);
+        }else {
+            Tag tag = tagService.getById(tagId);
+            if(tag==null){throw  new BusinessException("该标签不存在");
+            }
+            model.addAttribute("tag",tag);
+        }
+
+
+        return "tag/tag_question";
+    }
+
+
+    @GetMapping("/search.html")
+    @ApiOperation("搜索页面")
+    public String toSearchPage(@RequestParam("keyword")String keyword,Model model){
+        model.addAttribute("keyword",keyword);
+        return "search/search";
+    }
 
 }

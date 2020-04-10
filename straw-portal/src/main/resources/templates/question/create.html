@@ -1,140 +1,213 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
-	<head th:replace="commom/head :: head">
-		
-	</head>
-	<head>
-		<link rel="stylesheet" th:href="@{/plugins/summernote/summernote.min.css}">
-	</head>
-	<body class="hold-transition skin-blue sidebar-mini">
-		<div class="wrapper">
-			<header th:replace="commom/head :: header"></header>
-			<aside class="main-sidebar" >
-				<section class="sidebar">
-					<div class="user-panel">
-						<div class="pull-left image">
-							<img th:src="@{/img/logo.jpg}" class="img-circle" alt="User Image">
-						</div>
-						<div class="pull-left info">
-							<p th:text="${session.SPRING_SECURITY_CONTEXT.authentication.principal.nickname}"> </p>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+	  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head th:replace="common/head :: head"></head>
+<head>
+	<link rel="stylesheet" th:href="@{/plugins/summernote/summernote.min.css}">
+</head>
+<body>
+<header th:replace="common/head :: header"></header>
 
-							<a href="#"><i class="fa fa-circle text-success"></i> Online</a>
-						</div>
-					</div>
-
-
-
-					<!-- Sidebar Menu -->
-					<ul class="sidebar-menu" data-widget="tree">
-
-
-
-
-						<li class="treeview" onclick="location.href='/index.html'"><a href="#"><i class="fa fa-dashboard "></i>
-							<span>首页</span> </a>
-
-						</li>
-						<li class="treeview active" onclick="location.href='/question/create.html'"><a href="#"><i class="fa fa-question-circle "></i>
-							<span>我要提问</span> </a>
-
-						</li>
-						<li class="treeview" sec:authorize="hasRole('ROLE_TEACHER')"><a href="#"><i class="fa fa-gear "></i>
-							<span>提题中心</span> <span class="pull-right-container"> <i
-									class="fa fa-angle-left pull-right"></i>
-							</span> </a>
-							<ul class="treeview-menu">
-								<li><a href="/question/questionManager.html">&nbsp;提问管理</a></li>
-							</ul>
-						</li>
-
-						<li class="treeview"><a href="#"><i class="fa fa-user "></i>
-							<span>个人中心</span> <span class="pull-right-container"> <i
-									class="fa fa-angle-left pull-right"></i>
-				</span> </a>
-							<ul class="treeview-menu">
-								<!--<li><a href="#">&nbsp;个人资料</a></li>-->
-								<li class="active"><a href="/personal/myquestion.html">&nbsp;我的提问</a></li>
-								<li sec:authorize="hasRole('ROLE_TEACHER')"><a href="/personal/mytask.html">&nbsp;我的任务</a></li>
-								<!--					<li><a href="/emp/empLevel">&nbsp;我的回答</a></li>-->
-								<!--					<li><a href="/emp/superiorScore">我的关注</a></li>-->
-							</ul>
-						</li>
-
-
-
-
-					</ul>
-
-				</section>
-
-			</aside>
-			<div class="content-wrapper">
-					<section class="content-header">
-<!--						<h1>问答中心</h1>-->
-<!--						<ol class="breadcrumb">-->
-<!--							<li><a href="#"><i class="fa fa-dashboard"></i>问答中心</a></li>-->
-<!--							<li class="active">提问</li>-->
-<!--						</ol>-->
-					</section>
-					<section class="content ">
-						<div class="row" style="margin-top: 30px">
-							<div class="col-lg-12" >
-								<div class="alert alert-danger alert-dismissible" role="alert"  th:if="${errors!=null}">
-									<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-									<ul>
-										<li th:each="error : ${errors}" th:text="${error}"></li>
-									</ul>
-								</div>
-								<form class="form-horizontal" action="/question/create" method="post"  enctype="application/x-www-form-urlencoded">
-									<div class="form-group">
-										<label for="inputEmail3" class="col-sm-2 control-label">标题</label>
-										<div class="col-sm-10">
-											<input type="text" class="form-control" th:value="${title}"  name="title" id="inputEmail3" placeholder="请填写标题">
-										</div>
-									</div>
-									<div class="form-group">
-										<label for="inputPassword3" class="col-sm-2 control-label">请选择标签</label>
-										<div class="col-sm-10">
-											<select class="form-control select2" name="tagIds" multiple="multiple" data-placeholder="&nbsp;&nbsp;请选择标签,支持多选"
-													style="width: 100%;">
-												<option th:each="tag : ${tags}"  th:value="${tag.id}" th:text="${tag.name}">Alaba</option>
-
-											</select>
-										</div>
-									</div>
-									<div class="form-group">
-										<label for="inputPassword3" class="col-sm-2 control-label">向老师提问</label>
-										<div class="col-sm-10">
-											<select class="form-control select2" name="teacherIds" multiple="multiple" data-placeholder="&nbsp;&nbsp;请选择老师,支持多选"
-													style="width: 100%;">
-												<option th:each="teacher : ${teachers}"  th:value="${teacher.id}" th:text="${teacher.name}">Alaba</option>
-
-											</select>
-										</div>
-									</div>
-									<div class="form-group">
-										<div class="col-sm-offset-2 col-sm-10">
-											<textarea id="summernote" th:text="${content}" name="content" ></textarea>
-										</div>
-									</div>
-									<div class="form-group">
-
-										<div class="col-sm-offset-2 col-sm-10">
-											<button type="submit"  class="btn btn-primary">提交问题</button>
-										</div>
-									</div>
-								</form>
-							</div>
-
-
-
-						</div>
-					</section>
-			</div>
-			<footer th:replace="commom/footer :: footer"></footer>
+<div class="container mt-2 mb-1 bg-light" id="app">
+	<div class="row">
+		<div class="alsrtInfo" :style="{display: displayStsates}" ref="alertMsg">
+			<div class="profPrompt_test">{{aletMsg}}</div>
 		</div>
-	</body>
-	<script th:src="@{/plugins/summernote/summernote.min.js}"></script>
-	<script th:src="@{/plugins/summernote/summernote-zh-CN.min.js}"></script>
-	<script th:src="@{/js/createQuestion.js?v=1.0}"></script>
+	</div>
+	<div class="row">
+		<div class="col-8" >
+
+
+<!--			<div class="alert alert-danger alert-dismissible" role="alert"  th:if="${errors!=null}">-->
+<!--				<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
+<!--				<ul>-->
+<!--					<li th:each="error : ${errors}" th:text="${error}"></li>-->
+<!--				</ul>-->
+<!--			</div>-->
+<!--			<form  action="/question/create" method="post"  enctype="application/x-www-form-urlencoded">-->
+<!--				<div class="form-group">-->
+
+<!--					<input type="text" class="form-control" th:value="${title}"  name="title" id="input1" placeholder="请填写标题">-->
+<!--				</div>-->
+<!--				<div class="form-group">-->
+
+<!--					<select class="form-control  select2" id="input2" name="tagIds" multiple="multiple" data-placeholder="&nbsp;&nbsp;请选择标签,支持多选"-->
+<!--							style="width: 100%;">-->
+<!--						<option th:each="tag : ${tags}"  th:value="${tag.id}" th:text="${tag.name}">Alaba</option>-->
+
+<!--					</select>-->
+<!--				</div>-->
+<!--				<div class="form-group">-->
+
+<!--					<select class="form-control select2" id="input3" name="teacherIds" multiple="multiple" data-placeholder="&nbsp;&nbsp;请选择老师,支持多选"-->
+<!--							style="width: 100%;">-->
+<!--						<option th:each="teacher : ${teachers}"  th:value="${teacher.id}" th:text="${teacher.name}">Alaba</option>-->
+
+<!--					</select>-->
+<!--				</div>-->
+<!--				<div class="form-group">-->
+<!--					<textarea id="summernote" th:text="${content}" name="content" ></textarea>-->
+<!--				</div>-->
+<!--				<div class="form-group">-->
+<!--					<button type="submit"  class="btn btn-primary">提交问题</button>-->
+<!--				</div>-->
+<!--			</form>-->
+			<template>
+				<div>
+					<b-form @submit="onSubmit"  v-if="show">
+						<!--标题-start-->
+						<b-form-group
+								id="input-group-1"
+								label="标题:"
+								label-for="input-1"
+						>
+							<b-form-input
+									id="input-1"
+									v-model="title"
+									type="text"
+									placeholder="请填写标题"
+									:state="titleState"
+									aria-describedby="input-live-feedback"
+							></b-form-input>
+							<!-- This will only be shown if the preceding input has an invalid state -->
+							<b-form-invalid-feedback id="input-live-feedback">
+								标题字数请控制在3到50字之间
+							</b-form-invalid-feedback>
+						</b-form-group>	<!--标题-end-->
+
+						<!--选择标签-start-->
+						<b-form-group label="请至少选择一个标签:">
+
+							<!-- prop `add-on-change` is needed to enable adding tags vie the `change` event -->
+							<b-form-tags v-model="tagNames" size="lg"  add-on-change no-outer-focus class="mb-2">
+								<template v-slot="{ tags, inputAttrs, inputHandlers, disabled, removeTag }">
+									<ul v-if="tags.length > 0" class="list-inline d-inline-block mb-2">
+										<li v-for="tag in tags" :key="tag" class="list-inline-item">
+											<b-form-tag
+													@remove="removeTag(tag)"
+													:title="tag"
+													:disabled="disabled"
+													variant="info"
+											>{{ tag }}</b-form-tag>
+										</li>
+									</ul>
+									<b-form-select
+											v-bind="inputAttrs"
+											v-on="inputHandlers"
+											:disabled="disabled || availableTags.length === 0"
+											:options="availableTags"
+									>
+										<template v-slot:first>
+											<!-- This is required to prevent bugs with Safari -->
+											<option disabled value="">选择标签</option>
+										</template>
+									</b-form-select>
+								</template>
+							</b-form-tags>
+						</b-form-group>
+						</b-form-group><!--选择标签-end-->
+						<!--选择老师-start-->
+						<b-form-group label="请选择老师:">
+							<!-- prop `add-on-change` is needed to enable adding tags vie the `change` event -->
+							<b-form-tags v-model="teacherNames" size="lg" add-on-change no-outer-focus class="mb-2">
+								<template v-slot="{ tags, inputAttrs, inputHandlers, disabled, removeTag }">
+									<ul v-if="tags.length > 0" class="list-inline d-inline-block mb-2">
+										<li v-for="tag in tags" :key="tag" class="list-inline-item">
+											<b-form-tag
+													@remove="removeTag(tag)"
+													:title="tag"
+													:disabled="disabled"
+													variant="info"
+											>{{ tag }}</b-form-tag>
+										</li>
+									</ul>
+									<b-form-select
+											v-bind="inputAttrs"
+											v-on="inputHandlers"
+											:disabled="disabled || availableTeachers.length === 0"
+											:options="availableTeachers"
+									>
+										<template v-slot:first>
+											<!-- This is required to prevent bugs with Safari -->
+											<option disabled value="">选择回答问题的老师</option>
+										</template>
+									</b-form-select>
+								</template>
+							</b-form-tags>
+						</b-form-group> <!--选择老师-end-->
+
+						<!--富文本编辑器 start-->
+						<div id="summernote" >
+
+						</div><!--富文本编辑器 end-->
+
+						<b-button type="submit" class="mt-5" variant="primary">提交问题</b-button>
+					</b-form>
+
+				</div>
+			</template>
+		</div>
+		<div class="col-4 pb-2 ">
+
+			<div class="container bg-light mt-5">
+				<h4 class="m-2 p-2 font-weight-light"><i class="fa fa-list mr-1" aria-hidden="true"></i>相关提问</h4>
+				<div class="list-group list-group-flush">
+					<a href="#" class="list-group-item list-group-item-action">
+						<div class="d-flex w-100 justify-content-between">
+							<h6 class="mb-1">无代码开发，站到了程序员鄙视链顶端</h6>
+							<small><span class="badge badge-primary badge-pill">14</span></small>
+						</div>
+						<small>2020-1-1</small>
+					</a>
+
+					<a href="#" class="list-group-item list-group-item-action">
+						<div class="d-flex w-100 justify-content-between">
+							<h6 class="mb-1">内容量大增，带来的安全挑战应如何应对？</h6>
+							<small><span class="badge badge-primary badge-pill">4</span></small>
+						</div>
+						<small>2020-3-1</small>
+					</a>
+
+					<a href="#" class="list-group-item list-group-item-action">
+						<div class="d-flex w-100 justify-content-between">
+							<h6 class="mb-1">F5 发布 2020 年应用服务状况报告：大多数企业处于云原生转型阶段</h6>
+							<small><span class="badge badge-primary badge-pill">22</span></small>
+						</div>
+						<small>2020-2-1</small>
+					</a>
+
+					<a href="#" class="list-group-item list-group-item-action">
+						<div class="d-flex w-100 justify-content-between">
+							<h6 class="mb-1">号称准确率 97% 的开源肺炎检测模型：照搬 PyTorch 教程、50 张图片就训练完了</h6>
+							<small><span class="badge badge-primary badge-pill">14</span></small>
+						</div>
+						<small>2019-12-1</small>
+					</a>
+
+					<a href="#" class="list-group-item list-group-item-action">
+						<div class="d-flex w-100 justify-content-between">
+							<h6 class="mb-1">腾讯会议如何保证语音质量？音频信号处理中有这些秘籍</h6>
+							<small><span class="badge badge-primary badge-pill">1</span></small>
+						</div>
+						<small>2019-2-21</small>
+					</a>
+				</div>
+			</div>
+
+		</div>
+		<!-- / class="col-4"-->
+
+		</div>
+
+	</div>
+</div>
+
+<footer class="container  bg-light mt-1 py-3">
+	<p class="text-center font-weight-light">达内教育-Java教研部 版权所有<br><a href="http://tedu.cn">tedu.cn</a></p>
+</footer>
+
+<script th:src="@{/plugins/summernote/summernote.min.js}"></script>
+<script th:src="@{/plugins/summernote/summernote-zh-CN.min.js}"></script>
+<script th:src="@{/js/createQuestion.js?v=1.0}"></script>
+</body>
 </html>

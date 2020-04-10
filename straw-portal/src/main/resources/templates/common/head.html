@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="renderer" content="webkit" />
+	<title>稻草FAQ</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="author" content="Robin Liu">
+	<link rel="stylesheet" th:href="@{/bower_components/bootstrap-4.4.1/dist/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/bower_components/font-awesome-4.7.0/css/font-awesome.min.css}" />
+	<link th:href="@{/css/zpageNav.css}" rel="stylesheet" />
+	<link rel="stylesheet" th:href="@{/css/vueAlert.css}">
+	<script th:src="@{/js/jquery.min.js}"></script>
+	<script th:src="@{/bower_components/poper/dist/popper.min.js}"></script>
+	<script th:src="@{/bower_components/bootstrap-4.4.1/dist/js/bootstrap.min.js}"></script>
+	<link rel="stylesheet" th:href="@{/css/select2.min.css}">
+	<script th:src="@{/js/select2.full.js}"></script>
+	<link type="text/css" rel="stylesheet" href="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.css" />
+	<!-- Load polyfills to support older browsers -->
+	<script src="//polyfill.io/v3/polyfill.min.js?features=es2015%2CIntersectionObserver" crossorigin="anonymous"></script>
+	<!-- Load Vue followed by BootstrapVue -->
+	<script src="//unpkg.com/vue@latest/dist/vue.min.js"></script>
+	<script src="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.js"></script>
+	<!-- Load the following for BootstrapVueIcons support -->
+	<script src="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue-icons.min.js"></script>
+	<script th:src="@{/js/zpageNav.js}"></script>
+</head>
+
+<header class="container bg-light mb-2" >
+
+	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+		<a class="navbar-brand" href="#"> <img alt="稻草问答"
+											   th:src="@{/img/straw_logo_239x80.png}" height="33">
+		</a>
+		<button class="navbar-toggler" type="button"
+				data-toggle="collapse" data-target="#navbarNavAltMarkup"
+				aria-controls="navbarNavAltMarkup" aria-expanded="false"
+				aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+		<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+			<div class="navbar-nav">
+				<a class="nav-item nav-link active" href="/">首页</a>
+				<a class="nav-item nav-link" href="">
+					<i class="fa fa-bell-o"></i>
+					<span class="badge badge-warning  align-text-top"><small>8</small></span>
+				</a>
+			</div>
+
+		</div>
+
+		<div class="form-inline my-2 my-lg-0" id="searchApp">
+			<input class="form-control form-control-sm mr-sm-2 rounded-pill" v-model="keyword" type="search" placeholder="Search"  v-on:keyup.13="search()" aria-label="Search">
+			<button class="btn btn-sm btn-outline-secondary my-2 my-sm-0 rounded-pill" type="button" v-on:click="search()"><i class="fa fa-search" aria-hidden="true"></i></button>
+		</div>
+		<a type="button" class="btn btn-outline-primary btn-sm mx-3" href="/question/create.html">我要提问</a>
+		<div class="dropdown px-1 mx-1 py-3 my-n2">
+			<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				<img style="width: 30px;height: 30px;border-radius: 50%;" src="http://39.97.229.107/group1/M00/00/06/rBF9h15rOE-ARERBAABVIbenIVo282.jpg">
+			</button>
+			<div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+				<a class="dropdown-item " href="#">账号设置</a>
+				<div class="dropdown-divider"></div>
+				<a class="dropdown-item " href="/logout">退出</a>
+			</div>
+		</div>
+	</nav>
+	<script th:src="@{/js/header.js}"></script>
+</header>
+
+	
+
+</html>
