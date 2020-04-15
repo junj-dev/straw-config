@@ -57,6 +57,7 @@ public class Question implements Serializable {
     @TableField("createtime")
     private Date createtime;
 
+
     @ApiModelProperty(value = "状态，0-》未回答，1-》待解决，2-》已解决")
     @TableField("status")
     private  Integer status;
@@ -192,6 +193,16 @@ public class Question implements Serializable {
         return distanceTime;
 
     }
+
+    public String getCreateTimeStr() {
+        if(createtime!=null){
+            SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm");
+            return sdf.format(createtime);
+        }
+        return "未知时间";
+    }
+
+
 
     public void setDistanceTime(String distanceTime) {
         this.distanceTime = distanceTime;

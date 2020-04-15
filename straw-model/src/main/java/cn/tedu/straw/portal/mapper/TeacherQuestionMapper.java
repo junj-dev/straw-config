@@ -1,6 +1,6 @@
 package cn.tedu.straw.portal.mapper;
 
-import cn.tedu.straw.portal.model.TeacherQuestion;
+import cn.tedu.straw.portal.model.UserQuestion;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author ChenHaiBao
  * @since 2020-04-01
  */
-public interface TeacherQuestionMapper extends BaseMapper<TeacherQuestion> {
+public interface TeacherQuestionMapper extends BaseMapper<UserQuestion> {
 
 }

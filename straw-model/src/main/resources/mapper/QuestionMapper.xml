@@ -120,4 +120,12 @@
 
 
     </select>
+    <select id="countTaskByUserId" parameterType="integer" resultType="java.lang.Integer">
+         SELECT count(*)
+         FROM question AS q
+         left outer  join teacher_question AS tq on  tq.question_id = q.id
+         left  outer join  teacher AS t on t.id = tq.teacher_id
+         where  t.user_id = #{userId} and
+                q.status in (0,1)
+    </select>
 </mapper>

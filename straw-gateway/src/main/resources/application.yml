@@ -1,0 +1,32 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: spring-cloud-gateway
+  cloud:
+    gateway:
+      routes:
+        - id: portal_route
+          uri: http://localhost:8082/** #转发的目标地址
+          predicates:
+            - Path=/straw/portal/** #拦截这类的请求
+          filters:
+            - StripPrefix=2 #截断2层路径，例如访问/straw/portal/hello的时候，转发到http:localhost:8082/hello
+            - name: Hystrix #断路器过滤器
+              args:
+                name: fallback
+                fallbackUri: forward:/fallback #当下游的服务不可用时，断路器会打开，然后访该路径
+
+logging:
+  level:
+    org.springframework.cloud.gateway: TRACE
+    org.springframework.http.server.reactive: DEBUG
+    org.springframework.web.reactive: DEBUG
+    reactor.ipc.netty: DEBUG
+hystrix:
+  command:
+    portal_route:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds:10

@@ -10,6 +10,12 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>straw-search</artifactId>
     <dependencies>
+        <!--引入api接口-->
+        <dependency>
+            <groupId>cn.tedu</groupId>
+            <artifactId>straw-search-api</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
         <dependency>
             <groupId>cn.tedu</groupId>
             <artifactId>straw-model</artifactId>

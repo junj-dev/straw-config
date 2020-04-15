@@ -3,7 +3,6 @@ package cn.tedu.straw.portal.service.impl;
 import cn.tedu.straw.common.CommonPage;
 import cn.tedu.straw.common.constant.QuestionPublicStatus;
 import cn.tedu.straw.common.StrawResult;
-import cn.tedu.straw.portal.api.EsQuestionServiceApi;
 import cn.tedu.straw.portal.base.BaseServiceImpl;
 import cn.tedu.straw.portal.config.UploadFileConfig;
 import cn.tedu.straw.portal.domian.param.QuestionParam;
@@ -12,25 +11,22 @@ import cn.tedu.straw.portal.exception.PageNotExistException;
 import cn.tedu.straw.portal.mapper.*;
 import cn.tedu.straw.portal.model.*;
 import cn.tedu.straw.portal.service.IQuestionService;
+import cn.tedu.straw.search.api.EsQuestionServiceApi;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.constraints.NotEmpty;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.stream.Collectors;
 
 
 /**
@@ -61,7 +57,7 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
     @Resource
     private UploadFileConfig fileConfig;
     @Resource
-    private TeacherMapper teacherMapper;
+    private UserMapper userMapper;
 
 
     @Override
@@ -200,11 +196,11 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
         String[] teacherNames = param.getTeacherNames();
        for(String teaherName:teacherNames){
            QueryWrapper teacherQuery=new QueryWrapper();
-           teacherQuery.eq("name",teaherName);
-           Teacher teacher = teacherMapper.selectOne(teacherQuery);
+           teacherQuery.eq("nickname",teaherName);
+           User teacher = userMapper.selectOne(teacherQuery);
            if(teacher==null){throw  new BusinessException(teaherName+":该老师名称已被删除,请重新选择!");}
-           TeacherQuestion teacherQuestion=new TeacherQuestion(teacher.getId(),question.getId(),new Date());
-           int i = teacherQuestionMapper.insert(teacherQuestion);
+           UserQuestion userQuestion =new UserQuestion(teacher.getId(),question.getId(),new Date());
+           int i = teacherQuestionMapper.insert(userQuestion);
            if(i!=1){
                throw  new BusinessException("服务器繁忙，请稍后重试");
            }
@@ -428,15 +424,15 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
        Date now=new Date();
        for(Integer teacherId:teacherIds){
            for(Integer questionId:questionIds){
-               TeacherQuestion teacherQuestion=new TeacherQuestion(teacherId,questionId,now);
+               UserQuestion userQuestion =new UserQuestion(teacherId,questionId,now);
                //先查找该TeacherQuestion是否已存在，如果存在则不做处理
                QueryWrapper queryWrapper=new QueryWrapper();
                queryWrapper.eq("teacher_id",teacherId);
                queryWrapper.eq("question_id",questionId);
-               TeacherQuestion t = teacherQuestionMapper.selectOne(queryWrapper);
+               UserQuestion t = teacherQuestionMapper.selectOne(queryWrapper);
                //不存在则添加，防止重复
                if(t==null){
-                   int n = teacherQuestionMapper.insert(teacherQuestion);
+                   int n = teacherQuestionMapper.insert(userQuestion);
                    if(n!=1){
                        throw  new BusinessException("服务繁忙，请稍后再试！");
                    }

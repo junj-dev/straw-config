@@ -3,6 +3,7 @@ package cn.tedu.straw.search.controller;
 import cn.tedu.straw.common.CommonPage;
 import cn.tedu.straw.common.StrawResult;
 import cn.tedu.straw.portal.model.EsQuestion;
+import cn.tedu.straw.search.api.EsQuestionServiceApi;
 import cn.tedu.straw.search.service.IEsQuestionService;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
@@ -16,14 +17,15 @@ import javax.annotation.Resource;
  * @Version: 1.0
  */
 @RestController
-@RequestMapping("/esQuestion")
-public class EsQuestionController {
+public class EsQuestionController implements  EsQuestionServiceApi{
+
+
 
     @Resource
     private IEsQuestionService questionService;
 
 
-    @GetMapping("/importAllQuestion")
+    @Override
     public StrawResult importAllQuestionFromDB(){
         int count = questionService.importAllQuestionFromDB();
         return new StrawResult().success("成功导入"+count+"条数据");
@@ -37,7 +39,7 @@ public class EsQuestionController {
      * @param pageSize
      * @return
      */
-    @GetMapping("/search")
+    @Override
     public StrawResult<CommonPage<EsQuestion>> search(@RequestParam(required = false) String keyword,
                                                       @RequestParam(required = false, defaultValue = "1") Integer pageNum,
                                                       @RequestParam(required = false, defaultValue = "5") Integer pageSize){
@@ -54,7 +56,7 @@ public class EsQuestionController {
      * @param pageSize
      * @return
      */
-    @GetMapping("/searchOpenQuestion")
+   @Override
     public StrawResult<CommonPage<EsQuestion>> searchOpenQuestion(@RequestParam(required = false,value = "keyword") String keyword,
                                                       @RequestParam(required = false, defaultValue = "1",value = "pageNum") Integer pageNum,
                                                       @RequestParam(required = false, defaultValue = "5",value = "pageSize") Integer pageSize,
@@ -67,7 +69,7 @@ public class EsQuestionController {
     }
 
 
-    @PostMapping("/save")
+   @Override
     public boolean saveQuestion(@RequestBody EsQuestion question){
         System.out.println("question:"+question);
          return questionService.insert(question);

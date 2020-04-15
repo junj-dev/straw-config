@@ -4,18 +4,14 @@ package cn.tedu.straw.portal.controller;
 import cn.tedu.straw.common.CommonPage;
 import cn.tedu.straw.common.StrawResult;
 import cn.tedu.straw.portal.annotation.NoRepeatSubmit;
-import cn.tedu.straw.portal.api.EsQuestionServiceApi;
 import cn.tedu.straw.portal.base.BaseController;
 import cn.tedu.straw.portal.domian.param.QuestionParam;
 import cn.tedu.straw.portal.exception.BusinessException;
-import cn.tedu.straw.portal.model.EsQuestion;
-import cn.tedu.straw.portal.model.Question;
-import cn.tedu.straw.portal.model.QuestionQueryParam;
-import cn.tedu.straw.portal.model.Tag;
+import cn.tedu.straw.portal.model.*;
 import cn.tedu.straw.portal.service.IQuestionService;
 import cn.tedu.straw.portal.service.ITagService;
-import cn.tedu.straw.portal.service.ITeacherService;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import cn.tedu.straw.portal.service.IUserService;
+import cn.tedu.straw.search.api.EsQuestionServiceApi;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -26,7 +22,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -49,21 +44,25 @@ public class QuestionController extends BaseController {
     @Resource
     private IQuestionService questionService;
     @Resource
-    private ITeacherService teacherService;
+    private IUserService userService;
     @Resource
-    private  EsQuestionServiceApi  questionServiceApi;
+    private EsQuestionServiceApi questionServiceApi;
 
     @GetMapping("/create.html")
     public  String create(Model model){
         //查询出所有的标签
         List<Tag> tags = tagService.list();
         model.addAttribute("tags",tags);
-        //查询所有的老师
-        QueryWrapper query=new QueryWrapper();
-        query.eq("enabled",true);
-        List teachers = teacherService.list(query);
+        List<User> teachers = getAvalibleTeachers();
         model.addAttribute("teachers",teachers);
         return "question/create";
+    }
+
+    @GetMapping("/importAllQuestionToEs")
+    @ResponseBody
+    @ApiOperation("把数据库所有的问题导入es")
+    public StrawResult importAllQuestionToEs(){
+       return questionServiceApi.importAllQuestionFromDB();
     }
 
     /**
@@ -82,25 +81,6 @@ public class QuestionController extends BaseController {
     }
 
 
-
-//    @PostMapping("/create")
-//    @ApiOperation("创建问题")
-//    @NoRepeatSubmit
-//    public String create(@Validated  QuestionParam question, BindingResult result,RedirectAttributes attributes){
-//        System.err.println(question);
-//        if(result.hasErrors()){
-//            List<String> errors= getErrorInfo(result);
-//            attributes.addFlashAttribute("errors",errors);
-//            attributes.addFlashAttribute("title",question.getTitle());
-//            attributes.addFlashAttribute("content",question.getContent());
-//            return "redirect:/question/create.html";
-//        }
-//
-//        questionService.create(question);
-//        return "redirect:/index.html";
-//
-//
-//    }
 
     @PostMapping("/askQuestion")
     @ApiOperation("创建问题")

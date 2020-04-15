@@ -1,21 +1,23 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+<html  xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head th:replace="common/head :: head"></head>
+<head>
+  <title>稻草FAQ首页</title>
+  <link href="/img/logo.ico" rel="SHORTCUT ICON" />
+</head>
 <body>
 <header th:replace="common/head :: header"></header>
-  <div class="container mt-2 mb-1" id="app">
+  <div class="container mt-2 mb-1" >
     <div class="row">
-      <div class="col-8 pb-2">
-        <nav class="nav font-weight-light">
-          <a class="nav-item nav-link text-info"   href="/question/tag_question.html?tagId=0"><small>全部</small></a>
-          <a class="nav-item nav-link text-info"  v-for="tag in tags" :href="'/question/tag_question.html?tagId='+tag.id"><small>{{tag.name}}</small></a>
-        </nav>
+      <div class="col-8 pb-2" id="app">
+        <!--引入标签的导航栏-->
+        <ul th:replace="common/tag::tag"></ul>
         <div class="container bg-light">
           <h4 class="border-bottom m-2 p-2 font-weight-light"><i class="fa fa-tasks" aria-hidden="true"></i> 我的任务</h4>
           <div class="row" v-if="questions == undefined ||  questions.length == 0 ">
             <div class="alert alert-warning w-100" role="alert">
-              抱歉您还没有提问内容， <a href="#" class="alert-link">您可以点击此处提问</a>，或者点击标签查看其它问答
+              抱歉，当前您没有回答任务，您可以通过点击上面的标签查看其它的问题。
             </div>
           </div>
           <div class="media bg-white m-2 p-3" v-for="(question,index) in questions"  v-if="questions !==undefined && questions.length > 0 ">
@@ -27,7 +29,7 @@
                   <span class="badge badge-pill badge-success" v-if="question.status == '2'">已解决</span>
                 </div>
                 <div class="col-10">
-                  <h5 class="mt-0 mb-1 text-truncate"><a class="text-dark" :href="'/question/detail/'+question.id" >{{question.title}}</a></h5>
+                  <h5 class="mt-0 mb-1 text-truncate "><a class="text-primary" :href="'/question/detail/'+question.id" >{{question.title}}</a></h5>
                 </div>
               </div>
 
@@ -55,76 +57,31 @@
           </div>
           <!-- / class="media"-->
         </div>
+        <!-- / class="row"-->
+        <div class="row" v-if="questions !==undefined && questions.length > 0 ">
+          <div class="col-12 text-center">
+            <!--显示分页信息-->
+            <zpagenav v-bind:page="page" v-bind:page-size="pageSize" v-bind:total="total"
+                      v-bind:max-page="maxPage"  v-on:pagehandler="pageHandler">
+            </zpagenav>
+          </div>
+
+        </div>
       </div>
       <!-- / class="col-8"-->
       <div class="col-4 pb-2">
-        <div class="container  font-weight-light">
-          <div class="card" >
-            <h5 class="card-header" th:text="${session.SPRING_SECURITY_CONTEXT.authentication.principal.nickname}"></h5>
-            <div class="card-body">
-              <ul class="list-inline mb-1 ">
-                <li class="list-inline-item mx-3 my-1">
-                  <a class="text-center" href="#">
-                    <div><strong>0</strong></div>
-                    <div>金币</div>
-                  </a>
-                </li>
-                <li class="list-inline-item mx-3 my-1" sec:authorize="hasRole('ROLE_TEACHER')">
-                  <a class="text-center" href="#">
-                    <div><strong>5</strong></div>
-                    <div>回答</div>
-                  </a>
-
-                </li>
-                <li class="list-inline-item mx-3 my-1">
-                  <a class="text-center" href="#">
-                    <div><strong>5</strong></div>
-                    <div>提问</div>
-                  </a>
-                </li>
-                <li class="list-inline-item mx-3 my-1">
-                  <a class="text-center" href="/personal/mytask.html">
-                    <div><strong>5</strong></div>
-                    <div>任务</div>
-                  </a>
-
-                </li>
-
-              </ul>
-
-            </div>
-          </div>
-        </div>
-        <div class="container bg-light mt-5">
-          <h4 class="m-2 p-2 font-weight-light"><i class="fa fa-list" aria-hidden="true"></i> 热点</h4>
-          <div class="list-group list-group-flush">
-            <a href="#" class="list-group-item list-group-item-action">
-              <div class="d-flex w-100 justify-content-between">
-                <h6 class="mb-1">无代码开发，站到了程序员鄙视链顶端</h6>
-                <small><span class="badge badge-primary badge-pill">14</span></small>
-              </div>
-              <small>2020-1-1</small>
-            </a>
-          </div>
-        </div>
-
+        <!--个人信息-->
+        <div th:replace="common/myInfo :: myInfo"></div>
+        <!--热点数据-->
+        <div th:replace="common/hotspot :: hostpot"></div>
       </div>
       <!-- / class="col-4"-->
     </div>
-    <!-- / class="row"-->
-    <div class="row" v-if="questions !==undefined && questions.length > 0 ">
-      <div class="col-12 text-center">
-          <!--显示分页信息-->
-          <zpagenav v-bind:page="page" v-bind:page-size="pageSize" v-bind:total="total"
-                    v-bind:max-page="maxPage"  v-on:pagehandler="pageHandler">
-          </zpagenav>
-      </div>
 
-    </div>
   </div>
-  <footer class="container  bg-light mt-1 py-3"> 
-    <p class="text-center font-weight-light">达内教育-Java教研部 版权所有<br><a href="http://tedu.cn">tedu.cn</a></p>
-  </footer>
+  <!--底部-->
+  <footer th:replace="common/footer::footer"></footer>
   <script th:src="@{/js/index_teacher.js}"></script>
+  <script th:src="@{/js/myinfo.js}"></script>
 </body>
 </html>

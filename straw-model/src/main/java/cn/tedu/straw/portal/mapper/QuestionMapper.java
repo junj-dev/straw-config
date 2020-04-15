@@ -4,6 +4,7 @@ import cn.tedu.straw.portal.model.Question;
 import cn.tedu.straw.portal.model.QuestionQueryParam;
 import cn.tedu.straw.portal.model.Tag;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import io.swagger.models.auth.In;
 
 import java.util.List;
 
@@ -74,5 +75,7 @@ public interface QuestionMapper extends BaseMapper<Question> {
 
 
     List<Question> findQuestionByUserIdAndStatus(Integer userId,Integer status);
+
+    Integer countTaskByUserId(Integer userId);
 
 }

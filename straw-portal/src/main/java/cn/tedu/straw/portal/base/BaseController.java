@@ -2,6 +2,8 @@ package cn.tedu.straw.portal.base;
 
 import cn.tedu.straw.portal.model.Role;
 import cn.tedu.straw.portal.model.User;
+import cn.tedu.straw.portal.service.IUserService;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -11,6 +13,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 
+import javax.annotation.Resource;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Date;
@@ -20,6 +23,9 @@ import java.util.stream.Collectors;
 @Controller
 @Slf4j
 public class BaseController {
+
+	@Resource
+	private IUserService userService;
 
 
 
@@ -116,6 +122,17 @@ public class BaseController {
 		throw  new RuntimeException("服务繁忙，请稍后再试!");
 	}
 
+	/**
+	 * 获取在职的老师
+	 * @return
+	 */
+	protected List<User> getAvalibleTeachers() {
+		QueryWrapper queryWrapper = new QueryWrapper();
+		queryWrapper.eq("enabled", true);
+		//type为true代表回答问题的老师
+		queryWrapper.eq("type", true);
+		return userService.list(queryWrapper);
+	}
 	
  
 }

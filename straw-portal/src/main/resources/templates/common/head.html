@@ -4,7 +4,6 @@
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="renderer" content="webkit" />
-	<title>稻草FAQ</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="author" content="Robin Liu">
 	<link rel="stylesheet" th:href="@{/bower_components/bootstrap-4.4.1/dist/css/bootstrap.min.css}">
@@ -30,7 +29,7 @@
 <header class="container bg-light mb-2" >
 
 	<nav class="navbar navbar-expand-lg navbar-light bg-light">
-		<a class="navbar-brand" href="#"> <img alt="稻草问答"
+		<a class="navbar-brand" href="/"> <img alt="稻草问答"
 											   th:src="@{/img/straw_logo_239x80.png}" height="33">
 		</a>
 		<button class="navbar-toggler" type="button"
@@ -60,9 +59,11 @@
 			<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 				<img style="width: 30px;height: 30px;border-radius: 50%;" src="http://39.97.229.107/group1/M00/00/06/rBF9h15rOE-ARERBAABVIbenIVo282.jpg">
 			</button>
-			<div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-				<a class="dropdown-item " href="#">账号设置</a>
+			<div class="dropdown-menu text-sm" aria-labelledby="dropdownMenu2">
+				<a class="dropdown-item " href="/personal/myinfo.html">个人资料</a>
 				<div class="dropdown-divider"></div>
+				<a class="dropdown-item " href="#"  sec:authorize="hasRole('ROLE_TEACHER')">查看邀请码</a>
+				<div class="dropdown-divider"  sec:authorize="hasRole('ROLE_TEACHER')"></div>
 				<a class="dropdown-item " href="/logout">退出</a>
 			</div>
 		</div>

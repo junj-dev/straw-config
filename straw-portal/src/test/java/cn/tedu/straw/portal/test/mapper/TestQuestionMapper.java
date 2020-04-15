@@ -124,4 +124,14 @@ public class TestQuestionMapper {
         List<Question> questions = questionMapper.findQuestionByUserIdAndStatus(4, 1);
         questions.forEach(System.out::println);
     }
+
+
+    /**
+     * @see QuestionMapper#countTaskByUserId(Integer)
+     */
+    @Test
+    public  void countTaskByUserId(){
+        Integer taskCount = questionMapper.countTaskByUserId(3);
+        System.out.println(taskCount);
+    }
 }

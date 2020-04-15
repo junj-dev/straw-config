@@ -1,115 +1,107 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+<html  xmlns:th="http://www.thymeleaf.org"
 	  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head th:replace="common/head :: head"></head>
 <head>
-	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="renderer" content="webkit" />
-	<title>稻草FAQ</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="author" content="Robin Liu">
-	<link rel="stylesheet" th:href="@{/bower_components/bootstrap-4.4.1/dist/css/bootstrap.min.css}">
-	<link rel="stylesheet" th:href="@{/bower_components/font-awesome-4.7.0/css/font-awesome.min.css}" />
-	<link th:href="@{/css/zpageNav.css}" rel="stylesheet" />
-	<link rel="stylesheet" th:href="@{/css/select2.min.css}">
+	<title th:text="${question.title}"></title>
+	<link href="/img/logo.ico" rel="SHORTCUT ICON" />
 	<link rel="stylesheet" th:href="@{/plugins/summernote/summernote.min.css}">
+	<!--提问内容-->
+	<link rel="stylesheet" th:href="@{/css/question-content.css}">
+
 </head>
 <body>
-<div class="container mt-2 mb-3 ">
-	<nav class="navbar navbar-light bg-light">
-		<a class="navbar-brand btn btn-outline-secondary btn-md" href="/"><span class="fa  fa-angle-left"></span>&nbsp;返回</a>
-	</nav>
-</div>
-
-<div class="container mt-2 mb-1 bg-light" >
+<header th:replace="common/head :: header"></header>
+<div class="container mt-5 mb-1 bg-light" >
 	<div class="row">
-		<div class="col-12">
-			<div class="card">
-				<div class="card-header">
-					<h3 th:text="${question.title}"></h3>
-					<div class="row my-2">
-						<div class="col-7 mt-1 text-info">
-							<i class="fa fa-tags" aria-hidden="true"></i>
-							<a class="text-info" th:href="@{'/question/tag_question.html?tagId='+${tag.id}}" th:each="tag : ${question.tags}"><small th:text="${tag.name+'&nbsp;'}"></small></a>
-						</div>
-						<div class="col-5">
-							<ul class="list-inline mb-1 ">
-								<li class="list-inline-item" th:text="${question.userNickName}"></li>
-								<li class="list-inline-item" th:text="|${question.pageViews}浏览|"></li>
-								<li class="list-inline-item" th:text="${question.distanceTime}"></li>
-							</ul>
-						</div>
-					</div>
-				</div>
-				<div class="card-body" th:utext="${question.content}">
-				</div>
-			</div>
-		</div>
-
-	</div>
-	<!--如果没有回答问题的权限就不显示回答框-->
-	<div class="row my-5"   sec:authorize="hasAuthority('/question/answer')">
-		<div class="col-12">
-			<h3 class="text-secondary">填写答案</h3>
-			<form action="/question/answer" method="post" enctype="application/x-www-form-urlencoded">
-				<input type="hidden" th:value="${question.id}" name="id">
-				<div class="form-group">
-					<textarea id="summernote" name="content"></textarea>
-				</div>
-				<div class="form-group">
-					<button type="submit" class="btn btn-primary">提交回答</button>
-				</div>
-			</form>
-		</div>
-	</div>
-
-
-</div>
-<div class="container">
-	<!--列出所有的答案-->
-	<div class="row">
-		<div class="col-lg-12" style="margin-left: 10px">
-			<div class="well-sm"><h3 th:text="|${question.answersize}条回答|">3条回答</h3></div>
-			<div class="panel panel-default" th:each="answer : ${question.answers}">
-				<!-- Default panel contents -->
-				<div class="panel-heading">
-					<div class="row">
-						<div class="col-1">
-							<img style="width: 50px;height: 50px;border-radius: 50%;" src="http://39.97.229.107/group1/M00/00/06/rBF9h15rOE-ARERBAABVIbenIVo282.jpg">
-						</div>
-						<div class="col-8">
-							<div class="row" style="margin-top: 1px;margin-bottom: 2px">
-								<span th:text="${answer.userNickName}">陈海宝</span>
+		<div class="col-8">
+			<div class="row">
+				<div class="col-12">
+					<div class="card">
+						<div class="card-header">
+							<h3 th:text="${question.title}"></h3>
+							<div class="row my-2">
+								<div class="col-7 mt-1 text-info">
+									<i class="fa fa-tags" aria-hidden="true"></i>
+									<a class="text-info" th:href="@{'/question/tag_question.html?tagId='+${tag.id}}" th:each="tag : ${question.tags}"><small th:text="${tag.name+'&nbsp;'}"></small></a>
+								</div>
+								<div class="col-5">
+									<ul class="list-inline mb-1 ">
+										<li class="list-inline-item" th:text="${question.userNickName}"></li>
+										<li class="list-inline-item" th:text="|${question.pageViews}浏览|"></li>
+										<li class="list-inline-item" th:text="${question.distanceTime}"></li>
+									</ul>
+								</div>
 							</div>
-							<div class="row" style="margin-top:5px;margin-bottom: 1px ">
-								<span th:text="${answer.distanceTime}">1天前</span>
-							</div>
-
+						</div>
+						<div class="card-body question-content" th:utext="${question.content}" >
 						</div>
 					</div>
 				</div>
-				<div class="panel-body" >
-					<div class="row" style="margin-top: 30px;margin-left: 20px;margin-right: 10px" th:utext="${answer.content}">
-					</div>
-
-				</div>
-
-
 
 			</div>
+			<!--如果没有回答问题的权限就不显示回答框-->
+			<div class="row my-5"   sec:authorize="hasAuthority('/question/answer')">
+				<div class="col-12">
+					<h3 class="text-secondary">填写答案</h3>
+					<form action="/question/answer" method="post" enctype="application/x-www-form-urlencoded">
+						<input type="hidden" th:value="${question.id}" name="id">
+						<div class="form-group">
+							<textarea id="summernote" name="content"></textarea>
+						</div>
+						<div class="form-group">
+							<button type="submit" class="btn btn-primary">提交回答</button>
+						</div>
+					</form>
+				</div>
+			</div>
+			<!--列出所有的答案-->
+			<div class="row">
+				<div class="col-12">
+					<div class="well-sm"><h3 th:text="|${question.answersize}条回答|">3条回答</h3></div>
+					<div class="card card-default" th:each="answer : ${question.answers}">
+						<!-- Default panel contents -->
+						<div class="card-header">
+							<div class="row">
+								<div class="col-1">
+									<img style="width: 50px;height: 50px;border-radius: 50%;" src="http://39.97.229.107/group1/M00/00/06/rBF9h15rOE-ARERBAABVIbenIVo282.jpg">
+								</div>
+								<div class="col-8">
+									<div class="row" style="margin-top: 1px;margin-bottom: 2px">
+										<span th:text="${answer.userNickName}">陈海宝</span>
+									</div>
+									<div class="row" style="margin-top:5px;margin-bottom: 1px ">
+										<span th:text="${answer.distanceTime}">1天前</span>
+									</div>
+
+								</div>
+							</div>
+						</div>
+						<div class="card-body" >
+							<div class="col-12"  th:utext="${answer.content}" >
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+
+		</div>
+		<div class="col-4 pb-2 ">
+			<!--相关提问-->
+			<div th:replace="common/similar_question::similar_question"></div>
 		</div>
 	</div>
+
 </div>
 
-<footer class="container  bg-light mt-1 py-3">
-	<p class="text-center font-weight-light">达内教育-Java教研部 版权所有<br><a href="http://tedu.cn">tedu.cn</a></p>
-</footer>
-<script th:src="@{/js/jquery.min.js}"></script>
-<script th:src="@{/bower_components/poper/dist/popper.min.js}"></script>
-<script th:src="@{/bower_components/bootstrap-4.4.1/dist/js/bootstrap.min.js}"></script>
+
+
+
+<!--底部-->
+<footer th:replace="common/footer::footer"></footer>
 <script th:src="@{/plugins/summernote/summernote.min.js}"></script>
 <script th:src="@{/plugins/summernote/summernote-zh-CN.min.js}"></script>
-<script th:src="@{/js/select2.full.js}"></script>
 <script th:src="@{/js/detail.js?v=1.1}"></script>
 </body>
 </html>

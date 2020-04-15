@@ -4,8 +4,8 @@ package cn.tedu.straw.portal.controller;
 import cn.tedu.straw.common.StrawResult;
 import cn.tedu.straw.portal.base.BaseController;
 import cn.tedu.straw.portal.domian.vo.TeacherVo;
-import cn.tedu.straw.portal.model.Teacher;
-import cn.tedu.straw.portal.service.ITeacherService;
+import cn.tedu.straw.portal.model.User;
+import cn.tedu.straw.portal.service.IUserService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,25 +30,21 @@ import java.util.stream.Collectors;
 @RequestMapping("/teacher")
 public class TeacherController extends BaseController {
     @Resource
-    private ITeacherService teacherService;
+    private IUserService userService;
 
     @GetMapping("/loadAllTeachers")
     @ResponseBody
     @ApiOperation("加载所有老师")
-    public StrawResult loadAllTeachers(){
-        QueryWrapper queryWrapper=new QueryWrapper();
-        queryWrapper.eq("enabled",true);
-        List teachers = teacherService.list(queryWrapper);
+    public StrawResult<User> loadAllTeachers(){
+        List<User> teachers = getAvalibleTeachers();
         return new StrawResult().success(teachers);
     }
     @GetMapping("/loadAllTeacherNames")
     @ResponseBody
     @ApiOperation("加载所有老师")
     public StrawResult<List<String>> loadAllTeacherNames(){
-        QueryWrapper queryWrapper=new QueryWrapper();
-        queryWrapper.eq("enabled",true);
-        List<Teacher> teachers = teacherService.list(queryWrapper);
-        List<String> teacherNames = teachers.stream().map(Teacher::getName).collect(Collectors.toList());
+        List<User> teachers = getAvalibleTeachers();
+        List<String> teacherNames = teachers.stream().map(User::getNickname).collect(Collectors.toList());
         return new StrawResult().success(teacherNames);
     }
 
@@ -56,18 +52,18 @@ public class TeacherController extends BaseController {
     @ResponseBody
     @ApiOperation("加载所有老师,用于复选框展示")
     public StrawResult loadAllTeacherVos(){
-        QueryWrapper queryWrapper=new QueryWrapper();
-        queryWrapper.eq("enabled",true);
-        List<Teacher> teachers = teacherService.list(queryWrapper);
+        List<User> teachers = getAvalibleTeachers();
         //把老师封装成页面的复选框数组内容
         List<TeacherVo> teacherVos = teachers.stream().map(t -> {
             TeacherVo vo = new TeacherVo();
-            vo.setText(t.getName());
+            vo.setText(t.getNickname());
             vo.setValue(t.getId());
             return vo;
         }).collect(Collectors.toList());
         return new StrawResult().success(teacherVos);
     }
+
+
 
 
 }

@@ -49,6 +49,21 @@ public class User implements Serializable , UserDetails {
     @TableField("password")
     private String password;
 
+    @ApiModelProperty(value = "性别")
+    @TableField("sex")
+    private String sex;
+
+    @ApiModelProperty(value = "生日日期")
+    @TableField("birthday")
+    private Date birthday;
+
+    @ApiModelProperty(value = "电话号码")
+    @TableField("phone")
+    private String phone;
+
+    @ApiModelProperty(value = "所在班级")
+    @TableField("classroom_id")
+    private Integer classroomId;
 
 
     @ApiModelProperty(value = "账号是否可用，0-》否，1-》是")
@@ -62,6 +77,10 @@ public class User implements Serializable , UserDetails {
     @ApiModelProperty(value = "注册时间")
     @TableField("createtime")
     private Date createtime;
+
+    @ApiModelProperty("账号是否是老师，0-》否，1-》是")
+    @TableField("type")
+    private Boolean type;
 
 
 
@@ -110,6 +129,46 @@ public class User implements Serializable , UserDetails {
     @Override
     public boolean isEnabled() {
         return enabled;
+    }
+
+    public Boolean getType() {
+        return type;
+    }
+
+    public void setType(Boolean type) {
+        this.type = type;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
+
+    public Date getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public Integer getClassroomId() {
+        return classroomId;
+    }
+
+    public void setClassroomId(Integer classroomId) {
+        this.classroomId = classroomId;
     }
 
     public Integer getId() {

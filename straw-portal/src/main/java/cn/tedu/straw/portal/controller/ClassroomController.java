@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2020-03-31
  */
 @RestController
-@RequestMapping("/portal/classroom")
+@RequestMapping("/classroom")
 public class ClassroomController extends BaseController {
 
 }

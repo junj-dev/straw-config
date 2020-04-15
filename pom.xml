@@ -9,6 +9,8 @@
 		<module>straw-search</module>
         <module>straw-model</module>
         <module>straw-common</module>
+        <module>straw-search-api</module>
+        <module>straw-gateway</module>
     </modules>
     <parent>
 		<groupId>org.springframework.boot</groupId>

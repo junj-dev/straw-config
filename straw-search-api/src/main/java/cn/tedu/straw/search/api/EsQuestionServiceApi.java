@@ -1,9 +1,9 @@
-package cn.tedu.straw.portal.api;
+package cn.tedu.straw.search.api;
 
 import cn.tedu.straw.common.CommonPage;
 import cn.tedu.straw.common.StrawResult;
-import cn.tedu.straw.portal.fallback.EsQuestionServiceClientFallBack;
 import cn.tedu.straw.portal.model.EsQuestion;
+import cn.tedu.straw.search.api.fallback.EsQuestionServiceClientFallBack;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,6 +17,22 @@ import org.springframework.web.bind.annotation.*;
             fallback = EsQuestionServiceClientFallBack.class)
 public interface EsQuestionServiceApi {
 
+    /**
+     * 把数据库中的问题全部导入搜索引擎
+     *
+     * @return
+     */
+    @GetMapping("/importAllQuestion")
+    public StrawResult importAllQuestionFromDB();
+
+
+    /**
+     * 关键字搜索所有的问题
+     * @param keyword
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
      @RequestMapping("/esQuestion/search")
      StrawResult<CommonPage<EsQuestion>> search(@RequestParam(required = false) String keyword,
                                                 @RequestParam(required = false, defaultValue = "0") Integer pageNum,
@@ -38,6 +54,11 @@ public interface EsQuestionServiceApi {
                                                                    @RequestParam(required = true,value = "publicStatus")Integer publicStatus);
 
 
+    /**
+     * 保存一个问题到es
+     * @param question
+     * @return
+     */
     @PostMapping("/esQuestion/save")
     boolean saveQuestion(@RequestBody  EsQuestion question);
 

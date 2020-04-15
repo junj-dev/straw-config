@@ -17,7 +17,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableDiscoveryClient
 //开启定时任务
 @EnableScheduling
-@EnableFeignClients(basePackages = "cn.tedu.straw.portal.api")
+@EnableFeignClients(basePackages = "cn.tedu.straw.search.api")
 public class StrawPortalApplication {
     public static void main(String[] args) {
         SpringApplication.run(StrawPortalApplication.class,args);

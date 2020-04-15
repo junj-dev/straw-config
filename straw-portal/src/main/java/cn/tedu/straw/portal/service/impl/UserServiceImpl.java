@@ -57,8 +57,7 @@ public class UserServiceImpl extends BaseServiceImpl<UserMapper, User> implement
     private UserRoleMapper userRoleMapper;
     @Resource
     private ClassroomMapper classroomMapper;
-    @Resource
-    private  StudentMapper studentMapper;
+
 
 
     @Override
@@ -118,20 +117,14 @@ public class UserServiceImpl extends BaseServiceImpl<UserMapper, User> implement
         user.setPassword(realPasswd);
         user.setNickname(param.getNickname());
         user.setCreatetime(new Date());
+        user.setClassroomId(classroom.getId());
         user.setEnabled(true);
         user.setLocked(true);
         //保存
         if(userMapper.insert(user)!=1){
             throw  new BusinessException("服务繁忙，注册失败，请稍后再试!");
         }
-        //创建学生
-        Student student =new Student();
-        student.setName(param.getNickname());
-        student.setPhone(phone);
-        student.setClassroomId(classroom.getId());
-        if(studentMapper.insert(student)!=1){
-            throw  new BusinessException("服务繁忙，注册失败，请稍后再试!");
-        }
+
         //添加角色
         UserRole userRole=new UserRole();
         userRole.setRoleId(2);
