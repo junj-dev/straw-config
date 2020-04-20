@@ -419,3 +419,9 @@
 2020-04-20 14:57:52.279  INFO 8424 --- [RMI TCP Connection(7)-192.168.123.1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
 2020-04-20 14:57:52.279  INFO 8424 --- [RMI TCP Connection(7)-192.168.123.1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
 2020-04-20 14:57:52.285  INFO 8424 --- [RMI TCP Connection(7)-192.168.123.1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 6 ms
+2020-04-20 14:58:50.715  INFO 8424 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
+2020-04-20 14:59:50.716  INFO 8424 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 1ms
+2020-04-20 15:00:50.717  INFO 8424 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 1ms
+2020-04-20 15:01:50.717  INFO 8424 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
+2020-04-20 15:02:50.718  INFO 8424 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
+2020-04-20 15:03:50.718  INFO 8424 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
