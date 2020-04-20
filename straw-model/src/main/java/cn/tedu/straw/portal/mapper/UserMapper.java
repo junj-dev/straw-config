@@ -1,6 +1,7 @@
 package cn.tedu.straw.portal.mapper;
 
 import cn.tedu.straw.portal.model.User;
+import cn.tedu.straw.portal.model.UserInfoVO;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -17,4 +18,5 @@ public interface UserMapper extends BaseMapper<User> {
 
     int updatePasswordByUsername(String username,String password);
 
+    UserInfoVO findById(Integer useId);
 }

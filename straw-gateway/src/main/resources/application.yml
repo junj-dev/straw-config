@@ -5,9 +5,12 @@ spring:
     name: spring-cloud-gateway
   cloud:
     gateway:
+      discovery:
+        locator:
+          enabled: true #利用微服务名进行路由
       routes:
         - id: portal_route
-          uri: http://localhost:8082/** #转发的目标地址
+          uri: lb://straw-portal
           predicates:
             - Path=/straw/portal/** #拦截这类的请求
           filters:
@@ -29,4 +32,8 @@ hystrix:
       execution:
         isolation:
           thread:
-            timeoutInMilliseconds:10
+            timeoutInMilliseconds: 10
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8000/eureka/

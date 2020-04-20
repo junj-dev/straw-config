@@ -4,7 +4,7 @@
 <head th:replace="common/head :: head"></head>
 <head>
   <title>稻草FAQ首页</title>
-  <link href="/img/logo.ico" rel="SHORTCUT ICON" />
+  <link href="/straw/portal/img/logo.ico" rel="SHORTCUT ICON" />
 </head>
 <body>
 <header th:replace="common/head :: header"></header>
@@ -29,7 +29,7 @@
                   <span class="badge badge-pill badge-success" v-if="question.status == '2'">已解决</span>
                 </div>
                 <div class="col-10">
-                  <h5 class="mt-0 mb-1 text-truncate "><a class="text-primary" :href="'/question/detail/'+question.id" >{{question.title}}</a></h5>
+                  <h5 class="mt-0 mb-1 text-truncate "><a class="text-primary" :href="'/straw/portal/question/detail/'+question.id" >{{question.title}}</a></h5>
                 </div>
               </div>
 
@@ -38,11 +38,14 @@
                 </p>
               </div>
               <div class="row">
-                <div class="col-7 mt-1 text-info">
+                <div class="col-12 mt-1 text-info">
                   <i class="fa fa-tags" aria-hidden="true"></i>
-                  <a class="text-info" :href="'/question/tag_question.html?tagId='+tag.id" v-for="tag in question.tags"><small>{{tag.name}} &nbsp;</small></a>
+                  <a class="text-info" :href="'/straw/portal/question/tag_question.html?tagId='+tag.id" v-for="tag in question.tags"><small>{{tag.name}} &nbsp;</small></a>
                 </div>
-                <div class="col-5">
+
+              </div>
+              <div class="row">
+                <div class="col-12 text-right">
                   <ul class="list-inline mb-1 ">
                     <li class="list-inline-item"><small><span class="font-weight-light"></span>{{question.userNickName}}</small></li>
                     <li class="list-inline-item"><small><span class="font-weight-light"></span>{{question.pageViews}}浏览</small></li>
@@ -53,7 +56,7 @@
 
             </div>
             <!-- / class="media-body"-->
-            <img :src="'/img/tags/example'+index+'.jpg'" class="ml-3 border img-fluid rounded" alt="" width="208" height="116">
+            <img :src="'/straw/portal/img/tags/example'+index+'.jpg'" class="ml-3 border img-fluid rounded" alt="" width="208" height="116">
           </div>
           <!-- / class="media"-->
         </div>
@@ -81,7 +84,7 @@
   </div>
   <!--底部-->
   <footer th:replace="common/footer::footer"></footer>
-  <script th:src="@{/js/index_teacher.js}"></script>
-  <script th:src="@{/js/myinfo.js}"></script>
+  <script th:src="@{/straw/portal/js/index_teacher.js?v=1.2}"></script>
+  <script th:src="@{/straw/portal/js/myinfo.js?v=1.2}"></script>
 </body>
 </html>

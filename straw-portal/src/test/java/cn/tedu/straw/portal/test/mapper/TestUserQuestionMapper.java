@@ -1,7 +1,7 @@
 package cn.tedu.straw.portal.test.mapper;
 
 import cn.tedu.straw.portal.StrawPortalApplication;
-import cn.tedu.straw.portal.mapper.TeacherQuestionMapper;
+import cn.tedu.straw.portal.mapper.UserQuestionMapper;
 import cn.tedu.straw.portal.model.UserQuestion;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.junit.Test;
@@ -22,14 +22,14 @@ import java.util.List;
 @RunWith(SpringRunner.class)
 public class TestUserQuestionMapper {
     @Resource
-    private TeacherQuestionMapper teacherQuestionMapper;
+    private UserQuestionMapper userQuestionMapper;
 
     @Test
     public void selectOne(){
         QueryWrapper queryWrapper=new QueryWrapper();
         queryWrapper.eq("teacher_id",4);
         queryWrapper.eq("question_id",44);
-        List<UserQuestion> userQuestions = teacherQuestionMapper.selectList(queryWrapper);
+        List<UserQuestion> userQuestions = userQuestionMapper.selectList(queryWrapper);
         System.out.println(userQuestions);
     }
 

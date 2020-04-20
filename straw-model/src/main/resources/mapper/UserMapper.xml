@@ -15,6 +15,7 @@
         <result column="enabled" property="enabled"/>
         <result column="locked" property="locked"/>
         <result column="type" property="type"/>
+        <result column="self_introduction" property="selfIntroduction"/>
         <!--嵌套查询-->
         <collection property="roles" javaType="ArrayList" column="id" ofType="cn.tedu.straw.portal.mapper.RoleMapper.BaseResultMap" select="cn.tedu.straw.portal.mapper.RoleMapper.findAllRoleByUserId"/>
 
@@ -27,6 +28,9 @@
     <select id="findUserWithRoleByUserName" parameterType="string" resultMap="BaseResultMap">
         select  * from user where username=#{username}
 
+    </select>
+    <select id="findById" parameterType="integer" resultType="cn.tedu.straw.portal.model.UserInfoVO">
+        select nickname,sex,birthday,self_introduction  from user where id=#{userId}
     </select>
 
 </mapper>

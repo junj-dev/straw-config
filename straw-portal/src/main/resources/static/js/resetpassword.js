@@ -23,7 +23,7 @@ var vm=new Vue({
                  return;
             }
             //发送验证码
-            $.get("/aliyunMessage/sendResetPasswordCode?phone="+phone, function(result){
+            $.get("/straw/portal/aliyunMessage/sendResetPasswordCode?phone="+phone, function(result){
                 if(result.code==200){
                     _this.alertDia("短信发送成功！",2000);
 
@@ -89,7 +89,7 @@ var vm=new Vue({
             }
             //发送注册请求
             $.ajax({
-               "url":"/resetpassword",
+               "url":"/straw/portal/resetpassword",
                "type":"post",
                "data":{
                    "phone":phone,

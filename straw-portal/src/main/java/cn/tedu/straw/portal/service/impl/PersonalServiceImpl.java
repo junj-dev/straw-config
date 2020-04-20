@@ -4,11 +4,14 @@ import cn.tedu.straw.portal.base.BaseService;
 import cn.tedu.straw.portal.domian.vo.MyInfo;
 import cn.tedu.straw.portal.mapper.AnswerMapper;
 import cn.tedu.straw.portal.mapper.QuestionMapper;
-import cn.tedu.straw.portal.mapper.TeacherQuestionMapper;
+import cn.tedu.straw.portal.mapper.UserMapper;
+import cn.tedu.straw.portal.model.User;
+import cn.tedu.straw.portal.model.UserInfoVO;
 import cn.tedu.straw.portal.service.IPersonalService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -25,8 +28,11 @@ public class PersonalServiceImpl extends BaseService implements IPersonalService
     private QuestionMapper questionMapper;
     @Resource
     private AnswerMapper answerMapper;
+    @Resource
+    private UserMapper userMapper;
     @Autowired
     private RedisTemplate<String, String> strRedisTemplate;
+    private   BCryptPasswordEncoder passwordEncoder=new BCryptPasswordEncoder();
     @Override
 
 
@@ -55,5 +61,40 @@ public class PersonalServiceImpl extends BaseService implements IPersonalService
         Integer taskCount = questionMapper.countTaskByUserId(getUseId());
         myInfo.setTaskCount(taskCount);
         return myInfo;
+    }
+
+    @Override
+    public UserInfoVO getUserInfo() {
+        UserInfoVO user = userMapper.findById(getUseId());
+
+        return user;
+    }
+
+    @Override
+    public boolean resetMyInfo(UserInfoVO userInfo) {
+        User user = userMapper.selectById(getUseId());
+        user.setNickname(userInfo.getNickname());
+        user.setBirthday(userInfo.getBirthday());
+        user.setSelfIntroduction(userInfo.getSelfIntroduction());
+        user.setSex(userInfo.getSex());
+        int n = userMapper.updateById(user);
+
+        return n==1;
+    }
+
+    @Override
+    public boolean resetpasswd(String newpasswd) {
+        User user = userMapper.selectById(getUseId());
+        user.setPassword(passwordEncoder.encode(newpasswd));
+        return userMapper.updateById(user)==1;
+    }
+
+    @Override
+    public boolean checkPasswd(String oldpasswd) {
+        User user = userMapper.selectById(getUseId());
+        if(passwordEncoder.matches(oldpasswd,user.getPassword())){
+            return true;
+        }
+        return false;
     }
 }

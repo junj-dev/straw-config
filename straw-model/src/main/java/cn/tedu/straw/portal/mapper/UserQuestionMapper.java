@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author ChenHaiBao
  * @since 2020-04-01
  */
-public interface TeacherQuestionMapper extends BaseMapper<UserQuestion> {
+public interface UserQuestionMapper extends BaseMapper<UserQuestion> {
 
 }

@@ -23,7 +23,7 @@ var vm5=new Vue({
         //加载老师
         loadTeachers:function () {
             var _this=this;
-            $.get("/teacher/loadAllTeacherVos",function (result) {
+            $.get("/straw/portal/teacher/loadAllTeacherVos",function (result) {
                 if(result.code==200){
                     _this.options=result.data;
                 }else {
@@ -41,7 +41,7 @@ var vm5=new Vue({
             }
             $.ajax({
                 type:"post",
-                url:"/question/transferToTeacher",
+                url:"/straw/portal/question/transferToTeacher",
                 data:{
                     "questionIds":questionIds,
                     "teacherIds":_this.selected
@@ -85,7 +85,7 @@ var vm4=new Vue({
         //加载老师
         loadTeachers:function () {
             var _this=this;
-            $.get("/teacher/loadAllTeacherVos",function (result) {
+            $.get("/straw/portal/teacher/loadAllTeacherVos",function (result) {
                 if(result.code==200){
                     _this.options=result.data;
                 }else {
@@ -103,7 +103,7 @@ var vm4=new Vue({
             }
             $.ajax({
                 type:"post",
-                url:"/question/transferToTeacher",
+                url:"/straw/portal/question/transferToTeacher",
                 data:{
                     "questionIds":questionIds,
                     "teacherIds":_this.selected
@@ -169,7 +169,7 @@ var vm = new Vue({
             var _this=this;
             $.ajax({
                 type:"post",
-                url:"/question/findMyUnAnwerQuestion",
+                url:"/straw/portal/question/findMyUnAnwerQuestion",
                 data:{
                     "pageNum":pageNum,
                     "pageSize":pageSize
@@ -207,7 +207,7 @@ var vm = new Vue({
             }
             $.ajax({
                 type:"post",
-                url:"/question/setQuestionSolved",
+                url:"/straw/portal/question/setQuestionSolved",
                 data:{
                     "ids":_this.checkedQuestionIds
 
@@ -299,7 +299,7 @@ var vm2 = new Vue({
             var _this=this;
             $.ajax({
                 type:"post",
-                url:"/question/findMyUnSolveQuestion",
+                url:"/straw/portal/question/findMyUnSolveQuestion",
                 data:{
                     "pageNum":pageNum,
                     "pageSize":pageSize
@@ -337,7 +337,7 @@ var vm2 = new Vue({
             }
             $.ajax({
                 type:"post",
-                url:"/question/setQuestionSolved",
+                url:"/straw/portal/question/setQuestionSolved",
                 data:{
                     "ids":_this.checkedQuestionIds
 
@@ -408,7 +408,7 @@ var vm3 = new Vue({
             }
             $.ajax({
                 type:"post",
-                url:"/question/setQuestionPublic",
+                url:"/straw/portal/question/setQuestionPublic",
                 data:{
                     "ids":_this.checkedQuestionIds
 
@@ -438,7 +438,7 @@ var vm3 = new Vue({
             }
             $.ajax({
                 type:"post",
-                url:"/question/cancelQuestionPublic",
+                url:"/straw/portal/question/cancelQuestionPublic",
                 data:{
                     "ids":_this.checkedQuestionIds
 
@@ -485,7 +485,7 @@ var vm3 = new Vue({
             var _this=this;
             $.ajax({
                 type:"post",
-                url:"/question/findMySolvedQuestion",
+                url:"/straw/portal/question/findMySolvedQuestion",
                 data:{
                     "pageNum":pageNum,
                     "pageSize":pageSize

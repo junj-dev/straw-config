@@ -9,7 +9,7 @@ var myinfo=new Vue({
     methods:{
         loadMyInfo:function () {
             var _this=this;
-           $.get("/personal/getMyInfo",function (result) {
+           $.get("/straw/portal/personal/getMyInfo",function (result) {
                if(result.code==200){
                    var data=result.data;
                 _this.goldCount=data.goldCount;

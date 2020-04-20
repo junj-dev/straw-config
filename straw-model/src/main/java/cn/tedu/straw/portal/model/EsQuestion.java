@@ -9,6 +9,7 @@ import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -51,7 +52,7 @@ public class EsQuestion implements Serializable {
 
     private Integer publicStatus;
 
-    private String distanceTime;
+    private String createtimeStr;
 
     @Field(type = FieldType.Keyword)
     List<String> tagNames=new ArrayList<>();
@@ -63,7 +64,7 @@ public class EsQuestion implements Serializable {
     public  EsQuestion(){
 
     }
-    public EsQuestion(Integer id, String title, String content, String userNickName, Integer userId, Date createtime, Integer status, Integer pageViews, Integer publicStatus, String distanceTime, List<String> tagNames,List<Tag> tags) {
+    public EsQuestion(Integer id, String title, String content, String userNickName, Integer userId, Date createtime, Integer status, Integer pageViews, Integer publicStatus, List<String> tagNames,List<Tag> tags) {
         this.id = id;
         this.title = title;
         this.content = content;
@@ -73,7 +74,6 @@ public class EsQuestion implements Serializable {
         this.status = status;
         this.pageViews = pageViews;
         this.publicStatus = publicStatus;
-        this.distanceTime = distanceTime;
         this.tagNames = tagNames;
         this.tags=tags;
     }
@@ -140,20 +140,16 @@ public class EsQuestion implements Serializable {
         this.status = status;
     }
 
-    public String getDistanceTime() {
-        String distanceTime="";
-        try {
-             distanceTime= DateUtils.getDistanceTime(createtime);
-        }catch (Exception e){
-            log.error(e.getMessage());
-
+    public String getCreatetimeStr() {
+        SimpleDateFormat sdf=new SimpleDateFormat("yyyy/MM/dd");
+        if(createtime!=null){
+            return  sdf.format(createtime);
         }
-        return distanceTime;
+        return "";
+    }
 
-    }
-    public void setDistanceTime(String distanceTime) {
-        this.distanceTime = distanceTime;
-    }
+
+
     public Integer getPublicStatus() {
         return publicStatus;
     }
@@ -178,21 +174,4 @@ public class EsQuestion implements Serializable {
         this.tags = tags;
     }
 
-    @Override
-    public String toString() {
-        return "EsQuestion{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", content='" + content + '\'' +
-                ", userNickName='" + userNickName + '\'' +
-                ", userId=" + userId +
-                ", createtime=" + createtime +
-                ", status=" + status +
-                ", pageViews=" + pageViews +
-                ", publicStatus=" + publicStatus +
-                ", distanceTime='" + distanceTime + '\'' +
-                ", tagNames=" + tagNames +
-                ", tags=" + tags +
-                '}';
-    }
 }

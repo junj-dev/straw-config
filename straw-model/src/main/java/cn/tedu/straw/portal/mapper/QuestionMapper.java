@@ -76,6 +76,11 @@ public interface QuestionMapper extends BaseMapper<Question> {
 
     List<Question> findQuestionByUserIdAndStatus(Integer userId,Integer status);
 
+    /**
+     * 计算老师回答问题的任务数量
+     * @param userId
+     * @return
+     */
     Integer countTaskByUserId(Integer userId);
 
 }

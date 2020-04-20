@@ -7,12 +7,12 @@
 <meta name="renderer" content="webkit" />
 <meta name="Author" content="刘苍松">
 <title>稻草FAQ搜索</title>
-<link href="/img/logo.ico" rel="SHORTCUT ICON" />
+<link href="/straw/portal/img/logo.ico" rel="SHORTCUT ICON" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="author" content="Robin Liu">
-<link rel="stylesheet" th:href="@{/bower_components/bootstrap-4.4.1/dist/css/bootstrap.min.css}">
-<link rel="stylesheet" th:href="@{/bower_components/font-awesome-4.7.0/css/font-awesome.min.css}" />
-<link th:href="@{/css/zpageNav.css}" rel="stylesheet" />
+<link rel="stylesheet" th:href="@{/straw/portal/bower_components/bootstrap-4.4.1/dist/css/bootstrap.min.css}">
+<link rel="stylesheet" th:href="@{/straw/portal/bower_components/font-awesome-4.7.0/css/font-awesome.min.css}" />
+<link th:href="@{/straw/portal/css/zpageNav.css}" rel="stylesheet" />
 </head>
 <body>
 
@@ -55,7 +55,7 @@
                   <span class="badge badge-pill badge-success" v-if="question.status == '2'">已解决</span>
                 </div>
                 <div class="col-10">
-                  <h5 class="mt-0 mb-1 text-truncate"><a class="text-dark" :href="'/question/detail/'+question.id" >{{question.title}}</a></h5>
+                  <h5 class="mt-0 mb-1 text-truncate"><a class="text-dark" :href="'/straw/portal/question/detail/'+question.id" >{{question.title}}</a></h5>
                 </div>
               </div>
 
@@ -64,22 +64,24 @@
                 </p>
               </div>
               <div class="row">
-                <div class="col-7 mt-1 text-info">
+                <div class="col-12 mt-1 text-info">
                   <i class="fa fa-tags" aria-hidden="true"></i>
-                  <a class="text-info" :href="'/question/tag_question.html?tagId='+tag.id" v-for="tag in question.tags"><small>{{tag.name}} &nbsp;</small></a>
+                  <a class="text-info" :href="'/straw/portal/question/tag_question.html?tagId='+tag.id" v-for="tag in question.tags"><small>{{tag.name}} &nbsp;</small></a>
                 </div>
-                <div class="col-5">
+              </div>
+              <div class="row">
+                <div class="col-12 text-right">
                   <ul class="list-inline mb-1 ">
                     <li class="list-inline-item"><small><span class="font-weight-light"></span>{{question.userNickName}}</small></li>
                     <li class="list-inline-item"><small><span class="font-weight-light"></span>{{question.pageViews}}浏览</small></li>
-                    <li class="list-inline-item"><small><span class="font-weight-light"></span>{{question.createtime}}</small></li>
+                    <li class="list-inline-item"><small><span class="font-weight-light"></span>{{question.createtimeStr}}</small></li>
                   </ul>
                 </div>
               </div>
 
             </div>
             <!-- / class="media-body"-->
-            <img :src="'/img/tags/example'+index+'.jpg'" class="ml-3 border img-fluid rounded" alt="" width="208" height="116">
+            <img :src="'/straw/portal/img/tags/example'+index+'.jpg'" class="ml-3 border img-fluid rounded" alt="" width="208" height="116">
           </div>
           <!-- / class="media"-->
         </div>
@@ -147,11 +149,11 @@
   <footer class="container  bg-light mt-1 py-3"> 
     <p class="text-center font-weight-light">达内教育-Java教研部 版权所有<br><a href="http://tedu.cn">tedu.cn</a></p>
   </footer>
-  <script th:src="@{/js/jquery.min.js}"></script>
-  <script th:src="@{/bower_components/poper/dist/popper.min.js}"></script>
-  <script th:src="@{/bower_components/bootstrap-4.4.1/dist/js/bootstrap.min.js}"></script>
-  <script th:src="@{/js/vue.js}"></script>
-  <script th:src="@{/js/zpageNav.js}"></script>
-  <script th:src="@{/js/search.js?v=1.1}"></script>
+  <script th:src="@{/straw/portal/js/jquery.min.js}"></script>
+  <script th:src="@{/straw/portal/bower_components/poper/dist/popper.min.js}"></script>
+  <script th:src="@{/straw/portal/bower_components/bootstrap-4.4.1/dist/js/bootstrap.min.js}"></script>
+  <script th:src="@{/straw/portal/js/vue.js}"></script>
+  <script th:src="@{/straw/portal/js/zpageNav.js}"></script>
+  <script th:src="@{/straw/portal/js/search.js?v=1.2}"></script>
 </body>
 </html>

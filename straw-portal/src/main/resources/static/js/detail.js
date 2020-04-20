@@ -32,7 +32,7 @@ function UploadFiles(files,func){
     $.ajax({
         data: formData,
         type: "POST",
-        url: "/question/uploadMultipleFile",
+        url: "/straw/portal/question/uploadMultipleFile",
         cache: false,
         contentType: false,
         processData: false,

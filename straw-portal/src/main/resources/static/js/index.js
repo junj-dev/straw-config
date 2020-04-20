@@ -14,7 +14,7 @@ var vm = new Vue({
         //加载标签
         loadTgs: function () {
             var _this=this;
-            $.get("/tag/findAllTags",function(result){
+            $.get("/straw/portal/tag/findAllTags",function(result){
                 if(result.code==200){
                     _this.tags=result.data;
                     console.log("tags:"+result.data);
@@ -30,7 +30,7 @@ var vm = new Vue({
             var _this=this;
             $.ajax({
                 type:"post",
-                url:"/question/findPersonalAllQuestions",
+                url:"/straw/portal/question/findPersonalAllQuestions",
                 data:{
                     "pageNum":pageNum,
                     "pageSize":pageSize

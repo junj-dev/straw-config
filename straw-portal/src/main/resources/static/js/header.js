@@ -5,7 +5,7 @@ var h=new Vue({
     } ,
     methods:{
         search:function () {
-            window.open("/question/search.html?keyword="+this.keyword);
+            window.open("/straw/portal/question/search.html?keyword="+this.keyword);
         }
     }
 });

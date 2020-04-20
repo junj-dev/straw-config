@@ -4,10 +4,10 @@
 <head th:replace="common/head :: head"></head>
 <head>
 	<title th:text="${question.title}"></title>
-	<link href="/img/logo.ico" rel="SHORTCUT ICON" />
-	<link rel="stylesheet" th:href="@{/plugins/summernote/summernote.min.css}">
+	<link href="/straw/portal/img/logo.ico" rel="SHORTCUT ICON" />
+	<link rel="stylesheet" th:href="@{/straw/portal/plugins/summernote/summernote.min.css}">
 	<!--提问内容-->
-	<link rel="stylesheet" th:href="@{/css/question-content.css}">
+	<link rel="stylesheet" th:href="@{/straw/portal/css/question-content.css}">
 
 </head>
 <body>
@@ -23,7 +23,7 @@
 							<div class="row my-2">
 								<div class="col-7 mt-1 text-info">
 									<i class="fa fa-tags" aria-hidden="true"></i>
-									<a class="text-info" th:href="@{'/question/tag_question.html?tagId='+${tag.id}}" th:each="tag : ${question.tags}"><small th:text="${tag.name+'&nbsp;'}"></small></a>
+									<a class="text-info" th:href="@{'/straw/portal/question/tag_question.html?tagId='+${tag.id}}" th:each="tag : ${question.tags}"><small th:text="${tag.name+'&nbsp;'}"></small></a>
 								</div>
 								<div class="col-5">
 									<ul class="list-inline mb-1 ">
@@ -40,6 +40,36 @@
 				</div>
 
 			</div>
+			<!--列出所有的答案-->
+			<div class="row mt-5">
+				<div class="col-12">
+					<div class="well-sm"><h3 th:text="|${question.answersize}条回答|">3条回答</h3></div>
+					<div class="card card-default" th:each="answer : ${question.answers}">
+						<!-- Default panel contents -->
+						<div class="card-header">
+							<div class="row">
+								<div class="col-1">
+									<img style="width: 50px;height: 50px;border-radius: 50%;" src="http://39.97.229.107/group1/M00/00/06/rBF9h15rOE-ARERBAABVIbenIVo282.jpg">
+								</div>
+								<div class="col-8 mx-2">
+									<div class="row" style="margin-top: 1px;margin-bottom: 2px">
+										<span th:text="${answer.userNickName}"></span>
+									</div>
+									<div class="row" style="margin-top:5px;margin-bottom: 1px ">
+										<span th:text="${answer.distanceTime}"></span>
+									</div>
+
+								</div>
+							</div>
+						</div>
+						<div class="card-body" >
+							<div class="col-12"  th:utext="${answer.content}" >
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div><!--列出所有的答案-end-->
 			<!--如果没有回答问题的权限就不显示回答框-->
 			<div class="row my-5"   sec:authorize="hasAuthority('/question/answer')">
 				<div class="col-12">
@@ -55,36 +85,7 @@
 					</form>
 				</div>
 			</div>
-			<!--列出所有的答案-->
-			<div class="row">
-				<div class="col-12">
-					<div class="well-sm"><h3 th:text="|${question.answersize}条回答|">3条回答</h3></div>
-					<div class="card card-default" th:each="answer : ${question.answers}">
-						<!-- Default panel contents -->
-						<div class="card-header">
-							<div class="row">
-								<div class="col-1">
-									<img style="width: 50px;height: 50px;border-radius: 50%;" src="http://39.97.229.107/group1/M00/00/06/rBF9h15rOE-ARERBAABVIbenIVo282.jpg">
-								</div>
-								<div class="col-8">
-									<div class="row" style="margin-top: 1px;margin-bottom: 2px">
-										<span th:text="${answer.userNickName}">陈海宝</span>
-									</div>
-									<div class="row" style="margin-top:5px;margin-bottom: 1px ">
-										<span th:text="${answer.distanceTime}">1天前</span>
-									</div>
 
-								</div>
-							</div>
-						</div>
-						<div class="card-body" >
-							<div class="col-12"  th:utext="${answer.content}" >
-							</div>
-						</div>
-					</div>
-				</div>
-
-			</div>
 
 		</div>
 		<div class="col-4 pb-2 ">
@@ -100,8 +101,8 @@
 
 <!--底部-->
 <footer th:replace="common/footer::footer"></footer>
-<script th:src="@{/plugins/summernote/summernote.min.js}"></script>
-<script th:src="@{/plugins/summernote/summernote-zh-CN.min.js}"></script>
-<script th:src="@{/js/detail.js?v=1.1}"></script>
+<script th:src="@{/straw/portal/plugins/summernote/summernote.min.js}"></script>
+<script th:src="@{/straw/portal/plugins/summernote/summernote-zh-CN.min.js}"></script>
+<script th:src="@{/straw/portal/js/detail.js?v=1.2}"></script>
 </body>
 </html>

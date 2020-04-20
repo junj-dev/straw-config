@@ -82,6 +82,10 @@ public class User implements Serializable , UserDetails {
     @TableField("type")
     private Boolean type;
 
+    @ApiModelProperty("自我介绍")
+    @TableField("self_introduction")
+    private  String selfIntroduction;
+
 
 
     @ApiModelProperty("角色")
@@ -137,6 +141,14 @@ public class User implements Serializable , UserDetails {
 
     public void setType(Boolean type) {
         this.type = type;
+    }
+
+    public String getSelfIntroduction() {
+        return selfIntroduction;
+    }
+
+    public void setSelfIntroduction(String selfIntroduction) {
+        this.selfIntroduction = selfIntroduction;
     }
 
     public String getSex() {

@@ -15,7 +15,11 @@ import cn.tedu.straw.search.api.EsQuestionServiceApi;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -45,7 +49,7 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
     private  QuestionMapper questionMapper;
 
     @Resource
-    private  TeacherQuestionMapper teacherQuestionMapper;
+    private UserQuestionMapper userQuestionMapper;
     @Resource
     private QuestionTagMapper questionTagMapper;
     @Resource
@@ -58,6 +62,10 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
     private UploadFileConfig fileConfig;
     @Resource
     private UserMapper userMapper;
+    @Resource
+    private KafkaTemplate<String, String> kafkaTemplate;
+
+    private Gson gson = new GsonBuilder().create();
 
 
     @Override
@@ -200,7 +208,7 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
            User teacher = userMapper.selectOne(teacherQuery);
            if(teacher==null){throw  new BusinessException(teaherName+":该老师名称已被删除,请重新选择!");}
            UserQuestion userQuestion =new UserQuestion(teacher.getId(),question.getId(),new Date());
-           int i = teacherQuestionMapper.insert(userQuestion);
+           int i = userQuestionMapper.insert(userQuestion);
            if(i!=1){
                throw  new BusinessException("服务器繁忙，请稍后重试");
            }
@@ -209,7 +217,7 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
 
         EsQuestion esQuestion=new EsQuestion(question.getId(),question.getTitle(),question.getContent(),
                 question.getUserNickName(),question.getUserId(),question.getCreatetime(),question.getStatus(),question.getPageViews(),
-                question.getPublicStatus(),question.getDistanceTime(),Arrays.asList(param.getTagNames()),tagList);
+                question.getPublicStatus(),Arrays.asList(param.getTagNames()),tagList);
        boolean flag= questionServiceApi.saveQuestion(esQuestion);
         if(!flag){
             throw  new BusinessException("服务器繁忙，请稍后重试");
@@ -244,10 +252,10 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
         question.setAnswers(answers);
 
         //浏览量加1
-        // TODO 2.0版本应该改成kafka消息队列
-        question.setPageViews(question.getPageViews()+1);
-        questionMapper.updateById(question);
-
+        //kafka消息队列
+     //  question.setPageViews(question.getPageViews()+1);
+//        questionMapper.updateById(question);
+        kafkaTemplate.send("straw-portal-pageView",String.valueOf(question.getId()));
 
         return question;
     }
@@ -429,10 +437,10 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
                QueryWrapper queryWrapper=new QueryWrapper();
                queryWrapper.eq("teacher_id",teacherId);
                queryWrapper.eq("question_id",questionId);
-               UserQuestion t = teacherQuestionMapper.selectOne(queryWrapper);
+               UserQuestion t = userQuestionMapper.selectOne(queryWrapper);
                //不存在则添加，防止重复
                if(t==null){
-                   int n = teacherQuestionMapper.insert(userQuestion);
+                   int n = userQuestionMapper.insert(userQuestion);
                    if(n!=1){
                        throw  new BusinessException("服务繁忙，请稍后再试！");
                    }
