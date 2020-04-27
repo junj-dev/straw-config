@@ -4,7 +4,7 @@
 <head th:replace="common/head :: head"></head>
 <head>
   <title >个人资料</title>
-  <link href="/straw/portal/straw/portal/img/logo.ico" rel="SHORTCUT ICON" />
+  <link href="/img/logo.ico" rel="SHORTCUT ICON" />
 </head>
 <body>
 <header th:replace="common/head :: header"></header>
@@ -14,7 +14,7 @@
         <ul class="list-group">
           <li class="list-group-item active text-center"><i class="fa fa-user mr-2"></i>我的资料</li>
         <!--  <li class="list-group-item text-center"><i class="fa fa-phone  mr-2"></i>更改手机号</li>-->
-          <li class="list-group-item text-center" onclick="location.href='/straw/portal/personal/resetPassword.html'"><i class="fa fa-lock  mr-2"></i>修改密码</li>
+          <li class="list-group-item text-center" onclick="location.href='/personal/resetPassword.html'"><i class="fa fa-lock  mr-2"></i>修改密码</li>
         </ul>
       </div>
       <!--个人资料-->
@@ -87,7 +87,7 @@
   </div>
   <!--底部-->
   <footer th:replace="common/footer::footer"></footer>
-  <script th:src="@{/straw/portal/js/userInfo.js?v=1.2}"></script>
+  <script th:src="@{/js/userInfo.js?v=1.3}"></script>
 
 </body>
 </html>

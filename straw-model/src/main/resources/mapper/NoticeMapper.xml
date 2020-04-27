@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.tedu.straw.portal.mapper.NoticeMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cn.tedu.straw.portal.model.Notice">
+        <id column="id" property="id" />
+        <result column="type" property="type" />
+        <result column="question_id" property="questionId" />
+        <result column="createtime" property="createtime" />
+        <result column="user_id" property="userId" />
+        <result column="reply_user_id" property="replyUserId"/>
+    </resultMap>
+    <select id="findNoticeByUserId" parameterType="integer" resultType="cn.tedu.straw.portal.model.Notice">
+        SELECT
+            n.id                    id,
+            n.type                  'type',
+            n.question_id           questionId,
+            n.createtime            createtime,
+            n.user_id               userId,
+            n.reply_user_id         replyUserId,
+            q.title                 questionTitle,
+            u.nickname              nickname
+        FROM
+            notice AS n ,
+            question AS q ,
+            user AS u
+        WHERE
+            n.question_id = q.id AND
+            n.reply_user_id = u.id AND
+            n.user_id=#{userId}
+    </select>
+
+</mapper>

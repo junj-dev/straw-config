@@ -6,7 +6,7 @@ import cn.tedu.straw.portal.model.EsQuestion;
 import cn.tedu.straw.search.api.EsQuestionServiceApi;
 
 /**
- * @Description: java类作用描述
+ * @Description: 服务降级类
  * @Author: ChenHaiBao
  * @CreateDate: 2020/3/17$ 16:48$
  * @Version: 1.0

@@ -2,13 +2,22 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <div class="container bg-light mt-5" th:fragment="hostpot">
     <h4 class="m-2 p-2 font-weight-light"><i class="fa fa-list" aria-hidden="true"></i> 热点问题</h4>
-    <div class="list-group list-group-flush">
-        <a href="#" class="list-group-item list-group-item-action">
+    <div class="list-group list-group-flush"  th:each="question : ${hotspotQuestions}">
+        <a th:href="@{'/question/detail/'+${question.id}}"  class="list-group-item list-group-item-action">
             <div class="d-flex w-100 justify-content-between">
-                <h6 class="mb-1">无代码开发，站到了程序员鄙视链顶端</h6>
-                <small><span class="badge badge-primary badge-pill">14</span></small>
+                <h6 class="mb-1" th:text="${question.title}"></h6>
+                <small><span class="badge badge-primary badge-pill" ></span></small>
             </div>
-            <small>2020-1-1</small>
+            <div class="row">
+                <div class="col-6">
+                    <small th:text="${#dates.format(question.createtime, 'yyyy-MM-dd HH:mm:ss')}"></small>
+                </div>
+                <div class="col-6 text-right" >
+                    <small  th:text="|${question.pageViews}浏览量|"></small>
+                </div>
+            </div>
+
+
         </a>
     </div>
 </div>

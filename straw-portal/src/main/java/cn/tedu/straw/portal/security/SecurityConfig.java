@@ -1,5 +1,6 @@
 package cn.tedu.straw.portal.security;
 
+import cn.tedu.straw.portal.config.GateWayUrlConfig;
 import cn.tedu.straw.portal.security.handler.LoginSuccessHandler;
 import cn.tedu.straw.portal.security.strategy.StrawExpiredSessionStrategy;
 import org.springframework.context.annotation.Bean;
@@ -24,6 +25,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
    @Resource
     private UserDetailsService userDetailsService;
+   @Resource
+   private GateWayUrlConfig gateWayUrlConfig;
 
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder(){
@@ -80,13 +83,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                             //.successHandler(loginSuccessHandler())
                             .loginPage("/login.html")
                             .failureUrl("/login-error.html")
-                            .defaultSuccessUrl("http://localhost:8080/straw/portal/index.html")
+                            .defaultSuccessUrl(gateWayUrlConfig.getUrl()+"/index.html")
                             .permitAll()
                         .and()
                             .logout()
-                            .logoutSuccessUrl("http://localhost:8080/straw/portal/login.html")
+                            .logoutSuccessUrl(gateWayUrlConfig.getUrl()+"/login.html")
                 .and()
                 .sessionManagement()
+                .invalidSessionUrl(gateWayUrlConfig.getUrl()+"/login.html")
                 .maximumSessions(1)
                 .maxSessionsPreventsLogin(false) // 当达到maximumSessions时，true表示不能踢掉前面的登录，false表示踢掉前面的用户
                 .expiredSessionStrategy(new StrawExpiredSessionStrategy()) // 当达到maximumSessions时，踢掉前面登录用户后的操作

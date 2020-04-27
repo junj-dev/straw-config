@@ -4,10 +4,10 @@
 <head th:replace="common/head :: head"></head>
 <head>
 	<title>我要提问</title>
-	<link href="/straw/portal/img/logo.ico" rel="SHORTCUT ICON" />
+	<link href="/img/logo.ico" rel="SHORTCUT ICON" />
 </head>
 <head>
-	<link rel="stylesheet" th:href="@{/straw/portal/plugins/summernote/summernote.min.css}">
+	<link rel="stylesheet" th:href="@{/plugins/summernote/summernote.min.css}">
 </head>
 <body>
 <header th:replace="common/head :: header"></header>
@@ -113,16 +113,16 @@
 			</template>
 		</div>
 		<div class="col-4 pb-2 ">
-			<!--相关提问-->
-			<div th:replace="common/similar_question::similar_question"></div>
+			<!--热点问题-->
+			<div th:replace="common/hotspot :: hostpot"></div>
 		</div>
 		</div>
 	</div>
 </div>
 <!--底部-->
 <footer th:replace="common/footer::footer"></footer>
-<script th:src="@{/straw/portal/plugins/summernote/summernote.min.js}"></script>
-<script th:src="@{/straw/portal/plugins/summernote/summernote-zh-CN.min.js}"></script>
-<script th:src="@{/straw/portal/js/createQuestion.js?v=1.2}"></script>
+<script th:src="@{/plugins/summernote/summernote.min.js}"></script>
+<script th:src="@{/plugins/summernote/summernote-zh-CN.min.js}"></script>
+<script th:src="@{/js/createQuestion.js?v=1.3}"></script>
 </body>
 </html>

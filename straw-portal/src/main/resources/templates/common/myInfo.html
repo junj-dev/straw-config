@@ -6,26 +6,26 @@
         <div class="card-body">
             <ul class="list-inline mb-1 ">
                 <li class="list-inline-item mx-3 my-1">
-                    <a class="text-center" href="#">
+                    <div class="text-center" >
                         <div><strong>{{goldCount}}</strong></div>
                         <div>金币</div>
-                    </a>
+                    </div>
                 </li>
                 <li class="list-inline-item mx-3 my-1" sec:authorize="hasRole('ROLE_TEACHER')">
-                    <a class="text-center" href="#">
+                    <div class="text-center" >
                         <div><strong>{{answerCount}}</strong></div>
                         <div>回答</div>
-                    </a>
+                    </div>
 
                 </li>
                 <li class="list-inline-item mx-3 my-1">
-                    <a class="text-center" href="#">
+                    <div class="text-center" >
                         <div><strong>{{questionCount}}</strong></div>
                         <div>提问</div>
-                    </a>
+                    </div>
                 </li>
                 <li class="list-inline-item mx-3 my-1" sec:authorize="hasRole('ROLE_TEACHER')">
-                    <a class="text-center" href="/straw/portal/personal/mytask.html">
+                    <a class="text-center" href="/personal/mytask.html">
                         <div><strong>{{taskCount}}</strong></div>
                         <div>任务</div>
                     </a>

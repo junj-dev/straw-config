@@ -2,7 +2,7 @@
 <html  xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
   <title>稻草FAQ首页</title>
-  <link href="/straw/portal/img/logo.ico" rel="SHORTCUT ICON" />
+  <link href="/img/logo.ico" rel="SHORTCUT ICON" />
 </head>
 <head th:replace="common/head :: head"></head>
 <body>
@@ -16,7 +16,7 @@
           <h4 class="border-bottom m-2 p-2 font-weight-light"><i class="fa fa-comments-o" aria-hidden="true"></i> 我的提问</h4>
           <div class="row" v-if="questions == undefined ||  questions.length == 0 ">
             <div class="alert alert-warning w-100" role="alert">
-              抱歉您还没有提问内容， <a href="/straw/portal/question/create.html" class="alert-link">您可以点击此处提问</a>，或者点击标签查看其它问答
+              抱歉您还没有提问内容， <a href="/question/create.html" class="alert-link">您可以点击此处提问</a>，或者点击标签查看其它问答
             </div>
           </div>
           <div class="media bg-white m-2 p-3" v-for="(question,index) in questions"  v-if="questions !==undefined && questions.length > 0 ">
@@ -28,18 +28,18 @@
                   <span class="badge badge-pill badge-success" v-if="question.status == '2'">已解决</span>
                 </div>
                 <div class="col-10">
-                  <h5 class="mt-0 mb-1 text-truncate"><a class="text-primary" :href="'/straw/portal/question/detail/'+question.id" >{{question.title}}</a></h5>
+                  <h5 class="mt-0 mb-1 text-truncate"><a target= _blank class="text-primary" :href="'/question/detail/'+question.id" >{{question.title}}</a></h5>
                 </div>
               </div>
 
               <div class="font-weight-light text-truncate text-wrap text-justify mb-2" style="height: 70px;">
-                <p v-html="question.content">
+                <p v-html="delHtmlTag(question.content)">
                 </p>
               </div>
               <div class="row">
                 <div class="col-12 mt-1 text-info">
                   <i class="fa fa-tags" aria-hidden="true"></i>
-                  <a class="text-info" :href="'/straw/portal/question/tag_question.html?tagId='+tag.id" v-for="tag in question.tags"><small>{{tag.name}} &nbsp;</small></a>
+                  <a class="text-info" :href="'/question/tag_question.html?tagId='+tag.id" v-for="tag in question.tags"><small>{{tag.name}} &nbsp;</small></a>
                 </div>
               </div>
               <div class="row">
@@ -54,7 +54,7 @@
 
             </div>
             <!-- / class="media-body"-->
-            <img :src="'/straw/portal/img/tags/example'+index+'.jpg'" class="ml-3 border img-fluid rounded" alt="" width="208" height="116">
+            <img :src="'/img/tags/example'+index+'.jpg'" class="ml-3 border img-fluid rounded" alt="" width="208" height="116">
           </div>
           <!-- / class="media"-->
         </div>
@@ -75,8 +75,7 @@
   </div>
   <!--底部-->
   <footer th:replace="common/footer::footer"></footer>
-  <script th:src="@{/straw/portal/js/index.js?v=1.2}"></script>
-  <script th:src="@{/straw/portal/js/myinfo.js?v=1.2}"></script>
-
+  <script th:src="@{/js/index.js?v=1.3}"></script>
+  <script th:src="@{/js/myinfo.js?v=1.3}"></script>
 </body>
 </html>

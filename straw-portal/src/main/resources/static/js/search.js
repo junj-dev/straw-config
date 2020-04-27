@@ -1,4 +1,3 @@
-
 var vm = new Vue({
     el: '#app',
     data: {
@@ -12,11 +11,14 @@ var vm = new Vue({
 
     },
     methods: {
-
+        delHtmlTag(str){
+            return str.replace(/<[^>]+>/g,"");
+        }
+        ,
         //加载标签
         loadTgs: function () {
             var _this=this;
-            $.get("/straw/portal/tag/findAllTags",function(result){
+            $.get("/tag/findAllTags",function(result){
                 if(result.code==200){
                     _this.tags=result.data;
                     console.log("tags:"+result.data);
@@ -35,7 +37,7 @@ var vm = new Vue({
 
             $.ajax({
                 type:"post",
-                url:"/straw/portal/question/search",
+                url:"/question/search",
                 data:{
                     "pageNum":pageNum,
                     "pageSize":pageSize,

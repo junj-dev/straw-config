@@ -41,6 +41,7 @@
 		<mybatis-spring-boot-starter.version>2.1.2</mybatis-spring-boot-starter.version>
 		<aliyun-java-sdk-core.version>4.4.6</aliyun-java-sdk-core.version>
 		<aliyun-java-sdk-ecs.version>4.17.6</aliyun-java-sdk-ecs.version>
+		<spring-kafka.version>2.4.4.RELEASE</spring-kafka.version>
 	</properties>
 
 
@@ -131,6 +132,12 @@
 				<groupId>com.aliyun</groupId>
 				<artifactId>aliyun-java-sdk-ecs</artifactId>
 				<version>${aliyun-java-sdk-ecs.version}</version>
+			</dependency>
+			<!--kafka-->
+			<dependency>
+				<groupId>org.springframework.kafka</groupId>
+				<artifactId>spring-kafka</artifactId>
+				<version>${spring-kafka.version}</version>
 			</dependency>
 
 		</dependencies>

@@ -13,7 +13,9 @@ import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * <p>
@@ -62,6 +64,14 @@ public class Answer implements Serializable {
     @ApiModelProperty(value = "回答时间")
     @TableField(exist = false)
     private String distanceTime;
+
+    @ApiModelProperty(value = "是否采纳该回答")
+    @TableField("accept_status")
+    private boolean acceptStatus;
+
+    @ApiModelProperty(value = "评论列表")
+    @TableField(exist = false)
+    private List<Comment> commentList=new ArrayList<>();
 
     public Integer getId() {
         return id;
@@ -130,7 +140,39 @@ public class Answer implements Serializable {
         return distanceTime;
     }
 
+    public List<Comment> getCommentList() {
+        return commentList;
+    }
+
+    public void setCommentList(List<Comment> commentList) {
+        this.commentList = commentList;
+    }
+
     public void setDistanceTime(String distanceTime) {
         this.distanceTime = distanceTime;
+    }
+
+    public boolean isAcceptStatus() {
+        return acceptStatus;
+    }
+
+    public void setAcceptStatus(boolean acceptStatus) {
+        this.acceptStatus = acceptStatus;
+    }
+
+    @Override
+    public String toString() {
+        return "Answer{" +
+                "id=" + id +
+                ", content='" + content + '\'' +
+                ", likeCount=" + likeCount +
+                ", userId=" + userId +
+                ", userNickName='" + userNickName + '\'' +
+                ", questId=" + questId +
+                ", createtime=" + createtime +
+                ", distanceTime='" + distanceTime + '\'' +
+                ", acceptStatus=" + acceptStatus +
+                ", commentList=" + commentList +
+                '}';
     }
 }

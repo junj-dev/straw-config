@@ -33,7 +33,7 @@ function UploadFiles(files,func){
     $.ajax({
         data: formData,
         type: "POST",
-        url: "/straw/portal/question/uploadMultipleFile",
+        url: "/question/uploadMultipleFile",
         cache: false,
         contentType: false,
         processData: false,
@@ -94,7 +94,7 @@ var vm=new Vue( {
         //加载老师
         loadTeachers:function () {
             var _this=this;
-            $.get("/straw/portal/teacher/loadAllTeacherNames",function (result) {
+            $.get("/teacher/loadAllTeacherNames",function (result) {
                 if(result.code==200){
                     _this.teachers=result.data;
                 }else {
@@ -105,7 +105,7 @@ var vm=new Vue( {
         //加载标签
         loadTgs: function () {
             var _this=this;
-            $.get("/straw/portal/tag/findAllTagNames",function(result){
+            $.get("/tag/findAllTagNames",function(result){
                 if(result.code==200){
                     _this.tags=result.data;
                     console.log("tags:"+result.data);
@@ -144,7 +144,7 @@ var vm=new Vue( {
                 "teacherNames": _this.teacherNames
             };
             $.ajax({
-                url:"/straw/portal/question/askQuestion",
+                url:"/question/askQuestion",
                 type:"post",
                 data:JSON.stringify(data),
                 dataTye:'json',
@@ -153,7 +153,7 @@ var vm=new Vue( {
                     if(res.code==200){
                         _this.alertDia("提交成功!",1300);
                         setTimeout(function () {
-                            location.href="/straw/portal/";
+                            location.href="/";
                         },1000)
                     }else {
                         _this.alertDia(res.msg,2000);

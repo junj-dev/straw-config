@@ -5,10 +5,12 @@ import cn.tedu.straw.common.CommonPage;
 import cn.tedu.straw.common.StrawResult;
 import cn.tedu.straw.portal.annotation.NoRepeatSubmit;
 import cn.tedu.straw.portal.base.BaseController;
+import cn.tedu.straw.portal.config.GateWayUrlConfig;
 import cn.tedu.straw.portal.domian.param.QuestionParam;
 import cn.tedu.straw.portal.exception.BusinessException;
 import cn.tedu.straw.portal.model.*;
 import cn.tedu.straw.portal.service.IQuestionService;
+import cn.tedu.straw.portal.service.IRecommendQuestionService;
 import cn.tedu.straw.portal.service.ITagService;
 import cn.tedu.straw.portal.service.IUserService;
 import cn.tedu.straw.search.api.EsQuestionServiceApi;
@@ -47,6 +49,10 @@ public class QuestionController extends BaseController {
     private IUserService userService;
     @Resource
     private EsQuestionServiceApi questionServiceApi;
+    @Resource
+    private IRecommendQuestionService recommendQuestionService;
+    @Resource
+    private GateWayUrlConfig gateWayUrlConfig;
 
     @GetMapping("/create.html")
     public  String create(Model model){
@@ -55,6 +61,8 @@ public class QuestionController extends BaseController {
         model.addAttribute("tags",tags);
         List<User> teachers = getAvalibleTeachers();
         model.addAttribute("teachers",teachers);
+        List<Question> hotspotQuestions = recommendQuestionService.getHotspotQuestion();
+        model.addAttribute("hotspotQuestions",hotspotQuestions);
         return "question/create";
     }
 
@@ -109,6 +117,13 @@ public class QuestionController extends BaseController {
     public String datail(@PathVariable("id")Integer id,Model model){
        Question question= questionService.getQuestionDetailById(id);
         model.addAttribute("question",question);
+        List<Question> similarQuestions = recommendQuestionService.getSimilarQuestion(id);
+        model.addAttribute("similarQuestions",similarQuestions);
+        if(question.getUserId().intValue()==getUseId().intValue()){
+            model.addAttribute("flag",true);
+        }else {
+            model.addAttribute("flag",false);
+        }
         return "question/detail";
     }
 
@@ -117,10 +132,11 @@ public class QuestionController extends BaseController {
     @ApiOperation("回答问题")
     public  String answer(@RequestParam("id")Integer id,@RequestParam("content")String content){
        Boolean isSuccess= questionService.answer(id,content);
+
        if(isSuccess){
-           return "redirect:/question/detail/"+id;
+           return "redirect:"+gateWayUrlConfig.getUrl()+"/question/detail/"+id;
        }else {
-           return "redirect:/error";
+           return "redirect:\"+gateWayUrlConfig.getUrl()+\"/error";
        }
     }
 
@@ -305,7 +321,8 @@ public class QuestionController extends BaseController {
             }
             model.addAttribute("tag",tag);
         }
-
+        List<Question> hotspotQuestions = recommendQuestionService.getHotspotQuestion();
+        model.addAttribute("hotspotQuestions",hotspotQuestions);
 
         return "tag/tag_question";
     }
@@ -315,6 +332,8 @@ public class QuestionController extends BaseController {
     @ApiOperation("搜索页面")
     public String toSearchPage(@RequestParam("keyword")String keyword,Model model){
         model.addAttribute("keyword",keyword);
+        List<Question> hotspotQuestions = recommendQuestionService.getHotspotQuestion();
+        model.addAttribute("hotspotQuestions",hotspotQuestions);
         return "search/search";
     }
 

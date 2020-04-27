@@ -11,6 +11,7 @@
         <result column="user_nick_name" property="userNickName"/>
         <result column="quest_id" property="questId" />
         <result column="createtime" property="createtime" />
+        <result column="accept_status" property="acceptStatus"/>
     </resultMap>
 
 </mapper>

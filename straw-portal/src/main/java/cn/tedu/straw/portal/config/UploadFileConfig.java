@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
  * @CreateDate: 2020/3/27$ 0:15$
  * @Version: 1.0
  */
-@Component
+@Configuration
 @ConfigurationProperties(prefix = "upload")
 @Data
 public class UploadFileConfig {

@@ -27,10 +27,18 @@ public class NumberUtils {
        return result.toString();
     }
 
-    public static void main(String[] args) {
-//        Pattern pattern=Pattern.compile("^JSD\\d{4}-\\d{6}");
-//        Matcher matcher = pattern.matcher("JsD1912-23456a");
-//        boolean matches = matcher.matches();
-//        System.out.println(matches);
-    }
+//    public static Integer[]  generateRandomNumArray(Integer size){
+//        Random random = new Random();
+//        Integer array[]=new Integer[size];
+//        for (int i=0;i<size;i++)
+//        {
+//
+//           array[i]=random.nextInt(size);
+//        }
+//        return array;
+//    }
+
+//    public static void main(String[] args) {
+//        System.out.println((11+3*8)/4);
+//    }
 }

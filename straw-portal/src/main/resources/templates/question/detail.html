@@ -4,10 +4,10 @@
 <head th:replace="common/head :: head"></head>
 <head>
 	<title th:text="${question.title}"></title>
-	<link href="/straw/portal/img/logo.ico" rel="SHORTCUT ICON" />
-	<link rel="stylesheet" th:href="@{/straw/portal/plugins/summernote/summernote.min.css}">
+	<link href="/img/logo.ico" rel="SHORTCUT ICON" />
+	<link rel="stylesheet" th:href="@{/plugins/summernote/summernote.min.css}">
 	<!--提问内容-->
-	<link rel="stylesheet" th:href="@{/straw/portal/css/question-content.css}">
+	<link rel="stylesheet" th:href="@{/css/question-content.css}">
 
 </head>
 <body>
@@ -23,7 +23,7 @@
 							<div class="row my-2">
 								<div class="col-7 mt-1 text-info">
 									<i class="fa fa-tags" aria-hidden="true"></i>
-									<a class="text-info" th:href="@{'/straw/portal/question/tag_question.html?tagId='+${tag.id}}" th:each="tag : ${question.tags}"><small th:text="${tag.name+'&nbsp;'}"></small></a>
+									<a class="text-info" th:href="@{'/question/tag_question.html?tagId='+${tag.id}}" th:each="tag : ${question.tags}"><small th:text="${tag.name+'&nbsp;'}"></small></a>
 								</div>
 								<div class="col-5">
 									<ul class="list-inline mb-1 ">
@@ -44,7 +44,7 @@
 			<div class="row mt-5">
 				<div class="col-12">
 					<div class="well-sm"><h3 th:text="|${question.answersize}条回答|">3条回答</h3></div>
-					<div class="card card-default" th:each="answer : ${question.answers}">
+					<div class="card card-default my-5" th:each="answer : ${question.answers}">
 						<!-- Default panel contents -->
 						<div class="card-header">
 							<div class="row">
@@ -62,11 +62,62 @@
 								</div>
 							</div>
 						</div>
-						<div class="card-body" >
-							<div class="col-12"  th:utext="${answer.content}" >
+						<div class="card-body " >
+							<div class="col-12 question-content"  th:utext="${answer.content}" >
+							</div>
+
+						</div>
+						<div class="card-footer">
+
+							<p class="text-left text-dark">
+								<a class="btn btn-primary mx-2" th:if="${(!answer.acceptStatus) and flag==true}"  th:href="@{'/answer/acceptAnswer?answerId='+${answer.id}+'&questionId='+${question.id}}">采纳答案</a>
+								<a class="btn btn-outline-primary" th:text="|${#lists.size(answer.commentList)}条评论|" data-toggle="collapse" th:href="@{'#collapseExample'+${answer.id}}" role="button" aria-expanded="false" aria-controls="collapseExample">
+								</a>
+
+							</p>
+							<div class="collapse" th:id="|collapseExample${answer.id}|">
+								<div class="card card-body border-light">
+									<form action="/comment/add" method="post" class="needs-validation" novalidate>
+										<input type="hidden" name="answerId" th:value="${answer.id}">
+										<input type="hidden" name="questionId" th:value="${question.id}">
+										<div class="form-group">
+											<textarea class="form-control" id="exampleFormControlTextarea1" name="content" rows="3" required></textarea>
+											<div class="invalid-feedback">
+												评论内容不能为空！
+											</div>
+										</div>
+										<button type="submit" class="btn btn-primary my-1 float-right">提交评论</button>
+									</form>
+									<div class="card border-light my-3"  th:each="comment : ${answer.commentList}">
+										<div class="card-header">
+											<div class="row">
+												<div class="col-1">
+													<img style="width: 50px;height: 50px;border-radius: 50%;" src="http://39.97.229.107/group1/M00/00/06/rBF9h15rOE-ARERBAABVIbenIVo282.jpg">
+												</div>
+												<div class="col-8 mx-3 text-right">
+													<div class="row" style="margin-top: 1px;margin-bottom: 2px">
+														<span th:text="${comment.nickName}"></span>
+													</div>
+													<div class="row" style="margin-top:5px;margin-bottom: 1px ">
+														<span th:text="${#dates.format(comment.createtime, 'yyyy-MM-dd HH:mm:ss')}"></span>
+													</div>
+
+												</div>
+											</div>
+										</div>
+										<div class="card-body">
+											<p class="text-dark" th:text="${comment.content}">
+
+											</p>
+
+										</div>
+									</div>
+
+								</div>
 							</div>
 						</div>
 					</div>
+
 				</div>
 
 			</div><!--列出所有的答案-end-->
@@ -74,10 +125,13 @@
 			<div class="row my-5"   sec:authorize="hasAuthority('/question/answer')">
 				<div class="col-12">
 					<h3 class="text-secondary">填写答案</h3>
-					<form action="/question/answer" method="post" enctype="application/x-www-form-urlencoded">
+					<form action="/question/answer" method="post" enctype="application/x-www-form-urlencoded" class="needs-validation" novalidate>
 						<input type="hidden" th:value="${question.id}" name="id">
 						<div class="form-group">
-							<textarea id="summernote" name="content"></textarea>
+							<textarea id="summernote" name="content" required></textarea>
+							<div class="invalid-feedback">
+								<h5>回答内容不能为空！</h5>
+							</div>
 						</div>
 						<div class="form-group">
 							<button type="submit" class="btn btn-primary">提交回答</button>
@@ -101,8 +155,8 @@
 
 <!--底部-->
 <footer th:replace="common/footer::footer"></footer>
-<script th:src="@{/straw/portal/plugins/summernote/summernote.min.js}"></script>
-<script th:src="@{/straw/portal/plugins/summernote/summernote-zh-CN.min.js}"></script>
-<script th:src="@{/straw/portal/js/detail.js?v=1.2}"></script>
+<script th:src="@{/plugins/summernote/summernote.min.js}"></script>
+<script th:src="@{/plugins/summernote/summernote-zh-CN.min.js}"></script>
+<script th:src="@{/js/detail.js?v=1.3}"></script>
 </body>
 </html>

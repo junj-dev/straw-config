@@ -12,13 +12,25 @@ spring:
         - id: portal_route
           uri: lb://straw-portal
           predicates:
-            - Path=/straw/portal/** #拦截这类的请求
+            - Path=/straw/portal/**  #拦截这类的请求
           filters:
             - StripPrefix=2 #截断2层路径，例如访问/straw/portal/hello的时候，转发到http:localhost:8082/hello
             - name: Hystrix #断路器过滤器
               args:
                 name: fallback
                 fallbackUri: forward:/fallback #当下游的服务不可用时，断路器会打开，然后访该路径
+        - id: index
+          uri: http:///straw/portal/login.html
+          predicates:
+            - Path=/
+          filters:
+            - name: Hystrix #断路器过滤器
+              args:
+                name: fallback
+                fallbackUri: forward:/fallback #当下游的服务不可用时，断路器会打开，然后访该路径
+
+
+
 
 logging:
   level:
@@ -26,14 +38,17 @@ logging:
     org.springframework.http.server.reactive: DEBUG
     org.springframework.web.reactive: DEBUG
     reactor.ipc.netty: DEBUG
-hystrix:
-  command:
-    portal_route:
-      execution:
-        isolation:
-          thread:
-            timeoutInMilliseconds: 10
+
+#设置默认超时
+
+
 eureka:
   client:
     serviceUrl:
       defaultZone: http://localhost:8000/eureka/
+
+ribbon:
+  ReadTimeout: 50000
+  ConnectTimeout: 50000
+  MaxAutoRetries: 5
+  MaxAutoRetriesNextServer: 3

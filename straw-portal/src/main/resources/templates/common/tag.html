@@ -2,15 +2,15 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <ul class="nav font-weight-light" th:fragment="tag">
     <li class="nav-item">
-        <a class="nav-item nav-link text-info"   href="/straw/portal/question/tag_question.html?tagId=0"><small>全部</small></a>
+        <a class="nav-item nav-link text-info"   href="/question/tag_question.html?tagId=0"><small>全部</small></a>
     </li>
     <li class="nav-item" v-for="(tag,index) in tags">
-        <a class="nav-item nav-link text-info"   v-if="index<7" :href="'/straw/portal/question/tag_question.html?tagId='+tag.id"><small>{{tag.name}}</small></a>
+        <a class="nav-item nav-link text-info"   v-if="index<7" :href="'/question/tag_question.html?tagId='+tag.id"><small>{{tag.name}}</small></a>
     </li>
     <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">更多</a>
         <div class="dropdown-menu">
-            <a class="nav-item nav-link text-info" v-for="(tag,index) in tags"   v-if="index>=7" :href="'/straw/portal/question/tag_question.html?tagId='+tag.id"><small>{{tag.name}}</small></a>
+            <a class="nav-item nav-link text-info" v-for="(tag,index) in tags"   v-if="index>=7" :href="'/question/tag_question.html?tagId='+tag.id"><small>{{tag.name}}</small></a>
         </div>
     </li>
 

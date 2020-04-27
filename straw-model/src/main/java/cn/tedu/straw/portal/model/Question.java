@@ -10,6 +10,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.util.StringUtils;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
@@ -41,9 +42,12 @@ public class Question implements Serializable {
     @TableField("title")
     private String title;
 
+
+
     @ApiModelProperty(value = "提问内容")
     @TableField("content")
     private String content;
+
 
     @ApiModelProperty(value = "提问者昵称")
     @TableField("user_nick_name")
@@ -96,6 +100,8 @@ public class Question implements Serializable {
         this.publicStatus = publicStatus;
 
     }
+
+
 
     public int getAnswersize(){
         return answers.size();

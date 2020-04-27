@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -64,6 +65,10 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
     private UserMapper userMapper;
     @Resource
     private KafkaTemplate<String, String> kafkaTemplate;
+    @Resource
+    private CommentMapper commentMapper;
+    @Resource
+    private NoticeMapper noticeMapper;
 
     private Gson gson = new GsonBuilder().create();
 
@@ -249,6 +254,13 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
         query.eq("quest_id",id);
         query.orderBy(true,false,"createtime");
         List<Answer> answers = answerMapper.selectList(query);
+        //设置评论
+        if(!CollectionUtils.isEmpty(answers)){
+            for(Answer answer:answers){
+                List<Comment> commentList = commentMapper.findByAnswerId(answer.getId());
+                answer.setCommentList(commentList);
+            }
+        }
         question.setAnswers(answers);
 
         //浏览量加1
@@ -278,15 +290,26 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
         answer.setUserId(getUseId());
         answer.setUserNickName(getUserNickname());
         //保存问题的答案
-         answerMapper.insert(answer);
-         //修改问题的状态为未解决
+        int a = answerMapper.insert(answer);
+        //修改问题的状态为未解决
         Question question=new Question();
         question.setId(id);
         question.setStatus(1);
-        questionMapper.updateById(question);
-
-         return true;
-    }
+        int b = questionMapper.updateById(question);
+        //TODO 下一步采用kafka消息队列，暂时直接存数据库
+        //生成消息通知
+        Notice notice=new Notice();
+        notice.setCreatetime(new Date());
+        notice.setQuestionId(question.getId());
+        notice.setType(1);//1代表回复问题,0代表评论
+        notice.setReplyUserId(getUseId());
+        notice.setUserId(question.getUserId());
+        int c = noticeMapper.insert(notice);
+        if(a==1&&b==1&&c==1){
+            return true;
+        }
+            throw  new BusinessException("服务繁忙，请稍后再试！");
+        }
 
     @Override
     public StrawResult<CommonPage<EsQuestion>> search(String keyword, Integer pageNum, Integer pageSize) {

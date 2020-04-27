@@ -33,7 +33,7 @@ var vm=new Vue({
                  return;
             }
             //发送验证码
-            $.get("/straw/portal/aliyunMessage/sendRegisterCode?phone="+phone+"&inviteCode="+inviteCode, function(result){
+            $.get("/aliyunMessage/sendRegisterCode?phone="+phone+"&inviteCode="+inviteCode, function(result){
                 if(result.code==200){
                     _this.alertDia("短信发送成功！",2000);
 
@@ -109,7 +109,7 @@ var vm=new Vue({
             }
             //发送注册请求
             $.ajax({
-               "url":"/straw/portal/register",
+               "url":"/register",
                "type":"post",
                "data":{
                    "phone":phone,

@@ -3,45 +3,22 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <div class="container bg-light mt-5" th:fragment="similar_question">
     <h4 class="m-2 p-2 font-weight-light"><i class="fa fa-list mr-1" aria-hidden="true"></i>相关提问</h4>
-    <div class="list-group list-group-flush">
-        <a href="#" class="list-group-item list-group-item-action">
+    <div class="list-group list-group-flush" th:each="question : ${similarQuestions}">
+        <a th:href="@{'/question/detail/'+${question.id}}" class="list-group-item list-group-item-action">
             <div class="d-flex w-100 justify-content-between">
-                <h6 class="mb-1">无代码开发，站到了程序员鄙视链顶端</h6>
-                <small><span class="badge badge-primary badge-pill">14</span></small>
+                <h6 class="mb-1" th:text="${question.title}"></h6>
+                <small><span class="badge badge-primary badge-pill" ></span></small>
             </div>
-            <small>2020-1-1</small>
-        </a>
+            <div class="row">
+                <div class="col-6">
+                    <small th:text="${#dates.format(question.createtime, 'yyyy-MM-dd HH:mm:ss')}"></small>
+                </div>
+                <div class="col-6 text-right" >
+                    <small  th:text="|${question.pageViews}浏览量|"></small>
+                </div>
+            </div>
 
-        <a href="#" class="list-group-item list-group-item-action">
-            <div class="d-flex w-100 justify-content-between">
-                <h6 class="mb-1">内容量大增，带来的安全挑战应如何应对？</h6>
-                <small><span class="badge badge-primary badge-pill">4</span></small>
-            </div>
-            <small>2020-3-1</small>
-        </a>
 
-        <a href="#" class="list-group-item list-group-item-action">
-            <div class="d-flex w-100 justify-content-between">
-                <h6 class="mb-1">F5 发布 2020 年应用服务状况报告：大多数企业处于云原生转型阶段</h6>
-                <small><span class="badge badge-primary badge-pill">22</span></small>
-            </div>
-            <small>2020-2-1</small>
-        </a>
-
-        <a href="#" class="list-group-item list-group-item-action">
-            <div class="d-flex w-100 justify-content-between">
-                <h6 class="mb-1">号称准确率 97% 的开源肺炎检测模型：照搬 PyTorch 教程、50 张图片就训练完了</h6>
-                <small><span class="badge badge-primary badge-pill">14</span></small>
-            </div>
-            <small>2019-12-1</small>
-        </a>
-
-        <a href="#" class="list-group-item list-group-item-action">
-            <div class="d-flex w-100 justify-content-between">
-                <h6 class="mb-1">腾讯会议如何保证语音质量？音频信号处理中有这些秘籍</h6>
-                <small><span class="badge badge-primary badge-pill">1</span></small>
-            </div>
-            <small>2019-2-21</small>
         </a>
     </div>
 </div>

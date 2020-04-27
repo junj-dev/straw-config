@@ -20,7 +20,8 @@ spring.servlet.multipart.max-request-size=1000000
 spring.datasource.url=jdbc:mysql://localhost:3306/straw?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8
 spring.datasource.username=root
 spring.datasource.password=
-spring.datasource.druid.initial-size=5 
+spring.datasource.type=com.alibaba.druid.pool.DruidDataSource
+spring.datasource.druid.initial-size=5
 spring.datasource.druid.min-idle=10 
 spring.datasource.druid.max-active=20 
 spring.datasource.druid.web-stat-filter.exclusions="*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*" #��ͳ����Щ��������
@@ -40,6 +41,8 @@ management.endpoints.web.exposure.include='*'
 logging.level.cn.tedu.straw.portal.mapper=debug
 #图片上传保存的位置
 upload.filePath=/root/straw-app/uploadFile/
+#网关转发的地址
+gateway.url=http://localhost:8080/straw/portal
 
 ################ Redis 基础配置 ##############
 # Redis数据库索引（默认为0）

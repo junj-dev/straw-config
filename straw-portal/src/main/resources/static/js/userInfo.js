@@ -22,7 +22,7 @@ var userInfo=new Vue({
         //加载用户信息
         loadMyInfo:function(){
             var _this=this;
-            $.get("/straw/portal/personal/getUserInfo",function (res) {
+            $.get("/personal/getUserInfo",function (res) {
                 if(res.code==200){
                     console.log("成功！")
                     var data=res.data;
@@ -47,7 +47,7 @@ var userInfo=new Vue({
                 "selfIntroduction":_this.selfIntroduction
             };
             $.ajax({
-                url:"/straw/portal/personal/resetMyInfo",
+                url:"/personal/resetMyInfo",
                 type:"post",
                 data:JSON.stringify(data),
                 dataType:"json",

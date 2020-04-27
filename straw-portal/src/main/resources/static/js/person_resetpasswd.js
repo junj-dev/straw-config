@@ -40,7 +40,7 @@ var resetpassword=new Vue({
             }
 
             $.ajax({
-                url:"/straw/portal/personal/resetpasswd",
+                url:"/personal/resetpasswd",
                 type:"post",
                 data:{
                     "oldpasswd":_this.oldPasswd,

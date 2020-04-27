@@ -3,9 +3,11 @@ package cn.tedu.straw.portal.controller;
 import cn.tedu.straw.common.StrawResult;
 import cn.tedu.straw.portal.base.BaseController;
 import cn.tedu.straw.portal.domian.vo.MyInfo;
+import cn.tedu.straw.portal.model.Question;
 import cn.tedu.straw.portal.model.User;
 import cn.tedu.straw.portal.model.UserInfoVO;
 import cn.tedu.straw.portal.service.IPersonalService;
+import cn.tedu.straw.portal.service.IRecommendQuestionService;
 import cn.tedu.straw.portal.service.IUserService;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -33,6 +35,8 @@ public class PersonalController extends BaseController {
     private IUserService userService;
     @Resource
     private IPersonalService personalService;
+    @Resource
+    private IRecommendQuestionService recommendQuestionService;
 
     @GetMapping("/myquestion.html")
     public String toMyQuetionPage(){
@@ -74,7 +78,9 @@ public class PersonalController extends BaseController {
 
 
     @GetMapping("/myinfo.html")
-    public String toMyInfoPage(){
+    public String toMyInfoPage(Model model){
+        List<Question> hotspotQuestions = recommendQuestionService.getHotspotQuestion();
+        model.addAttribute("hotspotQuestions",hotspotQuestions);
         return "personal/userInfo";
     }
 
@@ -96,7 +102,9 @@ public class PersonalController extends BaseController {
 
 
     @GetMapping("/resetPassword.html")
-    public String toResetPasswordPage(){
+    public String toResetPasswordPage(Model model){
+        List<Question> hotspotQuestions = recommendQuestionService.getHotspotQuestion();
+        model.addAttribute("hotspotQuestions",hotspotQuestions);
         return "personal/resetPassword";
     }
 
