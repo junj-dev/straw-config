@@ -2,5 +2,4 @@
 2.启动config配置中心
 3.启动search应用（必须先启动本地的es服务，6.8.6版本）
 4.启动portal应用（启动前必须先启动zookeeper,kafka,redis服务）
-5.启动gateway网关
-6.访问http://localhost:网关端口/login.html
+5.网关暂时不用，直接访问localhost:8080

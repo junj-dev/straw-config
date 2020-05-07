@@ -75,5 +75,11 @@ public class EsQuestionController implements  EsQuestionServiceApi{
          return questionService.insert(question);
     }
 
+    @Override
+    public boolean deleteQuestion(@RequestParam("id") Integer id) {
+
+        return questionService.deleteQuestionById(id);
+    }
+
 
 }

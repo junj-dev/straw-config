@@ -36,10 +36,13 @@ public class IndexController extends BaseController {
         List<Question> hotspotQuestions = recommendQuestionService.getHotspotQuestion();
         model.addAttribute("hotspotQuestions",hotspotQuestions);
         List<String> roles = getUserRoleNames();
-        if(roles!=null&&roles.contains("ROLE_TEACHER")){
+        if(roles!=null&&roles.contains("ROLE_ADMIN")){//管理员角色跳转页面
+            return "admin/index";
+        }
+        if(roles!=null&&roles.contains("ROLE_TEACHER")){ //老师跳转页面
             return "index_teacher";
         }
-        return "index";
+        return "index";//学生跳转页面
     }
 
 

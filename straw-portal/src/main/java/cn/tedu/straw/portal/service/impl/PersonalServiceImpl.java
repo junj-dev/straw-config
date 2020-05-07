@@ -5,6 +5,7 @@ import cn.tedu.straw.portal.domian.vo.MyInfo;
 import cn.tedu.straw.portal.mapper.AnswerMapper;
 import cn.tedu.straw.portal.mapper.QuestionMapper;
 import cn.tedu.straw.portal.mapper.UserMapper;
+import cn.tedu.straw.portal.model.Question;
 import cn.tedu.straw.portal.model.User;
 import cn.tedu.straw.portal.model.UserInfoVO;
 import cn.tedu.straw.portal.service.IPersonalService;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 
@@ -71,15 +73,22 @@ public class PersonalServiceImpl extends BaseService implements IPersonalService
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public boolean resetMyInfo(UserInfoVO userInfo) {
         User user = userMapper.selectById(getUseId());
         user.setNickname(userInfo.getNickname());
         user.setBirthday(userInfo.getBirthday());
         user.setSelfIntroduction(userInfo.getSelfIntroduction());
         user.setSex(userInfo.getSex());
-        int n = userMapper.updateById(user);
+        userMapper.updateById(user);
+        //修改提问的nickName
+        QueryWrapper queryWrapper=new QueryWrapper();
+        queryWrapper.eq("user_id",getUseId());
+        Question question=new Question();
+        question.setUserNickName(userInfo.getNickname());
+        questionMapper.update(question,queryWrapper);
 
-        return n==1;
+        return true;
     }
 
     @Override

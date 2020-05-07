@@ -10,10 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+import cn.tedu.straw.portal.domian.param.TeacherCreateForm;
 
 import javax.annotation.Resource;
 
@@ -70,5 +68,19 @@ public class SystemController {
             return new StrawResult().validateFailed(bindingResult);
         }
         return userService.resetPassword(param);
+    }
+
+    @PostMapping("/createTeacher")
+    public StrawResult createTeacher(@RequestBody @Validated TeacherCreateForm teacher,BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            return new StrawResult().validateFailed(bindingResult);
+        }
+        boolean isSuccess= userService.createTeacher(teacher);
+       if(isSuccess){
+           return new StrawResult().success();
+       }else {
+           return new StrawResult().failed();
+       }
+
     }
 }

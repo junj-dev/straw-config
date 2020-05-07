@@ -28,6 +28,20 @@ $(function () {
     });
 
 })
+//删除问题
+function deleteQuestion(id) {
+    var msg = "您真的确定要删除吗？\n\n请确认！";
+    if (confirm(msg)){
+       $.get("/question/delete/"+id,function (res) {
+           if(res.code==200){
+               location.href="/";
+           }else {
+               alert(res.msg);
+           }
+       });
+    }
+
+}
 function insertImg(imgeList){
     //for(i in imageUrl){
     console.log("imgeList:"+imgeList);

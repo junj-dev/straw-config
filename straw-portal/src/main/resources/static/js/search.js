@@ -32,7 +32,6 @@ var vm = new Vue({
             this.page = pageNum;
             var keyword=this.keyword;
             var pageSize=this.pageSize;
-            this.show=true;
             var _this=this;
 
             $.ajax({
@@ -51,6 +50,10 @@ var vm = new Vue({
                         _this.total=res.data.total;
                         _this.pages=res.data.totalPage;
                         _this.questions=res.data.list;
+                        if(_this.total==0){
+                            console.log("kong");
+                            $("#emptySearch").css('display','block');
+                        }
                     }
                 }
             });

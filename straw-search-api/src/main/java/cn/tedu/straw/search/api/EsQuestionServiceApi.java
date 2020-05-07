@@ -62,6 +62,9 @@ public interface EsQuestionServiceApi {
     @PostMapping("/esQuestion/save")
     boolean saveQuestion(@RequestBody  EsQuestion question);
 
+    @GetMapping("/esQuestion/delete")
+    boolean deleteQuestion(@RequestParam("id")Integer id);
+
 
 }
 

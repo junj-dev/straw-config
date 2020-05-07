@@ -6,20 +6,9 @@ var vm = new Vue({
         pageSize: 5, //每一页显示的数据条数
         total: 0, //记录总数
         maxPage:6, //最大页数
-        questions:[],
-        tags:[]
+        questions:[]
     },
     methods: {
-        //加载标签
-        loadTgs: function () {
-            var _this=this;
-            $.get("/tag/findAllTags",function(result){
-                if(result.code==200){
-                    _this.tags=result.data;
-                    console.log("tags:"+result.data);
-                }
-            });
-        },
         //查找所有的问题
         pageHandler:function (pageNum) {
             //here you can do custom state update
@@ -54,6 +43,5 @@ var vm = new Vue({
     created:function(){
         //created  表示页面加载完毕，立即执行
         this.pageHandler();
-        this.loadTgs();
     }
 });

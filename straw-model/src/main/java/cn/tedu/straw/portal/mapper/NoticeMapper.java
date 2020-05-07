@@ -15,5 +15,6 @@ import java.util.List;
  */
 public interface NoticeMapper extends BaseMapper<Notice> {
 
-    List<Notice>  findNoticeByUserId(Integer userId);
+    List<Notice>  findNoReadNoticeByUserId(Integer userId);
+    List<Notice>  findAllNoticeByUserId(Integer userId);
 }

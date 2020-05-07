@@ -1,14 +1,15 @@
 package cn.tedu.straw.portal.model;
 
+import cn.tedu.straw.common.util.DateUtils;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 import lombok.experimental.Accessors;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -26,6 +27,10 @@ import java.util.Date;
 @Accessors(chain = true)
 @TableName("comment")
 @ApiModel(value="Comment对象", description="")
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
+@Slf4j
 public class Comment implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -55,4 +60,23 @@ public class Comment implements Serializable {
     private Date createtime;
 
 
+    public String getDistanceTime() {
+        String distanceTime="";
+        try {
+            distanceTime= DateUtils.getDistanceTime(createtime);
+        }catch (Exception e){
+            log.error(e.getMessage());
+
+        }
+        return distanceTime;
+
+    }
+
+    public Comment(Integer userId, Integer answerId, String content, Date createtime) {
+        this.userId = userId;
+        this.answerId = answerId;
+        this.content = content;
+        this.createtime = createtime;
+    }
 }
+

@@ -1,17 +1,17 @@
 <!--类似提问-->
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
-<div class="container bg-light mt-5" th:fragment="similar_question">
-    <h4 class="m-2 p-2 font-weight-light"><i class="fa fa-list mr-1" aria-hidden="true"></i>相关提问</h4>
+<div class="container-fluid bg-light pb-2" th:fragment="similar_question">
+    <h5 class=" py-3 font-weight-light"><i class="fa fa-list mr-1" aria-hidden="true"></i>相关提问</h5>
     <div class="list-group list-group-flush" th:each="question : ${similarQuestions}">
         <a th:href="@{'/question/detail/'+${question.id}}" class="list-group-item list-group-item-action">
             <div class="d-flex w-100 justify-content-between">
-                <h6 class="mb-1" th:text="${question.title}"></h6>
+                <h6 class="mb-1 text-primary" th:text="${question.title}"></h6>
                 <small><span class="badge badge-primary badge-pill" ></span></small>
             </div>
             <div class="row">
                 <div class="col-6">
-                    <small th:text="${#dates.format(question.createtime, 'yyyy-MM-dd HH:mm:ss')}"></small>
+                    <small th:text="${question.distanceTime}"></small>
                 </div>
                 <div class="col-6 text-right" >
                     <small  th:text="|${question.pageViews}浏览量|"></small>

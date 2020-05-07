@@ -5,10 +5,13 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
@@ -24,6 +27,8 @@ import java.io.Serializable;
 @Accessors(chain = true)
 @TableName("question_tag")
 @ApiModel(value="QuestionTag对象", description="")
+@AllArgsConstructor
+@NoArgsConstructor
 public class QuestionTag implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -37,5 +42,8 @@ public class QuestionTag implements Serializable {
     @TableField("tag_id")
     private Integer tagId;
 
-
+    public QuestionTag(Integer questionId, Integer tagId) {
+        this.questionId = questionId;
+        this.tagId = tagId;
+    }
 }

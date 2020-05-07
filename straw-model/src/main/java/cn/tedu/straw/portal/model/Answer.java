@@ -8,7 +8,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;
 
@@ -30,6 +30,10 @@ import java.util.List;
 @TableName("answer")
 @ApiModel(value="Answer对象", description="")
 @Slf4j
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
 public class Answer implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -73,62 +77,6 @@ public class Answer implements Serializable {
     @TableField(exist = false)
     private List<Comment> commentList=new ArrayList<>();
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public Integer getLikeCount() {
-        return likeCount;
-    }
-
-    public void setLikeCount(Integer likeCount) {
-        this.likeCount = likeCount;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-
-    public String getUserNickName() {
-        return userNickName;
-    }
-
-    public void setUserNickName(String userNickName) {
-        this.userNickName = userNickName;
-    }
-
-    public Integer getQuestId() {
-        return questId;
-    }
-
-    public void setQuestId(Integer questId) {
-        this.questId = questId;
-    }
-
-    public Date getCreatetime() {
-        return createtime;
-    }
-
-    public void setCreatetime(Date createtime) {
-        this.createtime = createtime;
-    }
-
     public String getDistanceTime() {
         String distanceTime="";
         try {
@@ -140,39 +88,12 @@ public class Answer implements Serializable {
         return distanceTime;
     }
 
-    public List<Comment> getCommentList() {
-        return commentList;
-    }
-
-    public void setCommentList(List<Comment> commentList) {
-        this.commentList = commentList;
-    }
-
-    public void setDistanceTime(String distanceTime) {
-        this.distanceTime = distanceTime;
-    }
-
-    public boolean isAcceptStatus() {
-        return acceptStatus;
-    }
-
-    public void setAcceptStatus(boolean acceptStatus) {
-        this.acceptStatus = acceptStatus;
-    }
-
-    @Override
-    public String toString() {
-        return "Answer{" +
-                "id=" + id +
-                ", content='" + content + '\'' +
-                ", likeCount=" + likeCount +
-                ", userId=" + userId +
-                ", userNickName='" + userNickName + '\'' +
-                ", questId=" + questId +
-                ", createtime=" + createtime +
-                ", distanceTime='" + distanceTime + '\'' +
-                ", acceptStatus=" + acceptStatus +
-                ", commentList=" + commentList +
-                '}';
+    public Answer(String content, Integer likeCount, Integer userId, String userNickName, Integer questId, Date createtime) {
+        this.content = content;
+        this.likeCount = likeCount;
+        this.userId = userId;
+        this.userNickName = userNickName;
+        this.questId = questId;
+        this.createtime = createtime;
     }
 }

@@ -6,6 +6,8 @@ import cn.tedu.straw.common.StrawResult;
 import cn.tedu.straw.portal.base.BaseServiceImpl;
 import cn.tedu.straw.portal.config.UploadFileConfig;
 import cn.tedu.straw.portal.domian.param.QuestionParam;
+import cn.tedu.straw.portal.domian.param.QuestionUpdateParam;
+import cn.tedu.straw.portal.domian.vo.QuestionVO;
 import cn.tedu.straw.portal.exception.BusinessException;
 import cn.tedu.straw.portal.exception.PageNotExistException;
 import cn.tedu.straw.portal.mapper.*;
@@ -32,6 +34,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 /**
@@ -195,9 +198,7 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
                throw  new BusinessException(tagName+"标签已被删除,请重新选择!");
            }
            tagList.add(tag);
-           QuestionTag questionTag=new QuestionTag();
-           questionTag.setTagId(tag.getId());
-           questionTag.setQuestionId(question.getId());
+           QuestionTag questionTag=new QuestionTag(question.getId(),tag.getId());
           int m= questionTagMapper.insert(questionTag);
           if(m!=1){
               throw  new BusinessException("服务器繁忙，请稍后重试");
@@ -217,24 +218,28 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
            if(i!=1){
                throw  new BusinessException("服务器繁忙，请稍后重试");
            }
-       }
-        // TODO 2.0版本把该功能迁移到Kafka消息队列处理
+           //向kafka发送消息（添加通知消息,给老师发送通知）
+           Notice notice=new Notice(3,question.getId(),new Date(),teacher.getId(),getUseId(),false);
+           kafkaTemplate.send("straw-portal-notice",gson.toJson(notice));
 
+
+       }
+       //向kafka发送消息
         EsQuestion esQuestion=new EsQuestion(question.getId(),question.getTitle(),question.getContent(),
                 question.getUserNickName(),question.getUserId(),question.getCreatetime(),question.getStatus(),question.getPageViews(),
-                question.getPublicStatus(),Arrays.asList(param.getTagNames()),tagList);
-       boolean flag= questionServiceApi.saveQuestion(esQuestion);
-        if(!flag){
-            throw  new BusinessException("服务器繁忙，请稍后重试");
-        }
-        return true;
+                question.getPublicStatus(), Arrays.asList(param.getTagNames()),tagList);
+        kafkaTemplate.send("straw-portal-createQuestion", gson.toJson(esQuestion));
+        return  true;
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Question getQuestionDetailById(Integer id) {
         //学生角色只能查看自己和公开的问题，老师可以访问所有的问题
-        Question question = questionMapper.selectById(id);
+        QueryWrapper questionQuery=new QueryWrapper();
+        questionQuery.eq("delete_status",false);
+        questionQuery.eq("id",id);
+        Question question=questionMapper.selectOne(questionQuery);
         if(question==null){
             throw  new PageNotExistException();
         }
@@ -265,8 +270,6 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
 
         //浏览量加1
         //kafka消息队列
-     //  question.setPageViews(question.getPageViews()+1);
-//        questionMapper.updateById(question);
         kafkaTemplate.send("straw-portal-pageView",String.valueOf(question.getId()));
 
         return question;
@@ -282,33 +285,17 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
         if(StringUtils.isEmpty(content)){
             throw  new BusinessException("内容不能为空");
         }
-        Answer answer=new Answer();
-        answer.setContent(content);
-        answer.setQuestId(id);
-        answer.setCreatetime(new Date());
-        answer.setLikeCount(0);
-        answer.setUserId(getUseId());
-        answer.setUserNickName(getUserNickname());
+        Answer answer=new Answer(content,0,getUseId(),getUserNickname(),id,new Date());
         //保存问题的答案
         int a = answerMapper.insert(answer);
         //修改问题的状态为未解决
-        Question question=new Question();
-        question.setId(id);
+        Question question=questionMapper.selectById(id);
         question.setStatus(1);
         int b = questionMapper.updateById(question);
-        //TODO 下一步采用kafka消息队列，暂时直接存数据库
         //生成消息通知
-        Notice notice=new Notice();
-        notice.setCreatetime(new Date());
-        notice.setQuestionId(question.getId());
-        notice.setType(1);//1代表回复问题,0代表评论
-        notice.setReplyUserId(getUseId());
-        notice.setUserId(question.getUserId());
-        int c = noticeMapper.insert(notice);
-        if(a==1&&b==1&&c==1){
-            return true;
-        }
-            throw  new BusinessException("服务繁忙，请稍后再试！");
+        Notice notice=new Notice(1,question.getId(),new Date(),question.getUserId(),getUseId(),false);
+        kafkaTemplate.send("straw-portal-notice",gson.toJson(notice));
+         return true;
         }
 
     @Override
@@ -384,6 +371,7 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
      * @return
      */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public boolean cancelQuestionPublic(Integer id) {
         Question question=new Question();
         question.setId(id);
@@ -391,6 +379,7 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
         return questionMapper.updateById(question)==1;
     }
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public boolean cancelQuestionPublic(Integer[] ids) {
         Question question=new Question();
         question.setPublicStatus(QuestionPublicStatus.PRIVATE.getStatus());
@@ -423,6 +412,7 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public boolean setQuestionSolved(Integer id) {
         Question question=new Question();
         question.setId(id);
@@ -458,7 +448,7 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
                UserQuestion userQuestion =new UserQuestion(teacherId,questionId,now);
                //先查找该TeacherQuestion是否已存在，如果存在则不做处理
                QueryWrapper queryWrapper=new QueryWrapper();
-               queryWrapper.eq("teacher_id",teacherId);
+               queryWrapper.eq("user_id",teacherId);
                queryWrapper.eq("question_id",questionId);
                UserQuestion t = userQuestionMapper.selectOne(queryWrapper);
                //不存在则添加，防止重复
@@ -474,7 +464,113 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
         return true;
     }
 
+    @Override
+    public QuestionVO getQuestionParamById(Integer id) {
+        QueryWrapper questionQuery=new QueryWrapper();
+        questionQuery.eq("delete_status",false);
+        questionQuery.eq("id",id);
+        Question question=questionMapper.selectOne(questionQuery);
+        if(question==null){
+            return  null;
+        }
+        //查找出该问题的所有老师
+        QueryWrapper queryWrapper=new QueryWrapper();
+        queryWrapper.eq("question_id",id);
+        List<UserQuestion> userQuestionList= userQuestionMapper.selectList(queryWrapper);
+        List<String> teacherNames= userQuestionList.stream().map(userQuestion -> {
+           User user= userMapper.selectById(userQuestion.getUserId());
+           if(user!=null){
+               return user.getNickname();
+           }
+           return null;
+        }).collect(Collectors.toList());
+        //查找出该问题的所有标签
+        QueryWrapper queryWrapper2=new QueryWrapper();
+        queryWrapper2.eq("question_id",id);
+        List<QuestionTag> questionTags= questionTagMapper.selectList(queryWrapper2);
+        List<String> tagNames= questionTags.stream().map(questionTag -> {
+          Tag tag= tagMapper.selectById(questionTag.getTagId());
+          if(tag!=null){return tag.getName();}
+          return null;
+        }).collect(Collectors.toList());
 
+
+        QuestionVO questionVO=new QuestionVO(question.getTitle(),tagNames,teacherNames,question.getContent());
+        return questionVO;
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public boolean updateQuestion(QuestionUpdateParam q) {
+        //保存问题
+        Question question=questionMapper.selectById(q.getId());
+        question.setTitle(q.getTitle());
+        question.setContent(q.getContent());
+        int n=questionMapper.updateById(question);
+        if(n!=1){
+            throw  new BusinessException("服务器繁忙，请稍后重试");
+        }
+        //先删除问题和标签的关系记录
+        QueryWrapper deleteQuestionTagQuery=new QueryWrapper();
+        deleteQuestionTagQuery.eq("question_id",q.getId());
+        questionTagMapper.delete(deleteQuestionTagQuery);
+        //再保存问题标签
+        String[] tagNames= q.getTagNames();
+        List<Tag> tagList=new ArrayList<>();
+        for(String tagName:tagNames){
+            QueryWrapper tagQuery=new QueryWrapper();
+            tagQuery.eq("name",tagName);
+            Tag tag = tagMapper.selectOne(tagQuery);
+            if(tag==null){
+                throw  new BusinessException(tagName+"标签已被删除,请重新选择!");
+            }
+            tagList.add(tag);
+            QuestionTag questionTag=new QuestionTag(question.getId(),tag.getId());
+            int m= questionTagMapper.insert(questionTag);
+            if(m!=1){
+                throw  new BusinessException("服务器繁忙，请稍后重试");
+            }
+        }
+        //把之前的老师和问题的关系记录删除
+        QueryWrapper deleteUserQuestionQuery=new QueryWrapper();
+        deleteUserQuestionQuery.eq("question_id",q.getId());
+        userQuestionMapper.delete(deleteUserQuestionQuery);
+        //保存老师和问题的关系
+        String[] teacherNames = q.getTeacherNames();
+        for(String teaherName:teacherNames){
+            QueryWrapper teacherQuery=new QueryWrapper();
+            teacherQuery.eq("nickname",teaherName);
+            User teacher = userMapper.selectOne(teacherQuery);
+            if(teacher==null){throw  new BusinessException(teaherName+":该老师名称已被删除,请重新选择!");}
+            UserQuestion userQuestion =new UserQuestion(teacher.getId(),question.getId(),new Date());
+            int i = userQuestionMapper.insert(userQuestion);
+            if(i!=1){
+                throw  new BusinessException("服务器繁忙，请稍后重试");
+            }
+
+
+        }
+        EsQuestion esQuestion=new EsQuestion(question.getId(),question.getTitle(),question.getContent(),
+                question.getUserNickName(),question.getUserId(),question.getCreatetime(),question.getStatus(),question.getPageViews(),
+                question.getPublicStatus(),Arrays.asList(q.getTagNames()),tagList);
+
+        kafkaTemplate.send("straw-portal-updateQuestion",gson.toJson(esQuestion));
+
+        return true;
+
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public Boolean deleteById(Integer id) {
+        //删除问题
+        Question question=new Question();
+        question.setId(id);
+        question.setDeleteStatus(true);
+        question.setModifytime(new Date());
+
+        return questionMapper.updateById(question)==1;
+    }
 
 
 }

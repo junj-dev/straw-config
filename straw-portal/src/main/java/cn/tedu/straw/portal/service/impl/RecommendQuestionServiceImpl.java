@@ -85,11 +85,9 @@ public class RecommendQuestionServiceImpl extends BaseService implements IRecomm
         //获取该问题的标签
         List<Integer> tagIds = qusetionTags.stream().map(QuestionTag::getTagId).collect(Collectors.toList());
         if(CollectionUtils.isEmpty(tagIds)){return new ArrayList<Question>();}
-        //如果一个问题有多个标签，则在每个问题中提取前(10/标签数)
-        Integer n=10/tagIds.size();
         Set<String> allQuestionIds=new HashSet<>();
         for(Integer tagId:tagIds){
-            Set<String> questionIds = redisTemplate.opsForZSet().reverseRange(RedisKeyPrefix.TAG_QUEATION_SCORE + tagId, 0, n-1);
+            Set<String> questionIds = redisTemplate.opsForZSet().reverseRange(RedisKeyPrefix.TAG_QUEATION_SCORE + tagId, 0, 9);
             allQuestionIds.addAll(questionIds);
         }
         List<Question> questions = questionMapper.selectBatchIds(allQuestionIds);

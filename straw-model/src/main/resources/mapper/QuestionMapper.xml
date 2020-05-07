@@ -24,8 +24,10 @@
         <result column="qust_username" property="qustUsername" />
         <result column="user_id" property="userId" />
         <result column="createtime" property="createtime" />
+        <result column="modifytime" property="modifytime"/>
         <result column="tag_id" property="tagId" />
         <result column="status" property="status"/>
+        <result column="delete_status" property="deleteStatus"/>
         <!--嵌套查询-->
         <collection property="tags" javaType="ArrayList" column="id" ofType="cn.tedu.straw.portal.mapper.TagMapper.BaseResultMap" select="cn.tedu.straw.portal.mapper.TagMapper.selectTagsByQuestionId"/>
     </resultMap>
@@ -33,7 +35,8 @@
     <!--查找用户自己提出的问题-->
     <select id="findQuestionByUserId" parameterType="int" resultMap="questionWithTags">
        select * from question
-        where  user_id=#{userId}
+        where  user_id=#{userId} and
+        delete_status=0
         order by createtime desc
     </select>
     <!--查找用户提出的拥有某个标签的问题-->
@@ -41,7 +44,8 @@
         select q.*
         from  question as q
         left outer  join question_tag as qt on q.id=qt.question_id
-        where qt.tag_id=#{tagId}
+        where qt.tag_id=#{tagId} and
+        q.delete_status=0
         /*本人提出的或者被公开的问题*/
          and ( q.user_id=#{userId} or q.public_status=1)
          order by createtime desc
@@ -51,16 +55,25 @@
          select q.*
          from  question as q
          left outer  join question_tag as qt on q.id=qt.question_id
-         where qt.tag_id=#{tagId}
+         where qt.tag_id=#{tagId} and
+         delete_status=0
         order by createtime desc
     </select>
     <!--老师或者管理员角色，查看所有人提出的问题-->
     <select id="findAllQuestion" resultMap="questionWithTags">
-        select * from question order by createtime desc
+        select *
+        from question
+        where delete_status=0
+        order by createtime desc
     </select>
     <!--学生角色在首页点击‘所有’标签的时候，查询该用户的所有问题或公开的提题-->
     <select id="findQuestionByUserIdOrPublicStatus" resultMap="questionWithTags">
-        select  * from question where user_id=#{userId} or public_status=#{publicStatus} order by createtime desc
+        select  *
+        from question
+        where (user_id=#{userId}  AND
+        delete_status=0)
+        or public_status=#{publicStatus}
+        order by createtime desc
     </select>
     <!--按条件搜索提问-->
     <select id="findQuestionByCondition" parameterType="cn.tedu.straw.portal.model.QuestionQueryParam"  resultMap="questionWithTags">
@@ -114,6 +127,7 @@
         FROM question AS q
         left outer  join user_question AS uq on  uq.question_id = q.id
         where  uq.user_id = #{userId} and
+               q.delete_status=0 and
                q.status=#{status}
         order by q.id desc
 
@@ -124,6 +138,7 @@
          FROM question AS q
          left outer  join user_question AS uq on  uq.question_id = q.id
          where  uq.user_id = #{userId} and
+                q.delete_status=0 and
                 q.status in (0,1)
     </select>
 </mapper>

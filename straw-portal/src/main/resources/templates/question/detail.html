@@ -12,143 +12,199 @@
 </head>
 <body>
 <header th:replace="common/head :: header"></header>
-<div class="container mt-5 mb-1 bg-light" >
-	<div class="row">
-		<div class="col-8">
-			<div class="row">
-				<div class="col-12">
-					<div class="card">
-						<div class="card-header">
-							<h3 th:text="${question.title}"></h3>
-							<div class="row my-2">
-								<div class="col-7 mt-1 text-info">
-									<i class="fa fa-tags" aria-hidden="true"></i>
-									<a class="text-info" th:href="@{'/question/tag_question.html?tagId='+${tag.id}}" th:each="tag : ${question.tags}"><small th:text="${tag.name+'&nbsp;'}"></small></a>
-								</div>
-								<div class="col-5">
-									<ul class="list-inline mb-1 ">
-										<li class="list-inline-item" th:text="${question.userNickName}"></li>
-										<li class="list-inline-item" th:text="|${question.pageViews}浏览|"></li>
-										<li class="list-inline-item" th:text="${question.distanceTime}"></li>
-									</ul>
-								</div>
-							</div>
-						</div>
-						<div class="card-body question-content" th:utext="${question.content}" >
-						</div>
-					</div>
-				</div>
 
-			</div>
-			<!--列出所有的答案-->
-			<div class="row mt-5">
-				<div class="col-12">
-					<div class="well-sm"><h3 th:text="|${question.answersize}条回答|">3条回答</h3></div>
-					<div class="card card-default my-5" th:each="answer : ${question.answers}">
-						<!-- Default panel contents -->
-						<div class="card-header">
-							<div class="row">
-								<div class="col-1">
-									<img style="width: 50px;height: 50px;border-radius: 50%;" src="http://39.97.229.107/group1/M00/00/06/rBF9h15rOE-ARERBAABVIbenIVo282.jpg">
+	<div class="container-fluid mt-3"  >
+		<div class="row">
+			<div class="col-9 px-0 ">
+				<div class="container-fluid bg-light">
+					<div class="row">
+						<div class="col-2 px-0">
+							<div class="container-fluid position-relative bg-light px-3" >
+<!--								<div class="row mb-3">-->
+<!--									<a class="btn btn-outline-danger btn-md rounded-lg fa fa-close " style="font-size: x-small"  th:if="${flag==true}" th:onclick="'javascript:deleteQuestion('+${question.id}+')'" >删除</a>-->
+<!--								</div>-->
+<!--								<div class="row mb-3">-->
+<!--									<a class="btn btn-outline-primary btn-md rounded-lg fa fa-edit " style="font-size: x-small"  th:if="${flag==true}" th:href="'/question/edit/'+${question.id}">编辑</a>-->
+<!--								</div>-->
+<!--								<div class="row mb-3">-->
+<!--									<a class="btn btn-outline-info btn-md rounded-lg fa fa-pencil " style="font-size: x-small" sec:authorize="hasAuthority('/question/answer')"   href="#writeAnswer">回答</a>-->
+<!--								</div>-->
+								<div class="row mb-3 mx-0 px-0">
+									<a class="btn btn-outline-danger btn-md rounded-lg fa fa-close " style="font-size: x-small"  th:if="${flag==true}" th:onclick="'javascript:deleteQuestion('+${question.id}+')'" >删除</a>
 								</div>
-								<div class="col-8 mx-2">
-									<div class="row" style="margin-top: 1px;margin-bottom: 2px">
-										<span th:text="${answer.userNickName}"></span>
+								<div class="row mb-3 mx-0 px-0">
+									<a class="btn btn-outline-primary btn-md rounded-lg fa fa-edit " style="font-size: x-small"  th:if="${flag==true}" th:href="'/question/edit/'+${question.id}">编辑</a>
+								</div>
+								<div class="row mb-3 mx-0 px-0">
+									<a class="btn btn-outline-info btn-md rounded-lg fa fa-pencil " style="font-size: x-small" sec:authorize="hasAuthority('/question/answer')"  href="#writeAnswer">回答</a>
+								</div>
+
+
+
+							</div>
+
+						</div>
+						<div class="col-10 px-0">
+							<div class="row px-0 mb-3">
+								<div class="col-9 px-0">
+									<a class="badge badge-pill  badge-info mx-1"  th:href="@{'/question/tag_question.html?tagId='+${tag.id}}" th:each="tag : ${question.tags}" th:text="${tag.name+'&nbsp;'}"></a>
+								</div>
+								<div class="col-3 px-0">
+									<div class="row px-0">
+
+										<div class="col border-right text-right">
+											<p class="font-weight-light mb-0">收藏</p>
+											<p class="font-weight-bold mt-1">0</p>
+										</div>
+										<div class="col">
+											<p class="font-weight-light mb-0">浏览</p>
+											<p class="font-weight-bold mt-1" th:text="${question.pageViews}">100</p>
+										</div>
 									</div>
-									<div class="row" style="margin-top:5px;margin-bottom: 1px ">
-										<span th:text="${answer.distanceTime}"></span>
-									</div>
-
+									<!--						<div class="row">-->
+									<!--							<button class="btn btn-xs btn-outline-danger fa fa-close"  th:if="${flag==true}" th:onclick="'javascript:deleteQuestion('+${question.id}+')'">删除</button>-->
+									<!--							<a class="btn btn-xs btn-outline-primary fa fa-edit"  th:if="${flag==true}" th:href="'/question/edit/'+${question.id}">编辑</a>-->
+									<!--						</div>-->
 								</div>
 							</div>
-						</div>
-						<div class="card-body " >
-							<div class="col-12 question-content"  th:utext="${answer.content}" >
-							</div>
-
-						</div>
-						<div class="card-footer">
-
-							<p class="text-left text-dark">
-								<a class="btn btn-primary mx-2" th:if="${(!answer.acceptStatus) and flag==true}"  th:href="@{'/answer/acceptAnswer?answerId='+${answer.id}+'&questionId='+${question.id}}">采纳答案</a>
-								<a class="btn btn-outline-primary" th:text="|${#lists.size(answer.commentList)}条评论|" data-toggle="collapse" th:href="@{'#collapseExample'+${answer.id}}" role="button" aria-expanded="false" aria-controls="collapseExample">
-								</a>
-
+							<p class=" px-0 text-center font-weight-bold" style="font-size: xx-large" th:text="${question.title}">
 							</p>
-							<div class="collapse" th:id="|collapseExample${answer.id}|">
-								<div class="card card-body border-light">
-									<form action="/comment/add" method="post" class="needs-validation" novalidate>
-										<input type="hidden" name="answerId" th:value="${answer.id}">
-										<input type="hidden" name="questionId" th:value="${question.id}">
-										<div class="form-group">
-											<textarea class="form-control" id="exampleFormControlTextarea1" name="content" rows="3" required></textarea>
-											<div class="invalid-feedback">
-												评论内容不能为空！
-											</div>
-										</div>
-										<button type="submit" class="btn btn-primary my-1 float-right">提交评论</button>
-									</form>
-									<div class="card border-light my-3"  th:each="comment : ${answer.commentList}">
-										<div class="card-header">
-											<div class="row">
-												<div class="col-1">
-													<img style="width: 50px;height: 50px;border-radius: 50%;" src="http://39.97.229.107/group1/M00/00/06/rBF9h15rOE-ARERBAABVIbenIVo282.jpg">
-												</div>
-												<div class="col-8 mx-3 text-right">
-													<div class="row" style="margin-top: 1px;margin-bottom: 2px">
-														<span th:text="${comment.nickName}"></span>
-													</div>
-													<div class="row" style="margin-top:5px;margin-bottom: 1px ">
-														<span th:text="${#dates.format(comment.createtime, 'yyyy-MM-dd HH:mm:ss')}"></span>
-													</div>
 
-												</div>
-											</div>
-										</div>
-										<div class="card-body">
-											<p class="text-dark" th:text="${comment.content}">
-
-											</p>
-
-										</div>
-									</div>
-
-								</div>
+							<div class="px-0 container-fluid question-content" th:utext="${question.content}" >
 							</div>
+							<p class="text-right px-0 mt-5">
+								<span class="font-weight-light badge badge-primary"  th:text="${question.userNickName}"></span>
+								<span class="font-weight-light badge badge-info"  th:text="${question.distanceTime}"></span>
+							</p>
 						</div>
 					</div>
-
-				</div>
-
-			</div><!--列出所有的答案-end-->
-			<!--如果没有回答问题的权限就不显示回答框-->
-			<div class="row my-5"   sec:authorize="hasAuthority('/question/answer')">
-				<div class="col-12">
-					<h3 class="text-secondary">填写答案</h3>
-					<form action="/question/answer" method="post" enctype="application/x-www-form-urlencoded" class="needs-validation" novalidate>
-						<input type="hidden" th:value="${question.id}" name="id">
-						<div class="form-group">
-							<textarea id="summernote" name="content" required></textarea>
-							<div class="invalid-feedback">
-								<h5>回答内容不能为空！</h5>
-							</div>
-						</div>
-						<div class="form-group">
-							<button type="submit" class="btn btn-primary">提交回答</button>
-						</div>
-					</form>
 				</div>
 			</div>
 
 
+			<div class="col-3">
+				<!--相关提问-->
+				<div th:replace="common/similar_question::similar_question"></div>
+			</div>
 		</div>
-		<div class="col-4 pb-2 ">
-			<!--相关提问-->
-			<div th:replace="common/similar_question::similar_question"></div>
+
+
+	</div>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-8">
+				<!--列出所有的答案-->
+				<div class="row mt-5">
+					<div class="col-12">
+						<div class="well-sm"><h3 th:text="|${question.answersize}条回答|">3条回答</h3></div>
+						<div class="card card-default my-5" th:each="answer : ${question.answers}">
+							<!-- Default panel contents -->
+							<div class="card-header">
+								<div class="row">
+									<div class="col-1">
+										<img style="width: 50px;height: 50px;border-radius: 50%;" src="http://39.97.229.107/group1/M00/00/06/rBF9h15rOE-ARERBAABVIbenIVo282.jpg">
+									</div>
+									<div class="col-8 ">
+										<div class="row" >
+											<span class="ml-3" th:text="${answer.userNickName}"></span>
+										</div>
+										<div class="row" >
+											<span class="ml-3" th:text="${answer.distanceTime}"></span>
+										</div>
+
+									</div>
+									<div class="3">
+
+									</div>
+								</div>
+							</div>
+							<div class="card-body " >
+								<div class="col-12 question-content"  th:utext="${answer.content}" >
+								</div>
+							</div>
+							<div class="card-footer">
+
+								<p class="text-success fa fa-comment" th:text="|${#lists.size(answer.commentList)}条评论|" ></p>
+								<ul class="list-unstyled mt-3">
+									<li class="media my-1" th:each="comment : ${answer.commentList}">
+										<img style="width: 50px;height: 50px;border-radius: 50%;" src="http://39.97.229.107/group1/M00/00/06/rBF9h15rOE-ARERBAABVIbenIVo282.jpg" class="mr-3" alt="...">
+										<div class="media-body">
+											<h5 class="mt-0 mb-1"><span th:text="${comment.nickName}"></span>:</h5>
+											<p class="text-dark" >
+												<span th:text="${comment.content}"></span>
+												<span class="font-weight-light text-info" style="font-size: small" th:text="${comment.distanceTime}"></span>
+											</p>
+										</div>
+									</li>
+
+								</ul>
+								<p class="text-left text-dark">
+									<a class="btn btn-primary mx-2" th:if="${(!answer.acceptStatus) and (flag==true) and (question.status!=2)}"  th:href="@{'/answer/acceptAnswer?answerId='+${answer.id}+'&questionId='+${question.id}}">采纳答案</a>
+									<a class="btn btn-outline-primary"  data-toggle="collapse" th:href="@{'#collapseExample'+${answer.id}}" role="button" aria-expanded="false" aria-controls="collapseExample">
+										<i class="fa fa-edit"></i>添加评论
+									</a>
+
+								</p>
+								<div class="collapse" th:id="|collapseExample${answer.id}|">
+									<div class="card card-body border-light">
+										<form action="/comment/add" method="post" class="needs-validation" novalidate>
+											<input type="hidden" name="answerId" th:value="${answer.id}">
+											<input type="hidden" name="questionId" th:value="${question.id}">
+											<div class="form-group">
+												<textarea class="form-control" id="exampleFormControlTextarea1" name="content" rows="3" required></textarea>
+												<div class="invalid-feedback">
+													评论内容不能为空！
+												</div>
+											</div>
+											<button type="submit" class="btn btn-primary my-1 float-right">提交评论</button>
+										</form>
+									</div>
+								</div>
+							</div>
+
+						</div>
+
+
+					</div>
+
+				</div><!--列出所有的答案-end-->
+				<!--如果没有回答问题的权限就不显示回答框-->
+				<div class="container-fluid mt-4"   sec:authorize="hasAuthority('/question/answer')" id="writeAnswer">
+					<h5 class="text-info mb-2"><i class="fa fa-edit"></i>写答案</h5>
+					<form action="/question/answer" method="post" enctype="application/x-www-form-urlencoded" class="needs-validation" novalidate>
+							<input type="hidden" th:value="${question.id}" name="id">
+							<div class="form-group">
+								<textarea id="summernote" name="content" required></textarea>
+								<div class="invalid-feedback">
+									<h5>回答内容不能为空！</h5>
+								</div>
+							</div>
+							<div class="form-group">
+								<p class="text-right">
+									<button type="submit" class="btn btn-primary">提交回答</button>
+								</p>
+
+							</div>
+						</form>
+
+				</div>
+
+			</div>
+			<div class="col-4">
+
+			</div>
 		</div>
+
+
 	</div>
 
+
 </div>
+
+
+
+
+
 
 
 
@@ -158,5 +214,6 @@
 <script th:src="@{/plugins/summernote/summernote.min.js}"></script>
 <script th:src="@{/plugins/summernote/summernote-zh-CN.min.js}"></script>
 <script th:src="@{/js/detail.js?v=1.3}"></script>
+<script th:src="@{/js/tag.js?v=20200430}"></script>
 </body>
 </html>

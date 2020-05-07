@@ -8,6 +8,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -30,6 +31,7 @@ import java.util.List;
 @Accessors(chain = true)
 @TableName("user")
 @ApiModel(value="User对象", description="")
+@NoArgsConstructor
 public class User implements Serializable , UserDetails {
 
     private static final long serialVersionUID = 1L;
@@ -232,7 +234,21 @@ public class User implements Serializable , UserDetails {
         this.roles = roles;
     }
 
+    public User(String username, String nickname, String password) {
+        this.username = username;
+        this.nickname = nickname;
+        this.password = password;
+    }
 
+    public User(String username, String nickname, String password, Integer classroomId, Boolean enabled, Boolean locked, Date createtime) {
+        this.username = username;
+        this.nickname = nickname;
+        this.password = password;
+        this.classroomId = classroomId;
+        this.enabled = enabled;
+        this.locked = locked;
+        this.createtime = createtime;
+    }
 
     @Override
     public String toString() {

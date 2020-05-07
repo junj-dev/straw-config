@@ -49,34 +49,34 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
         http.httpBasic().disable().cors()
-                .and()
-                    .csrf()
-                    .disable()
-                    .authorizeRequests()
-                    .antMatchers(
-                            "/webjars/**",
-                            "/doc.html",
-                            "/plugins/**",
-                            "/logout",
-                            "/css/**",
-                            "/dist/**",
-                            "/js/**",
-                            "/img/**",
-                            "/fonts/**",
-                            "/swagger-resources/**",
-                            "/v2/api-docs",
-                            "/favicon.ico",
-                            "/swagger-ui.html",
-                            "/actuator/**",
-                            "/register.html",
-                            "/register",
-                            "/resetpassword.html",
-                            "/resetpassword",
-                            "/aliyunMessage/sendResetPasswordCode",
-                            "/aliyunMessage/sendRegisterCode")//阿里云注册短信
-                    .permitAll()
-                    .anyRequest()
-                    .authenticated()   // 其他地址的访问均需验证权限
+                         .and()
+                            .csrf()
+                            .disable()
+                            .authorizeRequests()
+                            .antMatchers(
+                                    "/webjars/**",
+                                    "/doc.html",
+                                    "/plugins/**",
+                                    "/logout",
+                                    "/css/**",
+                                    "/dist/**",
+                                    "/js/**",
+                                    "/img/**",
+                                    "/fonts/**",
+                                    "/swagger-resources/**",
+                                    "/v2/api-docs",
+                                    "/favicon.ico",
+                                    "/swagger-ui.html",
+                                    "/actuator/**",
+                                    "/register.html",
+                                    "/register",
+                                    "/resetpassword.html",
+                                    "/resetpassword",
+                                    "/aliyunMessage/sendResetPasswordCode",
+                                    "/aliyunMessage/sendRegisterCode")//阿里云注册短信
+                                    .permitAll()
+                                    .anyRequest()
+                                    .authenticated()   // 其他地址的访问均需验证权限
                         .and()
                             .formLogin()
                             .loginProcessingUrl("/login")
@@ -86,14 +86,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                             .defaultSuccessUrl(gateWayUrlConfig.getUrl()+"/index.html")
                             .permitAll()
                         .and()
+                            .rememberMe()
+                            .alwaysRemember(true)
+                            .tokenValiditySeconds(2419200) //记住我，4周有效
+                        .and()
                             .logout()
                             .logoutSuccessUrl(gateWayUrlConfig.getUrl()+"/login.html")
-                .and()
-                .sessionManagement()
-                .invalidSessionUrl(gateWayUrlConfig.getUrl()+"/login.html")
-                .maximumSessions(1)
-                .maxSessionsPreventsLogin(false) // 当达到maximumSessions时，true表示不能踢掉前面的登录，false表示踢掉前面的用户
-                .expiredSessionStrategy(new StrawExpiredSessionStrategy()) // 当达到maximumSessions时，踢掉前面登录用户后的操作
+                        .and()
+                            .sessionManagement()
+                            .invalidSessionUrl(gateWayUrlConfig.getUrl()+"/login.html")
+                            .maximumSessions(1)
+                            .maxSessionsPreventsLogin(false) // 当达到maximumSessions时，true表示不能踢掉前面的登录，false表示踢掉前面的用户
+                            .expiredSessionStrategy(new StrawExpiredSessionStrategy()) // 当达到maximumSessions时，踢掉前面登录用户后的操作
 
 
         ;

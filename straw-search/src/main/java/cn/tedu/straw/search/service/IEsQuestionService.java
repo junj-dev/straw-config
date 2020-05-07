@@ -24,4 +24,6 @@ public interface IEsQuestionService {
     Page<EsQuestion> searchByUserIdAndPublicStatus(String keyword, Integer pageNum, Integer pageSize,Integer userId,Integer publicStatus);
 
     boolean insert(EsQuestion question);
+
+    boolean deleteQuestionById(Integer id);
 }

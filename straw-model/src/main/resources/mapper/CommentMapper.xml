@@ -24,6 +24,7 @@
         WHERE
             c.user_id = u.id AND
             c.answer_id = #{answerId}
+        ORDER BY c.createtime desc
     </select>
 
 </mapper>

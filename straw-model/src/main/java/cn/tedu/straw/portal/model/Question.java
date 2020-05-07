@@ -7,7 +7,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.StringUtils;
@@ -31,6 +31,10 @@ import java.util.List;
 @TableName("question")
 @Slf4j
 @ApiModel(value="Question对象", description="")
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
+@Data
 public class Question implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -42,12 +46,9 @@ public class Question implements Serializable {
     @TableField("title")
     private String title;
 
-
-
     @ApiModelProperty(value = "提问内容")
     @TableField("content")
     private String content;
-
 
     @ApiModelProperty(value = "提问者昵称")
     @TableField("user_nick_name")
@@ -61,6 +62,13 @@ public class Question implements Serializable {
     @TableField("createtime")
     private Date createtime;
 
+    @ApiModelProperty(value = "修改时间")
+    @TableField("modifytime")
+    private Date modifytime;
+
+    @ApiModelProperty(value = "删除状态，true删除，false不删除")
+    @TableField("delete_status")
+    private Boolean deleteStatus;
 
     @ApiModelProperty(value = "状态，0-》未回答，1-》待解决，2-》已解决")
     @TableField("status")
@@ -86,10 +94,14 @@ public class Question implements Serializable {
     @TableField(exist =false )
     List<Answer> answers=new ArrayList<>();
 
-    public  Question(){
-
+    public Question(Integer id, String title, String content, Date modifytime) {
+        this.id = id;
+        this.title = title;
+        this.content = content;
+        this.modifytime = modifytime;
     }
-    public Question( String title, String content, String userNickName, Integer userId, Date createtime, Integer status, Integer pageViews, Integer publicStatus) {
+
+    public Question(String title, String content, String userNickName, Integer userId, Date createtime, Integer status, Integer pageViews, Integer publicStatus) {
         this.title = title;
         this.content = content;
         this.userNickName = userNickName;
@@ -101,77 +113,6 @@ public class Question implements Serializable {
 
     }
 
-
-
-    public int getAnswersize(){
-        return answers.size();
-    }
-
-    public List<Answer> getAnswers() {
-        return answers;
-    }
-
-    public void setAnswers(List<Answer> answers) {
-        this.answers = answers;
-    }
-
-    public Integer getPageViews() {
-        return pageViews;
-    }
-
-    public void setPageViews(Integer pageViews) {
-        this.pageViews = pageViews;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public String getUserNickName() {
-        return userNickName;
-    }
-
-    public void setUserNickName(String userNickName) {
-        this.userNickName = userNickName;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-
-    public Date getCreatetime() {
-        return createtime;
-    }
-
-    public void setCreatetime(Date createtime) {
-        this.createtime = createtime;
-    }
-
     public  String getCreatetimestr(){
         if(createtime!=null){
             SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -180,13 +121,6 @@ public class Question implements Serializable {
         return "未知时间";
     }
 
-    public Integer getStatus() {
-        return status;
-    }
-
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
 
     public String getDistanceTime() {
         String distanceTime="";
@@ -200,51 +134,7 @@ public class Question implements Serializable {
 
     }
 
-    public String getCreateTimeStr() {
-        if(createtime!=null){
-            SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm");
-            return sdf.format(createtime);
-        }
-        return "未知时间";
-    }
-
-
-
-    public void setDistanceTime(String distanceTime) {
-        this.distanceTime = distanceTime;
-    }
-
-    public List<Tag> getTags() {
-        return tags;
-    }
-
-    public void setTags(List<Tag> tags) {
-        this.tags = tags;
-    }
-
-    public Integer getPublicStatus() {
-        return publicStatus;
-    }
-
-    public void setPublicStatus(Integer publicStatus) {
-        this.publicStatus = publicStatus;
-    }
-
-    @Override
-    public String toString() {
-        return "Question{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", content='" + content + '\'' +
-                ", userNickName='" + userNickName + '\'' +
-                ", userId=" + userId +
-                ", createtime=" + createtime +
-                ", status=" + status +
-                ", pageViews=" + pageViews +
-                ", publicStatus=" + publicStatus +
-                ", distanceTime='" + distanceTime + '\'' +
-                ", tags=" + tags +
-                ", answers=" + answers +
-                '}';
+    public int getAnswersize(){
+        return answers.size();
     }
 }

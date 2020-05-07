@@ -16,7 +16,7 @@ import javax.annotation.Resource;
 public class WebMvcConfig implements WebMvcConfigurer {
 
     @Resource
-    UploadFileConfig uploadFileConfig;
+    private UploadFileConfig uploadFileConfig;
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/uploadFile/**").addResourceLocations("file:"+uploadFileConfig.getFilePath());

@@ -13,7 +13,7 @@ import java.util.List;
  * @CreateDate: 2020/3/17$ 14:42$
  * @Version: 1.0
  */
-public interface EsQuestionRepository extends ElasticsearchRepository<EsQuestion,Long> {
+public interface EsQuestionRepository extends ElasticsearchRepository<EsQuestion,Integer> {
    // List<EsQuestion> findByTitleOrContentOrTagsOrAnswersOrderByCreatetimeDesc(String title,String content,String tags,String answer);
 
 }

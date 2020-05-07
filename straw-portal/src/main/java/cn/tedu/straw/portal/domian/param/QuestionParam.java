@@ -1,6 +1,8 @@
 package cn.tedu.straw.portal.domian.param;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.constraints.Min;
@@ -15,6 +17,8 @@ import javax.validation.constraints.Size;
  * @Version: 1.0
  */
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class QuestionParam {
 
     @Size(min = 3,max = 50,message = "标题字数必须控制在3到50字之间！")

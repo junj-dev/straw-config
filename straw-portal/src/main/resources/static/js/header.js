@@ -31,27 +31,47 @@ var noticeModal=new Vue({
 
 });
 
-var noticeNum=new Vue({
+var noticeCount=new Vue({
     el:"#noticeCount",
     data:{
         count:''
     },
     methods: {
-        loadNotice:function () {
+        countNotice:function () {
             var _this=this;
-            $.get("/notice/list",function (res) {
+            $.get("/notice/count",function (res) {
                 if(res.code==200){
-                    var data=res.data;
-                    _this.count=data.length;
+                    _this.count=res.data;
                 }
             });
         }
     },
     created:function () {
-        this.loadNotice();
+        this.countNotice();
     }
 })
 
 function delHtmlTag(str){
     return str.replace(/<[^>]+>/g,"");
 }
+//邀请码
+var invitecodeModalVM=new Vue({
+    el:"#invitecodeModal",
+    data:{
+        classrooms:[]
+    },
+    methods:{
+        //加载邀请码
+        loadInvitecode:function () {
+            var _this=this;
+            $.get("/classroom/list",function (res) {
+                if(res.code==200){
+                    _this.classrooms=res.data;
+                }
+            });
+        }
+    },
+    created:function () {
+        this.loadInvitecode();
+    }
+})

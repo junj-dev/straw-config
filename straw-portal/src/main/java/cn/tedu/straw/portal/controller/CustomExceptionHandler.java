@@ -85,7 +85,7 @@ public class CustomExceptionHandler {
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json; charset=utf-8");
         PrintWriter writer = response.getWriter();
-        writer.println("页面不存在！");
+        writer.println("页面也被删除或不存在！");
     }
 
 }

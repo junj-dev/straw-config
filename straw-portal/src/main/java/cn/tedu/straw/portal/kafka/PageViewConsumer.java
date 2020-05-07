@@ -26,14 +26,14 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
- * @Description: kafka消费信息
+ * @Description: 页面点击消费者
  * @Author: ChenHaiBao
  * @CreateDate: 2020/4/18$ 1:15$
  * @Version: 1.0
  */
 @Component
 @Slf4j
-public class KafkaReceiver {
+public class PageViewConsumer {
 
 
     @Resource
@@ -81,9 +81,14 @@ public class KafkaReceiver {
                        redisTemplate.opsForZSet().add(RedisKeyPrefix.TAG_QUEATION_SCORE+tagId,questionId,score);
                    });
 
-
-
-
         }
     }
+
+
+
+
+
+
+
+
 }

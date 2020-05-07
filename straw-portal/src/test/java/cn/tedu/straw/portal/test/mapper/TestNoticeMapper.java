@@ -24,11 +24,11 @@ public class TestNoticeMapper {
     private NoticeMapper noticeMapper;
 
     /**
-     * @see  cn.tedu.straw.portal.mapper.NoticeMapper#findNoticeByUserId(Integer)
+     * @see  cn.tedu.straw.portal.mapper.NoticeMapper#findNoReadNoticeByUserId(Integer)
      */
     @Test
     public void findNoticeByUserId(){
-        List<Notice> notices = noticeMapper.findNoticeByUserId(9);
+        List<Notice> notices = noticeMapper.findNoReadNoticeByUserId(9);
         notices.forEach(System.out::println);
     }
 }

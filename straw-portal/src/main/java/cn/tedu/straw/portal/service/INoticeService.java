@@ -2,6 +2,7 @@ package cn.tedu.straw.portal.service;
 
 import cn.tedu.straw.portal.model.Notice;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.github.pagehelper.PageInfo;
 
 import java.util.List;
 
@@ -16,4 +17,6 @@ import java.util.List;
 public interface INoticeService extends IService<Notice> {
 
     List<Notice> getMyNoticeList();
+
+    PageInfo<Notice> getAllNotice(Integer pageNum, Integer pageSize);
 }

@@ -11,6 +11,8 @@ import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -21,7 +23,6 @@ import java.util.Date;
  * @author ChenHaiBao
  * @since 2020-03-31
  */
-@Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @TableName("classroom")
@@ -51,5 +52,65 @@ public class Classroom implements Serializable {
     @TableField("modifytime")
     private Date modifytime;
 
+    public Integer getId() {
+        return id;
+    }
 
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getInviteCode() {
+        return inviteCode;
+    }
+
+    public void setInviteCode(String inviteCode) {
+        this.inviteCode = inviteCode;
+    }
+
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public Date getCreatetime() {
+        return createtime;
+    }
+
+    public void setCreatetime(Date createtime) {
+        this.createtime = createtime;
+    }
+
+    public Date getModifytime() {
+        return modifytime;
+    }
+
+    public void setModifytime(Date modifytime) {
+        this.modifytime = modifytime;
+    }
+
+//获取邀请码的截至日期
+    public String getDeadline(){
+        if(modifytime!=null){
+            Calendar calendar=Calendar.getInstance();
+            calendar.setTime(modifytime);
+            calendar.add(Calendar.DATE,7);
+            Date deadline = calendar.getTime();
+            SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            return sdf.format(deadline);
+        }
+
+        return "";
+    }
 }

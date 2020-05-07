@@ -133,6 +133,13 @@ public class EsQuestionServiceImpl implements IEsQuestionService {
         questionRepository.save(question);
         return true;
     }
+
+    @Override
+    @Transactional
+    public boolean deleteQuestionById(Integer id) {
+        questionRepository.deleteById(id);
+        return true;
+    }
 }
 
 

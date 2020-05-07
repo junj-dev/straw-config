@@ -7,6 +7,8 @@ import cn.tedu.straw.portal.annotation.NoRepeatSubmit;
 import cn.tedu.straw.portal.base.BaseController;
 import cn.tedu.straw.portal.config.GateWayUrlConfig;
 import cn.tedu.straw.portal.domian.param.QuestionParam;
+import cn.tedu.straw.portal.domian.param.QuestionUpdateParam;
+import cn.tedu.straw.portal.domian.vo.QuestionVO;
 import cn.tedu.straw.portal.exception.BusinessException;
 import cn.tedu.straw.portal.model.*;
 import cn.tedu.straw.portal.service.IQuestionService;
@@ -17,6 +19,7 @@ import cn.tedu.straw.search.api.EsQuestionServiceApi;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.models.auth.In;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -88,6 +91,17 @@ public class QuestionController extends BaseController {
         return questionService.uploadImg(files, request);
     }
 
+    @GetMapping("/{id}")
+    @ApiOperation("根据id查找问题")
+    @ResponseBody
+    public StrawResult getQuestionById(@PathVariable("id")Integer id){
+        QuestionVO questionVO= questionService.getQuestionParamById(id);
+      if(questionVO!=null){
+          return new StrawResult().success(questionVO);
+      }
+      return new StrawResult().failed();
+
+    }
 
 
     @PostMapping("/askQuestion")
@@ -95,7 +109,6 @@ public class QuestionController extends BaseController {
     @NoRepeatSubmit
     @ResponseBody
     public StrawResult create(@Validated @RequestBody  QuestionParam question, BindingResult bindingResult){
-        System.err.println(question);
         if(bindingResult.hasErrors()){
             return new StrawResult().validateFailed(bindingResult);
         }
@@ -119,6 +132,7 @@ public class QuestionController extends BaseController {
         model.addAttribute("question",question);
         List<Question> similarQuestions = recommendQuestionService.getSimilarQuestion(id);
         model.addAttribute("similarQuestions",similarQuestions);
+        //flag是判断问题是否是本人提出的，用于判断是否显示“采纳问题”按钮
         if(question.getUserId().intValue()==getUseId().intValue()){
             model.addAttribute("flag",true);
         }else {
@@ -126,6 +140,9 @@ public class QuestionController extends BaseController {
         }
         return "question/detail";
     }
+
+
+
 
     @PostMapping("/answer")
     @PreAuthorize("hasAuthority('/question/answer')")
@@ -338,6 +355,40 @@ public class QuestionController extends BaseController {
     }
 
 
+    @GetMapping("/edit/{id}")
+    @ApiOperation("编辑问题")
+    public String edit(@PathVariable("id")Integer id,Model model){
+        model.addAttribute("id",id);
+        return "question/edit";
+    }
+
+    @PostMapping("/edit")
+    @ApiOperation("修改问题")
+    @NoRepeatSubmit
+    @ResponseBody
+    public StrawResult edit(@Validated @RequestBody QuestionUpdateParam question, BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            return new StrawResult().validateFailed(bindingResult);
+        }
+        boolean isSucess=questionService.updateQuestion(question);
+        if(isSucess){
+            return new StrawResult().success();
+        }else {
+            return new StrawResult().failed("服务繁忙,请稍后重试!");
+        }
+    }
+
+    @GetMapping("/delete/{id}")
+    @ApiOperation("删除提问")
+    @ResponseBody
+    public StrawResult delete(@PathVariable("id")Integer id){
+       Boolean flag= questionService.deleteById(id);
+       if(flag){
+           return new StrawResult().success();
+       }else {
+           return new StrawResult().failed();
+       }
+    }
 
 
 }

@@ -5,6 +5,7 @@ import cn.tedu.straw.common.constant.RedisKeyPrefix;
 import cn.tedu.straw.portal.base.BaseServiceImpl;
 import cn.tedu.straw.portal.domian.param.RegisterParam;
 import cn.tedu.straw.portal.domian.param.ResetPasswordParam;
+import cn.tedu.straw.portal.domian.param.TeacherCreateForm;
 import cn.tedu.straw.portal.exception.BusinessException;
 import cn.tedu.straw.portal.mapper.*;
 import cn.tedu.straw.portal.model.*;
@@ -58,6 +59,8 @@ public class UserServiceImpl extends BaseServiceImpl<UserMapper, User> implement
     @Resource
     private ClassroomMapper classroomMapper;
 
+    private  BCryptPasswordEncoder passwordEncoder=new BCryptPasswordEncoder();
+
 
 
     @Override
@@ -110,26 +113,14 @@ public class UserServiceImpl extends BaseServiceImpl<UserMapper, User> implement
         }
         //开始注册
         //密码要加密
-        BCryptPasswordEncoder passwordEncoder=new BCryptPasswordEncoder();
         String realPasswd=passwordEncoder.encode(param.getPassword());
-        User user=new User();
-        user.setUsername(phone);
-        user.setPassword(realPasswd);
-        user.setNickname(param.getNickname());
-        user.setCreatetime(new Date());
-        user.setClassroomId(classroom.getId());
-        user.setEnabled(true);
-        user.setLocked(true);
+        User user=new User(phone,param.getNickname(),realPasswd,classroom.getId(),true,true,new Date());
         //保存
         if(userMapper.insert(user)!=1){
             throw  new BusinessException("服务繁忙，注册失败，请稍后再试!");
         }
-
         //添加角色
-        UserRole userRole=new UserRole();
-        userRole.setRoleId(2);
-        userRole.setUserId(user.getId());
-
+        UserRole userRole=new UserRole(user.getId(),2);
         if(userRoleMapper.insert(userRole)!=1){
             throw  new BusinessException("服务繁忙，注册失败，请稍后再试!");
         }
@@ -154,7 +145,6 @@ public class UserServiceImpl extends BaseServiceImpl<UserMapper, User> implement
             return new StrawResult().failed("手机验证码错误");
         }
         //修改密码
-        BCryptPasswordEncoder passwordEncoder=new BCryptPasswordEncoder();
         String realPasswd=passwordEncoder.encode(param.getPassword());
         int n = userMapper.updatePasswordByUsername(phone,realPasswd);
         if(n!=1){
@@ -163,5 +153,15 @@ public class UserServiceImpl extends BaseServiceImpl<UserMapper, User> implement
         }
 
         return new StrawResult().success("设置密码成功！");
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public boolean createTeacher(TeacherCreateForm teacher) {
+        //创建用户
+        String realPasswd=passwordEncoder.encode(teacher.getPassword());
+        User user=new User(teacher.getUsername(),teacher.getNickname(),realPasswd);
+        userMapper.insert(user);
+        return false;
     }
 }

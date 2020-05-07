@@ -158,6 +158,10 @@ var vm=new Vue( {
                     }else {
                         _this.alertDia(res.msg,2000);
                     }
+                },
+                error:function () {
+                    _this.alertDia("会话超时，请重新登录",2000);
+                    location.href="/";
                 }
             })
 

@@ -4,6 +4,8 @@ import cn.tedu.straw.portal.base.BaseServiceImpl;
 import cn.tedu.straw.portal.mapper.NoticeMapper;
 import cn.tedu.straw.portal.model.Notice;
 import cn.tedu.straw.portal.service.INoticeService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -25,7 +27,14 @@ public class NoticeServiceImpl extends BaseServiceImpl<NoticeMapper, Notice> imp
 
     @Override
     public List<Notice> getMyNoticeList() {
-        List<Notice> noticeList = noticeMapper.findNoticeByUserId(getUseId());
+        List<Notice> noticeList = noticeMapper.findNoReadNoticeByUserId(getUseId());
         return noticeList;
+    }
+
+    @Override
+    public PageInfo<Notice> getAllNotice(Integer pageNum, Integer pageSize) {
+        PageHelper.startPage(pageNum,pageSize);
+        List<Notice> noticeList = noticeMapper.findAllNoticeByUserId(getUseId());
+        return new PageInfo<>(noticeList);
     }
 }

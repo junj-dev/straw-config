@@ -3,6 +3,8 @@ package cn.tedu.straw.portal.service;
 import cn.tedu.straw.common.CommonPage;
 import cn.tedu.straw.common.StrawResult;
 import cn.tedu.straw.portal.domian.param.QuestionParam;
+import cn.tedu.straw.portal.domian.param.QuestionUpdateParam;
+import cn.tedu.straw.portal.domian.vo.QuestionVO;
 import cn.tedu.straw.portal.model.EsQuestion;
 import cn.tedu.straw.portal.model.Question;
 import cn.tedu.straw.portal.model.QuestionQueryParam;
@@ -58,4 +60,10 @@ public interface IQuestionService extends IService<Question> {
     boolean setQuestionSolved(Integer[] id);
 
     boolean transferToTeacher(Integer[] teacherIds,Integer[] questionIds);
+
+    QuestionVO getQuestionParamById(Integer id);
+
+    boolean updateQuestion(QuestionUpdateParam question);
+
+    Boolean deleteById(Integer id);
 }

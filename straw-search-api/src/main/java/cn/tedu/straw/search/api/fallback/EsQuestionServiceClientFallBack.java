@@ -31,4 +31,9 @@ public class EsQuestionServiceClientFallBack  implements EsQuestionServiceApi {
     public boolean saveQuestion(EsQuestion question) {
         return false;
     }
+
+    @Override
+    public boolean deleteQuestion(Integer id) {
+        return false;
+    }
 }

@@ -3,12 +3,16 @@ package cn.tedu.straw.portal.controller;
 
 import cn.tedu.straw.common.StrawResult;
 import cn.tedu.straw.portal.base.BaseController;
+import cn.tedu.straw.portal.mapper.QuestionMapper;
 import cn.tedu.straw.portal.model.Notice;
+import cn.tedu.straw.portal.model.Question;
 import cn.tedu.straw.portal.service.INoticeService;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -21,7 +25,7 @@ import java.util.List;
  * @author ChenHaiBao
  * @since 2020-04-27
  */
-@RestController
+@Controller
 @RequestMapping("/notice")
 public class NoticeController extends BaseController {
     @Resource
@@ -29,10 +33,50 @@ public class NoticeController extends BaseController {
 
     @GetMapping("/list")
     @ApiOperation("获取本用户的消息")
+    @ResponseBody
     public StrawResult selectMyNoticeList(){
 
        List<Notice> noticeList= noticeService.getMyNoticeList();
        return new StrawResult().success(noticeList);
+    }
+
+    @GetMapping("/all")
+    @ApiOperation("转到所有消息页面")
+    public String allNotice(){
+        return "notice/all";
+    }
+
+    @PostMapping("/getAll")
+    @ApiOperation("获取所有的消息")
+    @ResponseBody
+    public StrawResult<PageInfo<Notice>> getAll(@RequestParam(value = "pageNum",defaultValue = "1") Integer pageNum, @RequestParam(value = "pageSize",defaultValue = "10")Integer pageSize){
+        PageInfo<Notice> pageInfo= noticeService.getAllNotice(pageNum,pageSize);
+      return new StrawResult<PageInfo<Notice>>().success(pageInfo);
+    }
+
+
+    @GetMapping("/count")
+    @ApiOperation("获取本用户的消息")
+    @ResponseBody
+    public StrawResult countNotice(){
+        QueryWrapper queryWrapper=new QueryWrapper();
+        queryWrapper.eq("user_id",getUseId());
+        queryWrapper.eq("read_status",false);
+        int count = noticeService.count(queryWrapper);
+        return new StrawResult().success(count);
+    }
+
+    @GetMapping("/detail/{questionId}/{noticeId}")
+    @ApiOperation("查看某个问题详情")
+    public String noticeDetail(@PathVariable("questionId")Integer id,
+                               @PathVariable("noticeId")Integer noticeId, Model model) {
+        //把该条信息删除掉
+        Notice notice=new Notice();
+        notice.setId(noticeId);
+        notice.setReadStatus(true);
+        noticeService.updateById(notice);
+        //转发到问题详情
+        return "redirect:/question/detail/"+id;
     }
 
 }
