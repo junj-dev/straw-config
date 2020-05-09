@@ -94,6 +94,10 @@ public class Question implements Serializable {
     @TableField(exist =false )
     List<Answer> answers=new ArrayList<>();
 
+    @ApiModelProperty(value = "回答数量")
+    @TableField(exist = false)
+    private  Integer answerCount;
+
     public Question(Integer id, String title, String content, Date modifytime) {
         this.id = id;
         this.title = title;

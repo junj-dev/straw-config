@@ -1,5 +1,6 @@
 package cn.tedu.straw.portal.kafka;
 
+import cn.tedu.straw.common.constant.KafkaTopic;
 import cn.tedu.straw.portal.model.EsQuestion;
 import cn.tedu.straw.search.api.EsQuestionServiceApi;
 import com.google.gson.Gson;
@@ -30,7 +31,7 @@ public class CreateQuestionConsumer {
      * 创建问题
      * @param record
      */
-    @KafkaListener(topics = {"straw-portal-createQuestion"})
+    @KafkaListener(topics = {KafkaTopic.PORTAL_CREATE_QUESTION})
     public void listen(ConsumerRecord<String, String> record) {
 
         Optional<?> kafkaMessage = Optional.ofNullable(record.value());

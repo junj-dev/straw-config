@@ -5,15 +5,21 @@ import cn.tedu.straw.portal.base.BaseController;
 import cn.tedu.straw.portal.domian.vo.MyInfo;
 import cn.tedu.straw.portal.model.Question;
 import cn.tedu.straw.portal.model.User;
+import cn.tedu.straw.portal.model.UserCollect;
 import cn.tedu.straw.portal.model.UserInfoVO;
 import cn.tedu.straw.portal.service.IPersonalService;
 import cn.tedu.straw.portal.service.IRecommendQuestionService;
+import cn.tedu.straw.portal.service.IUserCollectService;
 import cn.tedu.straw.portal.service.IUserService;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.CollectionUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -37,6 +43,8 @@ public class PersonalController extends BaseController {
     private IPersonalService personalService;
     @Resource
     private IRecommendQuestionService recommendQuestionService;
+    @Resource
+    private IUserCollectService userCollectService;
 
     @GetMapping("/myquestion.html")
     public String toMyQuetionPage(){
@@ -127,4 +135,28 @@ public class PersonalController extends BaseController {
         return new StrawResult().failed("服务繁忙，请稍后再试！");
 
     }
+
+
+    @GetMapping("/collect")
+    public  String toMyCollect(){
+
+        return "personal/collect";
+    }
+
+    @PostMapping("/findCollectQuestionsPage")
+    @ResponseBody
+    @ApiOperation("分页查询收藏列表")
+    public StrawResult<PageInfo<Question>>  findCollectQuestionsPage(@RequestParam(value = "pageNum",defaultValue = "1") Integer pageNum,@RequestParam(value = "pageSize",defaultValue = "10")Integer pageSize){
+        PageInfo<Question> pageInfo = userCollectService.selectPage(pageNum, pageSize);
+
+        return new StrawResult<PageInfo<Question>>().success(pageInfo);
+    }
+
+
+    @GetMapping("/myQuestions")
+    @ApiOperation("我的提问")
+    public String toMyQuestionPage(){
+        return "personal/myQuestion";
+    }
+
 }

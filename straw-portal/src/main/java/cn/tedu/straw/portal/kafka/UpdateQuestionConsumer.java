@@ -1,5 +1,6 @@
 package cn.tedu.straw.portal.kafka;
 
+import cn.tedu.straw.common.constant.KafkaTopic;
 import cn.tedu.straw.portal.model.EsQuestion;
 import cn.tedu.straw.search.api.EsQuestionServiceApi;
 import com.google.gson.Gson;
@@ -28,10 +29,10 @@ public class UpdateQuestionConsumer {
 
 
     /**
-     * 创建问题
+     * 修改问题
      * @param record
      */
-    @KafkaListener(topics = {"straw-portal-updateQuestion"})
+    @KafkaListener(topics = {KafkaTopic.PROTAL_UPDATE_QUESTION})
     public void listen(ConsumerRecord<String, String> record) {
 
         Optional<?> kafkaMessage = Optional.ofNullable(record.value());
@@ -39,7 +40,7 @@ public class UpdateQuestionConsumer {
           String esQuestionStr= (String) kafkaMessage.get();
           EsQuestion esQuestion= gson.fromJson(esQuestionStr,EsQuestion.class);
           //先把之前的记录删除
-          //esQuestionServiceApi.deleteQuestion(esQuestion.getId());
+          esQuestionServiceApi.deleteQuestion(esQuestion.getId());
           esQuestionServiceApi.saveQuestion(esQuestion);
 
         }

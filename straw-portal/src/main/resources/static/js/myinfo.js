@@ -4,7 +4,8 @@ var myinfo=new Vue({
         goldCount:0,
         answerCount:0,
         questionCount:0,
-        taskCount:0
+        taskCount:0,
+        collectCount:0
     },
     methods:{
         loadMyInfo:function () {
@@ -16,6 +17,7 @@ var myinfo=new Vue({
                 _this.answerCount=data.answerCount;
                 _this.questionCount=data.questionCount;
                 _this.taskCount=data.taskCount;
+                _this.collectCount=data.collectCount;
                }
            });
         }

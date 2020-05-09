@@ -11,11 +11,9 @@ import cn.tedu.straw.portal.domian.param.QuestionUpdateParam;
 import cn.tedu.straw.portal.domian.vo.QuestionVO;
 import cn.tedu.straw.portal.exception.BusinessException;
 import cn.tedu.straw.portal.model.*;
-import cn.tedu.straw.portal.service.IQuestionService;
-import cn.tedu.straw.portal.service.IRecommendQuestionService;
-import cn.tedu.straw.portal.service.ITagService;
-import cn.tedu.straw.portal.service.IUserService;
+import cn.tedu.straw.portal.service.*;
 import cn.tedu.straw.search.api.EsQuestionServiceApi;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -56,6 +54,8 @@ public class QuestionController extends BaseController {
     private IRecommendQuestionService recommendQuestionService;
     @Resource
     private GateWayUrlConfig gateWayUrlConfig;
+    @Resource
+    private IUserCollectService userCollectService;
 
     @GetMapping("/create.html")
     public  String create(Model model){
@@ -132,7 +132,13 @@ public class QuestionController extends BaseController {
         model.addAttribute("question",question);
         List<Question> similarQuestions = recommendQuestionService.getSimilarQuestion(id);
         model.addAttribute("similarQuestions",similarQuestions);
-        //flag是判断问题是否是本人提出的，用于判断是否显示“采纳问题”按钮
+        //问题被收藏数
+        QueryWrapper collectQuery=new QueryWrapper();
+        collectQuery.eq("question_id",id);
+        int collectCount = userCollectService.count(collectQuery);
+        model.addAttribute("collectCount",collectCount);
+
+        //flag是判断问题是否是本人提出的
         if(question.getUserId().intValue()==getUseId().intValue()){
             model.addAttribute("flag",true);
         }else {
@@ -140,7 +146,6 @@ public class QuestionController extends BaseController {
         }
         return "question/detail";
     }
-
 
 
 
@@ -359,6 +364,8 @@ public class QuestionController extends BaseController {
     @ApiOperation("编辑问题")
     public String edit(@PathVariable("id")Integer id,Model model){
         model.addAttribute("id",id);
+        List<Question> hotspotQuestions = recommendQuestionService.getHotspotQuestion();
+        model.addAttribute("hotspotQuestions",hotspotQuestions);
         return "question/edit";
     }
 
@@ -390,5 +397,36 @@ public class QuestionController extends BaseController {
        }
     }
 
+    @GetMapping("/collect/{id}")
+    @ApiOperation("收藏问题")
+    @ResponseBody
+    public StrawResult collect(@PathVariable("id")Integer id){
+       Boolean flag= questionService.collectQuestion(id);
+       if(flag){
+           return new StrawResult().success();
+       }else {
+           return new StrawResult().failed("系统繁忙，请稍后重试！");
+       }
+    }
+
+    @GetMapping("/cancelCollect/{id}")
+    @ApiOperation("取消收藏")
+    @ResponseBody
+    public StrawResult cancelCollect(@PathVariable("id")Integer id){
+        Boolean flag= questionService.cancelCollectQuestion(id);
+        if(flag){
+            return new StrawResult().success();
+        }else {
+            return new StrawResult().failed("系统繁忙，请稍后重试！");
+        }
+    }
+
+    @GetMapping("/checkCollectStatus/{id}")
+    @ApiOperation("查看问题是否已收藏")
+    @ResponseBody
+    public  StrawResult checkCollectStatus(@PathVariable("id")Integer id){
+       Boolean isCollect= questionService.checkCollectStatus(id);
+       return new StrawResult().success(isCollect);
+    }
 
 }

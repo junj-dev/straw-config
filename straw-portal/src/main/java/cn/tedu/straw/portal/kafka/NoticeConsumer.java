@@ -1,5 +1,6 @@
 package cn.tedu.straw.portal.kafka;
 
+import cn.tedu.straw.common.constant.KafkaTopic;
 import cn.tedu.straw.portal.mapper.NoticeMapper;
 import cn.tedu.straw.portal.model.EsQuestion;
 import cn.tedu.straw.portal.model.Notice;
@@ -32,7 +33,7 @@ public class NoticeConsumer {
      * 创建问题
      * @param record
      */
-    @KafkaListener(topics = {"straw-portal-notice"})
+    @KafkaListener(topics = {KafkaTopic.PORTAL_NOTICE})
     public void listen(ConsumerRecord<String, String> record) {
 
         Optional<?> kafkaMessage = Optional.ofNullable(record.value());

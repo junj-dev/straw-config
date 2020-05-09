@@ -1,5 +1,6 @@
 package cn.tedu.straw.portal.kafka;
 
+import cn.tedu.straw.common.constant.KafkaTopic;
 import cn.tedu.straw.common.constant.RedisKey;
 import cn.tedu.straw.common.constant.RedisKeyPrefix;
 import cn.tedu.straw.portal.mapper.AnswerMapper;
@@ -50,7 +51,7 @@ public class PageViewConsumer {
      * kafka消费信息，记录页面的访问量
      * @param record
      */
-    @KafkaListener(topics = {"straw-portal-pageView"})
+    @KafkaListener(topics = {KafkaTopic.PORTAL_PAGEVIEW})
     public void listen(ConsumerRecord<String, String> record) {
 
         Optional<?> kafkaMessage = Optional.ofNullable(record.value());

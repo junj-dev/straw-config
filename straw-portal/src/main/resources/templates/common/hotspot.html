@@ -5,12 +5,15 @@
     <div class="list-group list-group-flush"  th:each="question : ${hotspotQuestions}">
         <a th:href="@{'/question/detail/'+${question.id}}"  class="list-group-item list-group-item-action">
             <div class="d-flex w-100 justify-content-between">
-                <h6 class="mb-1" th:text="${question.title}"></h6>
+                <h6 class="mb-1 text-dark" th:text="${question.title}"></h6>
                 <small><span class="badge badge-primary badge-pill" ></span></small>
             </div>
             <div class="row">
                 <div class="col-6">
-                    <small th:text="${#dates.format(question.createtime, 'yyyy-MM-dd HH:mm:ss')}"></small>
+                    <small class="mr-2"  th:text="|${question.answerCount}条回答|"></small>
+                    <small class="text-warning" th:if="${question.status==0}">未回复</small>
+                    <small class="text-info" th:if="${question.status==1}">未解决</small>
+                    <small class="text-success" th:if="${question.status==2}">已解决</small>
                 </div>
                 <div class="col-6 text-right" >
                     <small  th:text="|${question.pageViews}浏览量|"></small>

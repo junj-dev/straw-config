@@ -4,6 +4,7 @@ import cn.tedu.straw.portal.base.BaseService;
 import cn.tedu.straw.portal.domian.vo.MyInfo;
 import cn.tedu.straw.portal.mapper.AnswerMapper;
 import cn.tedu.straw.portal.mapper.QuestionMapper;
+import cn.tedu.straw.portal.mapper.UserCollectMapper;
 import cn.tedu.straw.portal.mapper.UserMapper;
 import cn.tedu.straw.portal.model.Question;
 import cn.tedu.straw.portal.model.User;
@@ -32,6 +33,8 @@ public class PersonalServiceImpl extends BaseService implements IPersonalService
     private AnswerMapper answerMapper;
     @Resource
     private UserMapper userMapper;
+    @Resource
+    private UserCollectMapper userCollectMapper;
     @Autowired
     private RedisTemplate<String, String> strRedisTemplate;
     private   BCryptPasswordEncoder passwordEncoder=new BCryptPasswordEncoder();
@@ -49,6 +52,11 @@ public class PersonalServiceImpl extends BaseService implements IPersonalService
         MyInfo myInfo=new MyInfo();
         //TODO 金币统计功能暂时未开发,统一设置为0
         myInfo.setGoldCount(0);
+        //收藏数量
+        QueryWrapper collectCountQuery=new QueryWrapper();
+        collectCountQuery.eq("user_id",getUseId());
+        Integer collectCount = userCollectMapper.selectCount(collectCountQuery);
+        myInfo.setCollectCount(collectCount);
         //获取本用户的提问数量
         QueryWrapper qustionQuery=new QueryWrapper();
         qustionQuery.eq("user_id",getUseId());

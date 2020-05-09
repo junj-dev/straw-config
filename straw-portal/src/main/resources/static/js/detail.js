@@ -42,6 +42,7 @@ function deleteQuestion(id) {
     }
 
 }
+
 function insertImg(imgeList){
     //for(i in imageUrl){
     console.log("imgeList:"+imgeList);
@@ -97,5 +98,51 @@ var comment=new Vue({
         onReset:function () {
             this.content='';
         }
+    }
+});
+var collectApp=new Vue({
+    el:"#collectApp",
+    data:{
+        show:false,
+        questionId:''
+    },
+    methods: {
+        checkCollectStatus:function () {
+            var _this=this;
+            //检查收藏状态
+            $.get("/question/checkCollectStatus/"+_this.questionId,function (res) {
+                if(res.code==200){
+                    _this.show=!res.data;
+                }
+            });
+        },
+        //收藏
+        collectQuestion:function () {
+            var _this=this;
+            $.get("/question/collect/"+_this.questionId,function (res) {
+                if(res.code==200){
+                    var oldStatus=_this.show;
+                    _this.show=!oldStatus;
+                }else {
+                    alert(res.msg);
+                }
+            });
+        },
+        //取消收藏
+        cancelCollectQuestion:function () {
+            var _this=this;
+            $.get("/question/cancelCollect/"+_this.questionId,function (res) {
+                if(res.code==200){
+                    var oldStatus=_this.show;
+                    _this.show=!oldStatus;
+                }else {
+                    alert(res.msg);
+                }
+            });
+        }
+    },
+    created:function () {
+        this.questionId=$("#questionId").val();
+        this.checkCollectStatus();
     }
 })

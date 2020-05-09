@@ -1,6 +1,7 @@
 package cn.tedu.straw.portal.service.impl;
 
 import cn.tedu.straw.common.CommonPage;
+import cn.tedu.straw.common.constant.KafkaTopic;
 import cn.tedu.straw.common.constant.QuestionPublicStatus;
 import cn.tedu.straw.common.StrawResult;
 import cn.tedu.straw.portal.base.BaseServiceImpl;
@@ -32,6 +33,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
+import java.io.StringWriter;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -72,6 +74,8 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
     private CommentMapper commentMapper;
     @Resource
     private NoticeMapper noticeMapper;
+    @Resource
+    private UserCollectMapper userCollectMapper;
 
     private Gson gson = new GsonBuilder().create();
 
@@ -220,7 +224,7 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
            }
            //向kafka发送消息（添加通知消息,给老师发送通知）
            Notice notice=new Notice(3,question.getId(),new Date(),teacher.getId(),getUseId(),false);
-           kafkaTemplate.send("straw-portal-notice",gson.toJson(notice));
+           kafkaTemplate.send(KafkaTopic.PORTAL_NOTICE,gson.toJson(notice));
 
 
        }
@@ -228,7 +232,7 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
         EsQuestion esQuestion=new EsQuestion(question.getId(),question.getTitle(),question.getContent(),
                 question.getUserNickName(),question.getUserId(),question.getCreatetime(),question.getStatus(),question.getPageViews(),
                 question.getPublicStatus(), Arrays.asList(param.getTagNames()),tagList);
-        kafkaTemplate.send("straw-portal-createQuestion", gson.toJson(esQuestion));
+        kafkaTemplate.send(KafkaTopic.PORTAL_CREATE_QUESTION, gson.toJson(esQuestion));
         return  true;
     }
 
@@ -294,7 +298,7 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
         int b = questionMapper.updateById(question);
         //生成消息通知
         Notice notice=new Notice(1,question.getId(),new Date(),question.getUserId(),getUseId(),false);
-        kafkaTemplate.send("straw-portal-notice",gson.toJson(notice));
+        kafkaTemplate.send(KafkaTopic.PORTAL_NOTICE,gson.toJson(notice));
          return true;
         }
 
@@ -554,7 +558,7 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
                 question.getUserNickName(),question.getUserId(),question.getCreatetime(),question.getStatus(),question.getPageViews(),
                 question.getPublicStatus(),Arrays.asList(q.getTagNames()),tagList);
 
-        kafkaTemplate.send("straw-portal-updateQuestion",gson.toJson(esQuestion));
+        kafkaTemplate.send(KafkaTopic.PROTAL_UPDATE_QUESTION,gson.toJson(esQuestion));
 
         return true;
 
@@ -570,6 +574,58 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
         question.setModifytime(new Date());
 
         return questionMapper.updateById(question)==1;
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public Boolean collectQuestion(Integer id) {
+        //先判断该问题是否已收藏
+        QueryWrapper queryWrapper=new QueryWrapper();
+        queryWrapper.eq("user_id",getUseId());
+        queryWrapper.eq("question_id",id);
+        List<UserCollect> userCollect2 = userCollectMapper.selectList(queryWrapper);
+        //只有该收藏不存在时才处理
+        if(!CollectionUtils.isEmpty(userCollect2)){
+            throw  new BusinessException("该问题已收藏");
+        }
+        UserCollect userCollect=new UserCollect(getUseId(),id,new Date());
+        return userCollectMapper.insert(userCollect)==1;
+
+    }
+
+    /**
+     * 收藏提问
+     * @param id
+     * @return
+     */
+    @Override
+    public Boolean checkCollectStatus(Integer id) {
+        QueryWrapper queryWrapper=new QueryWrapper();
+        queryWrapper.eq("question_id",id);
+        queryWrapper.eq("user_id",getUseId());
+        List<UserCollect> userCollects = userCollectMapper.selectList(queryWrapper);
+        if(!CollectionUtils.isEmpty(userCollects)){
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 取消收藏
+     * @param id
+     * @return
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public Boolean cancelCollectQuestion(Integer id) {
+        //用kafka消息队列
+        QueryWrapper queryWrapper=new QueryWrapper();
+        queryWrapper.eq("user_id",getUseId());
+        queryWrapper.eq("question_id",id);
+        //删除该收藏
+       return userCollectMapper.delete(queryWrapper)==1;
+
+
     }
 
 

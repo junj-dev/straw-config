@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+  <title>我的提问</title>
+  <link href="/img/logo.ico" rel="SHORTCUT ICON" />
+
+</head>
+<head th:replace="common/head :: head"></head>
+<body>
+<header th:replace="common/head :: header"></header>
+
+
+  <div class="container-fluid  mt-3 mb-1" >
+    <div class="row mx-1">
+      <div class="col-3  w-100 h-100" >
+          <ul class="list-group">
+            <li class="list-group-item active">我的提问</li>
+            <li class="list-group-item">我的回答</li>
+            <li class="list-group-item">我的关注</li>
+            <li class="list-group-item "><a class="text-dark" href="/personal/collect">我的收藏</a></li>
+          </ul>
+
+      </div>
+      <div class="col-9" id="myQuestionApp">
+        <ul class="list-unstyled">
+          <li class="media mt-4 bg-light" v-for="question in questions">
+            <div class="media-body">
+              <p>
+                <a class="mt-0 mb-1 h5 text-dark" :href="'/question/detail/'+question.id">{{question.title}}</a>
+              </p>
+                <p>
+                  <span class="font-weight-light p-2">{{question.distanceTime}}</span>
+                </p>
+            </div>
+          </li>
+
+        </ul>
+        <!--分页信息-->
+        <div class="row" v-if="questions !==undefined && questions.length > 0 ">
+          <div th:replace="common/pageInfo :: pageInfo"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--底部-->
+  <footer th:replace="common/footer::footer"></footer>
+  <script th:src="@{/js/myQuestion.js?v=20200508}"></script>
+
+
+</body>
+</html>

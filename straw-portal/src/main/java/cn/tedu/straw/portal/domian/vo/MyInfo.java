@@ -1,6 +1,8 @@
 package cn.tedu.straw.portal.domian.vo;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @Description: 用户信息
@@ -9,6 +11,8 @@ import lombok.Data;
  * @Version: 1.0
  */
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class MyInfo {
     //金币数量
     private  Integer goldCount;
@@ -18,4 +22,6 @@ public class MyInfo {
     private  Integer questionCount;
     //任务的数量
     private  Integer taskCount;
+    //收藏数量
+    private Integer collectCount;
 }

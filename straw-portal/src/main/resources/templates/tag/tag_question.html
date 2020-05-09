@@ -19,7 +19,7 @@
             <input type="hidden" th:value="${tag.id}" id="tagId">
             <h4 class="border-bottom m-2 p-2 font-weight-light fa fa-comments-o" th:text="${tag.name}" ></h4>
             <div class="row" v-if="questions == undefined ||  questions.length == 0 ">
-              <div class="alert alert-warning w-100" role="alert">
+              <div class="alert alert-warning w-100 mx-4" role="alert">
                 抱歉，该标签暂时没有问答内容，请查看其它标签
               </div>
             </div>
@@ -82,8 +82,8 @@
 
   <!--底部-->
   <footer th:replace="common/footer::footer"></footer>
-  <script th:src="@{/js/tag_question.js?v=1.3}"></script>
-  <script th:src="@{/js/myinfo.js?v=1.3}"></script>
-  <script th:src="@{/js/tag.js?v=20200430}"></script>
+  <script th:src="@{/js/tag_question.js?v=20200508}"></script>
+  <script th:src="@{/js/myinfo.js?v=20200508}"></script>
+  <script th:src="@{/js/tag.js?v=20200508}"></script>
 </body>
 </html>

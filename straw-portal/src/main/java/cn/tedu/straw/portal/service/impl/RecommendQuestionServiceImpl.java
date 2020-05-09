@@ -7,6 +7,7 @@ import cn.tedu.straw.common.constant.RoleName;
 import cn.tedu.straw.common.util.NumberUtils;
 import cn.tedu.straw.portal.base.BaseService;
 import cn.tedu.straw.portal.base.BaseServiceImpl;
+import cn.tedu.straw.portal.mapper.AnswerMapper;
 import cn.tedu.straw.portal.mapper.QuestionMapper;
 import cn.tedu.straw.portal.mapper.QuestionTagMapper;
 import cn.tedu.straw.portal.model.Question;
@@ -40,6 +41,8 @@ public class RecommendQuestionServiceImpl extends BaseService implements IRecomm
     private QuestionMapper questionMapper;
     @Resource
     private QuestionTagMapper questionTagMapper;
+    @Resource
+    private AnswerMapper answerMapper;
 
     @Override
     public List<Question> getHotspotQuestion() {
@@ -50,19 +53,32 @@ public class RecommendQuestionServiceImpl extends BaseService implements IRecomm
 
         if(getUserRoleNames().contains(RoleName.TEACHER)){ //是否拥有老师角色
              List<Question>  quests= questionMapper.selectBatchIds(questionIds);
-             questions=quests.stream().limit(10).collect(Collectors.toList());
+             questions=quests.stream().filter(question -> {return  question.getDeleteStatus()==false;}).limit(10).collect(Collectors.toList());
 
         }else {
             List<Question>  quests= questionMapper.selectBatchIds(questionIds);
             questions= quests.stream().filter(q->{
-                return questionIsPublic(q);
+                //问题可见并且问题没有被删除
+                return isQuestionCanView(q)&&!q.getDeleteStatus();
             }).limit(10).collect(Collectors.toList());
+        }
+        for (Question question:questions){
+            //设置回答数量
+            QueryWrapper queryWrapper=new QueryWrapper();
+            queryWrapper.eq("quest_id",question.getId());
+            Integer count = answerMapper.selectCount(queryWrapper);
+            question.setAnswerCount(count);
         }
 
         return questions;
     }
 
-    private boolean questionIsPublic(Question q) {
+    /**
+     * 问题可见，包括自己提的问题和公开的问题
+     * @param q
+     * @return
+     */
+    private boolean isQuestionCanView(Question q) {
         //如果没有老师角色的用户只能查看自己提出的问题
         if(q.getUserId().intValue()==getUseId().intValue()){
             return true;
@@ -91,7 +107,14 @@ public class RecommendQuestionServiceImpl extends BaseService implements IRecomm
             allQuestionIds.addAll(questionIds);
         }
         List<Question> questions = questionMapper.selectBatchIds(allQuestionIds);
-       List<Question> result= questions.stream().filter(question ->{return questionIsPublic(question);}).collect(Collectors.toList());
+       List<Question> result= questions.stream().filter(question ->{return isQuestionCanView(question)&&!question.getDeleteStatus();}).collect(Collectors.toList());
+       for(Question question:result){
+           //设置回答数量
+           QueryWrapper queryWrapper2=new QueryWrapper();
+           queryWrapper2.eq("quest_id",question.getId());
+           Integer count = answerMapper.selectCount(queryWrapper2);
+           question.setAnswerCount(count);
+       }
         return result;
     }
 }

@@ -1,5 +1,6 @@
 package cn.tedu.straw.portal.service.impl;
 
+import cn.tedu.straw.common.constant.KafkaTopic;
 import cn.tedu.straw.portal.base.BaseServiceImpl;
 import cn.tedu.straw.portal.exception.BusinessException;
 import cn.tedu.straw.portal.mapper.AnswerMapper;
@@ -32,8 +33,7 @@ public class CommentServiceImpl extends BaseServiceImpl<CommentMapper, Comment> 
 
     @Resource
     private CommentMapper commentMapper;
-    @Resource
-    private NoticeMapper noticeMapper;
+
     @Resource
     private AnswerMapper answerMapper;
     @Resource
@@ -61,13 +61,13 @@ public class CommentServiceImpl extends BaseServiceImpl<CommentMapper, Comment> 
         //添加评论的消息通知，2个人会收到消息通知，问题的提问者和问题的回答者
         if(answer.getUserId().intValue()!=getUseId().intValue()){ //如果该回答不是该用户的，才会生成消息
             Notice notice=new Notice(0,questionId,new Date(),answer.getUserId(),getUseId(),false);
-            kafkaTemplate.send("straw-portal-notice",gson.toJson(notice));
+            kafkaTemplate.send(KafkaTopic.PORTAL_NOTICE,gson.toJson(notice));
         }
         //
         Question question = questionMapper.selectById(questionId);
         if(question!=null&&question.getUserId().intValue()!=getUseId().intValue()){
             Notice notice=new Notice(2,questionId,new Date(),question.getUserId(),getUseId(),false);
-            kafkaTemplate.send("straw-portal-notice",gson.toJson(notice));
+            kafkaTemplate.send(KafkaTopic.PORTAL_NOTICE,gson.toJson(notice));
         }
 
         return true;

@@ -66,4 +66,10 @@ public interface IQuestionService extends IService<Question> {
     boolean updateQuestion(QuestionUpdateParam question);
 
     Boolean deleteById(Integer id);
+
+    Boolean collectQuestion(Integer id);
+
+    Boolean checkCollectStatus(Integer id);
+
+    Boolean cancelCollectQuestion(Integer id);
 }

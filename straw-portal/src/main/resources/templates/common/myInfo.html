@@ -19,22 +19,22 @@
 
                 </li>
                 <li class="list-inline-item mx-3 my-1" sec:authorize="hasRole('ROLE_STUDENT')">
-                    <a class="text-center" href="/">
+                    <a class="text-center" href="/personal/myQuestions">
                         <div><strong>{{questionCount}}</strong></div>
                         <div>提问</div>
                     </a>
                 </li>
+<!--                <li class="list-inline-item mx-3 my-1">-->
+<!--                    <div class="text-center" >-->
+<!--                        <div><strong>0</strong></div>-->
+<!--                        <div>关注</div>-->
+<!--                    </div>-->
+<!--                </li>-->
                 <li class="list-inline-item mx-3 my-1">
-                    <div class="text-center" >
-                        <div><strong>0</strong></div>
-                        <div>关注</div>
-                    </div>
-                </li>
-                <li class="list-inline-item mx-3 my-1">
-                    <div class="text-center" >
-                        <div><strong>0</strong></div>
+                    <a class="text-center" href="/personal/collect">
+                        <div><strong>{{collectCount}}</strong></div>
                         <div>收藏</div>
-                    </div>
+                    </a>
                 </li>
                 <li class="list-inline-item mx-3 my-1" sec:authorize="hasRole('ROLE_TEACHER')">
                     <a class="text-center" href="/personal/mytask.html">
