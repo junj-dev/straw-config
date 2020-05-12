@@ -5,7 +5,8 @@ var vm = new Vue({
         pageSize: 5, //每一页显示的数据条数
         total: 0, //记录总数
         maxPage:6, //最大页数
-        questions:[]
+        questions:[],
+        isShow:false
 
     },
     methods: {
@@ -33,6 +34,11 @@ var vm = new Vue({
                         _this.total=res.data.total;
                         _this.pages=res.data.pages;
                         _this.questions=res.data.list;
+                        if(_this.total==0){
+
+                        }else {
+                            _this.isShow=false;
+                        }
                     }
                 }
             });

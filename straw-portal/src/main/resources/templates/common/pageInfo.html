@@ -2,9 +2,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <div class="col-12 text-center" th:fragment="pageInfo">
-    <!--显示分页信息-->
-    <zpagenav v-bind:page="page" v-bind:page-size="pageSize" v-bind:total="total"
-              v-bind:max-page="maxPage"  v-on:pagehandler="pageHandler">
-    </zpagenav>
+  <!--显示分页信息-->
+  <zpagenav v-bind:page="page" v-bind:page-size="pageSize" v-bind:total="total"
+            v-bind:max-page="maxPage" v-on:pagehandler="pageHandler">
+  </zpagenav>
 </div>
 </html>

@@ -4,92 +4,98 @@
 <head th:replace="common/head :: head"></head>
 <head>
   <title>稻草FAQ首页</title>
-  <link href="/img/logo.ico" rel="SHORTCUT ICON" />
+  <link href="/img/logo.ico" rel="SHORTCUT ICON"/>
 </head>
 <body>
 <header th:replace="common/head :: header"></header>
 
-  <!--引入标签的导航栏-->
-  <div th:replace="common/tag::tag"></div>
-  <div class="container-fluid bg-light mt-3 mb-1" >
-    <div class="row">
-      <div class="col-sm-12 col-md-8 pb-2 " >
+<!--引入标签的导航栏-->
+<div th:replace="common/tag::tag"></div>
+<div class="container-fluid bg-light mt-3 mb-1">
+  <div class="row">
+    <div class="col-sm-12 col-md-8 pb-2 ">
 
-        <div class="row" id="app">
-          <div class="container-fluid">
-              <h4 class="border-bottom m-2 p-2 font-weight-light"><i class="fa fa-tasks" aria-hidden="true"></i> 我的任务</h4>
-              <div class="row" v-if="questions == undefined ||  questions.length == 0 ">
-                <div class="alert alert-warning w-50" role="alert">
-                  抱歉，当前您没有回答任务，您可以通过点击上面的标签查看其它的问题。
-                </div>
-              </div>
-              <div class="media bg-white m-2 p-3" v-for="(question,index) in questions" >
-                <div class="media-body w-50">
-                  <div class="row">
-                    <div class="col-md-12 col-lg-2">
-                      <span class="badge badge-pill badge-warning" v-if="question.status == '0'">未回复</span>
-                      <span class="badge badge-pill badge-info" v-if="question.status == '1'">已回复</span>
-                      <span class="badge badge-pill badge-success" v-if="question.status == '2'">已解决</span>
-                    </div>
-                    <div class="col-md-12 col-lg-10">
-                      <h5 class="mt-0 mb-1 text-truncate"><a class="text-dark" :href="'/question/detail/'+question.id" >{{question.title}}</a></h5>
-                    </div>
-                  </div>
-
-                  <div class="font-weight-light text-truncate text-wrap text-justify mb-2" style="height: 70px;">
-                    <p v-html="delHtmlTag(question.content)">
-                    </p>
-                  </div>
-                  <div class="row">
-                    <div class="col-12 mt-1 text-info">
-                      <i class="fa fa-tags" aria-hidden="true"></i>
-                      <a class="text-info" :href="'/question/tag_question.html?tagId='+tag.id" v-for="tag in question.tags"><small>{{tag.name}} &nbsp;</small></a>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-12 text-right">
-                      <ul class="list-inline mb-1 ">
-                        <li class="list-inline-item"><small><span class="font-weight-light"></span>{{question.userNickName}}</small></li>
-                        <li class="list-inline-item"><small><span class="font-weight-light fa fa-eye"></span>{{question.pageViews}}</small></li>
-                        <li class="list-inline-item"><small><span class="font-weight-light"></span>{{question.distanceTime}}</small></li>
-                      </ul>
-                    </div>
-                  </div>
-
-                </div>
-                <!-- / class="media-body"-->
-                <img :src="'/img/tags/example'+index+'.jpg'" class="ml-3 border img-fluid rounded" alt="" width="208" height="116">
-              </div>
-              <!-- / class="media"-->
-            <!-- / class="row"-->
-          </div>
-          <div class="row" v-if="questions !==undefined && questions.length > 0 ">
-            <div class="col-12 text-center">
-              <!--显示分页信息-->
-              <zpagenav v-bind:page="page" v-bind:page-size="pageSize" v-bind:total="total"
-                        v-bind:max-page="maxPage"  v-on:pagehandler="pageHandler">
-              </zpagenav>
+      <div class="row" id="app" v-cloak>
+        <div class="container-fluid">
+          <h4 class="border-bottom m-2 p-2 font-weight-light"><i class="fa fa-tasks" aria-hidden="true"></i> 我的任务</h4>
+          <div class="row" v-if="isShow">
+            <div class="alert alert-warning w-50" role="alert">
+              抱歉，当前您没有回答任务，您可以通过点击上面的标签查看其它的问题。
             </div>
-
           </div>
+          <div class="media bg-white m-2 p-3" v-for="(question,index) in questions">
+            <div class="media-body w-50">
+              <div class="row">
+                <div class="col-md-12 col-lg-2">
+                  <span class="badge badge-pill badge-warning" v-if="question.status == '0'">未回复</span>
+                  <span class="badge badge-pill badge-info" v-if="question.status == '1'">已回复</span>
+                  <span class="badge badge-pill badge-success" v-if="question.status == '2'">已解决</span>
+                </div>
+                <div class="col-md-12 col-lg-10">
+                  <h5 class="mt-0 mb-1 text-truncate"><a class="text-dark" :href="'/question/detail/'+question.id">{{question.title}}</a>
+                  </h5>
+                </div>
+              </div>
+
+              <div class="font-weight-light text-truncate text-wrap text-justify mb-2" style="height: 70px;">
+                <p v-html="delHtmlTag(question.content)">
+                </p>
+              </div>
+              <div class="row">
+                <div class="col-12 mt-1 text-info">
+                  <i class="fa fa-tags" aria-hidden="true"></i>
+                  <a class="text-info" :href="'/question/tag_question.html?tagId='+tag.id" v-for="tag in question.tags"><small>{{tag.name}}
+                    &nbsp;</small></a>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12 text-right">
+                  <ul class="list-inline mb-1 ">
+                    <li class="list-inline-item"><small><span class="font-weight-light"></span>{{question.userNickName}}</small>
+                    </li>
+                    <li class="list-inline-item"><small><span class="font-weight-light fa fa-eye"></span>{{question.pageViews}}</small>
+                    </li>
+                    <li class="list-inline-item"><small><span class="font-weight-light"></span>{{question.distanceTime}}</small>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+            </div>
+            <!-- / class="media-body"-->
+            <img :src="'/img/tags/example'+index+'.jpg'" class="ml-3 border img-fluid rounded" alt="" width="208"
+                 height="116">
+          </div>
+          <!-- / class="media"-->
+          <!-- / class="row"-->
+        </div>
+        <div class="row" v-if="questions !==undefined && questions.length > 0 ">
+          <div class="col-12 text-center">
+            <!--显示分页信息-->
+            <zpagenav v-bind:page="page" v-bind:page-size="pageSize" v-bind:total="total"
+                      v-bind:max-page="maxPage" v-on:pagehandler="pageHandler">
+            </zpagenav>
+          </div>
+
         </div>
       </div>
-      <!-- / class="col-8"-->
-      <div class="col-sm-12 col-md-4  p-2">
-        <!--个人信息-->
-        <div th:replace="common/myInfo :: myInfo"></div>
-        <!--热点数据-->
-        <div th:replace="common/hotspot :: hostpot"></div>
-      </div>
-      <!-- / class="col-4"-->
     </div>
-
+    <!-- / class="col-8"-->
+    <div class="col-sm-12 col-md-4  p-2">
+      <!--个人信息-->
+      <div th:replace="common/myInfo :: myInfo"></div>
+      <!--热点数据-->
+      <div th:replace="common/hotspot :: hostpot"></div>
+    </div>
+    <!-- / class="col-4"-->
   </div>
-  <!--底部-->
-  <footer th:replace="common/footer::footer"></footer>
-  <script th:src="@{/js/index_teacher.js?v=20200508}"></script>
-  <script th:src="@{/js/myinfo.js?v=20200508}"></script>
-  <script th:src="@{/js/tag.js?v=20200508}"></script>
+
+</div>
+<!--底部-->
+<footer th:replace="common/footer::footer"></footer>
+<script th:src="@{/js/index_teacher.js?v=20200512}"></script>
+<script th:src="@{/js/myinfo.js?v=20200512}"></script>
+<script th:src="@{/js/tag.js?v=20200512}"></script>
 
 </body>
 </html>

@@ -13,4 +13,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IAnswerService extends IService<Answer> {
 
+    Boolean deleteById(Integer answerId);
 }

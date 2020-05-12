@@ -2,106 +2,118 @@
 <html lang="zh-CN" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
-<title>稻草FAQ搜索</title>
-<link href="/img/logo.ico" rel="SHORTCUT ICON" />
+  <title>稻草FAQ搜索</title>
+  <link href="/img/logo.ico" rel="SHORTCUT ICON"/>
+
 </head>
 <head th:replace="common/head :: head"></head>
 <body>
 
 <header th:replace="common/head :: header"></header>
-  <div class="container-fluid mt-5 mb-1" id="app">
-    <div class="row">
-      <div class="col-8 pb-2">
+<div class="container-fluid mt-5 mb-1" id="app">
+  <div class="row">
+    <div class="col-8 pb-2">
 
-        <div class="container-fluid mb-3">
+      <div class="container-fluid mb-3">
 
-          <div class="row">
-            <div class="col-3">
-              <h3 class="text-center text-info">稻草搜索</h3>
-            </div>
-            <div class="col-9">
-              <div class="form-inline my-2 my-lg-0 "  >
-                <input type="hidden" th:value="${keyword}" id="keyword">
-                <input class="form-control form-control-md mr-sm-2 rounded-pill" v-model="keyword"  v-on:keyup.13="pageHandler()" style="width: 75%"  type="search" placeholder="请输入问题的关键字/标签" aria-label="Search">
-                <button class="btn btn-sm btn-outline-secondary my-2 my-sm-0 rounded-pill"  v-on:click="pageHandler()" type="button"><i class="fa fa-search" aria-hidden="true"></i></button>
-              </div>
-            </div>
-
+        <div class="row">
+          <div class="col-3">
+            <h3 class="text-center text-info">稻草搜索</h3>
           </div>
+          <div class="col-9">
+            <div class="form-inline my-2 my-lg-0 ">
+              <input type="hidden" th:value="${keyword}" id="keyword">
+              <input class="form-control form-control-md mr-sm-2 rounded-pill" v-model="keyword"
+                     v-on:keyup.13="pageHandler()" style="width: 75%" type="search" placeholder="请输入问题的关键字/标签"
+                     aria-label="Search">
+              <button class="btn btn-sm btn-outline-secondary my-2 my-sm-0 rounded-pill" v-on:click="pageHandler()"
+                      type="button"><i class="fa fa-search" aria-hidden="true"></i></button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+
+      <div class="container-fluid bg-light">
+        <h4 class="border-bottom m-2 p-2 font-weight-light"><i class="fa fa-comments-o" aria-hidden="true"></i> 搜索列表
+        </h4>
+        <div class="alert alert-danger" id="emptySearch" v-if="isShow" role="alert" v-cloak>
+          抱歉没有搜索到相关的内容
         </div>
 
-
-        <div class="container-fluid bg-light">
-          <h4 class="border-bottom m-2 p-2 font-weight-light"><i class="fa fa-comments-o" aria-hidden="true"></i> 搜索列表</h4>
-          <div class="alert alert-danger" id="emptySearch" style="display:none" role="alert">
-            抱歉没有搜索到相关的内容: {{keyword}}
-          </div>
-
-          <div class="media bg-white m-2 p-3"   v-for="(question,index) in questions"  v-if="questions !==undefined && questions.length > 0 ">
-            <div class="media-body w-50">
-              <div class="row">
-                <div class="col-2">
-                  <span class="badge badge-pill badge-warning" v-if="question.status == '0'">未回复</span>
-                  <span class="badge badge-pill badge-info" v-if="question.status == '1'">待解决</span>
-                  <span class="badge badge-pill badge-success" v-if="question.status == '2'">已解决</span>
-                </div>
-                <div class="col-10">
-                  <h5 class="mt-0 mb-1 text-truncate"><a target= _blank class="text-primary" :href="'/question/detail/'+question.id" >{{question.title}}</a></h5>
-                </div>
+        <div class="media bg-white m-2 p-3" v-cloak v-for="(question,index) in questions"
+             v-if="questions !==undefined && questions.length > 0 ">
+          <div class="media-body w-50">
+            <div class="row">
+              <div class="col-2">
+                <span class="badge badge-pill badge-warning" v-if="question.status == '0'">未回复</span>
+                <span class="badge badge-pill badge-info" v-if="question.status == '1'">待解决</span>
+                <span class="badge badge-pill badge-success" v-if="question.status == '2'">已解决</span>
               </div>
-
-              <div class="font-weight-light text-truncate text-wrap text-justify mb-2" style="height: 70px;">
-                <p v-html="delHtmlTag(question.content)">
-                </p>
+              <div class="col-10">
+                <h5 class="mt-0 mb-1 text-truncate"><a target=_blank class="text-primary"
+                                                       :href="'/question/detail/'+question.id">{{question.title}}</a>
+                </h5>
               </div>
-              <div class="row">
-                <div class="col-12 mt-1 text-info">
-                  <i class="fa fa-tags" aria-hidden="true"></i>
-                  <a class="text-info" :href="'/question/tag_question.html?tagId='+tag.id" v-for="tag in question.tags"><small>{{tag.name}} &nbsp;</small></a>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-12 text-right">
-                  <ul class="list-inline mb-1 ">
-                    <li class="list-inline-item"><small><span class="font-weight-light"></span>{{question.userNickName}}</small></li>
-<!--                    <li class="list-inline-item"><small><span class="font-weight-light"></span>{{question.pageViews}}浏览</small></li>-->
-                    <li class="list-inline-item"><small><span class="font-weight-light"></span>{{question.createtimeStr}}</small></li>
-                  </ul>
-                </div>
-              </div>
-
             </div>
-            <!-- / class="media-body"-->
-            <img :src="'/img/tags/example'+index+'.jpg'" class="ml-3 border img-fluid rounded" alt="" width="208" height="116">
-          </div>
-          <!-- / class="media"-->
-        </div>
 
+            <div class="font-weight-light text-truncate text-wrap text-justify mb-2" style="height: 70px;">
+              <p v-html="delHtmlTag(question.content)">
+              </p>
+            </div>
+            <div class="row">
+              <div class="col-12 mt-1 text-info">
+                <i class="fa fa-tags" aria-hidden="true"></i>
+                <a class="text-info" :href="'/question/tag_question.html?tagId='+tag.id"
+                   v-for="tag in question.tags"><small>{{tag.name}} &nbsp;</small></a>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12 text-right">
+                <ul class="list-inline mb-1 ">
+                  <li class="list-inline-item"><small><span
+                          class="font-weight-light"></span>{{question.userNickName}}</small></li>
+                  <!--                    <li class="list-inline-item"><small><span class="font-weight-light"></span>{{question.pageViews}}浏览</small></li>-->
+                  <li class="list-inline-item"><small><span class="font-weight-light"></span>{{question.createtimeStr}}</small>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+          </div>
+          <!-- / class="media-body"-->
+          <img :src="'/img/tags/example'+index+'.jpg'" class="ml-3 border img-fluid rounded" alt="" width="208"
+               height="116">
+        </div>
+        <!-- / class="media"-->
       </div>
-      <!-- / class="col-8"-->
-      <div class="col-4 pb-2">
-        <!--热点数据-->
-        <div th:replace="common/hotspot :: hostpot"></div>
-      </div>
-      <!-- / class="col-4"-->
+
     </div>
-    <!-- / class="row"-->
-    <div class="row" v-if="questions !==undefined && questions.length > 0 ">
-      <!--显示分页信息-->
-        <zpagenav v-bind:page="page" v-bind:page-size="pageSize" v-bind:total="total"
-                  v-bind:max-page="maxPage"  v-on:pagehandler="pageHandler">
-        </zpagenav>
+    <!-- / class="col-8"-->
+    <div class="col-4 pb-2">
+      <!--热点数据-->
+      <div th:replace="common/hotspot :: hostpot"></div>
     </div>
+    <!-- / class="col-4"-->
   </div>
-  <footer class="container-fluid  bg-light mt-1 py-3">
-    <p class="text-center font-weight-light">达内教育-Java教研部 版权所有<br><a href="http://tedu.cn">tedu.cn</a></p>
-  </footer>
-  <script th:src="@{/js/jquery.min.js}"></script>
-  <script th:src="@{/bower_components/poper/dist/popper.min.js}"></script>
-  <script th:src="@{/bower_components/bootstrap-4.4.1/dist/js/bootstrap.min.js}"></script>
-  <script th:src="@{/js/vue.js}"></script>
-  <script th:src="@{/js/zpageNav.js}"></script>
-  <script th:src="@{/js/search.js?v=20200508}"></script>
+  <!-- / class="row"-->
+  <div class="row" v-if="questions !==undefined && questions.length > 0 ">
+    <!--显示分页信息-->
+    <zpagenav v-bind:page="page" v-bind:page-size="pageSize" v-bind:total="total"
+              v-bind:max-page="maxPage" v-on:pagehandler="pageHandler">
+    </zpagenav>
+  </div>
+</div>
+<footer class="container-fluid  bg-light mt-1 py-3">
+  <p class="text-center font-weight-light">达内教育-Java教研部 版权所有<br><a href="http://tedu.cn">tedu.cn</a></p>
+</footer>
+<script th:src="@{/js/jquery.min.js}"></script>
+<script th:src="@{/bower_components/poper/dist/popper.min.js}"></script>
+<script th:src="@{/bower_components/bootstrap-4.4.1/dist/js/bootstrap.min.js}"></script>
+<script th:src="@{/js/vue.js}"></script>
+<script th:src="@{/js/zpageNav.js}"></script>
+<script th:src="@{/js/search.js?v=20200512}"></script>
 
 </body>
 </html>

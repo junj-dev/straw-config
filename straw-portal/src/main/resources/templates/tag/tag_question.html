@@ -4,86 +4,92 @@
 <head th:replace="common/head :: head"></head>
 <head>
   <title th:text="${tag.name}"></title>
-  <link href="/img/logo.ico" rel="SHORTCUT ICON" />
+  <link href="/img/logo.ico" rel="SHORTCUT ICON"/>
 </head>
 <body>
 <header th:replace="common/head :: header"></header>
-  <!--引入标签的导航栏-->
-  <div th:replace="common/tag::tag"></div>
-  <div class="container-fluid bg-light mt-2 mb-1" >
-    <div class="row">
-      <div class="col-sm-12 col-lg-8 pb-2" >
+<!--引入标签的导航栏-->
+<div th:replace="common/tag::tag"></div>
+<div class="container-fluid bg-light mt-2 mb-1">
+  <div class="row">
+    <div class="col-sm-12 col-lg-8 pb-2">
 
-        <div class="row" id="app">
-          <div class="container-fluid">
-            <input type="hidden" th:value="${tag.id}" id="tagId">
-            <h4 class="border-bottom m-2 p-2 font-weight-light fa fa-comments-o" th:text="${tag.name}" ></h4>
-            <div class="row" v-if="questions == undefined ||  questions.length == 0 ">
-              <div class="alert alert-warning w-100 mx-4" role="alert">
-                抱歉，该标签暂时没有问答内容，请查看其它标签
-              </div>
+      <div class="row" id="app" v-cloak>
+        <div class="container-fluid">
+          <input type="hidden" th:value="${tag.id}" id="tagId">
+          <h4 class="border-bottom m-2 p-2 font-weight-light fa fa-comments-o" th:text="${tag.name}"></h4>
+          <div class="row" v-if="isShow">
+            <div class="alert alert-warning w-100 mx-4" role="alert">
+              抱歉，该标签暂时没有问答内容，请查看其它标签
             </div>
-            <div class="media bg-white m-2 p-3" v-for="(question,index) in questions" >
-              <div class="media-body w-50">
-                <div class="row">
-                  <div class="col-2">
-                    <span class="badge badge-pill badge-warning" v-if="question.status == '0'">未回复</span>
-                    <span class="badge badge-pill badge-info" v-if="question.status == '1'">已回复</span>
-                    <span class="badge badge-pill badge-success" v-if="question.status == '2'">已解决</span>
-                  </div>
-                  <div class="col-10">
-                    <h5 class="mt-0 mb-1 text-truncate"><a class="text-dark" :href="'/question/detail/'+question.id" >{{question.title}}</a></h5>
-                  </div>
+          </div>
+          <div class="media bg-white m-2 p-3" v-for="(question,index) in questions">
+            <div class="media-body w-50">
+              <div class="row">
+                <div class="col-2">
+                  <span class="badge badge-pill badge-warning" v-if="question.status == '0'">未回复</span>
+                  <span class="badge badge-pill badge-info" v-if="question.status == '1'">已回复</span>
+                  <span class="badge badge-pill badge-success" v-if="question.status == '2'">已解决</span>
                 </div>
-
-                <div class="font-weight-light text-truncate text-wrap text-justify mb-2" style="height: 70px;">
-                  <p v-html="delHtmlTag(question.content)">
-                  </p>
+                <div class="col-10">
+                  <h5 class="mt-0 mb-1 text-truncate"><a class="text-dark" :href="'/question/detail/'+question.id">{{question.title}}</a>
+                  </h5>
                 </div>
-                <div class="row">
-                  <div class="col-12 mt-1 text-info">
-                    <i class="fa fa-tags" aria-hidden="true"></i>
-                    <a class="text-info" :href="'/question/tag_question.html?tagId='+tag.id" v-for="tag in question.tags"><small>{{tag.name}} &nbsp;</small></a>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-12 text-right">
-                    <ul class="list-inline mb-1 ">
-                      <li class="list-inline-item"><small><span class="font-weight-light"></span>{{question.userNickName}}</small></li>
-                      <li class="list-inline-item"><small><span class="font-weight-light fa fa-eye"></span>{{question.pageViews}}</small></li>
-                      <li class="list-inline-item"><small><span class="font-weight-light"></span>{{question.distanceTime}}</small></li>
-                    </ul>
-                  </div>
-                </div>
-
               </div>
-              <!-- / class="media-body"-->
-              <img :src="'/img/tags/example'+index+'.jpg'" class="ml-3 border img-fluid rounded" alt="" width="208" height="116">
+
+              <div class="font-weight-light text-truncate text-wrap text-justify mb-2" style="height: 70px;">
+                <p v-html="delHtmlTag(question.content)">
+                </p>
+              </div>
+              <div class="row">
+                <div class="col-12 mt-1 text-info">
+                  <i class="fa fa-tags" aria-hidden="true"></i>
+                  <a class="text-info" :href="'/question/tag_question.html?tagId='+tag.id" v-for="tag in question.tags"><small>{{tag.name}}
+                    &nbsp;</small></a>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12 text-right">
+                  <ul class="list-inline mb-1 ">
+                    <li class="list-inline-item"><small><span class="font-weight-light"></span>{{question.userNickName}}</small>
+                    </li>
+                    <li class="list-inline-item"><small><span class="font-weight-light fa fa-eye"></span>{{question.pageViews}}</small>
+                    </li>
+                    <li class="list-inline-item"><small><span class="font-weight-light"></span>{{question.distanceTime}}</small>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
             </div>
-            <!-- / class="media"-->
+            <!-- / class="media-body"-->
+            <img :src="'/img/tags/example'+index+'.jpg'" class="ml-3 border img-fluid rounded" alt="" width="208"
+                 height="116">
           </div>
-          <!-- / class="row"-->
-          <div class="row" v-if="questions !==undefined && questions.length > 0 ">
-            <div th:replace="common/pageInfo :: pageInfo"></div>
-          </div>
+          <!-- / class="media"-->
         </div>
+        <!-- / class="row"-->
+        <div class="row" v-if="questions !==undefined && questions.length > 0 ">
+          <div th:replace="common/pageInfo :: pageInfo"></div>
+        </div>
+      </div>
 
-      </div>
-      <!-- / class="col-8"-->
-      <div class="col-sm-12 col-lg-4 pb-2">
-        <!--个人信息-->
-        <div th:replace="common/myInfo :: myInfo"></div>
-        <!--热点数据-->
-        <div th:replace="common/hotspot :: hostpot"></div>
-      </div>
-      </div>
-      <!-- / class="col-4"-->
     </div>
+    <!-- / class="col-8"-->
+    <div class="col-sm-12 col-lg-4 pb-2">
+      <!--个人信息-->
+      <div th:replace="common/myInfo :: myInfo"></div>
+      <!--热点数据-->
+      <div th:replace="common/hotspot :: hostpot"></div>
+    </div>
+  </div>
+  <!-- / class="col-4"-->
+</div>
 
-  <!--底部-->
-  <footer th:replace="common/footer::footer"></footer>
-  <script th:src="@{/js/tag_question.js?v=20200508}"></script>
-  <script th:src="@{/js/myinfo.js?v=20200508}"></script>
-  <script th:src="@{/js/tag.js?v=20200508}"></script>
+<!--底部-->
+<footer th:replace="common/footer::footer"></footer>
+<script th:src="@{/js/tag_question.js?v=20200512}"></script>
+<script th:src="@{/js/myinfo.js?v=20200512}"></script>
+<script th:src="@{/js/tag.js?v=20200512}"></script>
 </body>
 </html>

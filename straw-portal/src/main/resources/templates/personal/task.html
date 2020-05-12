@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="zh-CN" xmlns:th="http://www.thymeleaf.org"
-	  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head th:replace="common/head :: head"></head>
 <head>
-	<title >我的任务</title>
-	<link href="/img/logo.ico" rel="SHORTCUT ICON" />
+  <title>我的任务</title>
+  <link href="/img/logo.ico" rel="SHORTCUT ICON"/>
 </head>
 <body>
 
@@ -12,309 +12,322 @@
 <!--引入标签的导航栏-->
 <div th:replace="common/tag::tag"></div>
 <div class="container-fluid mt-2 mb-1 bg-light text-xs" id="app">
-	<h4 class="border-bottom m-2 p-2 font-weight-light"><i class="fa fa-tasks" aria-hidden="true"></i> 我的任务</h4>
-	<div class="row">
-		<div class="col-12">
-			<ul id="myTab" role="tablist" class="nav nav-tabs">
-				<li class="nav-item">
-					<a href="#noAnswer" class="nav-link active text-warning" data-toggle="tab" aria-controls="noAnswer" aria-selected="true">
-						<span class="fa fa-question"></span> &nbsp; 待回答
-					</a>
-				</li>
-				<li>
-					<a href="#unSolve" class="nav-link text-info" data-toggle="tab" aria-controls="unSolve" aria-selected="true">
-						<span class="fa fa-wrench"></span> &nbsp;待解决
-					</a>
-				</li>
-				<li>
-					<a href="#solved" class="nav-link text-success" data-toggle="tab" aria-controls="solved" aria-selected="true">
-						<span class="fa fa-check"></span> &nbsp;已解决
-					</a>
-				</li>
+  <h4 class="border-bottom m-2 p-2 font-weight-light"><i class="fa fa-tasks" aria-hidden="true"></i> 我的任务</h4>
+  <div class="row">
+    <div class="col-12">
+      <ul id="myTab" role="tablist" class="nav nav-tabs">
+        <li class="nav-item">
+          <a href="#noAnswer" class="nav-link active text-warning" data-toggle="tab" aria-controls="noAnswer"
+             aria-selected="true">
+            <span class="fa fa-question"></span> &nbsp; 待回答
+          </a>
+        </li>
+        <li>
+          <a href="#unSolve" class="nav-link text-info" data-toggle="tab" aria-controls="unSolve" aria-selected="true">
+            <span class="fa fa-wrench"></span> &nbsp;待解决
+          </a>
+        </li>
+        <li>
+          <a href="#solved" class="nav-link text-success" data-toggle="tab" aria-controls="solved" aria-selected="true">
+            <span class="fa fa-check"></span> &nbsp;已解决
+          </a>
+        </li>
 
-			</ul>
-		</div>
+      </ul>
+    </div>
 
-	</div>
-	<div class="row mt-2">
+  </div>
+  <div class="row mt-2">
 
-		<div id="myTabContent" class="tab-content col-12">
-			<div class="tab-pane fade show active row" id="noAnswer" role="tabpanel" aria-labelledby="noAnswer-tab">
-				<div class="col-12" id="app1">
-						<div class="row">
-							<div class="col-lg-12">
-								<div class="alsrtInfo" :style="{display: displayStsates}" ref="alertMsg">
-									<div class="profPrompt_test">{{aletMsg}}</div>
-								</div>
-							</div>
-						</div>
-						<div class="row mb-3">
-							<div class="col-12">
-								<button type="button" class="btn btn-default btn-sm mx-1 text-xs" v-on:click="setQuestionSolved()"><label class="fa fa-tags"></label>&nbsp;标记为已解决</button>
-								<button type="button" class="btn btn-default btn-sm  mx-1 text-xs" v-on:click="transferToTeacher()"><label class="fa  fa-share-alt"></label>&nbsp;邀请其他老师作答</button>
-							</div>
+    <div id="myTabContent" class="tab-content col-12">
+      <div class="tab-pane fade show active row" id="noAnswer" role="tabpanel" aria-labelledby="noAnswer-tab">
+        <div class="col-12" id="app1" v-cloak>
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="alsrtInfo" :style="{display: displayStsates}" ref="alertMsg">
+                <div class="profPrompt_test">{{aletMsg}}</div>
+              </div>
+            </div>
+          </div>
+          <div class="row mb-3">
+            <div class="col-12">
+              <button type="button" class="btn btn-default btn-sm mx-1 text-xs" v-on:click="setQuestionSolved()"><label
+                      class="fa fa-tags"></label>&nbsp;标记为已解决
+              </button>
+              <button type="button" class="btn btn-default btn-sm  mx-1 text-xs" v-on:click="transferToTeacher()"><label
+                      class="fa  fa-share-alt"></label>&nbsp;邀请其他老师作答
+              </button>
+            </div>
 
-						</div>
-						<div class="row">
-							<div class="col-12">
-								<table class="table  table-sm table-hover  text-xs" >
-									<thead>
-										<tr>
-											<th scope="col"><input type="checkbox" v-model="checked"  @change="changeAllChecked"></th>
-											<th scope="col">编号</th>
-											<th scope="col">标题</th>
-											<th scope="col">标签</th>
-											<th scope="col">提问者</th>
-											<th scope="col">提问时间</th>
-											<th scope="col">回答状态</th>
-											<th scope="col">浏览量</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr v-for="question in questions">
-											<td scope="row"><input type="checkbox"    v-model="checkedQuestionIds" :value="question.id"></td>
-											<td>{{question.id}}</td>
-											<td>
-												<a :href="'/question/detail/'+question.id" target= _blank>{{question.title}}</a>
-											</td>
-											<td>
-												<span class="label label-default" style="margin-right: 2px"  v-for="tag in question.tags">{{tag.name}}</span>
-											</td>
-											<td>{{question.userNickName}}</td>
-											<td>{{question.createtimestr}}</td>
-											<td>
-												<span class="badge badge-warning" v-if="question.status == '0'">未回答</span>
-												<span class="badge badge-info" v-if="question.status == '1'">待解决</span>
-												<span class="badge badge-success" v-if="question.status == '2'">已解决</span>
-											</td>
-											<td>{{question.pageViews}}浏览</td>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <table class="table  table-sm table-hover  text-xs">
+                <thead>
+                <tr>
+                  <th scope="col"><input type="checkbox" v-model="checked" @change="changeAllChecked"></th>
+                  <th scope="col">编号</th>
+                  <th scope="col">标题</th>
+                  <th scope="col">标签</th>
+                  <th scope="col">提问者</th>
+                  <th scope="col">提问时间</th>
+                  <th scope="col">回答状态</th>
+                  <th scope="col">浏览量</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr v-for="question in questions">
+                  <td scope="row"><input type="checkbox" v-model="checkedQuestionIds" :value="question.id"></td>
+                  <td>{{question.id}}</td>
+                  <td>
+                    <a :href="'/question/detail/'+question.id" target=_blank>{{question.title}}</a>
+                  </td>
+                  <td>
+                    <span class="label label-default" style="margin-right: 2px" v-for="tag in question.tags">{{tag.name}}</span>
+                  </td>
+                  <td>{{question.userNickName}}</td>
+                  <td>{{question.createtimestr}}</td>
+                  <td>
+                    <span class="badge badge-warning" v-if="question.status == '0'">未回答</span>
+                    <span class="badge badge-info" v-if="question.status == '1'">待解决</span>
+                    <span class="badge badge-success" v-if="question.status == '2'">已解决</span>
+                  </td>
+                  <td>{{question.pageViews}}浏览</td>
 
-										</tr>
-									</tbody>
+                </tr>
+                </tbody>
 
-								</table>
-							</div>
-						</div>
-						<div class="row">
-						<!--显示分页信息-->
-						<div th:replace="common/pageInfo :: pageInfo"></div>
-					</div>
-				</div>
-			</div>
-			<div class="tab-pane fade row" id="unSolve" role="tabpanel" aria-labelledby="unSolve-tab">
-				<div class="col-12" id="app2">
-					<div class="row">
-						<div class="alsrtInfo" :style="{display: displayStsates}" ref="alertMsg">
-							<div class="profPrompt_test">{{aletMsg}}</div>
-						</div>
-					</div>
-					<div class="row mb-3">
-						<div class="col-12">
-							<button type="button" class="btn btn-default btn-sm  mx-1" v-on:click="setQuestionSolved()"><label class="fa fa-tags"></label>&nbsp;标记为已解决</button>
-							<button type="button" class="btn btn-default btn-sm  mx-1" v-on:click="transferToTeacher()"><label class="fa  fa-share-alt"></label>&nbsp;邀请其他老师作答</button>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-lg-12">
+              </table>
+            </div>
+          </div>
+          <div class="row">
+            <!--显示分页信息-->
+            <div th:replace="common/pageInfo :: pageInfo"></div>
+          </div>
+        </div>
+      </div>
+      <div class="tab-pane fade row" id="unSolve" role="tabpanel" aria-labelledby="unSolve-tab">
+        <div class="col-12" id="app2" v-cloak>
+          <div class="row">
+            <div class="alsrtInfo" :style="{display: displayStsates}" ref="alertMsg">
+              <div class="profPrompt_test">{{aletMsg}}</div>
+            </div>
+          </div>
+          <div class="row mb-3">
+            <div class="col-12">
+              <button type="button" class="btn btn-default btn-sm  mx-1" v-on:click="setQuestionSolved()"><label
+                      class="fa fa-tags"></label>&nbsp;标记为已解决
+              </button>
+              <button type="button" class="btn btn-default btn-sm  mx-1" v-on:click="transferToTeacher()"><label
+                      class="fa  fa-share-alt"></label>&nbsp;邀请其他老师作答
+              </button>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
 
-							<table class="table  table-sm table-hover  text-xs" >
+              <table class="table  table-sm table-hover  text-xs">
 
-								<thead>
-								<tr>
-									<th scope="col"><input type="checkbox" v-model="checked"  @change="changeAllChecked"></th>
-									<th scope="col">编号</th>
-									<th scope="col">标题</th>
-									<th scope="col">标签</th>
-									<th scope="col">提问者</th>
-									<th scope="col">提问时间</th>
-									<th scope="col">回答状态</th>
-									<th scope="col">浏览量</th>
-								</tr>
-								</thead>
-								<tbody>
-								<tr v-for="question in questions">
-									<td scope="row"><input type="checkbox"    v-model="checkedQuestionIds" :value="question.id"></td>
-									<td>{{question.id}}</td>
-									<td>
-										<a :href="'/question/detail/'+question.id" target= _blank>{{question.title}}</a>
-									</td>
-									<td>
-										<span class="label label-default" style="margin-right: 2px"  v-for="tag in question.tags">{{tag.name}}</span>
-									</td>
-									<td>{{question.userNickName}}</td>
-									<td>{{question.createtimestr}}</td>
-									<td>
-										<span class="badge badge-warning" v-if="question.status == '0'">未回答</span>
-										<span class="badge badge-info" v-if="question.status == '1'">待解决</span>
-										<span class="badge badge-success" v-if="question.status == '2'">已解决</span>
-									</td>
-									<td>{{question.pageViews}}浏览</td>
-								</tr>
-								</tbody>
-
-
-							</table>
-						</div>
-					</div>
-					<div class="row">
-						<!--显示分页信息-->
-						<div th:replace="common/pageInfo :: pageInfo"></div>
-					</div>
-				</div>
-			</div>
-			<div class="tab-pane fade row" id="solved" role="tabpanel" aria-labelledby="solved-tab">
-				<div class="col-12" id="app3">
-					<div class="row">
-						<div class="alsrtInfo" :style="{display: displayStsates}" ref="alertMsg">
-							<div class="profPrompt_test">{{aletMsg}}</div>
-						</div>
-					</div>
-					<div class="row mb-3">
-						<div class="col-12">
-							<button type="button" class="btn btn-default btn-sm  mx-1" v-on:click="setQuestionPublic()"><label class="fa fa-eye"></label>&nbsp;设置为所有人可见</button>
-							<button type="button" class="btn btn-default btn-sm  mx-1" v-on:click="setQuestionPrivate()"><label class="fa fa-eye-slash"></label>&nbsp;设置为本人和老师可见</button>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-lg-12">
-							<table class="table  table-sm table-hover text-xs" >
-
-								<thead>
-								<tr>
-									<th scope="col"><input type="checkbox" v-model="checked"  @change="changeAllChecked"></th>
-									<th scope="col">编号</th>
-									<th scope="col">标题</th>
-									<th scope="col">标签</th>
-									<th scope="col">提问者</th>
-									<th scope="col">提问时间</th>
-									<th scope="col">回答状态</th>
-									<th scope="col">是否公开</th>
-									<th scope="col">浏览量</th>
-								</tr>
-								</thead>
-								<tbody>
-								<tr v-for="question in questions">
-									<td scope="row"><input type="checkbox"    v-model="checkedQuestionIds" :value="question.id"></td>
-									<td>{{question.id}}</td>
-									<td>
-										<a :href="'/question/detail/'+question.id" target= _blank>{{question.title}}</a>
-									</td>
-									<td>
-										<span class="label label-default" style="margin-right: 2px"  v-for="tag in question.tags">{{tag.name}}</span>
-									</td>
-									<td>{{question.userNickName}}</td>
-									<td>{{question.createtimestr}}</td>
-									<td>
-										<span class="badge badge-warning" v-if="question.status == '0'">未回答</span>
-										<span class="badge badge-info" v-if="question.status == '1'">待解决</span>
-										<span class="badge badge-success" v-if="question.status == '2'">已解决</span>
-									</td>
-									<td>
-										<span class="badge badge-warning" v-if="question.publicStatus == '0'">未公开</span>
-										<span class="badge badge-success" v-if="question.publicStatus == '1'">已公开</span>
-									</td>
-									<td>{{question.pageViews}}浏览</td>
-								</tr>
-								</tbody>
+                <thead>
+                <tr>
+                  <th scope="col"><input type="checkbox" v-model="checked" @change="changeAllChecked"></th>
+                  <th scope="col">编号</th>
+                  <th scope="col">标题</th>
+                  <th scope="col">标签</th>
+                  <th scope="col">提问者</th>
+                  <th scope="col">提问时间</th>
+                  <th scope="col">回答状态</th>
+                  <th scope="col">浏览量</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr v-for="question in questions">
+                  <td scope="row"><input type="checkbox" v-model="checkedQuestionIds" :value="question.id"></td>
+                  <td>{{question.id}}</td>
+                  <td>
+                    <a :href="'/question/detail/'+question.id" target=_blank>{{question.title}}</a>
+                  </td>
+                  <td>
+                    <span class="label label-default" style="margin-right: 2px" v-for="tag in question.tags">{{tag.name}}</span>
+                  </td>
+                  <td>{{question.userNickName}}</td>
+                  <td>{{question.createtimestr}}</td>
+                  <td>
+                    <span class="badge badge-warning" v-if="question.status == '0'">未回答</span>
+                    <span class="badge badge-info" v-if="question.status == '1'">待解决</span>
+                    <span class="badge badge-success" v-if="question.status == '2'">已解决</span>
+                  </td>
+                  <td>{{question.pageViews}}浏览</td>
+                </tr>
+                </tbody>
 
 
-							</table>
-						</div>
-					</div>
-					<div class="row">
-						<!--显示分页信息-->
-						<div th:replace="common/pageInfo :: pageInfo"></div>
-					</div>
-				</div>
-			</div>
+              </table>
+            </div>
+          </div>
+          <div class="row">
+            <!--显示分页信息-->
+            <div th:replace="common/pageInfo :: pageInfo"></div>
+          </div>
+        </div>
+      </div>
+      <div class="tab-pane fade row" id="solved" role="tabpanel" aria-labelledby="solved-tab">
+        <div class="col-12" id="app3" v-cloak>
+          <div class="row">
+            <div class="alsrtInfo" :style="{display: displayStsates}" ref="alertMsg">
+              <div class="profPrompt_test">{{aletMsg}}</div>
+            </div>
+          </div>
+          <div class="row mb-3">
+            <div class="col-12">
+              <button type="button" class="btn btn-default btn-sm  mx-1" v-on:click="setQuestionPublic()"><label
+                      class="fa fa-eye"></label>&nbsp;设置为所有人可见
+              </button>
+              <button type="button" class="btn btn-default btn-sm  mx-1" v-on:click="setQuestionPrivate()"><label
+                      class="fa fa-eye-slash"></label>&nbsp;设置为本人和老师可见
+              </button>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <table class="table  table-sm table-hover text-xs">
 
-		</div>
+                <thead>
+                <tr>
+                  <th scope="col"><input type="checkbox" v-model="checked" @change="changeAllChecked"></th>
+                  <th scope="col">编号</th>
+                  <th scope="col">标题</th>
+                  <th scope="col">标签</th>
+                  <th scope="col">提问者</th>
+                  <th scope="col">提问时间</th>
+                  <th scope="col">回答状态</th>
+                  <th scope="col">是否公开</th>
+                  <th scope="col">浏览量</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr v-for="question in questions">
+                  <td scope="row"><input type="checkbox" v-model="checkedQuestionIds" :value="question.id"></td>
+                  <td>{{question.id}}</td>
+                  <td>
+                    <a :href="'/question/detail/'+question.id" target=_blank>{{question.title}}</a>
+                  </td>
+                  <td>
+                    <span class="label label-default" style="margin-right: 2px" v-for="tag in question.tags">{{tag.name}}</span>
+                  </td>
+                  <td>{{question.userNickName}}</td>
+                  <td>{{question.createtimestr}}</td>
+                  <td>
+                    <span class="badge badge-warning" v-if="question.status == '0'">未回答</span>
+                    <span class="badge badge-info" v-if="question.status == '1'">待解决</span>
+                    <span class="badge badge-success" v-if="question.status == '2'">已解决</span>
+                  </td>
+                  <td>
+                    <span class="badge badge-warning" v-if="question.publicStatus == '0'">未公开</span>
+                    <span class="badge badge-success" v-if="question.publicStatus == '1'">已公开</span>
+                  </td>
+                  <td>{{question.pageViews}}浏览</td>
+                </tr>
+                </tbody>
 
-	</div>
-	<!-- / class="row"-->
+
+              </table>
+            </div>
+          </div>
+          <div class="row">
+            <!--显示分页信息-->
+            <div th:replace="common/pageInfo :: pageInfo"></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+  <!-- / class="row"-->
 
 </div>
 <!-- 模态框（Modal） -->
 <div class="modal fade" id="app4" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
 
-				<h5 class="modal-title" id="myModalLabel">
-					邀请其他老师作答
-				</h5>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
-			<div class="modal-body">
-				<template>
-					<div>
-						<b-form  v-if="show">
-							<b-form-group label="">
-								<b-form-checkbox-group
-										id="checkbox-group-1"
-										v-model="selected"
-										:options="options"
-										name="flavour-1"
-								></b-form-checkbox-group>
-							</b-form-group>
+        <h5 class="modal-title" id="myModalLabel">
+          邀请其他老师作答
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <template>
+          <div>
+            <b-form v-if="show">
+              <b-form-group label="">
+                <b-form-checkbox-group
+                        id="checkbox-group-1"
+                        v-model="selected"
+                        :options="options"
+                        name="flavour-1"
+                ></b-form-checkbox-group>
+              </b-form-group>
 
-						</b-form>
+            </b-form>
 
-					</div>
-				</template>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-				<button type="button"  class="btn btn-primary" v-on:click="submitTransferToTeacher()">提交</button>
+          </div>
+        </template>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" v-on:click="submitTransferToTeacher()">提交</button>
 
-			</div>
-		</div><!-- /.modal-content -->
-	</div><!-- /.modal-dialog -->
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 <!-- 模态框（Modal） -->
 <div class="modal fade" id="app5" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
 
-				<h5 class="modal-title" id="myModalLabel2">
-					邀请其他老师作答
-				</h5>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
-			<div class="modal-body">
-				<template>
-					<div>
-						<b-form  v-if="show">
-							<b-form-group label="">
-								<b-form-checkbox-group
-										id="checkbox-group-2"
-										v-model="selected"
-										:options="options"
-										name="flavour-1"
-								></b-form-checkbox-group>
-							</b-form-group>
+        <h5 class="modal-title" id="myModalLabel2">
+          邀请其他老师作答
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <template>
+          <div>
+            <b-form v-if="show">
+              <b-form-group label="">
+                <b-form-checkbox-group
+                        id="checkbox-group-2"
+                        v-model="selected"
+                        :options="options"
+                        name="flavour-1"
+                ></b-form-checkbox-group>
+              </b-form-group>
 
-						</b-form>
+            </b-form>
 
-					</div>
-				</template>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-				<button type="button"  class="btn btn-primary" v-on:click="submitTransferToTeacher()">提交</button>
+          </div>
+        </template>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" v-on:click="submitTransferToTeacher()">提交</button>
 
-			</div>
-		</div><!-- /.modal-content -->
-	</div><!-- /.modal-dialog -->
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 <!--底部-->
 <footer th:replace="common/footer::footer"></footer>
-<script th:src="@{/js/mytask.js?v=20200508}"></script>
-<script th:src="@{/js/tag.js?v=20200508}"></script>
+<script th:src="@{/js/mytask.js?v=20200512}"></script>
+<script th:src="@{/js/tag.js?v=20200512}"></script>
 </body>
 </html>

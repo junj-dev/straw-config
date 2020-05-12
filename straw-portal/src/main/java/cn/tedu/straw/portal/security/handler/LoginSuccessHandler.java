@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * @Description: java类作用描述
+ * @Description: 登录成功需要做的事
  * @Author: ChenHaiBao
  * @CreateDate: 2020/3/31$ 21:47$
  * @Version: 1.0

@@ -78,5 +78,10 @@ public class Comment implements Serializable {
         this.content = content;
         this.createtime = createtime;
     }
+
+    public Comment(Integer id, String content) {
+        this.id = id;
+        this.content = content;
+    }
 }
 

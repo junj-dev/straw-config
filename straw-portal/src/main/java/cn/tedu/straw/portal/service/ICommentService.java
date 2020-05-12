@@ -14,4 +14,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
 public interface ICommentService extends IService<Comment> {
    boolean create(Integer answerId, String content, Integer questionId);
 
+   boolean update(Integer commentId, String content);
 }

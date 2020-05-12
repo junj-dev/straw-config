@@ -1,62 +1,66 @@
 <!DOCTYPE html>
-<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
   <title>我的消息</title>
-  <link href="/img/logo.ico" rel="SHORTCUT ICON" />
+  <link href="/img/logo.ico" rel="SHORTCUT ICON"/>
 </head>
 <head th:replace="common/head :: head"></head>
 <body>
 <header th:replace="common/head :: header"></header>
-  <div class="container-fluid mt-2 mb-1"  id="allNotice">
-    <h4 class="border-bottom m-2 p-2 font-weight-light"><i class="fa fa-tasks" aria-hidden="true"></i> 我的消息</h4>
-    <div class="row">
-      <div class="col-12">
-        <ul  role="tablist" class="nav nav-tabs">
-          <li class="nav-item">
-            <a href="#allCommentNotice" class="nav-link active text-black" data-toggle="tab" aria-controls="allCommentNotice" aria-selected="true">
-              通知
-            </a>
-          </li>
-          <li>
-            <a href="#allAnnouncement" class="nav-link text-black" data-toggle="tab" aria-controls="allAnnouncement" aria-selected="true">
-              公告
-            </a>
-          </li>
+<div class="container-fluid mt-2 mb-1" id="allNotice">
+  <h4 class="border-bottom m-2 p-2 font-weight-light"><i class="fa fa-tasks" aria-hidden="true"></i> 我的消息</h4>
+  <div class="row">
+    <div class="col-12">
+      <ul role="tablist" class="nav nav-tabs">
+        <li class="nav-item">
+          <a href="#allCommentNotice" class="nav-link active text-black" data-toggle="tab"
+             aria-controls="allCommentNotice" aria-selected="true">
+            通知
+          </a>
+        </li>
+        <li>
+          <a href="#allAnnouncement" class="nav-link text-black" data-toggle="tab" aria-controls="allAnnouncement"
+             aria-selected="true">
+            公告
+          </a>
+        </li>
 
-        </ul>
-        <div id="myTabContent" class="tab-content col-12">
-          <div class="tab-pane fade show active row" id="allCommentNotice" role="tabpanel" aria-labelledby="noAnswer-tab">
-            <div class="list-group list-group-flush" >
-              <h6 class="text-dark my-2" v-if="notices == undefined ||  notices.length == 0">暂无新消息！</h6>
-              <div v-for="(notice,index)  in notices"  class="list-group-item list-group-item-action" >
-                <div class="font-weight-light text-truncate text-wrap text-justify">{{notice.distanceTime}}</div>
-                <span class="badge badge-pill badge-warning" v-if="notice.readStatus == false">未查看</span>
-                <span class="badge badge-pill badge-success" v-if="notice.readStatus == true">已查看</span>
-                <span>{{notice.nickName}}</span>
-                <strong v-if="notice.type=='1'">回答了你的问题</strong>
-                <strong v-if="notice.type=='0'">评论了您的回答</strong>
-                <strong v-if="notice.type=='2'">评论了您的提问</strong>
-                <a :href="'/notice/detail/'+notice.questionId+'/'+notice.id" class="text-info">{{notice.questionTitle}}</a>
-              </div>
-            </div>
-            <!--分页信息-->
-            <div class="row">
-              <div th:replace="common/pageInfo :: pageInfo"></div>
+      </ul>
+      <div id="myTabContent" class="tab-content col-12">
+        <div class="tab-pane fade show active row" id="allCommentNotice" role="tabpanel" aria-labelledby="noAnswer-tab">
+          <div class="list-group list-group-flush">
+            <h6 class="text-dark my-2" v-if="notices == undefined ||  notices.length == 0">暂无新消息！</h6>
+            <div v-for="(notice,index)  in notices" class="list-group-item list-group-item-action">
+              <div class="font-weight-light text-truncate text-wrap text-justify">{{notice.distanceTime}}</div>
+              <span class="badge badge-pill badge-warning" v-if="notice.readStatus == false">未查看</span>
+              <span class="badge badge-pill badge-success" v-if="notice.readStatus == true">已查看</span>
+              <span>{{notice.nickName}}</span>
+              <strong v-if="notice.type=='1'">回答了你的问题</strong>
+              <strong v-if="notice.type=='0'">评论了您的回答</strong>
+              <strong v-if="notice.type=='2'">评论了您的提问</strong>
+              <a :href="'/notice/detail/'+notice.questionId+'/'+notice.id"
+                 class="text-info">{{notice.questionTitle}}</a>
             </div>
           </div>
-          <div class="tab-pane fade row" id="allAnnouncement" role="tabpanel" aria-labelledby="unSolve-tab">
-            <p class="text-black mt-2" >暂无公告！</p>
+          <!--分页信息-->
+          <div class="row">
+            <div th:replace="common/pageInfo :: pageInfo"></div>
           </div>
         </div>
+        <div class="tab-pane fade row" id="allAnnouncement" role="tabpanel" aria-labelledby="unSolve-tab">
+          <p class="text-black mt-2">暂无公告！</p>
+        </div>
       </div>
-
     </div>
-
 
   </div>
 
-  <!--底部-->
-  <footer th:replace="common/footer::footer"></footer>
-  <script th:src="@{/js/notice.js?v=1.3}"></script>
+
+</div>
+
+<!--底部-->
+<footer th:replace="common/footer::footer"></footer>
+<script th:src="@{/js/notice.js?v=1.3}"></script>
 </body>
 </html>

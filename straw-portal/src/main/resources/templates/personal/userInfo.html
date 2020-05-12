@@ -1,93 +1,95 @@
 <!DOCTYPE html>
-<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
 <head th:replace="common/head :: head"></head>
 <head>
-  <title >个人资料</title>
-  <link href="/img/logo.ico" rel="SHORTCUT ICON" />
+  <title>个人资料</title>
+  <link href="/img/logo.ico" rel="SHORTCUT ICON"/>
 </head>
 <body>
 <header th:replace="common/head :: header"></header>
-  <div class="container-fluid mt-5 mb-1" >
-    <div class="row">
-      <div class="col-3">
-        <ul class="list-group">
-          <li class="list-group-item active text-center"><i class="fa fa-user mr-2"></i>我的资料</li>
+<div class="container-fluid mt-5 mb-1">
+  <div class="row">
+    <div class="col-3">
+      <ul class="list-group">
+        <li class="list-group-item active text-center"><i class="fa fa-user mr-2"></i>我的资料</li>
         <!--  <li class="list-group-item text-center"><i class="fa fa-phone  mr-2"></i>更改手机号</li>-->
-          <li class="list-group-item text-center" onclick="location.href='/personal/resetPassword.html'"><i class="fa fa-lock  mr-2"></i>修改密码</li>
-        </ul>
-      </div>
-      <!--个人资料-->
-      <div class="col-5 " id="app">
-        <div class="col-lg-12">
-          <div class="alsrtInfo" :style="{display: displayStsates}" ref="alertMsg">
-            <div class="profPrompt_test">{{aletMsg}}</div>
-          </div>
+        <li class="list-group-item text-center" onclick="location.href='/personal/resetPassword.html'"><i
+                class="fa fa-lock  mr-2"></i>修改密码
+        </li>
+      </ul>
+    </div>
+    <!--个人资料-->
+    <div class="col-5 " id="app" v-cloak>
+      <div class="col-lg-12">
+        <div class="alsrtInfo" :style="{display: displayStsates}" ref="alertMsg">
+          <div class="profPrompt_test" v-text="aletMsg"></div>
         </div>
-        <template>
-          <div>
-            <b-form @submit="onSubmit" v-if="show">
-              <b-form-group
-                      id="input-group-1"
-                      label="用户名:"
-                      label-for="input-1"
-
-              >
-                <b-form-input
-                        id="input-1"
-                        v-model="nickname"
-                        type="text"
-                        aria-describedby="input-live-feedback"
-                        :state="nameState"
-                ></b-form-input>
-                <!-- This will only be shown if the preceding input has an invalid state -->
-                <b-form-invalid-feedback id="input-live-feedback">
-                  用户名字数在2到30之间
-                </b-form-invalid-feedback>
-
-              </b-form-group>
-              <b-form-group label="性别：">
-                <b-form-radio-group id="radio-group-2" v-model="sex" name="radio-sub-component">
-                  <b-form-radio value="男">男</b-form-radio>
-                  <b-form-radio value="女">女</b-form-radio>
-                  <b-form-radio value="保密">保密</b-form-radio>
-                </b-form-radio-group>
-              </b-form-group>
-
-              <b-form-group id="input-group-2" label="生日：" label-for="input-2">
-                <b-form-input
-                        id="input-2"
-                        v-model="birthdayStr"
-                        type="date"
-                ></b-form-input>
-              </b-form-group>
-
-              <b-form-group id="input-group-3" label="自我介绍:" label-for="input-3">
-                <b-form-textarea
-                        id="input-3"
-                        v-model="selfIntroduction"
-                        rows="3"
-                        max-rows="6"
-                ></b-form-textarea>
-              </b-form-group>
-
-
-
-              <b-button type="submit" class="w-100" variant="primary">保存</b-button>
-            </b-form>
-
-          </div>
-        </template>
-      </div><!--个人资料-end--->
-      <div class="col-4 pb-2 ">
-        <!--热点数据-->
-        <div th:replace="common/hotspot :: hostpot"></div>
       </div>
+      <template>
+        <div>
+          <b-form @submit="onSubmit" v-if="show">
+            <b-form-group
+                    id="input-group-1"
+                    label="用户名:"
+                    label-for="input-1"
+
+            >
+              <b-form-input
+                      id="input-1"
+                      v-model="nickname"
+                      type="text"
+                      aria-describedby="input-live-feedback"
+                      :state="nameState"
+              ></b-form-input>
+              <!-- This will only be shown if the preceding input has an invalid state -->
+              <b-form-invalid-feedback id="input-live-feedback">
+                用户名字数在2到30之间
+              </b-form-invalid-feedback>
+
+            </b-form-group>
+            <b-form-group label="性别：">
+              <b-form-radio-group id="radio-group-2" v-model="sex" name="radio-sub-component">
+                <b-form-radio value="男">男</b-form-radio>
+                <b-form-radio value="女">女</b-form-radio>
+                <b-form-radio value="保密">保密</b-form-radio>
+              </b-form-radio-group>
+            </b-form-group>
+
+            <b-form-group id="input-group-2" label="生日：" label-for="input-2">
+              <b-form-input
+                      id="input-2"
+                      v-model="birthdayStr"
+                      type="date"
+              ></b-form-input>
+            </b-form-group>
+
+            <b-form-group id="input-group-3" label="自我介绍:" label-for="input-3">
+              <b-form-textarea
+                      id="input-3"
+                      v-model="selfIntroduction"
+                      rows="3"
+                      max-rows="6"
+              ></b-form-textarea>
+            </b-form-group>
+
+
+            <b-button type="submit" class="w-100" variant="primary">保存</b-button>
+          </b-form>
+
+        </div>
+      </template>
+    </div><!--个人资料-end--->
+    <div class="col-4 pb-2 ">
+      <!--热点数据-->
+      <div th:replace="common/hotspot :: hostpot"></div>
     </div>
   </div>
-  <!--底部-->
-  <footer th:replace="common/footer::footer"></footer>
-  <script th:src="@{/js/userInfo.js?v=20200508}"></script>
+</div>
+<!--底部-->
+<footer th:replace="common/footer::footer"></footer>
+<script th:src="@{/js/userInfo.js?v=20200512}"></script>
 
 </body>
 </html>

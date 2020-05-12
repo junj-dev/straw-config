@@ -43,6 +43,13 @@ public class CommentServiceImpl extends BaseServiceImpl<CommentMapper, Comment> 
 
     private Gson gson=new Gson();
 
+    /**
+     * 创建评论
+     * @param answerId
+     * @param content
+     * @param questionId
+     * @return
+     */
     @Override
     @Transactional
     public boolean create(Integer answerId, String content, Integer questionId) {
@@ -71,5 +78,23 @@ public class CommentServiceImpl extends BaseServiceImpl<CommentMapper, Comment> 
         }
 
         return true;
+    }
+
+    /**
+     * 修改评论
+     * @param commentId
+     * @param content
+     * @return
+     */
+    @Override
+    public boolean update(Integer commentId, String content) {
+
+        Comment comment = commentMapper.selectById(commentId);
+        //只能修改自己提的评论内容
+        if(comment.getUserId().intValue()==getUseId().intValue()){
+            comment.setContent(content);
+            return commentMapper.updateById(comment)==1;
+        }
+       return  true;
     }
 }

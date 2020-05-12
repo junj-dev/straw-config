@@ -259,17 +259,7 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
         List<Tag> tags = tagMapper.selectTagsByQuestionId(id);
         question.setTags(tags);
         //设置回答
-        QueryWrapper<Answer> query=new QueryWrapper<>();
-        query.eq("quest_id",id);
-        query.orderBy(true,false,"createtime");
-        List<Answer> answers = answerMapper.selectList(query);
-        //设置评论
-        if(!CollectionUtils.isEmpty(answers)){
-            for(Answer answer:answers){
-                List<Comment> commentList = commentMapper.findByAnswerId(answer.getId());
-                answer.setCommentList(commentList);
-            }
-        }
+        List<Answer> answers = getAnswers(id);
         question.setAnswers(answers);
 
         //浏览量加1
@@ -305,12 +295,26 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
     @Override
     public StrawResult<CommonPage<EsQuestion>> search(String keyword, Integer pageNum, Integer pageSize) {
         List<String> userRoleNames = getUserRoleNames();
+        StrawResult<CommonPage<EsQuestion>> result=new StrawResult<>();
         //只有学生角色
         if(userRoleNames.contains("ROLE_STUDENT")&&userRoleNames.size()==1){
-            return  questionServiceApi.searchOpenQuestion(keyword,pageNum,pageSize,getUseId(), QuestionPublicStatus.PUBLIC.getStatus());
+           result = questionServiceApi.searchOpenQuestion(keyword, pageNum, pageSize, getUseId(), QuestionPublicStatus.PUBLIC.getStatus());
+        }else {
+            result= questionServiceApi.search(keyword,pageNum,pageSize);
         }
-        return questionServiceApi.search(keyword,pageNum,pageSize);
+        List<EsQuestion> esQuestions = result.getData().getList();
+        //设置状态和浏览量
+        for(EsQuestion esQuestion:esQuestions) {
+            Question question = questionMapper.selectById(esQuestion.getId());
+            if (question != null) {
+                esQuestion.setPageViews(question.getPageViews());
+                esQuestion.setStatus(question.getStatus());
+            }
+        }
 
+
+
+        return result;
     }
 
     @Override
@@ -626,6 +630,27 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
        return userCollectMapper.delete(queryWrapper)==1;
 
 
+    }
+
+    @Override
+    public List<Answer> getQuestionAnswerById(Integer questionId) {
+        List<Answer> answers = getAnswers(questionId);
+        return answers;
+    }
+
+    private List<Answer> getAnswers(Integer questionId) {
+        QueryWrapper<Answer> query = new QueryWrapper<>();
+        query.eq("quest_id", questionId);
+        query.orderBy(true, false, "createtime");
+        List<Answer> answers = answerMapper.selectList(query);
+        //设置评论
+        if (!CollectionUtils.isEmpty(answers)) {
+            for (Answer answer : answers) {
+                List<Comment> commentList = commentMapper.findByAnswerId(answer.getId());
+                answer.setCommentList(commentList);
+            }
+        }
+        return answers;
     }
 
 

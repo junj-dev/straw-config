@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>稻草FAQ注册</title>
-  <link href="/img/logo.ico" rel="SHORTCUT ICON" />
+  <link href="/img/logo.ico" rel="SHORTCUT ICON"/>
   <!-- Tell the browser to be responsive to screen width -->
   <link rel="stylesheet"
         th:href="@{/css/bootstrap.min.css}">
@@ -27,12 +28,15 @@
   <![endif]-->
 
   <!-- Google Font -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+  <!--防止使用vue标签闪烁-->
+  <link rel="stylesheet" th:href="@{/css/vueCloak.css}">
 </head>
 <body class="hold-transition register-page">
-<div class="register-box" id="app">
+<div class="register-box" id="app" v-cloak>
   <div class="alsrtInfo" :style="{display: displayStsates}" ref="alertMsg">
-    <div class="profPrompt_test">{{aletMsg}}</div>
+    <div class="profPrompt_test" v-text="aletMsg"></div>
   </div>
   <div class="register-logo">
     <a href="#"><b>达内稻草问答系统</b></a>
@@ -44,7 +48,7 @@
 
     <form>
       <div class="form-group has-feedback">
-        <input type="text"  v-model="inviteCode" class="form-control" placeholder="请输入邀请码">
+        <input type="text" v-model="inviteCode" class="form-control" placeholder="请输入邀请码">
         <span class="glyphicon glyphicon-barcode form-control-feedback"></span>
       </div>
       <div class="form-group has-feedback">
@@ -54,25 +58,27 @@
 
       <div class="form-group has-feedback row">
         <div class="col-md-7">
-          <input type="text"  v-model="code" class="form-control" placeholder="输入短信验证码">
+          <input type="text" v-model="code" class="form-control" placeholder="输入短信验证码">
         </div>
         <div class="col-md-5">
-          <button type="button" v-bind:disabled="disabled" class="btn btn-primary"  v-on:click="sendMessage" >{{message}}</button>
+          <button type="button" v-bind:disabled="disabled" class="btn btn-primary" v-on:click="sendMessage">
+            {{message}}
+          </button>
         </div>
 
       </div>
 
       <div class="form-group has-feedback">
-        <input type="text"  v-model="nickname" class="form-control" placeholder="请设置昵称，字数为2-20之间">
+        <input type="text" v-model="nickname" class="form-control" placeholder="请设置昵称，字数为2-20之间">
         <span class="glyphicon glyphicon-user form-control-feedback"></span>
       </div>
 
       <div class="form-group has-feedback">
-        <input type="password"  v-model="password" class="form-control" placeholder="设置密码6-20个字母、数字、下划线">
+        <input type="password" v-model="password" class="form-control" placeholder="设置密码6-20个字母、数字、下划线">
         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
       </div>
       <div class="form-group has-feedback">
-        <input type="password"  v-model="comfirmPassword" class="form-control" placeholder="请再次输入密码">
+        <input type="password" v-model="comfirmPassword" class="form-control" placeholder="请再次输入密码">
         <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
       </div>
       <div class="row">
@@ -96,7 +102,7 @@
 <!-- iCheck -->
 <script th:src="@{/js/icheck.min.js}"></script>
 <script src="https://unpkg.com/vue@2.1.10/dist/vue.js"></script>
-<script th:src="@{/js/register.js?v=1.3}"></script>
+<script th:src="@{/js/register.js?v=20200512}"></script>
 
 
 </body>

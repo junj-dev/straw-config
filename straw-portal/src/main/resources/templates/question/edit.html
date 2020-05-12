@@ -1,133 +1,136 @@
 <!DOCTYPE html>
-<html  xmlns:th="http://www.thymeleaf.org"
-	  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head th:replace="common/head :: head"></head>
 <head>
-	<title>我要提问</title>
-	<link href="/img/logo.ico" rel="SHORTCUT ICON" />
+  <title>我要提问</title>
+  <link href="/img/logo.ico" rel="SHORTCUT ICON"/>
 </head>
 <head>
-	<link rel="stylesheet" th:href="@{/plugins/summernote/summernote.min.css}">
+  <link rel="stylesheet" th:href="@{/plugins/summernote/summernote.min.css}">
 </head>
 <body>
 <header th:replace="common/head :: header"></header>
 <!--引入标签的导航栏-->
 <div th:replace="common/tag::tag"></div>
-<div class="container-fluid mt-2 mb-1 bg-light" id="app">
-	<input type="hidden" th:value="${id}" id="questionId">
-	<div class="row">
-		<div class="alsrtInfo" :style="{display: displayStsates}" ref="alertMsg">
-			<div class="profPrompt_test">{{aletMsg}}</div>
-		</div>
-	</div>
-	<div class="row">
+<div class="container-fluid mt-2 mb-1 bg-light" id="app" v-cloak>
+  <input type="hidden" th:value="${id}" id="questionId">
+  <div class="row">
+    <div class="alsrtInfo" :style="{display: displayStsates}" ref="alertMsg">
+      <div class="profPrompt_test">{{aletMsg}}</div>
+    </div>
+  </div>
+  <div class="row">
 
-		<div class="col-8" >
-			<h4 class="border-bottom m-2 p-2 font-weight-light"><i class="fa fa-question-circle-o" aria-hidden="true"></i> 编辑问题</h4>
+    <div class="col-8">
+      <h4 class="border-bottom m-2 p-2 font-weight-light"><i class="fa fa-question-circle-o" aria-hidden="true"></i>
+        编辑问题</h4>
 
-			<template>
-				<div>
-					<b-form @submit="onSubmit"  v-if="show">
-						<!--标题-start-->
-						<b-form-group
-								id="input-group-1"
-								label="标题:"
-								label-for="input-1"
-						>
-							<b-form-input
-									id="input-1"
-									v-model="title"
-									type="text"
-									placeholder="请填写标题"
-									:state="titleState"
-									aria-describedby="input-live-feedback"
-							></b-form-input>
-							<!-- This will only be shown if the preceding input has an invalid state -->
-							<b-form-invalid-feedback id="input-live-feedback">
-								标题字数请控制在3到50字之间
-							</b-form-invalid-feedback>
-						</b-form-group>	<!--标题-end-->
+      <template>
+        <div>
+          <b-form @submit="onSubmit" v-if="show">
+            <!--标题-start-->
+            <b-form-group
+                    id="input-group-1"
+                    label="标题:"
+                    label-for="input-1"
+            >
+              <b-form-input
+                      id="input-1"
+                      v-model="title"
+                      type="text"
+                      placeholder="请填写标题"
+                      :state="titleState"
+                      aria-describedby="input-live-feedback"
+              ></b-form-input>
+              <!-- This will only be shown if the preceding input has an invalid state -->
+              <b-form-invalid-feedback id="input-live-feedback">
+                标题字数请控制在3到50字之间
+              </b-form-invalid-feedback>
+            </b-form-group>  <!--标题-end-->
 
-						<!--选择标签-start-->
-						<b-form-group label="请至少选择一个标签:">
+            <!--选择标签-start-->
+            <b-form-group label="请至少选择一个标签:">
 
-							<!-- prop `add-on-change` is needed to enable adding tags vie the `change` event -->
-							<b-form-tags v-model="tagNames" size="lg"  add-on-change no-outer-focus class="mb-2">
-								<template v-slot="{ tags, inputAttrs, inputHandlers, disabled, removeTag }">
-									<ul v-if="tags.length > 0" class="list-inline d-inline-block mb-2">
-										<li v-for="tag in tags" :key="tag" class="list-inline-item">
-											<b-form-tag
-													@remove="removeTag(tag)"
-													:title="tag"
-													:disabled="disabled"
-													variant="info"
-											>{{ tag }}</b-form-tag>
-										</li>
-									</ul>
-									<b-form-select
-											v-bind="inputAttrs"
-											v-on="inputHandlers"
-											:disabled="disabled || availableTags.length === 0"
-											:options="availableTags"
-									>
-										<template v-slot:first>
-											<!-- This is required to prevent bugs with Safari -->
-											<option disabled value="">选择标签</option>
-										</template>
-									</b-form-select>
-								</template>
-							</b-form-tags>
-						</b-form-group>
-						</b-form-group><!--选择标签-end-->
-						<!--选择老师-start-->
-						<b-form-group label="请选择老师:">
-							<!-- prop `add-on-change` is needed to enable adding tags vie the `change` event -->
-							<b-form-tags v-model="teacherNames" size="lg" add-on-change no-outer-focus class="mb-2">
-								<template v-slot="{ tags, inputAttrs, inputHandlers, disabled, removeTag }">
-									<ul v-if="tags.length > 0" class="list-inline d-inline-block mb-2">
-										<li v-for="tag in tags" :key="tag" class="list-inline-item">
-											<b-form-tag
-													@remove="removeTag(tag)"
-													:title="tag"
-													:disabled="disabled"
-													variant="info"
-											>{{ tag }}</b-form-tag>
-										</li>
-									</ul>
-									<b-form-select
-											v-bind="inputAttrs"
-											v-on="inputHandlers"
-											:disabled="disabled || availableTeachers.length === 0"
-											:options="availableTeachers"
-									>
-										<template v-slot:first>
-											<!-- This is required to prevent bugs with Safari -->
-											<option disabled value="">选择回答问题的老师</option>
-										</template>
-									</b-form-select>
-								</template>
-							</b-form-tags>
-						</b-form-group> <!--选择老师-end-->
-						<!--富文本编辑器 start-->
-						<div id="summernote" >
-						</div><!--富文本编辑器 end-->
-						<b-button type="submit" class="mt-5" variant="primary">提交问题</b-button>
-					</b-form>
-				</div>
-			</template>
-		</div>
-		<div class="col-4 pb-2 ">
-			<!--热点问题-->
-			<div th:replace="common/hotspot :: hostpot"></div>
-		</div>
-		</div>
-	</div>
+              <!-- prop `add-on-change` is needed to enable adding tags vie the `change` event -->
+              <b-form-tags v-model="tagNames" size="lg" add-on-change no-outer-focus class="mb-2">
+                <template v-slot="{ tags, inputAttrs, inputHandlers, disabled, removeTag }">
+                  <ul v-if="tags.length > 0" class="list-inline d-inline-block mb-2">
+                    <li v-for="tag in tags" :key="tag" class="list-inline-item">
+                      <b-form-tag
+                              @remove="removeTag(tag)"
+                              :title="tag"
+                              :disabled="disabled"
+                              variant="info"
+                      >{{ tag }}
+                      </b-form-tag>
+                    </li>
+                  </ul>
+                  <b-form-select
+                          v-bind="inputAttrs"
+                          v-on="inputHandlers"
+                          :disabled="disabled || availableTags.length === 0"
+                          :options="availableTags"
+                  >
+                    <template v-slot:first>
+                      <!-- This is required to prevent bugs with Safari -->
+                      <option disabled value="">选择标签</option>
+                    </template>
+                  </b-form-select>
+                </template>
+              </b-form-tags>
+            </b-form-group>
+            </b-form-group><!--选择标签-end-->
+            <!--选择老师-start-->
+            <b-form-group label="请选择老师:">
+              <!-- prop `add-on-change` is needed to enable adding tags vie the `change` event -->
+              <b-form-tags v-model="teacherNames" size="lg" add-on-change no-outer-focus class="mb-2">
+                <template v-slot="{ tags, inputAttrs, inputHandlers, disabled, removeTag }">
+                  <ul v-if="tags.length > 0" class="list-inline d-inline-block mb-2">
+                    <li v-for="tag in tags" :key="tag" class="list-inline-item">
+                      <b-form-tag
+                              @remove="removeTag(tag)"
+                              :title="tag"
+                              :disabled="disabled"
+                              variant="info"
+                      >{{ tag }}
+                      </b-form-tag>
+                    </li>
+                  </ul>
+                  <b-form-select
+                          v-bind="inputAttrs"
+                          v-on="inputHandlers"
+                          :disabled="disabled || availableTeachers.length === 0"
+                          :options="availableTeachers"
+                  >
+                    <template v-slot:first>
+                      <!-- This is required to prevent bugs with Safari -->
+                      <option disabled value="">选择回答问题的老师</option>
+                    </template>
+                  </b-form-select>
+                </template>
+              </b-form-tags>
+            </b-form-group> <!--选择老师-end-->
+            <!--富文本编辑器 start-->
+            <div id="summernote">
+            </div><!--富文本编辑器 end-->
+            <b-button type="submit" class="mt-5" variant="primary">提交问题</b-button>
+          </b-form>
+        </div>
+      </template>
+    </div>
+    <div class="col-4 pb-2 ">
+      <!--热点问题-->
+      <div th:replace="common/hotspot :: hostpot"></div>
+    </div>
+  </div>
+</div>
 </div>
 <!--底部-->
 <footer th:replace="common/footer::footer"></footer>
 <script th:src="@{/plugins/summernote/summernote.min.js}"></script>
 <script th:src="@{/plugins/summernote/summernote-zh-CN.min.js}"></script>
-<script th:src="@{/js/editQuestion.js?v=20200508}"></script>
-<script th:src="@{/js/tag.js?v=20200508}"></script>
+<script th:src="@{/js/editQuestion.js?v=20200512}"></script>
+<script th:src="@{/js/tag.js?v=20200512}"></script>
 </body>
 </html>

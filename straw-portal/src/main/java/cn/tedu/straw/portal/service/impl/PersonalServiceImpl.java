@@ -60,6 +60,7 @@ public class PersonalServiceImpl extends BaseService implements IPersonalService
         //获取本用户的提问数量
         QueryWrapper qustionQuery=new QueryWrapper();
         qustionQuery.eq("user_id",getUseId());
+        qustionQuery.eq("delete_status",0);
         Integer qusetionCount = questionMapper.selectCount(qustionQuery);
         myInfo.setQuestionCount(qusetionCount);
         //获取回答问题的数量

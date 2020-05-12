@@ -11,5 +11,5 @@ public class RoleName {
     //老师角色
     public  static  final  String TEACHER="ROLE_TEACHER";
     //学生角色
-    public  static  final  String STUDENT="ROLE_TEACHER";
+    public  static  final  String STUDENT="ROLE_STUDENT";
 }

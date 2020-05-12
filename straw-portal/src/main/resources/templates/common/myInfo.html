@@ -1,52 +1,52 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <div class="container-fluid font-weight-light" th:fragment="myInfo" id="myInfoApp">
-    <div class="card" >
-        <h5 class="card-header" th:text="${session.SPRING_SECURITY_CONTEXT.authentication.principal.nickname}"></h5>
-        <div class="card-body">
-            <ul class="list-inline mb-1 ">
-<!--                <li class="list-inline-item mx-3 my-1">-->
-<!--                    <div class="text-center" >-->
-<!--                        <div><strong>{{goldCount}}</strong></div>-->
-<!--                        <div>金币</div>-->
-<!--                    </div>-->
-<!--                </li>-->
-                <li class="list-inline-item mx-3 my-1" sec:authorize="hasRole('ROLE_TEACHER')">
-                    <div class="text-center" >
-                        <div><strong>{{answerCount}}</strong></div>
-                        <div>回答</div>
-                    </div>
+  <div class="card">
+    <h5 class="card-header" th:text="${session.SPRING_SECURITY_CONTEXT.authentication.principal.nickname}"></h5>
+    <div class="card-body">
+      <ul class="list-inline mb-1 ">
+        <!--                <li class="list-inline-item mx-3 my-1">-->
+        <!--                    <div class="text-center" >-->
+        <!--                        <div><strong>{{goldCount}}</strong></div>-->
+        <!--                        <div>金币</div>-->
+        <!--                    </div>-->
+        <!--                </li>-->
+        <li class="list-inline-item mx-3 my-1" sec:authorize="hasRole('ROLE_TEACHER')">
+          <div class="text-center">
+            <div><strong>{{answerCount}}</strong></div>
+            <div>回答</div>
+          </div>
 
-                </li>
-                <li class="list-inline-item mx-3 my-1" sec:authorize="hasRole('ROLE_STUDENT')">
-                    <a class="text-center" href="/personal/myQuestions">
-                        <div><strong>{{questionCount}}</strong></div>
-                        <div>提问</div>
-                    </a>
-                </li>
-<!--                <li class="list-inline-item mx-3 my-1">-->
-<!--                    <div class="text-center" >-->
-<!--                        <div><strong>0</strong></div>-->
-<!--                        <div>关注</div>-->
-<!--                    </div>-->
-<!--                </li>-->
-                <li class="list-inline-item mx-3 my-1">
-                    <a class="text-center" href="/personal/collect">
-                        <div><strong>{{collectCount}}</strong></div>
-                        <div>收藏</div>
-                    </a>
-                </li>
-                <li class="list-inline-item mx-3 my-1" sec:authorize="hasRole('ROLE_TEACHER')">
-                    <a class="text-center" href="/personal/mytask.html">
-                        <div><strong>{{taskCount}}</strong></div>
-                        <div>任务</div>
-                    </a>
+        </li>
+        <li class="list-inline-item mx-3 my-1">
+          <a class="text-center" href="/personal/myQuestions">
+            <div><strong>{{questionCount}}</strong></div>
+            <div>提问</div>
+          </a>
+        </li>
+        <!--                <li class="list-inline-item mx-3 my-1">-->
+        <!--                    <div class="text-center" >-->
+        <!--                        <div><strong>0</strong></div>-->
+        <!--                        <div>关注</div>-->
+        <!--                    </div>-->
+        <!--                </li>-->
+        <li class="list-inline-item mx-3 my-1">
+          <a class="text-center" href="/personal/collect">
+            <div><strong>{{collectCount}}</strong></div>
+            <div>收藏</div>
+          </a>
+        </li>
+        <li class="list-inline-item mx-3 my-1" sec:authorize="hasRole('ROLE_TEACHER')">
+          <a class="text-center" href="/personal/mytask.html">
+            <div><strong>{{taskCount}}</strong></div>
+            <div>任务</div>
+          </a>
 
-                </li>
+        </li>
 
-            </ul>
+      </ul>
 
-        </div>
     </div>
+  </div>
 </div>
 </html>

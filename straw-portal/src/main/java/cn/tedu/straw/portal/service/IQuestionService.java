@@ -5,6 +5,7 @@ import cn.tedu.straw.common.StrawResult;
 import cn.tedu.straw.portal.domian.param.QuestionParam;
 import cn.tedu.straw.portal.domian.param.QuestionUpdateParam;
 import cn.tedu.straw.portal.domian.vo.QuestionVO;
+import cn.tedu.straw.portal.model.Answer;
 import cn.tedu.straw.portal.model.EsQuestion;
 import cn.tedu.straw.portal.model.Question;
 import cn.tedu.straw.portal.model.QuestionQueryParam;
@@ -13,6 +14,7 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * <p>
@@ -72,4 +74,6 @@ public interface IQuestionService extends IService<Question> {
     Boolean checkCollectStatus(Integer id);
 
     Boolean cancelCollectQuestion(Integer id);
+
+    List<Answer> getQuestionAnswerById(Integer questionId);
 }

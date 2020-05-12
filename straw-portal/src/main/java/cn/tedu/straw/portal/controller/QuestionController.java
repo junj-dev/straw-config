@@ -3,11 +3,13 @@ package cn.tedu.straw.portal.controller;
 
 import cn.tedu.straw.common.CommonPage;
 import cn.tedu.straw.common.StrawResult;
+import cn.tedu.straw.common.constant.RoleName;
 import cn.tedu.straw.portal.annotation.NoRepeatSubmit;
 import cn.tedu.straw.portal.base.BaseController;
 import cn.tedu.straw.portal.config.GateWayUrlConfig;
 import cn.tedu.straw.portal.domian.param.QuestionParam;
 import cn.tedu.straw.portal.domian.param.QuestionUpdateParam;
+import cn.tedu.straw.portal.domian.vo.QuestionInfo;
 import cn.tedu.straw.portal.domian.vo.QuestionVO;
 import cn.tedu.straw.portal.exception.BusinessException;
 import cn.tedu.straw.portal.model.*;
@@ -15,6 +17,7 @@ import cn.tedu.straw.portal.service.*;
 import cn.tedu.straw.search.api.EsQuestionServiceApi;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.pagehelper.PageInfo;
+import com.google.gson.Gson;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.models.auth.In;
@@ -56,6 +59,7 @@ public class QuestionController extends BaseController {
     private GateWayUrlConfig gateWayUrlConfig;
     @Resource
     private IUserCollectService userCollectService;
+    private Gson gson=new Gson();
 
     @GetMapping("/create.html")
     public  String create(Model model){
@@ -130,6 +134,7 @@ public class QuestionController extends BaseController {
     public String datail(@PathVariable("id")Integer id,Model model){
        Question question= questionService.getQuestionDetailById(id);
         model.addAttribute("question",question);
+        //相关提问
         List<Question> similarQuestions = recommendQuestionService.getSimilarQuestion(id);
         model.addAttribute("similarQuestions",similarQuestions);
         //问题被收藏数
@@ -137,14 +142,21 @@ public class QuestionController extends BaseController {
         collectQuery.eq("question_id",id);
         int collectCount = userCollectService.count(collectQuery);
         model.addAttribute("collectCount",collectCount);
-
-        //flag是判断问题是否是本人提出的
-        if(question.getUserId().intValue()==getUseId().intValue()){
-            model.addAttribute("flag",true);
-        }else {
-            model.addAttribute("flag",false);
-        }
+        //设置问题的相关信息
+        QuestionInfo questionInfo=new QuestionInfo(question.getUserId().intValue()==getUseId().intValue()?true:false,
+                getUseId(),getUserRoleNames().contains(RoleName.TEACHER)?RoleName.TEACHER:RoleName.STUDENT,question.getId(),question.getStatus()
+                );
+        model.addAttribute("questionInfo",gson.toJson(questionInfo));
+        model.addAttribute("isMyQuestion",questionInfo.isMyQuestion());
         return "question/detail";
+    }
+
+    @GetMapping("/answers/{id}")
+    @ResponseBody
+    @ApiOperation("获取某个问题的回答")
+    public StrawResult getAnswers(@PathVariable("id")Integer questionId){
+        List<Answer> answers= questionService.getQuestionAnswerById(questionId);
+        return new StrawResult().success(answers);
     }
 
 
