@@ -1,23 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-    <modules>
-        <module>straw-portal</module>
+	<modules>
+		<module>straw-portal</module>
 		<module>straw-eureka-server</module>
 		<module>straw-generator</module>
 		<module>straw-search</module>
-        <module>straw-model</module>
-        <module>straw-common</module>
-        <module>straw-search-api</module>
-        <module>straw-gateway</module>
-        <module>straw-config</module>
-    </modules>
-    <parent>
+		<module>straw-model</module>
+		<module>straw-common</module>
+		<module>straw-search-api</module>
+		<module>straw-gateway</module>
+		<module>straw-config</module>
+	</modules>
+	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>2.2.5.RELEASE</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>cn.tedu</groupId>
 	<artifactId>straw</artifactId>
@@ -45,7 +46,7 @@
 	</properties>
 
 
-	<!--统一版本-->
+	<!--统一版本 -->
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -72,7 +73,7 @@
 				<artifactId>springfox-swagger-ui</artifactId>
 				<version>${springfox-swagger-ui.version}</version>
 			</dependency>
-			<!-- 这里使用 swagger-bootstrap-ui 替代了原有丑陋的ui-->
+			<!-- 这里使用 swagger-bootstrap-ui 替代了原有丑陋的ui -->
 			<dependency>
 				<groupId>com.github.xiaoymin</groupId>
 				<artifactId>swagger-bootstrap-ui</artifactId>
@@ -94,12 +95,12 @@
 				<artifactId>mybatis-plus-generator</artifactId>
 				<version>${mybatisplus.version}</version>
 			</dependency>
-            <dependency>
-                <groupId>org.thymeleaf.extras</groupId>
-                <artifactId>thymeleaf-extras-springsecurity5</artifactId>
-                <version>${thymeleaf-extras-springsecurity5.version}</version>
-            </dependency>
-			<!--分页插件-->
+			<dependency>
+				<groupId>org.thymeleaf.extras</groupId>
+				<artifactId>thymeleaf-extras-springsecurity5</artifactId>
+				<version>${thymeleaf-extras-springsecurity5.version}</version>
+			</dependency>
+			<!--分页插件 -->
 			<dependency>
 				<groupId>com.github.pagehelper</groupId>
 				<artifactId>pagehelper-spring-boot-starter</artifactId>
@@ -122,7 +123,7 @@
 				<version>${fastjson.version}</version>
 			</dependency>
 
-			<!--阿里云短信接口依赖-->
+			<!--阿里云短信接口依赖 -->
 			<dependency>
 				<groupId>com.aliyun</groupId>
 				<artifactId>aliyun-java-sdk-core</artifactId>
@@ -133,7 +134,7 @@
 				<artifactId>aliyun-java-sdk-ecs</artifactId>
 				<version>${aliyun-java-sdk-ecs.version}</version>
 			</dependency>
-			<!--kafka-->
+			<!--kafka -->
 			<dependency>
 				<groupId>org.springframework.kafka</groupId>
 				<artifactId>spring-kafka</artifactId>
