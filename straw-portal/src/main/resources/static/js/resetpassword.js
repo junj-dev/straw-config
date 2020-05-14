@@ -1,4 +1,4 @@
-var vm=new Vue({
+const vm=new Vue({
     el:"#app",
     data:{
         phone:'',
@@ -14,10 +14,10 @@ var vm=new Vue({
     methods:{
         //发送验证码
         sendMessage:function () {
-            var _this=this;
-            var phone=_this.phone;
+            let _this=this;
+            let phone=_this.phone;
             //先对phone格式做判断
-            var reg = new RegExp(/^1\d{10}$/);
+            let reg = new RegExp(/^1\d{10}$/);
             if(!reg.test(phone)){
                 this.alertDia("请输入正确的手机号",1500);
                  return;
@@ -29,7 +29,7 @@ var vm=new Vue({
 
                    _this.disabled=true;
                    let time=60;
-                   var s= setInterval(function() {
+                   let s= setInterval(function() {
 
                         if (time > 0) {
                             time = time - 1;
@@ -57,32 +57,32 @@ var vm=new Vue({
         },
         //注册账号
         register:function () {
-            var _this=this;
+            let _this=this;
             //电话号码
-            var phone=_this.phone;
-            var reg = new RegExp(/^1\d{10}$/);
+            let phone=_this.phone;
+            let reg = new RegExp(/^1\d{10}$/);
             if(!reg.test(phone)){
                 this.alertDia("请输入正确的手机号",2000);
                 return;
             }
             //验证码
-            var code=_this.code;
-            var reg2 = new RegExp("^[0-9]{4}$");
+            let code=_this.code;
+            let reg2 = new RegExp("^[0-9]{4}$");
             if(!reg2.test(code)){
                 this.alertDia("验证码格式不正确！请输入4位的数字的验证码！",2500);
                 return;
             }
 
             //密码
-            var password=_this.password;
+            let password=_this.password;
             //只能输入6-20个字母、数字、下划线
-            var patrn=/^(\w){6,20}$/;
+            let patrn=/^(\w){6,20}$/;
             if(!patrn.exec(password)){
                 this.alertDia("密码设置不合法！只能输入6-20个字母、数字、下划线",2500);
                 return;
             }
             //确认密码
-            var comfirmPassword=_this.comfirmPassword;
+            let comfirmPassword=_this.comfirmPassword;
             if(comfirmPassword!=password){
                 this.alertDia("确认密码和密码不一致，请重新设置！",2000);
                 return;

@@ -14,7 +14,7 @@ $(function () {
 function insertImg(imgeList){
     //for(i in imageUrl){
     console.log("imgeList:"+imgeList);
-    for(var i=0;i<imgeList.length;i++){
+    for(let i=0;i<imgeList.length;i++){
         $('#summernote').summernote('insertImage', imgeList[i], 'img');
     }
 
@@ -24,7 +24,7 @@ function insertImg(imgeList){
 
 function UploadFiles(files,func){
     //这里files是因为我设置了可上传多张图片，所以需要依次添加到formData中
-    var formData = new FormData();
+    let formData = new FormData();
     for(f in files){
         formData.append("file", files[f]);
     }
@@ -55,7 +55,7 @@ function UploadFiles(files,func){
     })
 }
 
-var vm=new Vue( {
+const vm=new Vue( {
     el:"#app",
     data: {
         content:'', //回答的内容
@@ -78,7 +78,7 @@ var vm=new Vue( {
         },
         //加载答案
         getAnswer:function(){
-            var _this=this;
+            let _this=this;
             $.get("/answer/"+_this.answerId,function (res) {
 
                if(res.code==200){
@@ -90,10 +90,10 @@ var vm=new Vue( {
         },
         onSubmit(evt) {
             evt.preventDefault()
-            var _this=this;
+            let _this=this;
 
             //校验问题的内容是否为空
-            var content= $('#summernote').summernote('code');
+            let content= $('#summernote').summernote('code');
             console.log("content:"+content);
             if(content.length==0||content=='<p><br></p>'){
                 _this.alertDia("问题的内容不能为空",2000);

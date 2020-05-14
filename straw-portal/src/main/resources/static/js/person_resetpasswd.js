@@ -1,4 +1,4 @@
-var resetpassword=new Vue({
+const resetpassword=new Vue({
     el:"#app",
     data:{
         oldPasswd: '', //旧密码
@@ -20,10 +20,10 @@ var resetpassword=new Vue({
         },
         onSubmit(evt) {
             evt.preventDefault();
-            var _this=this;
+            let _this=this;
             //判断原密码是否格式正确
             //只能输入6-20个字母、数字、下划线
-            var patrn=/^(\w){6,20}$/;
+            let patrn=/^(\w){6,20}$/;
             if(!patrn.exec(_this.oldPasswd)){
                 this.alertDia("原密码设置不合法！只能输入6-20个字母、数字、下划线",2000);
                 return;

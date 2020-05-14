@@ -1,4 +1,4 @@
-var vm = new Vue({
+const vm = new Vue({
     el: '#app',
     data: {
         page: 0,  //显示的是哪一页
@@ -19,7 +19,7 @@ var vm = new Vue({
         ,
         //加载标签
         loadTgs: function () {
-            var _this=this;
+            let _this=this;
             $.get("/tag/findAllTags",function(result){
                 if(result.code==200){
                     _this.tags=result.data;
@@ -32,9 +32,9 @@ var vm = new Vue({
             //here you can do custom state update
             //here you can do custom state update
             this.page = pageNum;
-            var keyword=this.keyword;
-            var pageSize=this.pageSize;
-            var _this=this;
+            let keyword=this.keyword;
+            let pageSize=this.pageSize;
+            let _this=this;
 
             $.ajax({
                 type:"post",

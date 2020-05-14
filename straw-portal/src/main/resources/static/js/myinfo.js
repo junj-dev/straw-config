@@ -1,4 +1,4 @@
-var myinfo=new Vue({
+const myinfo=new Vue({
     el:"#myInfoApp" ,
     data:{
         goldCount:0,
@@ -9,10 +9,10 @@ var myinfo=new Vue({
     },
     methods:{
         loadMyInfo:function () {
-            var _this=this;
+            let _this=this;
            $.get("/personal/getMyInfo",function (result) {
                if(result.code==200){
-                   var data=result.data;
+                   let data=result.data;
                 _this.goldCount=data.goldCount;
                 _this.answerCount=data.answerCount;
                 _this.questionCount=data.questionCount;

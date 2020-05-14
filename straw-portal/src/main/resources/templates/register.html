@@ -5,20 +5,20 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>稻草FAQ注册</title>
-  <link href="/img/logo.ico" rel="SHORTCUT ICON"/>
+  <link th:href="@{/img/logo.ico}" href="../static/img/logo.ico" rel="SHORTCUT ICON"/>
   <!-- Tell the browser to be responsive to screen width -->
   <link rel="stylesheet"
-        th:href="@{/css/bootstrap.min.css}">
+        th:href="@{/css/bootstrap.min.css}" href="../static/css/bootstrap.min.css">
   <!-- Font Awesome -->
   <link rel="stylesheet"
-        th:href="@{/css/font-awesome.min.css}">
+        th:href="@{/css/font-awesome.min.css}" href="../static/css/font-awesome.min.css">
   <!-- Ionicons -->
-  <link rel="stylesheet" th:href="@{/css/ionicons.min.css}">
+  <link rel="stylesheet" th:href="@{/css/ionicons.min.css}" href="../static/css/ionicons.min.css">
   <!-- Theme style -->
-  <link rel="stylesheet" th:href="@{/css/AdminLTE.min.css}">
+  <link rel="stylesheet" th:href="@{/css/AdminLTE.min.css}" href="../static/css/AdminLTE.min.css">
   <!-- iCheck -->
-  <link rel="stylesheet" th:href="@{/plugins/iCheck/square/blue.css}">
-  <link rel="stylesheet" th:href="@{/css/vueAlert.css}">
+  <link rel="stylesheet" th:href="@{/plugins/iCheck/square/blue.css}" href="../static/plugins/iCheck/square/blue.css">
+  <link rel="stylesheet" th:href="@{/css/vueAlert.css}" href="../static/css/vueAlert.css">
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -35,7 +35,7 @@
 </head>
 <body class="hold-transition register-page">
 <div class="register-box" id="app" v-cloak>
-  <div class="alsrtInfo" :style="{display: displayStsates}" ref="alertMsg">
+  <div class="alsrtInfo" style="display: none"  :style="{display: displayStsates}" ref="alertMsg">
     <div class="profPrompt_test" v-text="aletMsg"></div>
   </div>
   <div class="register-logo">
@@ -61,8 +61,8 @@
           <input type="text" v-model="code" class="form-control" placeholder="输入短信验证码">
         </div>
         <div class="col-md-5">
-          <button type="button" v-bind:disabled="disabled" class="btn btn-primary" v-on:click="sendMessage">
-            {{message}}
+          <button type="button" v-bind:disabled="disabled" class="btn btn-primary" v-on:click="sendMessage" v-text="message">
+            发送验证码
           </button>
         </div>
 

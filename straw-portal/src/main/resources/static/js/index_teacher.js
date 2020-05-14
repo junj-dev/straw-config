@@ -1,4 +1,4 @@
-var vm = new Vue({
+const vm = new Vue({
     el: '#app',
     data: {
         page: 0,  //显示的是哪一页
@@ -17,8 +17,8 @@ var vm = new Vue({
             //here you can do custom state update
 
             this.page = pageNum;
-            var pageSize=this.pageSize;
-            var _this=this;
+            let pageSize=this.pageSize;
+            let _this=this;
             $.ajax({
                 type:"post",
                 url:"/question/findMyUnAnwerQuestion",

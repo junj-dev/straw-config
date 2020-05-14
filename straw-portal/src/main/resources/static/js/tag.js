@@ -1,4 +1,4 @@
-var tagVue=new Vue({
+const tagVue=new Vue({
     el:"#tagApp",
     data:{
         tags:[]
@@ -6,7 +6,7 @@ var tagVue=new Vue({
     methods:{
         //加载标签
         loadTgs: function () {
-            var _this=this;
+            let _this=this;
             $.get("/tag/findAllTags",function(result){
                 if(result.code==200){
                     _this.tags=result.data;

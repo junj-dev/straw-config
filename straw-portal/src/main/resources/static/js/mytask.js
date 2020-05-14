@@ -1,5 +1,5 @@
 
-var vm5=new Vue({
+const vm5=new Vue({
     el: '#app5',
     data: function() {
         return {
@@ -22,7 +22,7 @@ var vm5=new Vue({
 
         //加载老师
         loadTeachers:function () {
-            var _this=this;
+            let _this=this;
             $.get("/teacher/loadAllTeacherVos",function (result) {
                 if(result.code==200){
                     _this.options=result.data;
@@ -33,8 +33,8 @@ var vm5=new Vue({
         },
         //提交
         submitTransferToTeacher:function(){
-            var _this=this;
-            var questionIds=vm2.checkedQuestionIds;
+            let _this=this;
+            let questionIds=vm2.checkedQuestionIds;
             if(questionIds.length==0){
                 this.alertDia("操作前，请至少选择一个问题！",2000);
                 return;
@@ -63,7 +63,7 @@ var vm5=new Vue({
         this.loadTeachers();
     }
 });
-var vm4=new Vue({
+const vm4=new Vue({
     el: '#app4',
     data: function() {
         return {
@@ -84,7 +84,7 @@ var vm4=new Vue({
         },
         //加载老师
         loadTeachers:function () {
-            var _this=this;
+            let _this=this;
             $.get("/teacher/loadAllTeacherVos",function (result) {
                 if(result.code==200){
                     _this.options=result.data;
@@ -95,8 +95,8 @@ var vm4=new Vue({
         },
         //提交
         submitTransferToTeacher:function(){
-            var _this=this;
-            var questionIds=vm.checkedQuestionIds;
+            let _this=this;
+            let questionIds=vm.checkedQuestionIds;
             if(questionIds.length==0){
                 this.alertDia("操作前，请至少选择一个问题！",2000);
                 return;
@@ -125,7 +125,7 @@ var vm4=new Vue({
         this.loadTeachers();
     }
 });
-var vm = new Vue({
+const vm = new Vue({
     el: '#app1',
     data: {
         page: 0,  //显示的是哪一页
@@ -151,7 +151,7 @@ var vm = new Vue({
         },
         changeAllChecked: function() {
             if (this.checked) {
-                var questions = this.questions;
+                let questions = this.questions;
                 //先清空再添加
                 this.checkedQuestionIds = [];
                 for(let key in questions) {
@@ -165,8 +165,8 @@ var vm = new Vue({
         pageHandler: function (pageNum) {
             //here you can do custom state update
             this.page = pageNum;
-            var pageSize=this.pageSize;
-            var _this=this;
+            let pageSize=this.pageSize;
+            let _this=this;
             $.ajax({
                 type:"post",
                 url:"/question/findMyUnAnwerQuestion",
@@ -186,8 +186,8 @@ var vm = new Vue({
         },
         //把问题转发给其他老师
         transferToTeacher:function(){
-            var _this=this;
-            var questionIds=this.checkedQuestionIds;
+            let _this=this;
+            let questionIds=this.checkedQuestionIds;
             if(questionIds.length==0){
                 this.alertDia("操作前，请至少选择一个问题！",2000);
                 return;
@@ -199,8 +199,8 @@ var vm = new Vue({
         },
         //把问题设置为已解决
         setQuestionSolved:function () {
-            var _this=this;
-            var questionIds=this.checkedQuestionIds;
+            let _this=this;
+            let questionIds=this.checkedQuestionIds;
             if(questionIds.length==0){
                 this.alertDia("操作前，请至少选择一个问题！",2000);
                 return;
@@ -252,7 +252,7 @@ var vm = new Vue({
 
     }
 });
-var vm2 = new Vue({
+const vm2 = new Vue({
     el: '#app2',
     data: {
         page: 0,  //显示的是哪一页
@@ -281,7 +281,7 @@ var vm2 = new Vue({
         },
         changeAllChecked: function() {
             if (this.checked) {
-                var questions = this.questions;
+                let questions = this.questions;
                 //先清空再添加
                 this.checkedQuestionIds = [];
                 for(let key in questions) {
@@ -295,8 +295,8 @@ var vm2 = new Vue({
         pageHandler: function (pageNum) {
             //here you can do custom state update
             this.page = pageNum;
-            var pageSize=this.pageSize;
-            var _this=this;
+            let pageSize=this.pageSize;
+            let _this=this;
             $.ajax({
                 type:"post",
                 url:"/question/findMyUnSolveQuestion",
@@ -316,8 +316,8 @@ var vm2 = new Vue({
         },
         //把问题转发给其他老师
         transferToTeacher:function(){
-            var _this=this;
-            var questionIds=this.checkedQuestionIds;
+            let _this=this;
+            let questionIds=this.checkedQuestionIds;
             if(questionIds.length==0){
                 this.alertDia("操作前，请至少选择一个问题！",2000);
                 return;
@@ -329,8 +329,8 @@ var vm2 = new Vue({
         },
         //把问题设置为已解决
         setQuestionSolved:function () {
-            var _this=this;
-            var questionIds=this.checkedQuestionIds;
+            let _this=this;
+            let questionIds=this.checkedQuestionIds;
             if(questionIds.length==0){
                 this.alertDia("操作前，请至少选择一个问题！",2000);
                 return;
@@ -380,7 +380,7 @@ var vm2 = new Vue({
 
     }
 });
-var vm3 = new Vue({
+const vm3 = new Vue({
     el: '#app3',
     data: {
         page: 0,  //显示的是哪一页
@@ -400,8 +400,8 @@ var vm3 = new Vue({
     methods: {
         //将问题设置为公开
         setQuestionPublic:function(){
-            var _this=this;
-            var questionIds=this.checkedQuestionIds;
+            let _this=this;
+            let questionIds=this.checkedQuestionIds;
             if(questionIds.length==0){
                 this.alertDia("操作前，请至少选择一个问题！",2000);
                 return;
@@ -430,8 +430,8 @@ var vm3 = new Vue({
         },
         //将问题设置为本人和老师可见
         setQuestionPrivate:function(){
-            var _this=this;
-            var questionIds=this.checkedQuestionIds;
+            let _this=this;
+            let questionIds=this.checkedQuestionIds;
             if(questionIds.length==0){
                 this.alertDia("操作前，请至少选择一个问题！",2000);
                 return;
@@ -467,7 +467,7 @@ var vm3 = new Vue({
         },
         changeAllChecked: function() {
             if (this.checked) {
-                var questions = this.questions;
+                let questions = this.questions;
                 //先清空再添加
                 this.checkedQuestionIds = [];
                 for(let key in questions) {
@@ -481,8 +481,8 @@ var vm3 = new Vue({
         pageHandler: function (pageNum) {
             //here you can do custom state update
             this.page = pageNum;
-            var pageSize=this.pageSize;
-            var _this=this;
+            let pageSize=this.pageSize;
+            let _this=this;
             $.ajax({
                 type:"post",
                 url:"/question/findMySolvedQuestion",

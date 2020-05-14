@@ -1,4 +1,4 @@
-var collectApp=new Vue({
+const collectApp=new Vue({
     el:"#collectApp",
     data:{
         page: 0,  //显示的是哪一页
@@ -15,8 +15,8 @@ var collectApp=new Vue({
             //here you can do custom state update
 
             this.page = pageNum;
-            var pageSize=this.pageSize;
-            var _this=this;
+            let pageSize=this.pageSize;
+            let _this=this;
             $.ajax({
                 type:"post",
                 url:"/personal/findCollectQuestionsPage",
@@ -43,7 +43,7 @@ var collectApp=new Vue({
             });
         },
         cancleCollect:function (id) {
-            var _this=this;
+            let _this=this;
             $.get("/question/cancelCollect/"+id,function (res) {
                 if(res.code==200){
                     _this.pageHandler(_this.page);

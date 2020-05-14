@@ -15,7 +15,7 @@ $(function () {
 function insertImg(imgeList){
     //for(i in imageUrl){
     console.log("imgeList:"+imgeList);
-    for(var i=0;i<imgeList.length;i++){
+    for(let i=0;i<imgeList.length;i++){
         $('#summernote').summernote('insertImage', imgeList[i], 'img');
     }
 
@@ -25,7 +25,7 @@ function insertImg(imgeList){
 
 function UploadFiles(files,func){
     //这里files是因为我设置了可上传多张图片，所以需要依次添加到formData中
-    var formData = new FormData();
+    let formData = new FormData();
     for(f in files){
         formData.append("file", files[f]);
     }
@@ -56,7 +56,7 @@ function UploadFiles(files,func){
     })
 }
 
-var vm=new Vue( {
+const vm=new Vue( {
     el:"#app",
     data: {
             title: '', //标题内容
@@ -93,7 +93,7 @@ var vm=new Vue( {
         },
         //加载老师
         loadTeachers:function () {
-            var _this=this;
+            let _this=this;
             $.get("/teacher/loadAllTeacherNames",function (result) {
                 if(result.code==200){
                     _this.teachers=result.data;
@@ -104,7 +104,7 @@ var vm=new Vue( {
         },
         //加载标签
         loadTgs: function () {
-            var _this=this;
+            let _this=this;
             $.get("/tag/findAllTagNames",function(result){
                 if(result.code==200){
                     _this.tags=result.data;
@@ -114,7 +114,7 @@ var vm=new Vue( {
         },
         onSubmit(evt) {
             evt.preventDefault()
-            var _this=this;
+            let _this=this;
             //校验标题内容
             if(!_this.titleState){
                _this.alertDia("标题字数请控制在3到50字之间",2000);
@@ -131,13 +131,13 @@ var vm=new Vue( {
                 return;
             }
             //校验问题的内容是否为空
-           var content= $('#summernote').summernote('code');
+           let content= $('#summernote').summernote('code');
             console.log("content:"+content);
             if(content.length==0||content=='<p><br></p>'){
                 _this.alertDia("问题的内容不能为空",2000);
                 return;
             }
-            var data={
+            let data={
                 "title":_this.title,
                 "content":content,
                 "tagNames":_this.tagNames,

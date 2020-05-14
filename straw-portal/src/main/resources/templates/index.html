@@ -3,7 +3,7 @@
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
   <title>稻草FAQ首页</title>
-  <link href="/img/logo.ico" rel="SHORTCUT ICON"/>
+  <link th:href="@{/img/logo.ico}" href="../static/img/logo.ico" rel="SHORTCUT ICON"/>
 </head>
 <head th:replace="common/head :: head">
   <meta charset="UTF-8">
@@ -13,16 +13,16 @@
   <meta name="author" content="Chen HaiBao">
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
-  <link rel="stylesheet" href="static/bower_components/bootstrap-4.4.1/dist/css/bootstrap.min.css">
-  <link rel="stylesheet" href="static/bower_components/font-awesome-4.7.0/css/font-awesome.min.css"/>
-  <link href="static/css/zpageNav.css" rel="stylesheet"/>
-  <link rel="stylesheet" href="static/css/vueAlert.css">
+  <link rel="stylesheet" href="../static/bower_components/bootstrap-4.4.1/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../static/bower_components/font-awesome-4.7.0/css/font-awesome.min.css"/>
+  <link href="../static/css/zpageNav.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="../static/css/vueAlert.css">
 
-  <script href="static/js/jquery.min.js"></script>
-  <script href="static/bower_components/poper/dist/popper.min.js"></script>
-  <script href="static/bower_components/bootstrap-4.4.1/dist/js/bootstrap.min.js"></script>
-  <link rel="stylesheet" href="static/css/select2.min.css">
-  <script href="static/js/select2.full.js"></script>
+  <script href="../static/js/jquery.min.js"></script>
+  <script href="../static/bower_components/poper/dist/popper.min.js"></script>
+  <script href="../static/bower_components/bootstrap-4.4.1/dist/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="../static/css/select2.min.css">
+  <script href="../static/js/select2.full.js"></script>
   <link type="text/css" rel="stylesheet" href="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.css"/>
   <!-- Load polyfills to support older browsers -->
   <script src="//polyfill.io/v3/polyfill.min.js?features=es2015%2CIntersectionObserver"
@@ -245,7 +245,7 @@
         <div class="container-fluid">
           <h4 class="border-bottom m-2 p-2 font-weight-light"><i class="fa fa-comments-o"
                                                                  aria-hidden="true"></i> 我的问答</h4>
-          <div class="row invisible" id="pp">
+          <div class="row" style="display: none" v-show="isShow">
             <div class="alert alert-warning w-100" role="alert">
               抱歉您还没有提问内容， <a href="/question/create.html" class="alert-link">您可以点击此处提问</a>，或者点击标签查看其它问答
             </div>
@@ -254,13 +254,15 @@
             <div class="media-body w-50">
               <div class="row">
                 <div class="col-md-12 col-lg-2">
-                  <span class="badge badge-pill badge-warning" v-if="question.status == '0'">未回复</span>
-                  <span class="badge badge-pill badge-info"    v-if="question.status == '1'">已回复</span>
-                  <span class="badge badge-pill badge-success" v-if="question.status == '2'">已解决</span>
+                  <span class="badge badge-pill badge-warning" style="display: none" v-show="question.status == '0'">未回复</span>
+                  <span class="badge badge-pill badge-info" style="display: none" v-show="question.status == '1'">已回复</span>
+                  <span class="badge badge-pill badge-success" v-show="question.status == '2'">已解决</span>
                 </div>
                 <div class="col-md-12 col-lg-10">
-                  <h5 class="mt-0 mb-1 text-truncate"><a class="text-dark"
-                                                         :href="'/question/detail/'+question.id">{{question.title}}</a>
+                  <h5 class="mt-0 mb-1 text-truncate">
+                    <a class="text-dark" :href="'/question/detail/'+question.id" v-text="question.title">
+                      eclipse 如何导入项目？
+                    </a>
                   </h5>
                 </div>
               </div>
@@ -268,24 +270,26 @@
               <div class="font-weight-light text-truncate text-wrap text-justify mb-2"
                    style="height: 70px;">
                 <p v-html="delHtmlTag(question.content)">
+                  eclipse 如何导入项目？
                 </p>
               </div>
               <div class="row">
                 <div class="col-12 mt-1 text-info">
                   <i class="fa fa-tags" aria-hidden="true"></i>
-                  <a class="text-info" :href="'/question/tag_question.html?tagId='+tag.id"
-                     v-for="tag in question.tags"><small>{{tag.name}} &nbsp;</small></a>
+                  <a class="text-info" :href="'/question/tag_question.html?tagId='+tag.id" v-for="tag in question.tags"><small
+                          v-text="tag.name">Java基础 &nbsp;</small></a>
+                  <a class="text-info" href="" th:remove="all"><small>Java SE &nbsp;</small></a>
+                  <a class="text-info" href="" th:remove="all"><small>面试题 &nbsp;</small></a>
                 </div>
               </div>
               <div class="row">
                 <div class="col-12 text-right">
                   <ul class="list-inline mb-1 ">
-                    <li class="list-inline-item"><small><span class="font-weight-light"></span>{{question.userNickName}}</small>
+                    <li class="list-inline-item"><small v-text="question.userNickName">风继续吹</small>
                     </li>
-                    <li class="list-inline-item"><small><span
-                            class="font-weight-light fa fa-eye"></span>{{question.pageViews}}</small>
+                    <li class="list-inline-item"><small v-text="question.pageViews+'浏览'">12浏览</small>
                     </li>
-                    <li class="list-inline-item"><small><span class="font-weight-light"></span>{{question.distanceTime}}</small>
+                    <li class="list-inline-item"><small v-text="question.distanceTime">13分钟前</small>
                     </li>
                   </ul>
                 </div>
@@ -293,19 +297,204 @@
 
             </div>
             <!-- / class="media-body"-->
-            <img :src="'/img/tags/example'+index+'.jpg'" class="ml-3 border img-fluid rounded" alt=""
+            <img :src="'/img/tags/example'+index+'.jpg'" src="../static/img/tags/example0.jpg" class="ml-3 border img-fluid rounded" alt=""
                  width="208" height="116">
           </div>
-          <!-- / class="media"-->
-        </div>
-        <!--分页信息-->
-        <div class="row" v-if="questions !==undefined && questions.length > 0 ">
-          <div th:replace="common/pageInfo :: pageInfo"></div>
-        </div>
-      </div>
+          <div class="media bg-white m-2 p-3" th:remove="all">
+            <div class="media-body w-50">
+              <div class="row">
+                <div class="col-md-12 col-lg-2">
+                  <span class="badge badge-pill badge-success">已解决</span>
+                </div>
+                <div class="col-md-12 col-lg-10">
+                  <h5 class="mt-0 mb-1 text-truncate">
+                    <a class="text-dark" href="">说一下 HashMap 的实现原理？</a>
+                  </h5>
+                </div>
+              </div>
 
-    </div> <!-- / class="col-8"-->
+              <div class="font-weight-light text-truncate text-wrap text-justify mb-2"
+                   style="height: 70px;">
+                <p>
+                  说一下 HashMap 的实现原理？
+                </p>
+              </div>
+              <div class="row">
+                <div class="col-12 mt-1 text-info">
+                  <i class="fa fa-tags" aria-hidden="true"></i>
+                  <a class="text-info" :href="'/question/tag_question.html?tagId='+tag.id"
+                     v-for="tag in question.tags"><small>Java基础</small></a>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12 text-right">
+                  <ul class="list-inline mb-1 ">
+                    <li class="list-inline-item"><small>小明</small>
+                    </li>
+                    <li class="list-inline-item"><small>50浏览</small>
+                    </li>
+                    <li class="list-inline-item"><small>2天前</small>
+                    </li>
+                  </ul>
+                </div>
+              </div>
 
+            </div>
+            <!-- / class="media-body"-->
+            <img :src="'/img/tags/example'+index+'.jpg'" src="../static/img/tags/example1.jpg" class="ml-3 border img-fluid rounded" alt=""
+                 width="208" height="116">
+
+          </div>
+          <div class="media bg-white m-2 p-3" th:remove="all">
+            <div class="media-body w-50">
+              <div class="row">
+                <div class="col-md-12 col-lg-2">
+                  <span class="badge badge-pill badge-warning">未回复</span>
+                </div>
+                <div class="col-md-12 col-lg-10">
+                  <h5 class="mt-0 mb-1 text-truncate">
+                    <a class="text-dark" href="/question/detail">Java如何安装</a>
+                  </h5>
+                </div>
+              </div>
+
+              <div class="font-weight-light text-truncate text-wrap text-justify mb-2"
+                   style="height: 70px;">
+                <p>
+                  如何下载安装Java呀？
+                </p>
+              </div>
+              <div class="row">
+                <div class="col-12 mt-1 text-info">
+                  <i class="fa fa-tags" aria-hidden="true"></i>
+                  <a class="text-info" href=""><small>Java基础</small></a>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12 text-right">
+                  <ul class="list-inline mb-1 ">
+                    <li class="list-inline-item"><small>天王盖地虎</small>
+                    </li>
+                    <li class="list-inline-item"><small>11浏览</small>
+                    </li>
+                    <li class="list-inline-item"><small>3天前</small>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+            </div>
+            <!-- / class="media-body"-->
+            <img :src="'/img/tags/example'+index+'.jpg'" src="../static/img/tags/example2.jpg" class="ml-3 border img-fluid rounded" alt=""
+                 width="208" height="116">
+          </div>
+          <div class="media bg-white m-2 p-3" th:remove="all">
+            <div class="media-body w-50">
+              <div class="row">
+                <div class="col-md-12 col-lg-2">
+                  <span class="badge badge-pill badge-success">已解决</span>
+                </div>
+                <div class="col-md-12 col-lg-10">
+                  <h5 class="mt-0 mb-1 text-truncate">
+                    <a class="text-dark" href="">说一下 HashMap 的实现原理？</a>
+                  </h5>
+                </div>
+              </div>
+
+              <div class="font-weight-light text-truncate text-wrap text-justify mb-2"
+                   style="height: 70px;">
+                <p>
+                  说一下 HashMap 的实现原理？
+                </p>
+              </div>
+              <div class="row">
+                <div class="col-12 mt-1 text-info">
+                  <i class="fa fa-tags" aria-hidden="true"></i>
+                  <a class="text-info" :href="'/question/tag_question.html?tagId='+tag.id"
+                     v-for="tag in question.tags"><small>Java基础</small></a>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12 text-right">
+                  <ul class="list-inline mb-1 ">
+                    <li class="list-inline-item"><small>小明</small>
+                    </li>
+                    <li class="list-inline-item"><small>50浏览</small>
+                    </li>
+                    <li class="list-inline-item"><small>2天前</small>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+            </div>
+            <!-- / class="media-body"-->
+            <img :src="'/img/tags/example'+index+'.jpg'" src="../static/img/tags/example3.jpg" class="ml-3 border img-fluid rounded" alt=""
+                 width="208" height="116">
+          </div>
+          <div class="media bg-white m-2 p-3" th:remove="all">
+            <div class="media-body w-50">
+              <div class="row">
+                <div class="col-md-12 col-lg-2">
+                  <span class="badge badge-pill badge-warning">未回复</span>
+                </div>
+                <div class="col-md-12 col-lg-10">
+                  <h5 class="mt-0 mb-1 text-truncate">
+                    <a class="text-dark" href="/question/detail">Java如何安装</a>
+                  </h5>
+                </div>
+              </div>
+
+              <div class="font-weight-light text-truncate text-wrap text-justify mb-2"
+                   style="height: 70px;">
+                <p>
+                  如何下载安装Java呀？
+                </p>
+              </div>
+              <div class="row">
+                <div class="col-12 mt-1 text-info">
+                  <i class="fa fa-tags" aria-hidden="true"></i>
+                  <a class="text-info" href=""><small>Java基础</small></a>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12 text-right">
+                  <ul class="list-inline mb-1 ">
+                    <li class="list-inline-item"><small>天王盖地虎</small>
+                    </li>
+                    <li class="list-inline-item"><small>11浏览</small>
+                    </li>
+                    <li class="list-inline-item"><small>3天前</small>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+            </div>
+            <!-- / class="media-body"-->
+            <img :src="'/img/tags/example'+index+'.jpg'" src="../static/img/tags/example4.jpg" class="ml-3 border img-fluid rounded" alt=""
+                 width="208" height="116">
+          </div>
+          <!--分页信息-->
+          <div class="row" style="display: none" v-show="questions !==undefined && questions.length > 0 ">
+            <div th:replace="common/pageInfo :: pageInfo"></div>
+          </div>
+          <!--分页静态展示，运行时删除-->
+          <div class="row" th:remove="all">
+            <div class="col-12">
+              <nav class="zpagenav">
+                <ul class="page-ul">
+                  <li class="disabled">&lt;</li>
+                  <li class="">1</li>
+                  <li class="disabled">&gt;</li>
+                </ul>
+                <span class="total">共 5 条</span></nav>
+            </div>
+          </div> <!--分页静态展示，运行时删除-->
+        </div>
+
+      </div> <!-- / class="col-8"-->
+    </div>
     <div class="col-md-12 col-lg-4 pb-2">
       <!--个人信息-->
       <div th:replace="common/myInfo :: myInfo" class="container-fluid font-weight-light">
@@ -531,10 +720,13 @@
   </div>
 </div>
 <!--底部-->
-<footer th:replace="common/footer::footer"></footer>
+<footer th:replace="common/footer::footer" class="container-fluid  bg-light mt-1 py-3">
+  <p class="text-center font-weight-light">达内教育-Java教研部 版权所有<br><a href="http://tedu.cn" rel="nofollow" target="_blank">京ICP备16053980号-3</a>
+  </p>
+</footer>
 <script th:src="@{/js/index.js?v=20200512}"></script>
-<script th:src="@{/js/myinfo.js?v=20200512}" src="static/js/myinfo.js"></script>
-<script th:src="@{/js/tag.js?v=20200512}" src="static/js/tag.js"></script>
+<script th:src="@{/js/myinfo.js?v=20200512}"></script>
+<script th:src="@{/js/tag.js?v=20200512}"></script>
 
 </body>
 </html>

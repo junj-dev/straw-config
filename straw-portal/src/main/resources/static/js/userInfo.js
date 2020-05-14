@@ -1,4 +1,4 @@
-var userInfo=new Vue({
+const userInfo=new Vue({
     el:"#app",
     data:{
         nickname: '', //用户名
@@ -21,11 +21,11 @@ var userInfo=new Vue({
         },
         //加载用户信息
         loadMyInfo:function(){
-            var _this=this;
+            let _this=this;
             $.get("/personal/getUserInfo",function (res) {
                 if(res.code==200){
                     console.log("成功！")
-                    var data=res.data;
+                    let data=res.data;
                     _this.nickname=data.nickname;
                     _this.birthdayStr=data.birthdayStr;
                     _this.selfIntroduction=data.selfIntroduction;
@@ -35,12 +35,12 @@ var userInfo=new Vue({
         },
         onSubmit(evt) {
             evt.preventDefault();
-            var _this=this;
+            let _this=this;
             if(_this.nickname==''){
                 this.alertDia("用户名不能为空！",2000);
                 return;
             }
-            var data={
+            let data={
                 "nickname":_this.nickname,
                 "sex":_this.sex,
                 "birthdayStr":_this.birthdayStr,

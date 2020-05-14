@@ -2,9 +2,9 @@
     'use strict';
     window.addEventListener('load', function() {
         // Fetch all the forms we want to apply custom Bootstrap validation styles to
-        var forms = document.getElementsByClassName('needs-validation');
+        let forms = document.getElementsByClassName('needs-validation');
         // Loop over them and prevent submission
-        var validation = Array.prototype.filter.call(forms, function(form) {
+        let validation = Array.prototype.filter.call(forms, function(form) {
             form.addEventListener('submit', function(event) {
                 if (form.checkValidity() === false) {
                     event.preventDefault();
@@ -40,7 +40,7 @@ $(function () {
 })
 //删除问题
 function deleteQuestion(id) {
-    var msg = "您真的确定要删除吗？\n\n请确认！";
+    let msg = "您真的确定要删除吗？\n\n请确认！";
     if (confirm(msg)){
        $.get("/question/delete/"+id,function (res) {
            if(res.code==200){
@@ -56,7 +56,7 @@ function deleteQuestion(id) {
 function insertImg(imgeList){
     //for(i in imageUrl){
     console.log("imgeList:"+imgeList);
-    for(var i=0;i<imgeList.length;i++){
+    for(let i=0;i<imgeList.length;i++){
         $('#summernote').summernote('insertImage', imgeList[i], 'img');
     }
 
@@ -66,7 +66,7 @@ function insertImg(imgeList){
 
 function UploadFiles(files,func){
     //这里files是因为我设置了可上传多张图片，所以需要依次添加到formData中
-    var formData = new FormData();
+    let formData = new FormData();
     for(f in files){
         formData.append("file", files[f]);
     }
@@ -96,7 +96,7 @@ function UploadFiles(files,func){
         }
     })
 }
-var comment=new Vue({
+const commentVue=new Vue({
     el:"#comment",
     data:{
         content:''
@@ -110,7 +110,7 @@ var comment=new Vue({
         }
     }
 });
-var collectApp=new Vue({
+const collectApp=new Vue({
     el:"#collectApp",
     data:{
         show:false,
@@ -118,7 +118,7 @@ var collectApp=new Vue({
     },
     methods: {
         checkCollectStatus:function () {
-            var _this=this;
+            let _this=this;
             console.log("questionId:"+_this.questionInfo.questionId);
             //检查收藏状态
             $.get("/question/checkCollectStatus/"+_this.questionInfo.questionId,function (res) {
@@ -129,10 +129,10 @@ var collectApp=new Vue({
         },
         //收藏
         collectQuestion:function () {
-            var _this=this;
+            let _this=this;
             $.get("/question/collect/"+_this.questionInfo.questionId,function (res) {
                 if(res.code==200){
-                    var oldStatus=_this.show;
+                    let oldStatus=_this.show;
                     _this.show=!oldStatus;
                 }else {
                     alert(res.msg);
@@ -141,10 +141,10 @@ var collectApp=new Vue({
         },
         //取消收藏
         cancelCollectQuestion:function () {
-            var _this=this;
+            let _this=this;
             $.get("/question/cancelCollect/"+_this.questionInfo.questionId,function (res) {
                 if(res.code==200){
-                    var oldStatus=_this.show;
+                    let oldStatus=_this.show;
                     _this.show=!oldStatus;
                 }else {
                     alert(res.msg);
@@ -153,13 +153,13 @@ var collectApp=new Vue({
         }
     },
     created:function () {
-      var questionInfo=  $("#questionInfo").val();
+      let questionInfo=  $("#questionInfo").val();
         this.questionInfo = JSON.parse($("#questionInfo").val());
         this.checkCollectStatus();
     }
 })
 
-var answerApp = new Vue({
+const answerApp = new Vue({
     el: "#answerApp",
     data: {
         answers: [],
@@ -168,7 +168,7 @@ var answerApp = new Vue({
     methods: {
         //加载问题的回答列表
         loadAnswers: function () {
-            var _this = this;
+            let _this = this;
             $.get("/question/answers/" + _this.questionInfo.questionId, function (res) {
                 if (res.code == 200) {
                     _this.answers = res.data;
@@ -177,8 +177,8 @@ var answerApp = new Vue({
         },
         //删除答案
         deleteAnswer:function(answerId){
-            var msg = "您真的确定要删除吗？\n\n请确认！";
-            var _this=this;
+            let msg = "您真的确定要删除吗？\n\n请确认！";
+            let _this=this;
             if (confirm(msg)){
                 $.get("/answer/delete/"+answerId,function (res) {
                     if(res.code==200){
@@ -191,7 +191,7 @@ var answerApp = new Vue({
         },
         //删除评论
         deleteComment:function (id) {
-            var msg = "您真的确定要删除吗？\n\n请确认！";
+            let msg = "您真的确定要删除吗？\n\n请确认！";
             if (confirm(msg)){
                 $.get("/comment/delete/"+id,function (res) {
                     if(res.code==200){

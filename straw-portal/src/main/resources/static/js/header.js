@@ -1,4 +1,4 @@
-var h=new Vue({
+let h=new Vue({
     el:"#searchApp",
     data:{
         keyword:''
@@ -10,14 +10,14 @@ var h=new Vue({
     }
 });
 
-var noticeModal=new Vue({
+const noticeModal=new Vue({
     el:"#noticeModal",
     data:{
         notices:[]
     },
     methods: {
         loadNotice:function () {
-            var _this=this;
+            let _this=this;
             $.get("/notice/list",function (res) {
                 if(res.code==200){
                     _this.notices=res.data;
@@ -31,14 +31,14 @@ var noticeModal=new Vue({
 
 });
 
-var noticeCount=new Vue({
+const noticeCount=new Vue({
     el:"#noticeCount",
     data:{
         count:''
     },
     methods: {
         countNotice:function () {
-            var _this=this;
+            let _this=this;
             $.get("/notice/count",function (res) {
                 if(res.code==200){
                     _this.count=res.data;
@@ -55,7 +55,7 @@ function delHtmlTag(str){
     return str.replace(/<[^>]+>/g,"");
 }
 //邀请码
-var invitecodeModalVM=new Vue({
+const invitecodeModalVM=new Vue({
     el:"#invitecodeModal",
     data:{
         classrooms:[]
@@ -63,7 +63,7 @@ var invitecodeModalVM=new Vue({
     methods:{
         //加载邀请码
         loadInvitecode:function () {
-            var _this=this;
+            let _this=this;
             $.get("/classroom/list",function (res) {
                 if(res.code==200){
                     _this.classrooms=res.data;

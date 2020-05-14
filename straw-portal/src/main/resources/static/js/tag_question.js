@@ -1,5 +1,5 @@
 
-var vm = new Vue({
+const vm = new Vue({
     el: '#app',
     data: {
         page: 0,  //显示的是哪一页
@@ -15,9 +15,9 @@ var vm = new Vue({
             //here you can do custom state update
 
             this.page = pageNum;
-            var pageSize=this.pageSize;
-            var _this=this;
-            var tagId=$("#tagId").val();
+            let pageSize=this.pageSize;
+            let _this=this;
+            let tagId=$("#tagId").val();
             console.log("tagId:"+tagId);
             $.ajax({
                 type:"post",

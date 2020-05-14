@@ -5,21 +5,21 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>稻草FAQ登录</title>
-  <link href="/img/logo.ico" rel="SHORTCUT ICON"/>
+  <link th:href="@{/img/logo.ico}" href="../static/img/logo.ico" rel="SHORTCUT ICON"/>
   <!-- Tell the browser to be responsive to screen width -->
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <!-- Bootstrap 3.3.7 -->
   <link rel="stylesheet"
-        th:href="@{/css/bootstrap.min.css}">
+        th:href="@{/css/bootstrap.min.css}" href="../static/css/bootstrap.min.css">
   <!-- Font Awesome -->
   <link rel="stylesheet"
-        th:href="@{/css/font-awesome.min.css}">
+        th:href="@{/css/font-awesome.min.css}" href="../static/css/font-awesome.min.css">
   <!-- Ionicons -->
-  <link rel="stylesheet" th:href="@{/css/ionicons.min.css}">
+  <link rel="stylesheet" th:href="@{/css/ionicons.min.css}" href="../static/css/ionicons.min.css">
   <!-- Theme style -->
-  <link rel="stylesheet" th:href="@{/css/AdminLTE.min.css}">
+  <link rel="stylesheet" th:href="@{/css/AdminLTE.min.css}" href="../static/css/AdminLTE.min.css">
   <!-- iCheck -->
-  <link rel="stylesheet" th:href="@{/plugins/iCheck/square/blue.css}">
+  <link rel="stylesheet" th:href="@{/plugins/iCheck/square/blue.css}" href="../static/plugins/iCheck/square/blue.css">
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -42,7 +42,7 @@
     <p class="login-box-msg"><b>用户登录</b></p>
 
     <form action="/login" method="post">
-      <div class="alert alert-danger " th:if="${loginError}">
+      <div class="alert alert-danger"  style="display: none"  th:style="loginError? '':'display: none'" th:if="${loginError}">
         <h4 style="margin-bottom: 0px;"><i class="fa fa-exclamation-triangle">账号或密码错误</i></h4>
       </div>
       <div class="form-group has-feedback">

@@ -1,5 +1,5 @@
 
-var vm = new Vue({
+const vm = new Vue({
     el: '#allNotice',
     data: {
         page: 0,  //显示的是哪一页
@@ -13,8 +13,8 @@ var vm = new Vue({
 
         pageHandler:function (pageNum) {
             this.page = pageNum;
-            var pageSize=this.pageSize;
-            var _this=this;
+            let pageSize=this.pageSize;
+            let _this=this;
             $.ajax({
                 type:"post",
                 url:"/notice/getAll",
