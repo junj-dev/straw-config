@@ -31,9 +31,8 @@
 <head>
   <title>我要提问</title>
   <link th:href="@{/img/logo.ico}" href="../../static/img/logo.ico" rel="SHORTCUT ICON"/>
-  <link rel="stylesheet" type="text/css" th:href="@{/plugins/summernote/summernote.min.css}" href="../../static/plugins/summernote/summernote.min.css">
+  <link rel="stylesheet" th:href="@{/plugins/summernote/summernote.min.css}"  href="../../static/plugins/summernote/summernote.min.css">
 </head>
-
 <body>
 <header th:replace="common/head :: header" class="container-fluid mb-3 bg-light">
   <nav class="navbar navbar-expand-lg   navbar-light bg-light">
@@ -377,8 +376,8 @@
   <p class="text-center font-weight-light">达内教育-Java教研部 版权所有<br><a href="http://tedu.cn" rel="nofollow" target="_blank">京ICP备16053980号-3</a>
   </p>
 </footer>
-<script type="text/javascript" th:src="@{/plugins/summernote/summernote.min.js}" src="../../static/plugins/summernote/summernote.min.css"></script>
-<script type="text/javascript" th:src="@{/plugins/summernote/summernote-zh-CN.min.js}" src="../../static/plugins/summernote/summernote-zh-CN.min.js"></script>
+<script th:src="@{/plugins/summernote/summernote.min.js}" src="../../static/plugins/summernote/summernote.min.js"></script>
+<script th:src="@{/plugins/summernote/summernote-zh-CN.min.js}" src="../../static/plugins/summernote/summernote-zh-CN.min.js"></script>
 <script type="text/javascript" th:src="@{/js/editQuestion.js?v=20200512}" src="../../static/js/editQuestion.js"></script>
 <script type="text/javascript" th:src="@{/js/tag.js?v=20200512}"></script>
 </body>

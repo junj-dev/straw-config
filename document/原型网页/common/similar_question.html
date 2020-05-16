@@ -1,0 +1,28 @@
+<!--类似提问-->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<div class="container-fluid bg-light pb-2" th:fragment="similar_question">
+  <h5 class=" py-3 font-weight-light"><i class="fa fa-list mr-1" aria-hidden="true"></i>相关提问</h5>
+  <div class="list-group list-group-flush" th:each="question : ${similarQuestions}">
+    <a th:href="@{'/question/detail/'+${question.id}}" class="list-group-item list-group-item-action">
+      <div class="d-flex w-100 justify-content-between">
+        <h6 class="mb-1 text-dark" th:text="${question.title}"></h6>
+        <small><span class="badge badge-primary badge-pill"></span></small>
+      </div>
+      <div class="row">
+        <div class="col-7">
+          <small class="mr-2" th:text="|${question.answerCount}条回答|"></small>
+          <small class="text-warning" th:if="${question.status==0}">未回复</small>
+          <small class="text-info" th:if="${question.status==1}">未解决</small>
+          <small class="text-success" th:if="${question.status==2}">已解决</small>
+        </div>
+        <div class="col-5 text-right">
+          <small th:text="|${question.pageViews}浏览量|"></small>
+        </div>
+      </div>
+
+
+    </a>
+  </div>
+</div>
+</html>

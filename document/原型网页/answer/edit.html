@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head th:replace="common/head :: head"></head>
+<head>
+  <title>修改回答</title>
+  <link href="/img/logo.ico" rel="SHORTCUT ICON"/>
+</head>
+<head>
+  <link rel="stylesheet" th:href="@{/plugins/summernote/summernote.min.css}">
+</head>
+<body>
+<header th:replace="common/head :: header"></header>
+<!--引入标签的导航栏-->
+<div th:replace="common/tag::tag"></div>
+<input type="hidden" id="answerId" th:value="${answerId}">
+<div class="container-fluid mt-2 mb-1 bg-light" id="app">
+  <div class="row">
+    <div class="alsrtInfo" :style="{display: displayStsates}" ref="alertMsg">
+      <div class="profPrompt_test">{{aletMsg}}</div>
+    </div>
+  </div>
+  <div class="row">
+
+    <div class="col-8">
+      <h4 class="m-2 p-2 font-weight-light"><i class="fa fa-edit" aria-hidden="true"></i> 修改回答</h4>
+      <template>
+        <div>
+          <b-form @submit="onSubmit" v-if="show">
+
+            <!--富文本编辑器 start-->
+            <div id="summernote">
+            </div><!--富文本编辑器 end-->
+            <b-button type="submit" class="mt-5" variant="primary">提交修改</b-button>
+          </b-form>
+        </div>
+      </template>
+    </div>
+    <div class="col-4 pb-2 ">
+      <!--热点问题-->
+      <div th:replace="common/hotspot :: hostpot"></div>
+    </div>
+  </div>
+</div>
+</div>
+<!--底部-->
+<footer th:replace="common/footer::footer"></footer>
+<script th:src="@{/plugins/summernote/summernote.min.js}"></script>
+<script th:src="@{/plugins/summernote/summernote-zh-CN.min.js}"></script>
+<script th:src="@{/js/editAnswer.js?v=202005010}"></script>
+<script th:src="@{/js/tag.js?v=20200508}"></script>
+</body>
+</html>

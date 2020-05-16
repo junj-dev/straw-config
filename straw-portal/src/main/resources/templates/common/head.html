@@ -1,34 +1,30 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="renderer" content="webkit"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="author" content="Chen HaiBao">
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="renderer" content="webkit" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="author" content="Chen HaiBao">
+	<link rel="stylesheet" th:href="@{/bower_components/bootstrap-4.4.1/dist/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/bower_components/font-awesome-4.7.0/css/font-awesome.min.css}" />
+	<link th:href="@{/css/zpageNav.css}" rel="stylesheet" />
+	<link rel="stylesheet" th:href="@{/css/vueAlert.css}">
+	<script th:src="@{/js/jquery.min.js}"></script>
+	<script th:src="@{/bower_components/poper/dist/popper.min.js}"></script>
+	<script th:src="@{/bower_components/bootstrap-4.4.1/dist/js/bootstrap.min.js}"></script>
+	<link rel="stylesheet" th:href="@{/css/select2.min.css}">
+	<script th:src="@{/js/select2.full.js}"></script>
+	<link type="text/css" rel="stylesheet" href="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.css" />
+	<!-- Load polyfills to support older browsers -->
+	<script src="//polyfill.io/v3/polyfill.min.js?features=es2015%2CIntersectionObserver" crossorigin="anonymous"></script>
+	<!-- Load Vue followed by BootstrapVue -->
+	<script src="//unpkg.com/vue@latest/dist/vue.min.js"></script>
+	<script src="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.js"></script>
+	<!-- Load the following for BootstrapVueIcons support -->
+	<script src="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue-icons.min.js"></script>
+	<script th:src="@{/js/zpageNav.js}"></script>
 
-  <link rel="stylesheet" th:href="@{/bower_components/bootstrap-4.4.1/dist/css/bootstrap.min.css}">
-  <link rel="stylesheet" th:href="@{/bower_components/font-awesome-4.7.0/css/font-awesome.min.css}"/>
-  <link th:href="@{/css/zpageNav.css}" rel="stylesheet"/>
-  <link rel="stylesheet" th:href="@{/css/vueAlert.css}">
-
-  <script th:src="@{/js/jquery.min.js}"></script>
-  <script th:src="@{/bower_components/poper/dist/popper.min.js}"></script>
-  <script th:src="@{/bower_components/bootstrap-4.4.1/dist/js/bootstrap.min.js}"></script>
-  <link rel="stylesheet" th:href="@{/css/select2.min.css}">
-  <script th:src="@{/js/select2.full.js}"></script>
-  <link type="text/css" rel="stylesheet" href="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.css"/>
-  <!-- Load polyfills to support older browsers -->
-  <script th:src="@{/js/polyfill.min.js}"></script>
-  <!-- Load Vue followed by BootstrapVue -->
-  <script src="@{/plugins/vue/vue.min.js}"></script>
-  <script th:src="@{/plugins/vuebootstrap-vue.min.js}"></script>
-  <!-- Load the following for BootstrapVueIcons support -->
-  <script th:src="@{/plugins/vuebootstrap-vue-icons.min.js}"></script>
-  <script th:src="@{/js/zpageNav.js}"></script>
-  <!--防止使用vue标签闪烁-->
-  <link rel="stylesheet" th:href="@{/css/vueCloak.css}">
 </head>
 
 <header class="container-fluid mb-3 bg-light">
