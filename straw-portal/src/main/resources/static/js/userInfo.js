@@ -1,7 +1,7 @@
 const userInfo=new Vue({
     el:"#app",
     data:{
-        nickname: '', //用户名
+        nickname: '张三', //用户名
         birthdayStr: '', //生日
         selfIntroduction: '', //自我介绍
         sex: '', //性别

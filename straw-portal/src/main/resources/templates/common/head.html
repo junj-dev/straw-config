@@ -20,13 +20,12 @@
   <script th:src="@{/js/select2.full.js}"></script>
   <link type="text/css" rel="stylesheet" href="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.css"/>
   <!-- Load polyfills to support older browsers -->
-  <script src="//polyfill.io/v3/polyfill.min.js?features=es2015%2CIntersectionObserver"
-          crossorigin="anonymous"></script>
+  <script th:src="@{/js/polyfill.min.js}"></script>
   <!-- Load Vue followed by BootstrapVue -->
-  <script src="//unpkg.com/vue@latest/dist/vue.min.js"></script>
-  <script src="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.js"></script>
+  <script src="@{/plugins/vue/vue.min.js}"></script>
+  <script th:src="@{/plugins/vuebootstrap-vue.min.js}"></script>
   <!-- Load the following for BootstrapVueIcons support -->
-  <script src="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue-icons.min.js"></script>
+  <script th:src="@{/plugins/vuebootstrap-vue-icons.min.js}"></script>
   <script th:src="@{/js/zpageNav.js}"></script>
   <!--防止使用vue标签闪烁-->
   <link rel="stylesheet" th:href="@{/css/vueCloak.css}">

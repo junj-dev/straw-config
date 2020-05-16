@@ -19,9 +19,9 @@
   <link href="../../static/css/zpageNav.css" rel="stylesheet"/>
   <link rel="stylesheet" href="../../static/css/vueAlert.css">
 
-  <script href="../../static/js/jquery.min.js"></script>
-  <script href="../../static/bower_components/poper/dist/popper.min.js"></script>
-  <script href="../../static/bower_components/bootstrap-4.4.1/dist/js/bootstrap.min.js"></script>
+  <script src="../../static/js/jquery.min.js"></script>
+  <script src="../../static/bower_components/poper/dist/popper.min.js"></script>
+  <script src="../../static/bower_components/bootstrap-4.4.1/dist/js/bootstrap.min.js"></script>
   <link rel="stylesheet" href="../../static/css/select2.min.css">
   <script href="../../static/js/select2.full.js"></script>
   <link type="text/css" rel="stylesheet" href="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.css"/>
@@ -116,19 +116,19 @@
             <div class="tab-pane fade show active row" id="commentNotice" role="tabpanel"
                  aria-labelledby="noAnswer-tab">
               <div class="list-group list-group-flush">
-                <h6 class="text-dark my-2" v-if="notices == undefined ||  notices.length == 0">
+                <h6 class="text-dark my-2" v-show="notices == undefined ||  notices.length == 0" style="display: none">
                   暂无新消息！</h6>
                 <a href="/notice/all" class="text-info"
-                   v-if="notices == undefined ||  notices.length == 0">查看历史消息</a>
+                   v-show="notices == undefined ||  notices.length == 0" style="display: none">查看历史消息</a>
                 <!--只显示10条消息-->
                 <div v-for="(notice,index)  in notices" v-if="index<10"
                      class="list-group-item list-group-item-action">
-                  <span>{{notice.nickName}}</span>
-                  <strong v-if="notice.type=='1'">回答了你的问题</strong>
-                  <strong v-if="notice.type=='0'">评论了您的回答</strong>
-                  <strong v-if="notice.type=='2'">评论了您的提问</strong>
-                  <strong v-if="notice.type=='3'">向您提问</strong>
-                  <a :href="'/notice/detail/'+notice.questionId+'/'+notice.id" class="text-info">{{notice.questionTitle}}</a>
+                  <span v-text="notice.nickName">张三</span>
+                  <strong style="display: none" v-show="notice.type=='1'">回答了你的问题</strong>
+                  <strong v-show="notice.type=='0'">评论了您的回答</strong>
+                  <strong style="display: none" v-show="notice.type=='2'">评论了您的提问</strong>
+                  <strong style="display: none" v-show="notice.type=='3'">向您提问</strong>
+                  <a :href="'/notice/detail/'+notice.questionId+'/'+notice.id" class="text-info" v-text="notice.questionTitle">如何安装Java</a>
                 </div>
               </div>
               <div class="col-12 mt-2 ">
@@ -165,10 +165,10 @@
             </thead>
             <tbody>
             <tr v-for="classroom in classrooms">
-              <th scope="row">{{classroom.id}}</th>
-              <td>{{classroom.name}}</td>
-              <td>{{classroom.inviteCode}}</td>
-              <td>{{classroom.deadline}}</td>
+              <th scope="row" v-text="classroom.id">1</th>
+              <td v-text="classroom.name">JSD1912</td>
+              <td v-text="classroom.inviteCode">JSD1912-697441</td>
+              <td v-text="classroom.deadline">2020-05-18 23:26:05</td>
             </tr>
 
             </tbody>
@@ -258,6 +258,181 @@
           <img :src="'/img/tags/example'+index+'.jpg'"  src="../../static/img/tags/example0.jpg" class="ml-3 border img-fluid rounded" alt="" width="208"
                height="116">
         </div>
+        <div class="media bg-white m-2 p-3" th:remove="all">
+          <div class="media-body w-50">
+            <div class="row">
+              <div class="col-md-12 col-lg-2">
+                <span class="badge badge-pill badge-success">已解决</span>
+              </div>
+              <div class="col-md-12 col-lg-10">
+                <h5 class="mt-0 mb-1 text-truncate">
+                  <a class="text-dark" href="">说一下 HashMap 的实现原理？</a>
+                </h5>
+              </div>
+            </div>
+
+            <div class="font-weight-light text-truncate text-wrap text-justify mb-2"
+                 style="height: 70px;">
+              <p>
+                说一下 HashMap 的实现原理？
+              </p>
+            </div>
+            <div class="row">
+              <div class="col-12 mt-1 text-info">
+                <i class="fa fa-tags" aria-hidden="true"></i>
+                <a class="text-info" :href="'/question/tag_question.html?tagId='+tag.id"
+                   v-for="tag in question.tags"><small>Java基础</small></a>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12 text-right">
+                <ul class="list-inline mb-1 ">
+                  <li class="list-inline-item"><small>小明</small>
+                  </li>
+                  <li class="list-inline-item"><small>50浏览</small>
+                  </li>
+                  <li class="list-inline-item"><small>2天前</small>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+          </div>
+          <!-- / class="media-body"-->
+          <img :src="'/img/tags/example'+index+'.jpg'" src="../../static/img/tags/example1.jpg" class="ml-3 border img-fluid rounded" alt=""
+               width="208" height="116">
+
+        </div>
+        <div class="media bg-white m-2 p-3" th:remove="all">
+          <div class="media-body w-50">
+            <div class="row">
+              <div class="col-md-12 col-lg-2">
+                <span class="badge badge-pill badge-warning">未回复</span>
+              </div>
+              <div class="col-md-12 col-lg-10">
+                <h5 class="mt-0 mb-1 text-truncate">
+                  <a class="text-dark" href="/question/detail">Java如何安装</a>
+                </h5>
+              </div>
+            </div>
+
+            <div class="font-weight-light text-truncate text-wrap text-justify mb-2"
+                 style="height: 70px;">
+              <p>
+                如何下载安装Java呀？
+              </p>
+            </div>
+            <div class="row">
+              <div class="col-12 mt-1 text-info">
+                <i class="fa fa-tags" aria-hidden="true"></i>
+                <a class="text-info" href=""><small>Java基础</small></a>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12 text-right">
+                <ul class="list-inline mb-1 ">
+                  <li class="list-inline-item"><small>天王盖地虎</small>
+                  </li>
+                  <li class="list-inline-item"><small>11浏览</small>
+                  </li>
+                  <li class="list-inline-item"><small>3天前</small>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+          </div>
+          <!-- / class="media-body"-->
+          <img :src="'/img/tags/example'+index+'.jpg'" src="../../static/img/tags/example2.jpg" class="ml-3 border img-fluid rounded" alt=""
+               width="208" height="116">
+        </div>
+        <div class="media bg-white m-2 p-3" th:remove="all">
+          <div class="media-body w-50">
+            <div class="row">
+              <div class="col-md-12 col-lg-2">
+                <span class="badge badge-pill badge-success">已解决</span>
+              </div>
+              <div class="col-md-12 col-lg-10">
+                <h5 class="mt-0 mb-1 text-truncate">
+                  <a class="text-dark" href="">说一下 HashMap 的实现原理？</a>
+                </h5>
+              </div>
+            </div>
+
+            <div class="font-weight-light text-truncate text-wrap text-justify mb-2"
+                 style="height: 70px;">
+              <p>
+                说一下 HashMap 的实现原理？
+              </p>
+            </div>
+            <div class="row">
+              <div class="col-12 mt-1 text-info">
+                <i class="fa fa-tags" aria-hidden="true"></i>
+                <a class="text-info" :href="'/question/tag_question.html?tagId='+tag.id"
+                   v-for="tag in question.tags"><small>Java基础</small></a>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12 text-right">
+                <ul class="list-inline mb-1 ">
+                  <li class="list-inline-item"><small>小明</small>
+                  </li>
+                  <li class="list-inline-item"><small>50浏览</small>
+                  </li>
+                  <li class="list-inline-item"><small>2天前</small>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+          </div>
+          <!-- / class="media-body"-->
+          <img :src="'/img/tags/example'+index+'.jpg'" src="../../static/img/tags/example3.jpg" class="ml-3 border img-fluid rounded" alt=""
+               width="208" height="116">
+        </div>
+        <div class="media bg-white m-2 p-3" th:remove="all">
+          <div class="media-body w-50">
+            <div class="row">
+              <div class="col-md-12 col-lg-2">
+                <span class="badge badge-pill badge-warning">未回复</span>
+              </div>
+              <div class="col-md-12 col-lg-10">
+                <h5 class="mt-0 mb-1 text-truncate">
+                  <a class="text-dark" href="/question/detail">Java如何安装</a>
+                </h5>
+              </div>
+            </div>
+
+            <div class="font-weight-light text-truncate text-wrap text-justify mb-2"
+                 style="height: 70px;">
+              <p>
+                如何下载安装Java呀？
+              </p>
+            </div>
+            <div class="row">
+              <div class="col-12 mt-1 text-info">
+                <i class="fa fa-tags" aria-hidden="true"></i>
+                <a class="text-info" href=""><small>Java基础</small></a>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12 text-right">
+                <ul class="list-inline mb-1 ">
+                  <li class="list-inline-item"><small>天王盖地虎</small>
+                  </li>
+                  <li class="list-inline-item"><small>11浏览</small>
+                  </li>
+                  <li class="list-inline-item"><small>3天前</small>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+          </div>
+          <!-- / class="media-body"-->
+          <img :src="'/img/tags/example'+index+'.jpg'"  src="../../static/img/tags/example4.jpg" class="ml-3 border img-fluid rounded" alt=""
+               width="208" height="116">
+        </div>
         <!-- / class="media"-->
       </div>
       <!-- / class="row"-->
@@ -282,7 +457,179 @@
     <!-- / class="col-8"-->
     <div class="col-4 pb-2">
       <!--热点数据-->
-      <div th:replace="common/hotspot :: hostpot"></div>
+      <div th:replace="common/hotspot :: hostpot" class="container-fluid bg-light mt-5">
+        <h4 class="m-2 p-2 font-weight-light"><i class="fa fa-list" aria-hidden="true"></i> 热点问题</h4>
+        <div class="list-group list-group-flush">
+          <a href="/question/detail/2" class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between">
+              <h6 class="mb-1 text-dark">jdk1.8对sycn做了什么优化？</h6>
+              <small><span class="badge badge-primary badge-pill"></span></small>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <small class="mr-2">1条回答</small>
+                <small class="text-success">已解决</small>
+              </div>
+              <div class="col-6 text-right">
+                <small>51浏览量</small>
+              </div>
+            </div>
+          </a>
+        </div>
+        <div class="list-group list-group-flush">
+          <a href="/question/detail/3" class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between">
+              <h6 class="mb-1 text-dark">Eureka的多活请问那节课有的啊?</h6>
+              <small><span class="badge badge-primary badge-pill"></span></small>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <small class="mr-2">1条回答</small>
+                <small class="text-info">未解决</small>
+              </div>
+              <div class="col-6 text-right">
+                <small>38浏览量</small>
+              </div>
+            </div>
+          </a>
+        </div>
+        <div class="list-group list-group-flush">
+          <a href="/question/detail/7" class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between">
+              <h6 class="mb-1 text-dark">阿里一道面试题</h6>
+              <small><span class="badge badge-primary badge-pill"></span></small>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <small class="mr-2">2条回答</small>
+                <small class="text-success">已解决</small>
+              </div>
+              <div class="col-6 text-right">
+                <small>48浏览量</small>
+              </div>
+            </div>
+          </a>
+        </div>
+        <div class="list-group list-group-flush">
+          <a href="/question/detail/11" class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between">
+              <h6 class="mb-1 text-dark">Feign报错feign.FeignException$BadRequest: ....</h6>
+              <small><span class="badge badge-primary badge-pill"></span></small>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <small class="mr-2">0条回答</small>
+                <small class="text-success">已解决</small>
+              </div>
+              <div class="col-6 text-right">
+                <small>15浏览量</small>
+              </div>
+            </div>
+          </a>
+        </div>
+        <div class="list-group list-group-flush">
+          <a href="/question/detail/12" class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between">
+              <h6 class="mb-1 text-dark">Zookeeper源码分析中的Leader选举问题 java</h6>
+              <small><span class="badge badge-primary badge-pill"></span></small>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <small class="mr-2">0条回答</small>
+                <small class="text-success">已解决</small>
+              </div>
+              <div class="col-6 text-right">
+                <small>13浏览量</small>
+              </div>
+            </div>
+          </a>
+        </div>
+        <div class="list-group list-group-flush">
+          <a href="/question/detail/17" class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between">
+              <h6 class="mb-1 text-dark">curl端口访问不通的问题</h6>
+              <small><span class="badge badge-primary badge-pill"></span></small>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <small class="mr-2">0条回答</small>
+                <small class="text-warning">未回复</small>
+              </div>
+              <div class="col-6 text-right">
+                <small>13浏览量</small>
+              </div>
+            </div>
+          </a>
+        </div>
+        <div class="list-group list-group-flush">
+          <a href="/question/detail/18" class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between">
+              <h6 class="mb-1 text-dark">【大厂面试题2020/3/15】</h6>
+              <small><span class="badge badge-primary badge-pill"></span></small>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <small class="mr-2">2条回答</small>
+                <small class="text-success">已解决</small>
+              </div>
+              <div class="col-6 text-right">
+                <small>34浏览量</small>
+              </div>
+            </div>
+          </a>
+        </div>
+        <div class="list-group list-group-flush">
+          <a href="/question/detail/20" class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between">
+              <h6 class="mb-1 text-dark">数据库已存在的大数据量的表如何进行分表</h6>
+              <small><span class="badge badge-primary badge-pill"></span></small>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <small class="mr-2">1条回答</small>
+                <small class="text-success">已解决</small>
+              </div>
+              <div class="col-6 text-right">
+                <small>17浏览量</small>
+              </div>
+            </div>
+          </a>
+        </div>
+        <div class="list-group list-group-flush">
+          <a href="/question/detail/25" class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between">
+              <h6 class="mb-1 text-dark">求一个优化的薪酬计算方案</h6>
+              <small><span class="badge badge-primary badge-pill"></span></small>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <small class="mr-2">2条回答</small>
+                <small class="text-success">已解决</small>
+              </div>
+              <div class="col-6 text-right">
+                <small>105浏览量</small>
+              </div>
+            </div>
+          </a>
+        </div>
+        <div class="list-group list-group-flush">
+          <a href="/question/detail/26" class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between">
+              <h6 class="mb-1 text-dark">springboot内置tomcat配置疑问</h6>
+              <small><span class="badge badge-primary badge-pill"></span></small>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <small class="mr-2">2条回答</small>
+                <small class="text-info">未解决</small>
+              </div>
+              <div class="col-6 text-right">
+                <small>230浏览量</small>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
     </div>
     <!-- / class="col-4"-->
   </div>

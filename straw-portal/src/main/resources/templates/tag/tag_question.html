@@ -14,11 +14,11 @@
   <link href="../../static/css/zpageNav.css" rel="stylesheet"/>
   <link rel="stylesheet" href="../../static/css/vueAlert.css">
 
-  <script href="../../static/js/jquery.min.js"></script>
-  <script href="../../static/bower_components/poper/dist/popper.min.js"></script>
-  <script href="../../static/bower_components/bootstrap-4.4.1/dist/js/bootstrap.min.js"></script>
+  <script src="../../static/js/jquery.min.js"></script>
+  <script src="../../static/bower_components/poper/dist/popper.min.js"></script>
+  <script src="../../static/bower_components/bootstrap-4.4.1/dist/js/bootstrap.min.js"></script>
   <link rel="stylesheet" href="../../static/css/select2.min.css">
-  <script href="../../static/js/select2.full.js"></script>
+  <script src="../../static/js/select2.full.js"></script>
   <link type="text/css" rel="stylesheet" href="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.css"/>
   <!-- Load polyfills to support older browsers -->
   <script src="//polyfill.io/v3/polyfill.min.js?features=es2015%2CIntersectionObserver"
@@ -114,19 +114,19 @@
             <div class="tab-pane fade show active row" id="commentNotice" role="tabpanel"
                  aria-labelledby="noAnswer-tab">
               <div class="list-group list-group-flush">
-                <h6 class="text-dark my-2" v-if="notices == undefined ||  notices.length == 0">
+                <h6 class="text-dark my-2" v-show="notices == undefined ||  notices.length == 0" style="display: none">
                   暂无新消息！</h6>
                 <a href="/notice/all" class="text-info"
-                   v-if="notices == undefined ||  notices.length == 0">查看历史消息</a>
+                   v-show="notices == undefined ||  notices.length == 0" style="display: none">查看历史消息</a>
                 <!--只显示10条消息-->
                 <div v-for="(notice,index)  in notices" v-if="index<10"
                      class="list-group-item list-group-item-action">
-                  <span>{{notice.nickName}}</span>
-                  <strong v-if="notice.type=='1'">回答了你的问题</strong>
-                  <strong v-if="notice.type=='0'">评论了您的回答</strong>
-                  <strong v-if="notice.type=='2'">评论了您的提问</strong>
-                  <strong v-if="notice.type=='3'">向您提问</strong>
-                  <a :href="'/notice/detail/'+notice.questionId+'/'+notice.id" class="text-info">{{notice.questionTitle}}</a>
+                  <span v-text="notice.nickName">张三</span>
+                  <strong style="display: none" v-show="notice.type=='1'">回答了你的问题</strong>
+                  <strong v-show="notice.type=='0'">评论了您的回答</strong>
+                  <strong style="display: none" v-show="notice.type=='2'">评论了您的提问</strong>
+                  <strong style="display: none" v-show="notice.type=='3'">向您提问</strong>
+                  <a :href="'/notice/detail/'+notice.questionId+'/'+notice.id" class="text-info" v-text="notice.questionTitle">如何安装Java</a>
                 </div>
               </div>
               <div class="col-12 mt-2 ">
@@ -163,10 +163,10 @@
             </thead>
             <tbody>
             <tr v-for="classroom in classrooms">
-              <th scope="row">{{classroom.id}}</th>
-              <td>{{classroom.name}}</td>
-              <td>{{classroom.inviteCode}}</td>
-              <td>{{classroom.deadline}}</td>
+              <th scope="row" v-text="classroom.id">1</th>
+              <td v-text="classroom.name">JSD1912</td>
+              <td v-text="classroom.inviteCode">JSD1912-697441</td>
+              <td v-text="classroom.deadline">2020-05-18 23:26:05</td>
             </tr>
 
             </tbody>
@@ -716,7 +716,10 @@
 </div>
 
 <!--底部-->
-<footer th:replace="common/footer::footer"></footer>
+<footer th:replace="common/footer::footer" class="container-fluid  bg-light mt-1 py-3">
+  <p class="text-center font-weight-light">达内教育-Java教研部 版权所有<br><a href="http://tedu.cn" rel="nofollow" target="_blank">京ICP备16053980号-3</a>
+  </p>
+</footer>
 <script th:src="@{/js/tag_question.js?v=20200512}"></script>
 <script th:src="@{/js/myinfo.js?v=20200512}"></script>
 <script th:src="@{/js/tag.js?v=20200512}"></script>

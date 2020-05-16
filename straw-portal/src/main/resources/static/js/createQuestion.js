@@ -63,8 +63,8 @@ const vm=new Vue( {
             tagNames:[], //所选择的标签
             teacherNames:[], //所选择的老师
             content:'', //问题的内容
-            teachers:[], //所有老师
-            tags:[], //所有标签
+            teachers:['刘苍松','王克晶'], //所有老师
+            tags:['Java基础','Web'], //所有标签
             show: true,
             aletMsg: '',//提示消息
             displayStsates: 'none',//是否隐藏
