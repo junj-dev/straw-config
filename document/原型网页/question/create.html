@@ -510,6 +510,15 @@
 </footer>
 <script src="../static/plugins/summernote/summernote.min.js"></script>
 <script src="../static/plugins/summernote/summernote-zh-CN.min.js"></script>
-<script src="../static/js/createQuestion.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#summernote').summernote({
+            height: 300,
+            tabsize: 2,
+            lang: 'zh-CN'
+        });
+    });
+</script>
+</script>
 </body>
 </html>
