@@ -48,10 +48,10 @@
 
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav">
-        <a class="nav-item nav-link active" href="/">首页</a>
-        <a class="nav-item nav-link active" href="/personal/myQuestions">提问</a>
-        <a class="nav-item nav-link active" href="/personal/mytask.html">任务</a>
-        <a class="nav-item nav-link active" href="/personal/collect">收藏</a>
+        <a class="nav-item nav-link active" th:href="@{/}" href="#">首页</a>
+        <a class="nav-item nav-link active" th:href="@{/personal/myQuestions}"  href="personal/myQuestion.html">我的提问</a>
+        <a class="nav-item nav-link active" th:href="@{/personal/mytask.html}" href="personal/task.html">任务</a>
+        <a class="nav-item nav-link active" th:href="@{/personal/collect}" href="personal/collect.html">收藏</a>
       </div>
 
     </div>
@@ -181,8 +181,6 @@
   </div><!-- 查看邀请码modal-->
 </header>
 
-</header>
-
 <!--引入标签的导航栏-->
 <div class="container-fluid" th:replace="common/tag::tag">
   <ul class="nav font-weight-light">
@@ -301,7 +299,7 @@
 
             </div>
             <!-- / class="media-body"-->
-            <img :src="'/img/tags/example'+index+'.jpg'"  src="../static/img/tags/example0.jpg"
+            <img v-bind:src="'/img/tags/example'+index+'.jpg'"
                  class="ml-3 border img-fluid rounded" alt="" width="208"
                  height="116">
 

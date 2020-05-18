@@ -1,44 +1,28 @@
 <!DOCTYPE html>
-<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
-
-<head th:replace="common/head :: head">
+<html lang="zh-CN">
+<head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="renderer" content="webkit"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="author" content="Chen HaiBao">
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-
-  <link rel="stylesheet" href="../../static/bower_components/bootstrap-4.4.1/dist/css/bootstrap.min.css">
-  <link rel="stylesheet" href="../../static/bower_components/font-awesome-4.7.0/css/font-awesome.min.css"/>
-  <link href="../../static/css/zpageNav.css" rel="stylesheet"/>
-  <link rel="stylesheet" href="../../static/css/vueAlert.css">
-
-  <script src="../../static/js/jquery.min.js"></script>
-  <script src="../../static/bower_components/poper/dist/popper.min.js"></script>
-  <script src="../../static/bower_components/bootstrap-4.4.1/dist/js/bootstrap.min.js"></script>
-  <link rel="stylesheet" href="../../static/css/select2.min.css">
-  <script src="../../static/js/select2.full.js"></script>
-  <link type="text/css" rel="stylesheet" href="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.css"/>
-  <!-- Load polyfills to support older browsers -->
-  <script src="//polyfill.io/v3/polyfill.min.js?features=es2015%2CIntersectionObserver"
-          crossorigin="anonymous"></script>
-  <!-- Load Vue followed by BootstrapVue -->
-  <script src="//unpkg.com/vue@latest/dist/vue.min.js"></script>
-  <script src="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.js"></script>
-  <!-- Load the following for BootstrapVueIcons support -->
-  <script src="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue-icons.min.js"></script>
-</head>
-<head>
   <title>个人资料</title>
-  <link th:href="@{/img/logo.ico}" href="../../static/img/logo.ico" rel="SHORTCUT ICON"/>
+  <link href="../../static/img/logo.ico" rel="SHORTCUT ICON"/>
+  <link rel="stylesheet" href="../static/bower_components/bootstrap-4.4.1/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../static/bower_components/font-awesome-4.7.0/css/font-awesome.min.css"/>
+  <script src="../static/js/jquery.min.js"></script>
+  <script src="../static/bower_components/poper/dist/popper.min.js"></script>
+  <script src="../static/bower_components/bootstrap-4.4.1/dist/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="../static/css/select2.min.css">
+  <script src="../static/js/select2.full.js"></script>
 </head>
 <body>
-<header th:replace="common/head :: header" class="container-fluid mb-3 bg-light">
+<header class="container-fluid mb-3 bg-light">
+
   <nav class="navbar navbar-expand-lg   navbar-light bg-light">
-    <a class="navbar-brand" href="/">
-      <img alt="稻草问答" src="../../static/img/straw_logo_239x80.png" height="33">
+    <a class="navbar-brand" href="../index.html"> <img alt="稻草问答"
+                                                       src="../static/img/straw_logo_239x80.png" height="33">
     </a>
     <button class="navbar-toggler" type="button"
             data-toggle="collapse" data-target="#navbarNavAltMarkup"
@@ -49,25 +33,24 @@
 
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav">
-        <a class="nav-item nav-link active" href="/">首页</a>
-        <a class="nav-item nav-link active" href="/personal/myQuestions">提问</a>
-        <a class="nav-item nav-link active" href="/personal/mytask.html">任务</a>
-        <a class="nav-item nav-link active" href="/personal/collect">收藏</a>
+        <a class="nav-item nav-link active" href="../index.html">首页</a>
+        <a class="nav-item nav-link active" href="../personal/myQuestion.html">提问</a>
+        <a class="nav-item nav-link active" href="../personal/task.html">任务</a>
+        <a class="nav-item nav-link active" href="../personal/collect.html">收藏</a>
       </div>
 
     </div>
 
     <div class="form-inline my-2 my-lg-0" id="searchApp">
-      <input class="form-control form-control-sm mr-sm-2 rounded-pill" type="search" placeholder="Search"
-             aria-label="Search">
-      <button class="btn btn-sm btn-outline-secondary my-2 my-sm-0 rounded-pill" type="button"><i
+      <input class="form-control form-control-sm mr-sm-2 rounded-pill" v-model="keyword" type="search"
+             placeholder="Search"  aria-label="Search">
+      <button class="btn btn-sm btn-outline-secondary my-2 my-sm-0 rounded-pill" type="button" ><i
               class="fa fa-search" aria-hidden="true"></i></button>
     </div>
-    <a type="button" class="btn btn-outline-primary btn-sm mx-2" href="/question/create.html">我要提问</a>
+    <a type="button" class="btn btn-outline-primary btn-sm mx-2" href="../question/create.html">我要提问</a>
     <div id="noticeCount">
-      <button type="button" class="btn btn-default btn-xs fa fa-bell-o" data-toggle="modal"
-              data-target="#noticeModal">
-        <span class="badge badge-warning badge-pill" v-if="count>0">10</span>
+      <button type="button" class="btn btn-default btn-xs fa fa-bell-o" data-toggle="modal" data-target="#noticeModal">
+        <span class="badge badge-warning badge-pill">2</span>
       </button>
     </div>
     <div class="dropdown   py-1 mr-3 ">
@@ -77,17 +60,17 @@
              src="http://39.97.229.107/group1/M00/00/06/rBF9h15rOE-ARERBAABVIbenIVo282.jpg">
       </button>
       <div class="dropdown-menu dropdown-menu-sm-left text-sm border-0" aria-labelledby="dropdownMenu2">
-        <a class="dropdown-item " href="/personal/myinfo.html">账号设置</a>
+        <a class="dropdown-item " href="../personal/userInfo.html">账号设置</a>
         <div class="dropdown-divider"></div>
         <button data-toggle="modal" data-target="#invitecodeModal" class="dropdown-item btn-default">查看邀请码
         </button>
         <div class="dropdown-divider"></div>
-        <a class="dropdown-item " href="/logout">注销登录</a>
+        <a class="dropdown-item " href="../login.html">注销登录</a>
       </div>
     </div>
   </nav>
   <!-- 消息modal-->
-  <div class="modal fade" id="noticeModal" tabindex="-1" role="dialog" aria-labelledby="noticeModal"
+  <div class="modal fade" id="noticeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
        aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -104,8 +87,8 @@
               </a>
             </li>
             <li>
-              <a href="#announcement" class="nav-link text-black" data-toggle="tab"
-                 aria-controls="announcement" aria-selected="true">
+              <a href="#announcement" class="nav-link text-black" data-toggle="tab" aria-controls="announcement"
+                 aria-selected="true">
                 公告
               </a>
             </li>
@@ -115,24 +98,20 @@
             <div class="tab-pane fade show active row" id="commentNotice" role="tabpanel"
                  aria-labelledby="noAnswer-tab">
               <div class="list-group list-group-flush">
-                <h6 class="text-dark my-2" v-show="notices == undefined ||  notices.length == 0" style="display: none">
-                  暂无新消息！</h6>
-                <a href="/notice/all" class="text-info"
-                   v-show="notices == undefined ||  notices.length == 0" style="display: none">查看历史消息</a>
+                <h6 class="text-dark my-2" style="display: none" >暂无新消息！</h6>
+                <a href="../notice/all.html" style="display: none" class="text-info" >查看历史消息</a>
                 <!--只显示10条消息-->
-                <div v-for="(notice,index)  in notices" v-if="index<10"
-                     class="list-group-item list-group-item-action">
-                  <span v-text="notice.nickName">张三</span>
-                  <strong style="display: none" v-show="notice.type=='1'">回答了你的问题</strong>
-                  <strong v-show="notice.type=='0'">评论了您的回答</strong>
-                  <strong style="display: none" v-show="notice.type=='2'">评论了您的提问</strong>
-                  <strong style="display: none" v-show="notice.type=='3'">向您提问</strong>
-                  <a :href="'/notice/detail/'+notice.questionId+'/'+notice.id" class="text-info" v-text="notice.questionTitle">如何安装Java</a>
+                <div class="list-group-item list-group-item-action">
+                  <span>张三</span>
+                  <strong style="display: none">回答了你的问题</strong>
+                  <strong style="display: none">评论了您的回答</strong>
+                  <strong style="display: none">评论了您的提问</strong>
+                  <strong>向您提问</strong>
+                  <a href="" class="text-info">Java中方法重载和重写的区别</a>
                 </div>
               </div>
               <div class="col-12 mt-2 ">
-                <a href="/notice/all" class="text-info"
-                   v-if="notices != undefined &&  notices.length > 0">查看全部消息</a>
+                <a href="../notice/all.html" class="text-info">查看全部消息</a>
               </div>
             </div>
             <div class="tab-pane fade row" id="announcement" role="tabpanel" aria-labelledby="unSolve-tab">
@@ -163,13 +142,30 @@
             </tr>
             </thead>
             <tbody>
-            <tr v-for="classroom in classrooms">
-              <th scope="row" v-text="classroom.id">1</th>
-              <td v-text="classroom.name">JSD1912</td>
-              <td v-text="classroom.inviteCode">JSD1912-697441</td>
-              <td v-text="classroom.deadline">2020-05-18 23:26:05</td>
+            <tr>
+              <th scope="row">1</th>
+              <td>JSD1912</td>
+              <td>JSD1912-697441</td>
+              <td>2020-05-18 23:26:05</td>
             </tr>
-
+            <tr>
+              <th scope="row">2</th>
+              <td>JSD2001</td>
+              <td>JSD2001-216850</td>
+              <td>2020-05-18 23:26:05</td>
+            </tr>
+            <tr>
+              <th scope="row">3</th>
+              <td>JSD2002</td>
+              <td>JSD2002-563302</td>
+              <td>2020-05-18 23:26:05</td>
+            </tr>
+            <tr>
+              <th scope="row">4</th>
+              <td>JSD2003	</td>
+              <td>JSD2003-285267</td>
+              <td>2020-05-18 23:26:05</td>
+            </tr>
             </tbody>
           </table>
 
@@ -186,243 +182,222 @@
     <div class="col-3">
       <ul class="list-group">
         <li class="list-group-item active text-center"><i class="fa fa-user mr-2"></i>我的资料</li>
-        <!--  <li class="list-group-item text-center"><i class="fa fa-phone  mr-2"></i>更改手机号</li>-->
-        <li class="list-group-item text-center" onclick="location.href='/personal/resetPassword.html'"><i
+        <li class="list-group-item text-center" onclick="location.href='../personal/resetPassword.html'"><i
                 class="fa fa-lock  mr-2"></i>修改密码
         </li>
       </ul>
     </div>
     <!--个人资料-->
-    <div class="col-5 " id="app" v-cloak>
-      <div class="col-lg-12">
-        <div class="alsrtInfo" style="display: none" :style="{display: displayStsates}" ref="alertMsg">
-          <div class="profPrompt_test" v-text="aletMsg"></div>
+    <div class="col-5" >
+      <form>
+        <div class="form-group">
+          <label for="nickname">用户名：</label>
+          <input type="email" class="form-control" name="nickname" id="nickname" >
         </div>
-      </div>
-      <template>
-        <div>
-          <b-form @submit="onSubmit" v-if="show">
-            <b-form-group
-                    id="input-group-1"
-                    label="用户名:"
-                    label-for="input-1"
-
-            >
-              <b-form-input
-                      id="input-1"
-                      v-model="nickname"
-                      type="text"
-                      aria-describedby="input-live-feedback"
-                      :state="nameState"
-              ></b-form-input>
-              <!-- This will only be shown if the preceding input has an invalid state -->
-              <b-form-invalid-feedback id="input-live-feedback">
-                用户名字数在2到30之间
-              </b-form-invalid-feedback>
-
-            </b-form-group>
-            <b-form-group label="性别：">
-              <b-form-radio-group id="radio-group-2" v-model="sex" name="radio-sub-component">
-                <b-form-radio value="男">男</b-form-radio>
-                <b-form-radio value="女">女</b-form-radio>
-                <b-form-radio value="保密">保密</b-form-radio>
-              </b-form-radio-group>
-            </b-form-group>
-
-            <b-form-group id="input-group-2" label="生日：" label-for="input-2">
-              <b-form-input
-                      id="input-2"
-                      v-model="birthdayStr"
-                      type="date"
-              ></b-form-input>
-            </b-form-group>
-
-            <b-form-group id="input-group-3" label="自我介绍:" label-for="input-3">
-              <b-form-textarea
-                      id="input-3"
-                      v-model="selfIntroduction"
-                      rows="3"
-                      max-rows="6"
-              ></b-form-textarea>
-            </b-form-group>
-
-
-            <b-button type="submit" class="w-100" variant="primary">保存</b-button>
-          </b-form>
-
+        <label>性别：</label>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="sex" id="inlineRadio1" value="option1">
+          <label class="form-check-label" for="inlineRadio1">男</label>
         </div>
-      </template>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="sex" id="inlineRadio2" value="option2">
+          <label class="form-check-label" for="inlineRadio2">女</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="sex" id="inlineRadio3" value="option2">
+          <label class="form-check-label" for="inlineRadio2">保密</label>
+        </div>
+        <div class="form-group mt-2">
+          <label for="birthday">生日：</label>
+          <input type="date" class="form-control" id="birthday">
+        </div>
+        <div class="form-group">
+          <label for="selfIntroduction">自我介绍：</label>
+          <textarea class="form-control" id="selfIntroduction" rows="5"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary w-100">保存</button>
+      </form>
     </div><!--个人资料-end--->
     <div class="col-4 pb-2 ">
       <!--热点数据-->
-      <div th:replace="common/hotspot :: hostpot" class="container-fluid bg-light mt-5">
+      <div class="container-fluid bg-light mt-5">
         <h4 class="m-2 p-2 font-weight-light"><i class="fa fa-list" aria-hidden="true"></i> 热点问题</h4>
-        <div class="list-group list-group-flush">
-          <a href="/question/detail/2" class="list-group-item list-group-item-action">
+        <div class="list-group list-group-flush" >
+          <a href="" class="list-group-item list-group-item-action">
             <div class="d-flex w-100 justify-content-between">
-              <h6 class="mb-1 text-dark">jdk1.8对sycn做了什么优化？</h6>
-              <small><span class="badge badge-primary badge-pill"></span></small>
+              <h6 class="mb-1 text-dark">equals和==的区别是啥？</h6>
             </div>
             <div class="row">
               <div class="col-6">
                 <small class="mr-2">1条回答</small>
+                <small class="text-warning" style="display: none">未回复</small>
+                <small class="text-info" style="display: none">未解决</small>
                 <small class="text-success">已解决</small>
               </div>
               <div class="col-6 text-right">
-                <small>51浏览量</small>
+                <small>10浏览</small>
               </div>
             </div>
           </a>
         </div>
-        <div class="list-group list-group-flush">
-          <a href="/question/detail/3" class="list-group-item list-group-item-action">
+        <div class="list-group list-group-flush" >
+          <a href="" class="list-group-item list-group-item-action">
             <div class="d-flex w-100 justify-content-between">
-              <h6 class="mb-1 text-dark">Eureka的多活请问那节课有的啊?</h6>
-              <small><span class="badge badge-primary badge-pill"></span></small>
+              <h6 class="mb-1 text-dark">equals和==的区别是啥？</h6>
             </div>
             <div class="row">
               <div class="col-6">
                 <small class="mr-2">1条回答</small>
-                <small class="text-info">未解决</small>
-              </div>
-              <div class="col-6 text-right">
-                <small>38浏览量</small>
-              </div>
-            </div>
-          </a>
-        </div>
-        <div class="list-group list-group-flush">
-          <a href="/question/detail/7" class="list-group-item list-group-item-action">
-            <div class="d-flex w-100 justify-content-between">
-              <h6 class="mb-1 text-dark">阿里一道面试题</h6>
-              <small><span class="badge badge-primary badge-pill"></span></small>
-            </div>
-            <div class="row">
-              <div class="col-6">
-                <small class="mr-2">2条回答</small>
+                <small class="text-warning" style="display: none">未回复</small>
+                <small class="text-info" style="display: none">未解决</small>
                 <small class="text-success">已解决</small>
               </div>
               <div class="col-6 text-right">
-                <small>48浏览量</small>
+                <small>10浏览</small>
               </div>
             </div>
           </a>
         </div>
-        <div class="list-group list-group-flush">
-          <a href="/question/detail/11" class="list-group-item list-group-item-action">
+        <div class="list-group list-group-flush" >
+          <a href="" class="list-group-item list-group-item-action">
             <div class="d-flex w-100 justify-content-between">
-              <h6 class="mb-1 text-dark">Feign报错feign.FeignException$BadRequest: ....</h6>
-              <small><span class="badge badge-primary badge-pill"></span></small>
-            </div>
-            <div class="row">
-              <div class="col-6">
-                <small class="mr-2">0条回答</small>
-                <small class="text-success">已解决</small>
-              </div>
-              <div class="col-6 text-right">
-                <small>15浏览量</small>
-              </div>
-            </div>
-          </a>
-        </div>
-        <div class="list-group list-group-flush">
-          <a href="/question/detail/12" class="list-group-item list-group-item-action">
-            <div class="d-flex w-100 justify-content-between">
-              <h6 class="mb-1 text-dark">Zookeeper源码分析中的Leader选举问题 java</h6>
-              <small><span class="badge badge-primary badge-pill"></span></small>
-            </div>
-            <div class="row">
-              <div class="col-6">
-                <small class="mr-2">0条回答</small>
-                <small class="text-success">已解决</small>
-              </div>
-              <div class="col-6 text-right">
-                <small>13浏览量</small>
-              </div>
-            </div>
-          </a>
-        </div>
-        <div class="list-group list-group-flush">
-          <a href="/question/detail/17" class="list-group-item list-group-item-action">
-            <div class="d-flex w-100 justify-content-between">
-              <h6 class="mb-1 text-dark">curl端口访问不通的问题</h6>
-              <small><span class="badge badge-primary badge-pill"></span></small>
-            </div>
-            <div class="row">
-              <div class="col-6">
-                <small class="mr-2">0条回答</small>
-                <small class="text-warning">未回复</small>
-              </div>
-              <div class="col-6 text-right">
-                <small>13浏览量</small>
-              </div>
-            </div>
-          </a>
-        </div>
-        <div class="list-group list-group-flush">
-          <a href="/question/detail/18" class="list-group-item list-group-item-action">
-            <div class="d-flex w-100 justify-content-between">
-              <h6 class="mb-1 text-dark">【大厂面试题2020/3/15】</h6>
-              <small><span class="badge badge-primary badge-pill"></span></small>
-            </div>
-            <div class="row">
-              <div class="col-6">
-                <small class="mr-2">2条回答</small>
-                <small class="text-success">已解决</small>
-              </div>
-              <div class="col-6 text-right">
-                <small>34浏览量</small>
-              </div>
-            </div>
-          </a>
-        </div>
-        <div class="list-group list-group-flush">
-          <a href="/question/detail/20" class="list-group-item list-group-item-action">
-            <div class="d-flex w-100 justify-content-between">
-              <h6 class="mb-1 text-dark">数据库已存在的大数据量的表如何进行分表</h6>
-              <small><span class="badge badge-primary badge-pill"></span></small>
+              <h6 class="mb-1 text-dark">equals和==的区别是啥？</h6>
             </div>
             <div class="row">
               <div class="col-6">
                 <small class="mr-2">1条回答</small>
+                <small class="text-warning" style="display: none">未回复</small>
+                <small class="text-info" style="display: none">未解决</small>
                 <small class="text-success">已解决</small>
               </div>
               <div class="col-6 text-right">
-                <small>17浏览量</small>
+                <small>10浏览</small>
               </div>
             </div>
           </a>
         </div>
-        <div class="list-group list-group-flush">
-          <a href="/question/detail/25" class="list-group-item list-group-item-action">
+        <div class="list-group list-group-flush" >
+          <a href="" class="list-group-item list-group-item-action">
             <div class="d-flex w-100 justify-content-between">
-              <h6 class="mb-1 text-dark">求一个优化的薪酬计算方案</h6>
-              <small><span class="badge badge-primary badge-pill"></span></small>
+              <h6 class="mb-1 text-dark">equals和==的区别是啥？</h6>
             </div>
             <div class="row">
               <div class="col-6">
-                <small class="mr-2">2条回答</small>
+                <small class="mr-2">1条回答</small>
+                <small class="text-warning" style="display: none">未回复</small>
+                <small class="text-info" style="display: none">未解决</small>
                 <small class="text-success">已解决</small>
               </div>
               <div class="col-6 text-right">
-                <small>105浏览量</small>
+                <small>10浏览</small>
               </div>
             </div>
           </a>
         </div>
-        <div class="list-group list-group-flush">
-          <a href="/question/detail/26" class="list-group-item list-group-item-action">
+        <div class="list-group list-group-flush" >
+          <a href="" class="list-group-item list-group-item-action">
             <div class="d-flex w-100 justify-content-between">
-              <h6 class="mb-1 text-dark">springboot内置tomcat配置疑问</h6>
-              <small><span class="badge badge-primary badge-pill"></span></small>
+              <h6 class="mb-1 text-dark">equals和==的区别是啥？</h6>
             </div>
             <div class="row">
               <div class="col-6">
-                <small class="mr-2">2条回答</small>
-                <small class="text-info">未解决</small>
+                <small class="mr-2">1条回答</small>
+                <small class="text-warning" style="display: none">未回复</small>
+                <small class="text-info" style="display: none">未解决</small>
+                <small class="text-success">已解决</small>
               </div>
               <div class="col-6 text-right">
-                <small>230浏览量</small>
+                <small>10浏览</small>
+              </div>
+            </div>
+          </a>
+        </div>
+        <div class="list-group list-group-flush" >
+          <a href="" class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between">
+              <h6 class="mb-1 text-dark">equals和==的区别是啥？</h6>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <small class="mr-2">1条回答</small>
+                <small class="text-warning" style="display: none">未回复</small>
+                <small class="text-info" style="display: none">未解决</small>
+                <small class="text-success">已解决</small>
+              </div>
+              <div class="col-6 text-right">
+                <small>10浏览</small>
+              </div>
+            </div>
+          </a>
+        </div>
+        <div class="list-group list-group-flush" >
+          <a href="" class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between">
+              <h6 class="mb-1 text-dark">equals和==的区别是啥？</h6>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <small class="mr-2">1条回答</small>
+                <small class="text-warning" style="display: none">未回复</small>
+                <small class="text-info" style="display: none">未解决</small>
+                <small class="text-success">已解决</small>
+              </div>
+              <div class="col-6 text-right">
+                <small>10浏览</small>
+              </div>
+            </div>
+          </a>
+        </div>
+        <div class="list-group list-group-flush" >
+          <a href="" class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between">
+              <h6 class="mb-1 text-dark">equals和==的区别是啥？</h6>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <small class="mr-2">1条回答</small>
+                <small class="text-warning" style="display: none">未回复</small>
+                <small class="text-info" style="display: none">未解决</small>
+                <small class="text-success">已解决</small>
+              </div>
+              <div class="col-6 text-right">
+                <small>10浏览</small>
+              </div>
+            </div>
+          </a>
+        </div>
+        <div class="list-group list-group-flush" >
+          <a href="" class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between">
+              <h6 class="mb-1 text-dark">equals和==的区别是啥？</h6>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <small class="mr-2">1条回答</small>
+                <small class="text-warning" style="display: none">未回复</small>
+                <small class="text-info" style="display: none">未解决</small>
+                <small class="text-success">已解决</small>
+              </div>
+              <div class="col-6 text-right">
+                <small>10浏览</small>
+              </div>
+            </div>
+          </a>
+        </div>
+        <div class="list-group list-group-flush" >
+          <a href="" class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between">
+              <h6 class="mb-1 text-dark">equals和==的区别是啥？</h6>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <small class="mr-2">1条回答</small>
+                <small class="text-warning" style="display: none">未回复</small>
+                <small class="text-info" style="display: none">未解决</small>
+                <small class="text-success">已解决</small>
+              </div>
+              <div class="col-6 text-right">
+                <small>10浏览</small>
               </div>
             </div>
           </a>
@@ -432,11 +407,9 @@
   </div>
 </div>
 <!--底部-->
-<footer th:replace="common/footer::footer" class="container-fluid  bg-light mt-1 py-3">
+<footer class="container-fluid  bg-light mt-1 py-3">
   <p class="text-center font-weight-light">达内教育-Java教研部 版权所有<br><a href="http://tedu.cn" rel="nofollow" target="_blank">京ICP备16053980号-3</a>
   </p>
 </footer>
-<script th:src="@{/js/userInfo.js?v=20200512}" src="../../static/js/userInfo.js"></script>
-
 </body>
 </html>

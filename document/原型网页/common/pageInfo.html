@@ -1,10 +1,14 @@
-<!--分页信息-->
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
-<div class="col-12" th:fragment="pageInfo">
-  <!--显示分页信息-->
-  <zpagenav v-bind:page="page" v-bind:page-size="pageSize" v-bind:total="total"
-            v-bind:max-page="maxPage" v-on:pagehandler="pageHandler">
-  </zpagenav>
+<div class="row mt-2">
+  <div class="col-6 offset-3">
+    <nav aria-label="Page navigation example">
+      <ul class="pagination">
+        <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+        <li class="page-item"><a class="page-link" href="#">1</a></li>
+        <li class="page-item"><a class="page-link" href="#">2</a></li>
+        <li class="page-item"><a class="page-link" href="#">3</a></li>
+        <li class="page-item"><a class="page-link" href="#">Next</a></li>
+      </ul>
+    </nav>
+  </div>
+
 </div>
-</html>

@@ -1,37 +1,25 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
-<head th:replace="common/head :: head">
+<head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="renderer" content="webkit"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="author" content="Chen HaiBao">
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-
-  <link rel="stylesheet" href="../../static/bower_components/bootstrap-4.4.1/dist/css/bootstrap.min.css">
-  <link rel="stylesheet" href="../../static/bower_components/font-awesome-4.7.0/css/font-awesome.min.css"/>
-  <link href="../../static/css/zpageNav.css" rel="stylesheet"/>
-  <link rel="stylesheet" href="../../static/css/vueAlert.css">
-
-  <script src="../../static/js/jquery.min.js"></script>
-  <script src="../../static/bower_components/poper/dist/popper.min.js"></script>
-  <script src="../../static/bower_components/bootstrap-4.4.1/dist/js/bootstrap.min.js"></script>
-  <link rel="stylesheet" href="../../static/css/select2.min.css">
-  <script src="../../static/js/select2.full.js"></script>
-  <link type="text/css" rel="stylesheet" href="../../static/plugins/vue/bootstrap-vue.min.css"/>
-  <!-- Load polyfills to support older browsers -->
-  <script src="../../static/js/polyfill.min.js"></script>
-  <!-- Load Vue followed by BootstrapVue -->
-  <script src="../../static/plugins/vue/vue.min.js"></script>
-  <script src="../../static/plugins/vue/bootstrap-vue.min.js"></script>
-  <!-- Load the following for BootstrapVueIcons support -->
-  <script src="../../static/plugins/vue/bootstrap-vue-icons.min.js"></script>
+  <link rel="stylesheet" href="../static/bower_components/bootstrap-4.4.1/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../static/bower_components/font-awesome-4.7.0/css/font-awesome.min.css"/>
+  <script src="../static/js/jquery.min.js"></script>
+  <script src="../static/bower_components/poper/dist/popper.min.js"></script>
+  <script src="../static/bower_components/bootstrap-4.4.1/dist/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="../static/css/select2.min.css">
+  <script src="../static/js/select2.full.js"></script>
 </head>
 <head>
   <title>我要提问</title>
-  <link th:href="@{/img/logo.ico}" href="../../static/img/logo.ico" rel="SHORTCUT ICON"/>
-  <link rel="stylesheet" type="text/css" th:href="@{/plugins/summernote/summernote.min.css}" href="../../static/plugins/summernote/summernote.min.css">
+  <link  href="../static/img/logo.ico" rel="SHORTCUT ICON"/>
+  <link rel="stylesheet" type="text/css"  href="../static/plugins/summernote/summernote.min.css">
 </head>
 
 <body>
