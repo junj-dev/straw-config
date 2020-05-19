@@ -1,6 +1,7 @@
 package cn.tedu.straw.portal.domian.vo;
 
 import lombok.Data;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 /**
  * @Description: 该类在checkbox展示
@@ -12,4 +13,5 @@ import lombok.Data;
 public class TeacherVo {
     private String text;
     private Integer value;
+
 }
