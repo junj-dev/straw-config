@@ -11,7 +11,7 @@
  Target Server Version : 50725
  File Encoding         : 65001
 
- Date: 19/05/2020 15:14:30
+ Date: 20/05/2020 11:31:37
 */
 
 SET NAMES utf8mb4;
@@ -405,7 +405,7 @@ CREATE TABLE `question`  (
 INSERT INTO `question` VALUES (1, '大量的if-eles要怎么优化?', '像这样有大量的if-else做判断，而且后续还会新增，每次新增都要再加一个if-else,有没有大佬来指导一下工作', '同学4', 13, '2020-03-09 14:39:25', NULL, 1, 69, 1, 1);
 INSERT INTO `question` VALUES (2, 'jdk1.8对sycn做了什么优化？', 'jdk1.8对sycn做了什么优化？', '同学4', 13, '2020-03-09 15:12:28', NULL, 2, 51, 1, 0);
 INSERT INTO `question` VALUES (3, 'Eureka的多活请问那节课有的啊?', '双活系统是怎么做的啊?哪里有啊?谢谢', '同学4', 13, '2020-03-09 23:39:39', NULL, 1, 38, 1, 0);
-INSERT INTO `question` VALUES (4, '寻求mybatis二级缓存失效的解决方案', '我有一点疑问 ，关于 mybatis二级缓存的，因为二级缓存运用域在相同的namespace上，这时候这个namespace里面做了增删改，二级缓存就失效了，那我们可不可以采用多namespace在代码层面实现读写分离，也就是cqrs，这样是不是就可以避免二级缓存失效的问题', '同学4', 13, '2020-03-10 12:05:03', NULL, 0, 115, 0, 0);
+INSERT INTO `question` VALUES (4, '寻求mybatis二级缓存失效的解决方案', '我有一点疑问 ，关于 mybatis二级缓存的，因为二级缓存运用域在相同的namespace上，这时候这个namespace里面做了增删改，二级缓存就失效了，那我们可不可以采用多namespace在代码层面实现读写分离，也就是cqrs，这样是不是就可以避免二级缓存失效的问题', '同学4', 13, '2020-03-10 12:05:03', NULL, 0, 116, 0, 0);
 INSERT INTO `question` VALUES (5, 'springIOC容器中的bean在什么时候被实例化和初始化？', '容器中的bean在被使用之前是不是都是没有初始化的？那有没有被实例化呢？还是说被使用之前一直都是以beandefinition的实例保存在容器中，直到getBean方法被调用才会实例化和初始化？', '同学4', 13, '2020-03-10 12:06:20', NULL, 0, 68, 0, 0);
 INSERT INTO `question` VALUES (6, 'ES做全文搜索会过滤特殊符号怎么办?', 'boolQuery.should(QueryBuilders.matchPhrasePrefixQuery(s.fieldName(), word).boost(s.boostScore()));\r\n或\r\nboolQuery.should(QueryBuilders.matchPhraseQuery(s.fieldName(), word).boost(s.boostScore()));\r\n\r\n使用这个方法搜索 x2-2 结果搜出来的是x22的结果 - 被屏蔽掉\r\n\r\n使用了转义也没有用 QueryParser.escape(word.toLowerCase())', '同学4', 13, '2020-03-10 12:08:20', NULL, 1, 127, 0, 0);
 INSERT INTO `question` VALUES (7, '阿里一道面试题', '题目：找出用户最爱歌曲风格\r\n假设有个用户唱歌的数据结构: Map<String, List> userSongs。 key是用户名，list是用户最近唱歌列表。\r\n有个歌曲风格的数据结构: Map<String, List> songGenres。 key是歌曲风格，list是歌曲列表。\r\n任务是返回一个用户最喜欢的歌曲风格map: Map<String, List>。 key是用户名，list是歌曲风格列表，list中的value是用户听的最多个歌曲对应的歌曲风格。', '同学4', 13, '2020-03-10 16:57:53', NULL, 2, 48, 1, 0);
