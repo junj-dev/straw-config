@@ -2,19 +2,25 @@ package cn.tedu.straw.portal.controller;
 
 
 import cn.tedu.straw.common.StrawResult;
+import cn.tedu.straw.common.constant.KafkaTopic;
+import cn.tedu.straw.common.util.ExceptionUtil;
 import cn.tedu.straw.portal.exception.BusinessException;
 import cn.tedu.straw.portal.exception.PageNotExistException;
 import com.fasterxml.jackson.databind.util.JSONPObject;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * 自定义全局异常处理
@@ -23,20 +29,25 @@ import java.io.PrintWriter;
 @Slf4j                   //记录日志
 public class CustomExceptionHandler {
 
+    @Resource
+    private KafkaTemplate<String, String> kafkaTemplate;
+
+
+
     //当系统中出现运行时异常时生效
     //区分 系统正常异常和跨域异常
     //说明:跨域访问时用户一定会添加callback参数
     @ExceptionHandler(RuntimeException.class)
     public Object error(Exception exception, HttpServletRequest request) {
+        //把错误信息发送到kafka
+        kafkaTemplate.send(KafkaTopic.RUNTIME_EXCEPTION, ExceptionUtil.getStackTraceInfo(exception));
         String callback = request.getParameter("callback");
         if (StringUtils.isEmpty(callback)) {
-            exception.printStackTrace();
-            log.error(exception.getMessage());
+            log.error(exception.getMessage(),exception);
             return new StrawResult().failed("服务繁忙，请稍后重试！");
         } else {
             //用户跨域请求
-            exception.printStackTrace();
-            log.error(exception.getMessage());
+            log.error(exception.getMessage(),exception);
             return new JSONPObject(callback, new StrawResult().failed("服务繁忙，请稍后重试！"));
         }
     }
@@ -50,8 +61,7 @@ public class CustomExceptionHandler {
             return new StrawResult().failed(exception.getMessage());
         } else {
             //用户跨域请求
-            exception.printStackTrace();
-            log.error(exception.getMessage());
+            log.error(exception.getMessage(),exception);
             return new JSONPObject(callback, new StrawResult().failed(exception.getMessage()));
         }
     }
@@ -64,13 +74,11 @@ public class CustomExceptionHandler {
     public Object AccessDeniedHandler(Exception exception, HttpServletRequest request){
         String callback = request.getParameter("callback");
         if (StringUtils.isEmpty(callback)) {
-            exception.printStackTrace();
             log.error(exception.getMessage());
             return new StrawResult().forbidden();
         } else {
             //用户跨域请求
-            exception.printStackTrace();
-            log.error(exception.getMessage());
+            log.error(exception.getMessage(),exception);
             return new JSONPObject(callback, new StrawResult().forbidden());
         }
     }
