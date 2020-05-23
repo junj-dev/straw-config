@@ -61,6 +61,10 @@ public class EsQuestionServiceImpl implements IEsQuestionService {
     public Page<EsQuestion> search(String keyword, Integer pageNum, Integer pageSize) {
         Pageable pageable = PageRequest.of(pageNum-1, pageSize);
         NativeSearchQueryBuilder nativeSearchQueryBuilder = new NativeSearchQueryBuilder();
+        //指定索引
+        nativeSearchQueryBuilder.withIndices("straw");
+        //指定type
+        nativeSearchQueryBuilder.withTypes("question");
         //分页
         nativeSearchQueryBuilder.withPageable(pageable);
         //搜索
@@ -72,29 +76,11 @@ public class EsQuestionServiceImpl implements IEsQuestionService {
             BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
             boolQueryBuilder.should(QueryBuilders.multiMatchQuery(keyword,"title","content","tags"));
             nativeSearchQueryBuilder.withQuery(boolQueryBuilder);
-
-//            List<FunctionScoreQueryBuilder.FilterFunctionBuilder> filterFunctionBuilders = new ArrayList<>();
-//            filterFunctionBuilders.add(new FunctionScoreQueryBuilder.FilterFunctionBuilder(QueryBuilders.matchQuery("title", keyword),
-//                    ScoreFunctionBuilders.weightFactorFunction(10)));
-//            filterFunctionBuilders.add(new FunctionScoreQueryBuilder.FilterFunctionBuilder(QueryBuilders.matchQuery("tags", keyword),
-//                    ScoreFunctionBuilders.weightFactorFunction(5)));
-//            filterFunctionBuilders.add(new FunctionScoreQueryBuilder.FilterFunctionBuilder(QueryBuilders.matchQuery("content", keyword),
-//                    ScoreFunctionBuilders.weightFactorFunction(2)));
-//            filterFunctionBuilders.add(new FunctionScoreQueryBuilder.FilterFunctionBuilder(QueryBuilders.matchQuery("answers", keyword),
-//                    ScoreFunctionBuilders.weightFactorFunction(2)));
-//            FunctionScoreQueryBuilder.FilterFunctionBuilder[] builders = new FunctionScoreQueryBuilder.FilterFunctionBuilder[filterFunctionBuilders.size()];
-//            filterFunctionBuilders.toArray(builders);
-//            FunctionScoreQueryBuilder functionScoreQueryBuilder = QueryBuilders.functionScoreQuery(builders)
-//                    .scoreMode(FunctionScoreQuery.ScoreMode.SUM)
-//                    .setMinScore(2);
-//            nativeSearchQueryBuilder.withQuery(functionScoreQueryBuilder);
-
         }
         //按时间排序
         SortBuilder sortBuilder1 = SortBuilders.fieldSort("createtime").order(SortOrder.DESC);
 
         nativeSearchQueryBuilder.withSort(sortBuilder1);
-
         NativeSearchQuery searchQuery = nativeSearchQueryBuilder.build();
         return questionRepository.search(searchQuery);
     }
@@ -103,14 +89,19 @@ public class EsQuestionServiceImpl implements IEsQuestionService {
     public Page<EsQuestion> searchByUserIdAndPublicStatus(String keyword, Integer pageNum, Integer pageSize,Integer userId,Integer publicStatus) {
         Pageable pageable = PageRequest.of(pageNum-1, pageSize);
         NativeSearchQueryBuilder nativeSearchQueryBuilder = new NativeSearchQueryBuilder();
+        //指定索引
+        nativeSearchQueryBuilder.withIndices("straw");
+        //指定type
+        nativeSearchQueryBuilder.withTypes("question");
         //分页
         nativeSearchQueryBuilder.withPageable(pageable);
         BoolQueryBuilder filterBoolQueryBuilder = QueryBuilders.boolQuery();
-        //过滤，只查找本人提出的问题和公开的问题
+        //过滤，本人提出的问题
         filterBoolQueryBuilder.should(QueryBuilders.termQuery("userId",userId));
+        //公开的问题
         filterBoolQueryBuilder.should(QueryBuilders.termQuery("publicStatus",publicStatus));
         nativeSearchQueryBuilder.withFilter(filterBoolQueryBuilder);
-        //搜索
+        //全文搜索
         if (StringUtils.isEmpty(keyword)) {
             nativeSearchQueryBuilder.withQuery(QueryBuilders.matchAllQuery());
         }else {
