@@ -147,50 +147,9 @@ public class EsQuestionServiceImpl implements IEsQuestionService {
         //执行搜索
         try {
             SearchResponse response = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
-
-            List<EsQuestion> esQuestionList=new ArrayList<>();
-            for (SearchHit hit : response.getHits().getHits()) {
-                //获取结果
-                String sourceAsString = hit.getSourceAsString();
-                EsQuestion esQuestion = JSON.parseObject(sourceAsString, EsQuestion.class);
-                //获取高亮字段
-                Map<String, HighlightField> highlightFields = hit.getHighlightFields();
-                HighlightField highlightTitle = highlightFields.get("title");
-
-                if(highlightTitle!=null){//如果标题高亮字段不为空，则把结果的title替换成高亮的title
-                    StringBuilder newTitle=new StringBuilder();
-                    //获取高亮字段的内容拼接起来
-                    Text[] texts = highlightTitle.fragments();
-                    for (Text text : texts) {
-                        newTitle.append(text);
-                    }
-                    //用高亮字段的title覆盖esQuestion里的title字段的内容
-                   esQuestion.setTitle(newTitle.toString());
-
-                }
-                HighlightField highlightContent = highlightFields.get("content");
-                if(highlightContent!=null){
-                    StringBuilder newContent=new StringBuilder();
-                    //获取高亮字段的内容拼接起来
-                    Text[] texts = highlightContent.fragments();
-                    for (Text text : texts) {
-                        newContent.append(text);
-                    }
-                    esQuestion.setContent(newContent.toString());
-                }
-                esQuestionList.add(esQuestion);
-
-
-            }
+            List<EsQuestion> esQuestionList = getEsQuestions(response);
             //封装commomPage
-
-            commonPage.setList(esQuestionList);
-            commonPage.setPageNum(pageNum);
-            commonPage.setPageSize(pageSize);
-            long total=response.getHits().getTotalHits().value;
-            commonPage.setTotal(total);
-            int totalPage= (int) (total%pageSize==0?total/pageSize:(total/pageSize+1));
-            commonPage.setTotalPage(totalPage);
+            restCommonPage(pageNum, pageSize, commonPage, response, esQuestionList);
 
         } catch (IOException e) {
             log.error(e.getMessage(),e);
@@ -199,36 +158,6 @@ public class EsQuestionServiceImpl implements IEsQuestionService {
         return commonPage;
     }
 
-//    @Override
-//    public CommonPage<EsQuestion> searchByUserIdAndPublicStatus(String keyword, Integer pageNum, Integer pageSize, Integer userId, Integer publicStatus) {
-//        Pageable pageable = PageRequest.of(pageNum-1, pageSize);
-//        NativeSearchQueryBuilder nativeSearchQueryBuilder = new NativeSearchQueryBuilder();
-//        //指定索引
-//        nativeSearchQueryBuilder.withIndices("straw");
-//        //指定type
-//        nativeSearchQueryBuilder.withTypes("question");
-//        //分页
-//        nativeSearchQueryBuilder.withPageable(pageable);
-//        BoolQueryBuilder filterBoolQueryBuilder = QueryBuilders.boolQuery();
-//        //过滤，本人提出的问题
-//        filterBoolQueryBuilder.should(QueryBuilders.termQuery("userId",userId));
-//        //公开的问题
-//        filterBoolQueryBuilder.should(QueryBuilders.termQuery("publicStatus",publicStatus));
-//        nativeSearchQueryBuilder.withFilter(filterBoolQueryBuilder);
-//        //全文搜索
-//        if (StringUtils.isEmpty(keyword)) {
-//            nativeSearchQueryBuilder.withQuery(QueryBuilders.matchAllQuery());
-//        }else {
-//            //按标题，内容，标签，答案查询
-//            BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
-//            boolQueryBuilder.should(QueryBuilders.multiMatchQuery(keyword,"title","content","tags"));
-//            nativeSearchQueryBuilder.withQuery(boolQueryBuilder);
-//        }
-//
-//
-//        NativeSearchQuery searchQuery = nativeSearchQueryBuilder.build();
-//        return null;
-//    }
 
     @Override
     public CommonPage<EsQuestion> searchByUserIdAndPublicStatus(String keyword, Integer pageNum, Integer pageSize, Integer userId, Integer publicStatus) {
@@ -244,11 +173,102 @@ public class EsQuestionServiceImpl implements IEsQuestionService {
         BoolQueryBuilder filterBoolQueryBuilder = QueryBuilders.boolQuery();
         //过滤，本人提出的问题
         filterBoolQueryBuilder.should(QueryBuilders.termQuery("userId",userId));
-//        //公开的问题
+        //公开的问题
         filterBoolQueryBuilder.should(QueryBuilders.termQuery("publicStatus",publicStatus));
-      //  boolQueryBuilder.filter()
-        return null;
+        boolQueryBuilder.filter(filterBoolQueryBuilder);
+        //全文搜索
+        if (StringUtils.isEmpty(keyword)) {
+            MatchAllQueryBuilder matchAllQueryBuilder = QueryBuilders.matchAllQuery();
+            sourceBuilder.query(matchAllQueryBuilder);
+        }else {
+            //按标题和内容查询
+            MultiMatchQueryBuilder multiMatchQueryBuilder = QueryBuilders.multiMatchQuery(keyword, "title", "content");
+            sourceBuilder.query(multiMatchQueryBuilder);
+            //高亮显示
+            HighlightBuilder highlightBuilder=new HighlightBuilder();
+            HighlightBuilder.Field highlightTitle =
+                    new HighlightBuilder.Field("title");
+            HighlightBuilder.Field highlightContent =
+                    new HighlightBuilder.Field("content");
+            highlightBuilder.preTags("<span style='color:red'>");
+            highlightBuilder.postTags("</span>");
+            highlightBuilder.field(highlightTitle);
+            highlightBuilder.field(highlightContent);
+            sourceBuilder.highlighter(highlightBuilder);
+
+        }
+        CommonPage<EsQuestion> commonPage=new CommonPage<>();
+        //搜索请求对象中设置搜索源
+        searchRequest.source(sourceBuilder);
+        //执行搜索
+        try {
+            SearchResponse response = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+
+            List<EsQuestion> esQuestionList = getEsQuestions(response);
+            //封装commomPage
+
+            restCommonPage(pageNum, pageSize, commonPage, response, esQuestionList);
+
+        } catch (IOException e) {
+            log.error(e.getMessage(),e);
+        }
+
+        return commonPage;
     }
+
+    /**
+     * 解析结果
+     * @param response
+     * @return
+     */
+    private List<EsQuestion> getEsQuestions(SearchResponse response) {
+        List<EsQuestion> esQuestionList = new ArrayList<>();
+        for (SearchHit hit : response.getHits().getHits()) {
+            //获取结果
+            String sourceAsString = hit.getSourceAsString();
+            EsQuestion esQuestion = JSON.parseObject(sourceAsString, EsQuestion.class);
+            //获取高亮字段
+            Map<String, HighlightField> highlightFields = hit.getHighlightFields();
+            HighlightField highlightTitle = highlightFields.get("title");
+
+            if (highlightTitle != null) {//如果标题高亮字段不为空，则把结果的title替换成高亮的title
+                StringBuilder newTitle = new StringBuilder();
+                //获取高亮字段的内容拼接起来
+                Text[] texts = highlightTitle.fragments();
+                for (Text text : texts) {
+                    newTitle.append(text);
+                }
+                //用高亮字段的title覆盖esQuestion里的title字段的内容
+                esQuestion.setTitle(newTitle.toString());
+
+            }
+            HighlightField highlightContent = highlightFields.get("content");
+            if (highlightContent != null) {
+                StringBuilder newContent = new StringBuilder();
+                //获取高亮字段的内容拼接起来
+                Text[] texts = highlightContent.fragments();
+                for (Text text : texts) {
+                    newContent.append(text);
+                }
+                esQuestion.setContent(newContent.toString());
+            }
+            esQuestionList.add(esQuestion);
+
+
+        }
+        return esQuestionList;
+    }
+
+    private void restCommonPage(Integer pageNum, Integer pageSize, CommonPage<EsQuestion> commonPage, SearchResponse response, List<EsQuestion> esQuestionList) {
+        commonPage.setList(esQuestionList);
+        commonPage.setPageNum(pageNum);
+        commonPage.setPageSize(pageSize);
+        long total = response.getHits().getTotalHits().value;
+        commonPage.setTotal(total);
+        int totalPage = (int) (total % pageSize == 0 ? total / pageSize : (total / pageSize + 1));
+        commonPage.setTotalPage(totalPage);
+    }
+
     @Override
     @Transactional
     public boolean insert(EsQuestion question) {
