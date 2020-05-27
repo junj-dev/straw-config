@@ -44,9 +44,9 @@ public class EsQuestionController implements  EsQuestionServiceApi{
                                                       @RequestParam(required = false, defaultValue = "1") Integer pageNum,
                                                       @RequestParam(required = false, defaultValue = "5") Integer pageSize){
 
-        Page<EsQuestion> esQuestionPage = questionService.search(keyword,pageNum,pageSize);
+        CommonPage<EsQuestion> esQuestionPage = questionService.search(keyword,pageNum,pageSize);
 
-        return new StrawResult().success(CommonPage.restPage(esQuestionPage));
+        return new StrawResult().success(esQuestionPage);
     }
 
     /**
@@ -63,9 +63,9 @@ public class EsQuestionController implements  EsQuestionServiceApi{
                                                       @RequestParam(required = true,value = "userId")Integer userId,
                                                       @RequestParam(required = true,value = "publicStatus")Integer publicStatus){
 
-        Page<EsQuestion> esQuestionPage = questionService.searchByUserIdAndPublicStatus(keyword,pageNum,pageSize,userId,publicStatus);
+       CommonPage<EsQuestion> esQuestionPage = questionService.searchByUserIdAndPublicStatus(keyword,pageNum,pageSize,userId,publicStatus);
 
-        return new StrawResult().success(CommonPage.restPage(esQuestionPage));
+        return new StrawResult().success(esQuestionPage);
     }
 
 

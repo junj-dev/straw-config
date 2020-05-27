@@ -25,4 +25,6 @@ public class KafkaTopic {
      * 网页点击量
      */
     public  static  final String PORTAL_PAGEVIEW ="straw-portal-pageView";
+
+    public  static  final  String RUNTIME_EXCEPTION="runtimeException";
 }

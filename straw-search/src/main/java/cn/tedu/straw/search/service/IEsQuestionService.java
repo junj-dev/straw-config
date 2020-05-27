@@ -1,5 +1,6 @@
 package cn.tedu.straw.search.service;
 
+import cn.tedu.straw.common.CommonPage;
 import cn.tedu.straw.portal.model.EsQuestion;
 import org.springframework.data.domain.Page;
 
@@ -12,7 +13,7 @@ import org.springframework.data.domain.Page;
 public interface IEsQuestionService {
     int importAllQuestionFromDB();
 
-    Page<EsQuestion> search(String keyword, Integer pageNum, Integer pageSize);
+    CommonPage<EsQuestion> search(String keyword, Integer pageNum, Integer pageSize);
 
     /**
      * 只查询本人的问题和公开的问题
@@ -21,7 +22,7 @@ public interface IEsQuestionService {
      * @param pageSize
      * @return
      */
-    Page<EsQuestion> searchByUserIdAndPublicStatus(String keyword, Integer pageNum, Integer pageSize,Integer userId,Integer publicStatus);
+    CommonPage<EsQuestion> searchByUserIdAndPublicStatus(String keyword, Integer pageNum, Integer pageSize, Integer userId, Integer publicStatus);
 
     boolean insert(EsQuestion question);
 

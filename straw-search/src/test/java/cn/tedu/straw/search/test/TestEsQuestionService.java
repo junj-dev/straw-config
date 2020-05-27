@@ -30,14 +30,14 @@ public class TestEsQuestionService {
      */
     @Test
     public  void testSearchByUserIdAndPublicStatus(){
-        Page<EsQuestion> questions = questionService.searchByUserIdAndPublicStatus("", 1, 5, 11, 1);
-        questions.forEach(System.out::println);
+     //   Page<EsQuestion> questions = questionService.searchByUserIdAndPublicStatus("", 1, 5, 11, 1);
+       // questions.forEach(System.out::println);
 
     }
 
     @Test
     public void testSearch(){
-        Page<EsQuestion> questions = questionService.search("", 1, 5);
-        questions.forEach(System.out::println);
+       // Page<EsQuestion> questions = questionService.search("", 1, 5);
+      // questions.forEach(System.out::println);
     }
 }

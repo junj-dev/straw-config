@@ -96,3 +96,14 @@ spring.kafka.consumer.auto-commit-interval=100
 # 指定消息key和消息体的编解码方式
 spring.kafka.consumer.key-deserializer=org.apache.kafka.common.serialization.StringDeserializer
 spring.kafka.consumer.value-deserializer=org.apache.kafka.common.serialization.StringDeserializer
+
+#邮件配置
+spring.mail.host=mail.tedu.cn
+spring.mail.username=chenhb
+spring.mail.password=Chen.13714210201
+spring.mail.from=chenhb@tedu.cn
+spring.mail.port=25
+#管理员邮箱（用于接收系统出错邮件）
+spring.mail.to.admin=chenhb@tedu.cn
+spring.mail.default-encoding=utf-8
+

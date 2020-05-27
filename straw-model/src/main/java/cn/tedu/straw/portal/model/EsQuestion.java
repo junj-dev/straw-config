@@ -1,7 +1,9 @@
 package cn.tedu.straw.portal.model;
 
 
+import cn.tedu.straw.common.constant.EsIndexName;
 import cn.tedu.straw.common.util.DateUtils;
+import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
@@ -22,39 +24,46 @@ import java.util.List;
  * @author ChenHaiBao
  * @since 2020-03-09
  */
-@Document(indexName = "straw",type = "question")
+@Document(indexName = EsIndexName.STRAW_QUESTION)
 @Slf4j
+@ToString
 public class EsQuestion implements Serializable {
 
 
     private static final long serialVersionUID = -2551847857874479192L;
     @Id
-    @Field(type = FieldType.Keyword)
+    @Field( type = FieldType.Integer)
     private Integer id;
 
 
-    @Field(analyzer = "ik_max_word",type = FieldType.Text,searchAnalyzer="ik_max_word")
+    @Field(analyzer = "ik_max_word", type = FieldType.Text,searchAnalyzer="ik_max_word")
     private String title;
 
     @Field(analyzer = "ik_max_word",type = FieldType.Text,searchAnalyzer="ik_max_word")
     private String content;
 
-    @Field(type = FieldType.Keyword)
+    @Field(type = FieldType.Text)
     private String userNickName;
 
+    @Field(type = FieldType.Integer)
     private Integer userId;
 
+    @Field(type = FieldType.Date)
     private Date createtime;
 
+    @Field(type =FieldType.Integer)
     private  Integer status;
 
+    @Field(type = FieldType.Integer)
     private Integer pageViews;
 
+    @Field(type = FieldType.Integer)
     private Integer publicStatus;
 
+    @Field(type = FieldType.Text)
     private String createtimeStr;
 
-    @Field(type = FieldType.Keyword)
+    @Field(type = FieldType.Text)
     List<String> tagNames=new ArrayList<>();
     /**
      * 问题的标签，为了搜索的时候页面展示用
