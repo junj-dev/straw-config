@@ -24,7 +24,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
    @Resource
-    private UserDetailsService userDetailsService;
+   private UserDetailsService userDetailsService;
    @Resource
    private GateWayUrlConfig gateWayUrlConfig;
 
