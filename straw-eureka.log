@@ -1,285 +1,90 @@
-2020-05-27 08:53:49.191  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 35266949ms
-2020-05-27 08:54:48.325  WARN 17380 --- [Eureka-PeerNodesUpdater] c.n.eureka.cluster.PeerEurekaNodes       : The replica size seems to be empty. Check the route 53 DNS Registry
-2020-05-27 08:54:49.192  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 1ms
-2020-05-27 08:55:49.193  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 08:56:49.193  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 08:57:49.194  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 08:58:49.194  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 08:59:47.891  INFO 17380 --- [ReplicaAwareInstanceRegistry - RenewalThresholdUpdater] c.n.e.r.PeerAwareInstanceRegistryImpl    : Current renewal threshold is : 6
-2020-05-27 08:59:49.195  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 09:00:49.195  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 09:01:49.196  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 09:02:49.197  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 09:03:49.197  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 09:04:48.330  WARN 17380 --- [Eureka-PeerNodesUpdater] c.n.eureka.cluster.PeerEurekaNodes       : The replica size seems to be empty. Check the route 53 DNS Registry
-2020-05-27 09:04:49.198  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 09:05:49.198  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 09:06:49.199  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 09:07:49.200  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 09:08:49.200  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 09:09:49.200  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 09:10:40.180  INFO 17380 --- [http-nio-8000-exec-8] c.n.e.registry.AbstractInstanceRegistry  : Registered instance STRAW-SEARCH/localhost:straw-search:8081 with status UP (replication=false)
-2020-05-27 09:10:41.068  INFO 17380 --- [http-nio-8000-exec-3] c.n.e.registry.AbstractInstanceRegistry  : Registered instance STRAW-SEARCH/localhost:straw-search:8081 with status DOWN (replication=false)
-2020-05-27 09:10:44.103  INFO 17380 --- [http-nio-8000-exec-10] c.n.e.registry.AbstractInstanceRegistry  : Cancelled instance STRAW-SEARCH/localhost:straw-search:8081 (replication=false)
-2020-05-27 09:10:49.200  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 09:10:59.021  WARN 17380 --- [http-nio-8000-exec-4] c.n.e.registry.AbstractInstanceRegistry  : DS: Registry: lease doesn't exist, registering resource: STRAW-SEARCH - localhost:straw-search:8081
-2020-05-27 09:10:59.022  WARN 17380 --- [http-nio-8000-exec-4] c.n.eureka.resources.InstanceResource    : Not Found (Renew): STRAW-SEARCH - localhost:straw-search:8081
-2020-05-27 09:10:59.047  INFO 17380 --- [http-nio-8000-exec-5] c.n.e.registry.AbstractInstanceRegistry  : Registered instance STRAW-SEARCH/localhost:straw-search:8081 with status UP (replication=false)
-2020-05-27 09:11:49.201  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 09:12:49.202  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 09:13:49.202  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 09:14:47.894  INFO 17380 --- [ReplicaAwareInstanceRegistry - RenewalThresholdUpdater] c.n.e.r.PeerAwareInstanceRegistryImpl    : Current renewal threshold is : 6
-2020-05-27 09:14:48.333  WARN 17380 --- [Eureka-PeerNodesUpdater] c.n.eureka.cluster.PeerEurekaNodes       : The replica size seems to be empty. Check the route 53 DNS Registry
-2020-05-27 09:14:49.203  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 09:15:49.203  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 09:15:50.271  INFO 17380 --- [http-nio-8000-exec-1] c.n.e.registry.AbstractInstanceRegistry  : Registered instance STRAW-PORTAL/localhost:straw-portal:8080 with status DOWN (replication=false)
-2020-05-27 09:15:53.500  INFO 17380 --- [http-nio-8000-exec-9] c.n.e.registry.AbstractInstanceRegistry  : Cancelled instance STRAW-PORTAL/localhost:straw-portal:8080 (replication=false)
-2020-05-27 09:16:18.803  INFO 17380 --- [http-nio-8000-exec-1] c.n.e.registry.AbstractInstanceRegistry  : Registered instance STRAW-PORTAL/localhost:straw-portal:8080 with status UP (replication=false)
-2020-05-27 09:16:49.204  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 09:17:49.204  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 09:18:49.204  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 09:19:18.189  INFO 17380 --- [http-nio-8000-exec-6] c.n.e.registry.AbstractInstanceRegistry  : Registered instance STRAW-PORTAL/localhost:straw-portal:8080 with status DOWN (replication=false)
-2020-05-27 09:19:21.227  INFO 17380 --- [http-nio-8000-exec-7] c.n.e.registry.AbstractInstanceRegistry  : Cancelled instance STRAW-PORTAL/localhost:straw-portal:8080 (replication=false)
-2020-05-27 09:19:40.272  INFO 17380 --- [http-nio-8000-exec-7] c.n.e.registry.AbstractInstanceRegistry  : Registered instance STRAW-PORTAL/localhost:straw-portal:8080 with status UP (replication=false)
-2020-05-27 09:19:49.205  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 09:20:49.205  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 09:21:49.206  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 09:22:49.206  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 09:23:49.207  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 09:24:48.338  WARN 17380 --- [Eureka-PeerNodesUpdater] c.n.eureka.cluster.PeerEurekaNodes       : The replica size seems to be empty. Check the route 53 DNS Registry
-2020-05-27 09:24:49.208  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 09:25:49.209  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 1ms
-2020-05-27 09:26:49.209  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 09:27:49.210  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 09:28:49.211  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 09:29:47.894  INFO 17380 --- [ReplicaAwareInstanceRegistry - RenewalThresholdUpdater] c.n.e.r.PeerAwareInstanceRegistryImpl    : Current renewal threshold is : 6
-2020-05-27 09:29:49.211  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 09:30:49.212  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 09:31:49.212  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 09:32:49.213  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 09:33:49.214  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 09:34:48.343  WARN 17380 --- [Eureka-PeerNodesUpdater] c.n.eureka.cluster.PeerEurekaNodes       : The replica size seems to be empty. Check the route 53 DNS Registry
-2020-05-27 09:34:49.215  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 1ms
-2020-05-27 09:35:49.216  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 09:36:49.216  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 09:37:49.217  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 09:38:49.218  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 1ms
-2020-05-27 09:39:49.219  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 09:40:49.219  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 09:41:49.220  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 09:42:49.220  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 09:43:49.221  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 09:44:47.893  INFO 17380 --- [ReplicaAwareInstanceRegistry - RenewalThresholdUpdater] c.n.e.r.PeerAwareInstanceRegistryImpl    : Current renewal threshold is : 6
-2020-05-27 09:44:48.348  WARN 17380 --- [Eureka-PeerNodesUpdater] c.n.eureka.cluster.PeerEurekaNodes       : The replica size seems to be empty. Check the route 53 DNS Registry
-2020-05-27 09:44:49.221  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 09:45:49.222  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 09:46:49.223  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 09:47:49.223  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 09:48:49.224  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 09:49:49.225  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 09:50:49.225  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 09:51:49.226  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 09:52:49.226  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 09:53:49.227  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 09:54:48.351  WARN 17380 --- [Eureka-PeerNodesUpdater] c.n.eureka.cluster.PeerEurekaNodes       : The replica size seems to be empty. Check the route 53 DNS Registry
-2020-05-27 09:54:49.227  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 09:55:49.228  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 09:56:49.229  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 09:57:49.229  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 09:58:49.230  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 09:59:47.893  INFO 17380 --- [ReplicaAwareInstanceRegistry - RenewalThresholdUpdater] c.n.e.r.PeerAwareInstanceRegistryImpl    : Current renewal threshold is : 6
-2020-05-27 09:59:49.230  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 10:00:49.230  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 10:01:49.231  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 10:02:49.231  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 10:03:49.232  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 10:04:48.352  WARN 17380 --- [Eureka-PeerNodesUpdater] c.n.eureka.cluster.PeerEurekaNodes       : The replica size seems to be empty. Check the route 53 DNS Registry
-2020-05-27 10:04:49.232  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 10:05:49.234  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 10:06:01.422  INFO 17380 --- [http-nio-8000-exec-10] c.n.e.registry.AbstractInstanceRegistry  : Registered instance STRAW-SEARCH/localhost:straw-search:8081 with status UP (replication=false)
-2020-05-27 10:06:02.246  INFO 17380 --- [http-nio-8000-exec-8] c.n.e.registry.AbstractInstanceRegistry  : Registered instance STRAW-SEARCH/localhost:straw-search:8081 with status DOWN (replication=false)
-2020-05-27 10:06:05.281  INFO 17380 --- [http-nio-8000-exec-4] c.n.e.registry.AbstractInstanceRegistry  : Cancelled instance STRAW-SEARCH/localhost:straw-search:8081 (replication=false)
-2020-05-27 10:06:29.709  WARN 17380 --- [http-nio-8000-exec-9] c.n.e.registry.AbstractInstanceRegistry  : DS: Registry: lease doesn't exist, registering resource: STRAW-SEARCH - localhost:straw-search:8081
-2020-05-27 10:06:29.710  WARN 17380 --- [http-nio-8000-exec-9] c.n.eureka.resources.InstanceResource    : Not Found (Renew): STRAW-SEARCH - localhost:straw-search:8081
-2020-05-27 10:06:29.737  INFO 17380 --- [http-nio-8000-exec-3] c.n.e.registry.AbstractInstanceRegistry  : Registered instance STRAW-SEARCH/localhost:straw-search:8081 with status UP (replication=false)
-2020-05-27 10:06:49.250  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 17ms
-2020-05-27 10:07:03.959  INFO 17380 --- [http-nio-8000-exec-9] c.n.e.registry.AbstractInstanceRegistry  : Registered instance STRAW-PORTAL/localhost:straw-portal:8080 with status DOWN (replication=false)
-2020-05-27 10:07:07.120  INFO 17380 --- [http-nio-8000-exec-8] c.n.e.registry.AbstractInstanceRegistry  : Cancelled instance STRAW-PORTAL/localhost:straw-portal:8080 (replication=false)
-2020-05-27 10:07:31.191  INFO 17380 --- [http-nio-8000-exec-10] c.n.e.registry.AbstractInstanceRegistry  : Registered instance STRAW-PORTAL/localhost:straw-portal:8080 with status UP (replication=false)
-2020-05-27 10:07:38.635  INFO 17380 --- [http-nio-8000-exec-6] c.n.e.registry.AbstractInstanceRegistry  : Registered instance STRAW-SEARCH/localhost:straw-search:8081 with status UP (replication=false)
-2020-05-27 10:07:39.296  INFO 17380 --- [http-nio-8000-exec-1] c.n.e.registry.AbstractInstanceRegistry  : Registered instance STRAW-SEARCH/localhost:straw-search:8081 with status DOWN (replication=false)
-2020-05-27 10:07:42.331  INFO 17380 --- [http-nio-8000-exec-7] c.n.e.registry.AbstractInstanceRegistry  : Cancelled instance STRAW-SEARCH/localhost:straw-search:8081 (replication=false)
-2020-05-27 10:07:49.251  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 10:07:59.754  WARN 17380 --- [http-nio-8000-exec-3] c.n.e.registry.AbstractInstanceRegistry  : DS: Registry: lease doesn't exist, registering resource: STRAW-SEARCH - localhost:straw-search:8081
-2020-05-27 10:07:59.755  WARN 17380 --- [http-nio-8000-exec-3] c.n.eureka.resources.InstanceResource    : Not Found (Renew): STRAW-SEARCH - localhost:straw-search:8081
-2020-05-27 10:07:59.763  INFO 17380 --- [http-nio-8000-exec-10] c.n.e.registry.AbstractInstanceRegistry  : Registered instance STRAW-SEARCH/localhost:straw-search:8081 with status UP (replication=false)
-2020-05-27 10:08:49.252  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 10:09:49.252  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 10:10:49.253  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 10:11:49.287  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 10ms
-2020-05-27 10:12:49.264  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 10:13:49.265  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 10:14:47.901  INFO 17380 --- [ReplicaAwareInstanceRegistry - RenewalThresholdUpdater] c.n.e.r.PeerAwareInstanceRegistryImpl    : Current renewal threshold is : 6
-2020-05-27 10:14:48.354  WARN 17380 --- [Eureka-PeerNodesUpdater] c.n.eureka.cluster.PeerEurekaNodes       : The replica size seems to be empty. Check the route 53 DNS Registry
-2020-05-27 10:14:49.265  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 10:15:49.266  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 10:16:49.266  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 10:17:49.267  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 10:18:49.267  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 10:19:49.268  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 10:20:49.268  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 10:21:49.269  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 10:22:49.270  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 10:23:49.270  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 10:24:48.357  WARN 17380 --- [Eureka-PeerNodesUpdater] c.n.eureka.cluster.PeerEurekaNodes       : The replica size seems to be empty. Check the route 53 DNS Registry
-2020-05-27 10:24:49.271  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 10:25:34.730  INFO 17380 --- [http-nio-8000-exec-3] c.n.e.registry.AbstractInstanceRegistry  : Registered instance STRAW-SEARCH/localhost:straw-search:8081 with status UP (replication=false)
-2020-05-27 10:25:35.362  INFO 17380 --- [http-nio-8000-exec-8] c.n.e.registry.AbstractInstanceRegistry  : Registered instance STRAW-SEARCH/localhost:straw-search:8081 with status DOWN (replication=false)
-2020-05-27 10:25:38.431  INFO 17380 --- [http-nio-8000-exec-1] c.n.e.registry.AbstractInstanceRegistry  : Cancelled instance STRAW-SEARCH/localhost:straw-search:8081 (replication=false)
-2020-05-27 10:25:49.271  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 10:26:12.798  INFO 17380 --- [http-nio-8000-exec-1] c.n.e.registry.AbstractInstanceRegistry  : Registered instance STRAW-SEARCH/localhost:straw-search:8081 with status UP (replication=false)
-2020-05-27 10:26:49.272  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 10:27:49.273  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 10:28:49.273  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 10:29:47.913  INFO 17380 --- [ReplicaAwareInstanceRegistry - RenewalThresholdUpdater] c.n.e.r.PeerAwareInstanceRegistryImpl    : Current renewal threshold is : 6
-2020-05-27 10:29:49.274  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 1ms
-2020-05-27 10:30:49.275  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 10:31:49.276  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 1ms
-2020-05-27 10:32:49.276  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 10:32:53.847  INFO 17380 --- [http-nio-8000-exec-4] c.n.e.registry.AbstractInstanceRegistry  : Registered instance STRAW-SEARCH/localhost:straw-search:8081 with status UP (replication=false)
-2020-05-27 10:32:54.921  INFO 17380 --- [http-nio-8000-exec-9] c.n.e.registry.AbstractInstanceRegistry  : Registered instance STRAW-SEARCH/localhost:straw-search:8081 with status DOWN (replication=false)
-2020-05-27 10:32:57.959  INFO 17380 --- [http-nio-8000-exec-3] c.n.e.registry.AbstractInstanceRegistry  : Cancelled instance STRAW-SEARCH/localhost:straw-search:8081 (replication=false)
-2020-05-27 10:33:08.960  INFO 17380 --- [http-nio-8000-exec-7] c.n.e.registry.AbstractInstanceRegistry  : Registered instance STRAW-PORTAL/localhost:straw-portal:8080 with status DOWN (replication=false)
-2020-05-27 10:33:12.038  INFO 17380 --- [http-nio-8000-exec-10] c.n.e.registry.AbstractInstanceRegistry  : Cancelled instance STRAW-PORTAL/localhost:straw-portal:8080 (replication=false)
-2020-05-27 10:33:12.867  WARN 17380 --- [http-nio-8000-exec-9] c.n.e.registry.AbstractInstanceRegistry  : DS: Registry: lease doesn't exist, registering resource: STRAW-SEARCH - localhost:straw-search:8081
-2020-05-27 10:33:12.868  WARN 17380 --- [http-nio-8000-exec-9] c.n.eureka.resources.InstanceResource    : Not Found (Renew): STRAW-SEARCH - localhost:straw-search:8081
-2020-05-27 10:33:12.879  INFO 17380 --- [http-nio-8000-exec-8] c.n.e.registry.AbstractInstanceRegistry  : Registered instance STRAW-SEARCH/localhost:straw-search:8081 with status UP (replication=false)
-2020-05-27 10:33:49.277  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 10:33:52.925  INFO 17380 --- [http-nio-8000-exec-2] c.n.e.registry.AbstractInstanceRegistry  : Registered instance STRAW-SEARCH/localhost:straw-search:8081 with status UP (replication=false)
-2020-05-27 10:34:01.662  INFO 17380 --- [http-nio-8000-exec-5] c.n.e.registry.AbstractInstanceRegistry  : Registered instance STRAW-PORTAL/localhost:straw-portal:8080 with status UP (replication=false)
-2020-05-27 10:34:48.367  WARN 17380 --- [Eureka-PeerNodesUpdater] c.n.eureka.cluster.PeerEurekaNodes       : The replica size seems to be empty. Check the route 53 DNS Registry
-2020-05-27 10:34:49.278  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 10:35:49.279  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 1ms
-2020-05-27 10:36:49.280  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 10:37:49.280  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 10:38:49.280  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 10:39:49.281  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 10:39:55.855  INFO 17380 --- [http-nio-8000-exec-5] c.n.e.registry.AbstractInstanceRegistry  : Registered instance STRAW-PORTAL/localhost:straw-portal:8080 with status UP (replication=false)
-2020-05-27 10:40:49.282  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 10:41:47.058  INFO 17380 --- [http-nio-8000-exec-9] c.n.e.registry.AbstractInstanceRegistry  : Registered instance STRAW-SEARCH/localhost:straw-search:8081 with status UP (replication=false)
-2020-05-27 10:41:49.282  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 10:42:49.283  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 10:43:49.284  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 10:44:47.906  INFO 17380 --- [ReplicaAwareInstanceRegistry - RenewalThresholdUpdater] c.n.e.r.PeerAwareInstanceRegistryImpl    : Current renewal threshold is : 6
-2020-05-27 10:44:48.372  WARN 17380 --- [Eureka-PeerNodesUpdater] c.n.eureka.cluster.PeerEurekaNodes       : The replica size seems to be empty. Check the route 53 DNS Registry
-2020-05-27 10:44:49.285  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 1ms
-2020-05-27 10:45:15.544  INFO 17380 --- [http-nio-8000-exec-5] c.n.e.registry.AbstractInstanceRegistry  : Registered instance STRAW-SEARCH/localhost:straw-search:8081 with status DOWN (replication=false)
-2020-05-27 10:45:18.571  INFO 17380 --- [http-nio-8000-exec-10] c.n.e.registry.AbstractInstanceRegistry  : Cancelled instance STRAW-SEARCH/localhost:straw-search:8081 (replication=false)
-2020-05-27 10:45:49.285  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 10:46:49.286  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 10:46:59.284  INFO 17380 --- [http-nio-8000-exec-10] c.n.e.registry.AbstractInstanceRegistry  : Registered instance STRAW-SEARCH/localhost:straw-search:8081 with status UP (replication=false)
-2020-05-27 10:47:49.287  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 10:48:49.288  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 1ms
-2020-05-27 10:49:02.587  INFO 17380 --- [http-nio-8000-exec-2] c.n.e.registry.AbstractInstanceRegistry  : Registered instance STRAW-SEARCH/localhost:straw-search:8081 with status UP (replication=false)
-2020-05-27 10:49:49.289  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 10:50:49.289  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 10:51:49.310  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 21ms
-2020-05-27 10:52:22.237  INFO 17380 --- [http-nio-8000-exec-9] c.n.e.registry.AbstractInstanceRegistry  : Registered instance STRAW-SEARCH/localhost:straw-search:8081 with status DOWN (replication=false)
-2020-05-27 10:52:25.258  INFO 17380 --- [http-nio-8000-exec-6] c.n.e.registry.AbstractInstanceRegistry  : Cancelled instance STRAW-SEARCH/localhost:straw-search:8081 (replication=false)
-2020-05-27 10:52:48.110  INFO 17380 --- [http-nio-8000-exec-6] c.n.e.registry.AbstractInstanceRegistry  : Registered instance STRAW-SEARCH/localhost:straw-search:8081 with status UP (replication=false)
-2020-05-27 10:52:49.311  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 10:53:49.311  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 10:54:48.395  WARN 17380 --- [Eureka-PeerNodesUpdater] c.n.eureka.cluster.PeerEurekaNodes       : The replica size seems to be empty. Check the route 53 DNS Registry
-2020-05-27 10:54:49.311  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 10:55:49.312  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 10:56:49.313  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 10:57:49.313  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 10:58:49.314  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 10:59:47.914  INFO 17380 --- [ReplicaAwareInstanceRegistry - RenewalThresholdUpdater] c.n.e.r.PeerAwareInstanceRegistryImpl    : Current renewal threshold is : 6
-2020-05-27 10:59:49.314  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 11:00:49.315  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 11:01:49.315  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 11:02:49.316  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 11:03:49.316  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 11:04:48.398  WARN 17380 --- [Eureka-PeerNodesUpdater] c.n.eureka.cluster.PeerEurekaNodes       : The replica size seems to be empty. Check the route 53 DNS Registry
-2020-05-27 11:04:49.317  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 11:05:49.317  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 11:06:49.318  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 11:07:49.319  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 11:08:49.319  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 11:08:52.441  INFO 17380 --- [http-nio-8000-exec-4] c.n.e.registry.AbstractInstanceRegistry  : Registered instance STRAW-PORTAL/localhost:straw-portal:8080 with status DOWN (replication=false)
-2020-05-27 11:08:55.643  INFO 17380 --- [http-nio-8000-exec-3] c.n.e.registry.AbstractInstanceRegistry  : Cancelled instance STRAW-PORTAL/localhost:straw-portal:8080 (replication=false)
-2020-05-27 11:09:21.127  INFO 17380 --- [http-nio-8000-exec-4] c.n.e.registry.AbstractInstanceRegistry  : Registered instance STRAW-PORTAL/localhost:straw-portal:8080 with status UP (replication=false)
-2020-05-27 11:09:49.320  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 11:10:49.320  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 11:11:49.320  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 11:12:49.321  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 11:13:10.684  INFO 17380 --- [http-nio-8000-exec-7] c.n.e.registry.AbstractInstanceRegistry  : Registered instance STRAW-SEARCH/localhost:straw-search:8081 with status UP (replication=false)
-2020-05-27 11:13:49.322  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 11:14:48.014  INFO 17380 --- [ReplicaAwareInstanceRegistry - RenewalThresholdUpdater] c.n.e.r.PeerAwareInstanceRegistryImpl    : Current renewal threshold is : 6
-2020-05-27 11:14:48.409  WARN 17380 --- [Eureka-PeerNodesUpdater] c.n.eureka.cluster.PeerEurekaNodes       : The replica size seems to be empty. Check the route 53 DNS Registry
-2020-05-27 11:14:49.322  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 11:15:49.323  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 11:16:49.324  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 11:17:49.324  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 11:18:38.950  INFO 17380 --- [http-nio-8000-exec-10] c.n.e.registry.AbstractInstanceRegistry  : Registered instance STRAW-SEARCH/localhost:straw-search:8081 with status UP (replication=false)
-2020-05-27 11:18:49.325  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 11:19:49.325  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 11:20:49.326  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 11:21:49.327  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 1ms
-2020-05-27 11:22:49.328  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 11:23:14.499  INFO 17380 --- [http-nio-8000-exec-1] c.n.e.registry.AbstractInstanceRegistry  : Registered instance STRAW-SEARCH/localhost:straw-search:8081 with status UP (replication=false)
-2020-05-27 11:23:49.328  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 11:24:08.586  INFO 17380 --- [http-nio-8000-exec-10] c.n.e.registry.AbstractInstanceRegistry  : Registered instance STRAW-SEARCH/localhost:straw-search:8081 with status DOWN (replication=false)
-2020-05-27 11:24:11.626  INFO 17380 --- [http-nio-8000-exec-3] c.n.e.registry.AbstractInstanceRegistry  : Cancelled instance STRAW-SEARCH/localhost:straw-search:8081 (replication=false)
-2020-05-27 11:24:33.293  INFO 17380 --- [http-nio-8000-exec-1] c.n.e.registry.AbstractInstanceRegistry  : Registered instance STRAW-SEARCH/localhost:straw-search:8081 with status UP (replication=false)
-2020-05-27 11:24:48.412  WARN 17380 --- [Eureka-PeerNodesUpdater] c.n.eureka.cluster.PeerEurekaNodes       : The replica size seems to be empty. Check the route 53 DNS Registry
-2020-05-27 11:24:49.329  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 11:25:49.330  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 11:26:44.799  INFO 17380 --- [http-nio-8000-exec-1] c.n.e.registry.AbstractInstanceRegistry  : Registered instance STRAW-SEARCH/localhost:straw-search:8081 with status UP (replication=false)
-2020-05-27 11:26:49.330  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 11:27:49.331  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 11:28:16.444  INFO 17380 --- [http-nio-8000-exec-7] c.n.e.registry.AbstractInstanceRegistry  : Registered instance STRAW-SEARCH/localhost:straw-search:8081 with status DOWN (replication=false)
-2020-05-27 11:28:19.466  INFO 17380 --- [http-nio-8000-exec-1] c.n.e.registry.AbstractInstanceRegistry  : Cancelled instance STRAW-SEARCH/localhost:straw-search:8081 (replication=false)
-2020-05-27 11:28:42.090  INFO 17380 --- [http-nio-8000-exec-1] c.n.e.registry.AbstractInstanceRegistry  : Registered instance STRAW-SEARCH/localhost:straw-search:8081 with status UP (replication=false)
-2020-05-27 11:28:49.331  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 11:29:47.910  INFO 17380 --- [ReplicaAwareInstanceRegistry - RenewalThresholdUpdater] c.n.e.r.PeerAwareInstanceRegistryImpl    : Current renewal threshold is : 6
-2020-05-27 11:29:49.332  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 11:30:49.332  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 11:31:49.333  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 11:32:49.334  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 11:33:49.334  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 11:34:48.422  WARN 17380 --- [Eureka-PeerNodesUpdater] c.n.eureka.cluster.PeerEurekaNodes       : The replica size seems to be empty. Check the route 53 DNS Registry
-2020-05-27 11:34:49.335  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 11:35:49.335  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 11:36:49.336  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 11:37:49.336  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 11:38:49.337  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 11:39:49.337  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 11:40:49.338  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 11:41:49.339  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 11:42:49.339  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 11:43:49.340  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 11:44:47.909  INFO 17380 --- [ReplicaAwareInstanceRegistry - RenewalThresholdUpdater] c.n.e.r.PeerAwareInstanceRegistryImpl    : Current renewal threshold is : 6
-2020-05-27 11:44:48.424  WARN 17380 --- [Eureka-PeerNodesUpdater] c.n.eureka.cluster.PeerEurekaNodes       : The replica size seems to be empty. Check the route 53 DNS Registry
-2020-05-27 11:44:49.341  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 11:45:49.341  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 11:46:49.342  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 11:47:49.342  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 11:48:49.343  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 11:49:49.344  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 11:50:49.345  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 1ms
-2020-05-27 12:06:14.586  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 865241ms
-2020-05-27 12:07:14.587  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 12:08:14.587  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 12:09:13.666  WARN 17380 --- [Eureka-PeerNodesUpdater] c.n.eureka.cluster.PeerEurekaNodes       : The replica size seems to be empty. Check the route 53 DNS Registry
-2020-05-27 12:09:14.588  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 12:09:28.830  INFO 17380 --- [http-nio-8000-exec-6] c.n.e.registry.AbstractInstanceRegistry  : Registered instance STRAW-SEARCH/localhost:straw-search:8081 with status UP (replication=false)
-2020-05-27 12:10:14.589  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 1ms
-2020-05-27 12:11:14.590  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 1ms
-2020-05-27 12:12:14.591  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 12:13:14.591  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2020-05-27 12:14:11.037  INFO 17380 --- [http-nio-8000-exec-7] c.n.e.registry.AbstractInstanceRegistry  : Registered instance STRAW-PORTAL/localhost:straw-portal:8080 with status DOWN (replication=false)
-2020-05-27 12:14:13.152  INFO 17380 --- [ReplicaAwareInstanceRegistry - RenewalThresholdUpdater] c.n.e.r.PeerAwareInstanceRegistryImpl    : Current renewal threshold is : 6
-2020-05-27 12:14:14.156  INFO 17380 --- [http-nio-8000-exec-3] c.n.e.registry.AbstractInstanceRegistry  : Cancelled instance STRAW-PORTAL/localhost:straw-portal:8080 (replication=false)
-2020-05-27 12:14:14.593  INFO 17380 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 1ms
+2020-06-01 10:18:19.357  INFO 17332 --- [main] c.t.s.eureka.EurekaServerApplication     : No active profile set, falling back to default profiles: default
+2020-06-01 10:18:21.022  WARN 17332 --- [main] o.s.boot.actuate.endpoint.EndpointId     : Endpoint ID 'service-registry' contains invalid characters, please migrate to a valid format.
+2020-06-01 10:18:21.207  INFO 17332 --- [main] o.s.cloud.context.scope.GenericScope     : BeanFactory id=684d2207-9b95-302e-88ee-6b5f70528bdb
+2020-06-01 10:18:21.701  INFO 17332 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8000 (http)
+2020-06-01 10:18:21.714  INFO 17332 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2020-06-01 10:18:21.715  INFO 17332 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.31]
+2020-06-01 10:18:22.341  INFO 17332 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2020-06-01 10:18:22.342  INFO 17332 --- [main] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 2789 ms
+2020-06-01 10:18:22.452  WARN 17332 --- [main] c.n.c.sources.URLConfigurationSource     : No URLs will be polled as dynamic configuration sources.
+2020-06-01 10:18:22.452  INFO 17332 --- [main] c.n.c.sources.URLConfigurationSource     : To enable URLs as dynamic configuration sources, define System property archaius.configurationSource.additionalUrls or make config.properties available on classpath.
+2020-06-01 10:18:22.468  INFO 17332 --- [main] c.netflix.config.DynamicPropertyFactory  : DynamicPropertyFactory is initialized with configuration sources: com.netflix.config.ConcurrentCompositeConfiguration@4a34e9f
+2020-06-01 10:18:24.346  INFO 17332 --- [main] o.s.cloud.commons.util.InetUtils         : Cannot determine local hostname
+2020-06-01 10:18:24.574  INFO 17332 --- [main] c.s.j.s.i.a.WebApplicationImpl           : Initiating Jersey application, version 'Jersey: 1.19.1 03/11/2016 02:08 PM'
+2020-06-01 10:18:24.770  INFO 17332 --- [main] c.n.d.provider.DiscoveryJerseyProvider   : Using JSON encoding codec LegacyJacksonJson
+2020-06-01 10:18:24.772  INFO 17332 --- [main] c.n.d.provider.DiscoveryJerseyProvider   : Using JSON decoding codec LegacyJacksonJson
+2020-06-01 10:18:24.922  INFO 17332 --- [main] c.n.d.provider.DiscoveryJerseyProvider   : Using XML encoding codec XStreamXml
+2020-06-01 10:18:24.923  INFO 17332 --- [main] c.n.d.provider.DiscoveryJerseyProvider   : Using XML decoding codec XStreamXml
+2020-06-01 10:18:25.329  WARN 17332 --- [main] c.n.c.sources.URLConfigurationSource     : No URLs will be polled as dynamic configuration sources.
+2020-06-01 10:18:25.329  INFO 17332 --- [main] c.n.c.sources.URLConfigurationSource     : To enable URLs as dynamic configuration sources, define System property archaius.configurationSource.additionalUrls or make config.properties available on classpath.
+2020-06-01 10:18:25.496  INFO 17332 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2020-06-01 10:18:27.233  INFO 17332 --- [main] o.s.cloud.commons.util.InetUtils         : Cannot determine local hostname
+2020-06-01 10:18:28.541  INFO 17332 --- [main] o.s.cloud.commons.util.InetUtils         : Cannot determine local hostname
+2020-06-01 10:18:28.571  WARN 17332 --- [main] ockingLoadBalancerClientRibbonWarnLogger : You already have RibbonLoadBalancerClient on your classpath. It will be used by default. As Spring Cloud Ribbon is in maintenance mode. We recommend switching to BlockingLoadBalancerClient instead. In order to use it, set the value of `spring.cloud.loadbalancer.ribbon.enabled` to `false` or remove spring-cloud-starter-netflix-ribbon from your project.
+2020-06-01 10:18:28.616  INFO 17332 --- [main] o.s.c.n.eureka.InstanceInfoFactory       : Setting initial instance status as: STARTING
+2020-06-01 10:18:28.656  INFO 17332 --- [main] com.netflix.discovery.DiscoveryClient    : Initializing Eureka in region us-east-1
+2020-06-01 10:18:28.657  INFO 17332 --- [main] com.netflix.discovery.DiscoveryClient    : Client configured to neither register nor query for data.
+2020-06-01 10:18:28.666  INFO 17332 --- [main] com.netflix.discovery.DiscoveryClient    : Discovery Client initialized at timestamp 1590977908665 with initial instances count: 0
+2020-06-01 10:18:28.704  INFO 17332 --- [main] c.n.eureka.DefaultEurekaServerContext    : Initializing ...
+2020-06-01 10:18:28.706  WARN 17332 --- [main] c.n.eureka.cluster.PeerEurekaNodes       : The replica size seems to be empty. Check the route 53 DNS Registry
+2020-06-01 10:18:28.726  INFO 17332 --- [main] c.n.e.registry.AbstractInstanceRegistry  : Finished initializing remote region registries. All known remote regions: []
+2020-06-01 10:18:28.727  INFO 17332 --- [main] c.n.eureka.DefaultEurekaServerContext    : Initialized
+2020-06-01 10:18:28.741  INFO 17332 --- [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 2 endpoint(s) beneath base path '/actuator'
+2020-06-01 10:18:28.839  INFO 17332 --- [main] o.s.c.n.e.s.EurekaServiceRegistry        : Registering application STRAW-EUREKA with eureka with status UP
+2020-06-01 10:18:28.844  INFO 17332 --- [Thread-37] o.s.c.n.e.server.EurekaServerBootstrap   : Setting the eureka configuration..
+2020-06-01 10:18:28.847  INFO 17332 --- [Thread-37] o.s.c.n.e.server.EurekaServerBootstrap   : Eureka data center value eureka.datacenter is not set, defaulting to default
+2020-06-01 10:18:28.848  INFO 17332 --- [Thread-37] o.s.c.n.e.server.EurekaServerBootstrap   : Eureka environment value eureka.environment is not set, defaulting to test
+2020-06-01 10:18:28.871  INFO 17332 --- [Thread-37] o.s.c.n.e.server.EurekaServerBootstrap   : isAws returned false
+2020-06-01 10:18:28.872  INFO 17332 --- [Thread-37] o.s.c.n.e.server.EurekaServerBootstrap   : Initialized server context
+2020-06-01 10:18:28.872  INFO 17332 --- [Thread-37] c.n.e.r.PeerAwareInstanceRegistryImpl    : Got 1 instances from neighboring DS node
+2020-06-01 10:18:28.872  INFO 17332 --- [Thread-37] c.n.e.r.PeerAwareInstanceRegistryImpl    : Renew threshold is: 1
+2020-06-01 10:18:28.872  INFO 17332 --- [Thread-37] c.n.e.r.PeerAwareInstanceRegistryImpl    : Changing status to UP
+2020-06-01 10:18:28.892  INFO 17332 --- [Thread-37] e.s.EurekaServerInitializerConfiguration : Started Eureka Server
+2020-06-01 10:18:28.912  INFO 17332 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8000 (http) with context path ''
+2020-06-01 10:18:28.914  INFO 17332 --- [main] .s.c.n.e.s.EurekaAutoServiceRegistration : Updating port to 8000
+2020-06-01 10:18:30.348  INFO 17332 --- [main] o.s.cloud.commons.util.InetUtils         : Cannot determine local hostname
+2020-06-01 10:18:30.360  INFO 17332 --- [main] c.t.s.eureka.EurekaServerApplication     : Started EurekaServerApplication in 15.556 seconds (JVM running for 18.323)
+2020-06-01 10:18:30.461  INFO 17332 --- [RMI TCP Connection(2)-192.168.123.1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2020-06-01 10:18:30.462  INFO 17332 --- [RMI TCP Connection(2)-192.168.123.1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2020-06-01 10:18:30.471  INFO 17332 --- [RMI TCP Connection(2)-192.168.123.1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 9 ms
+2020-06-01 10:19:05.247  INFO 17332 --- [http-nio-8000-exec-2] c.n.e.registry.AbstractInstanceRegistry  : Registered instance STRAW-CONFIG/localhost:straw-config:1201 with status UP (replication=false)
+2020-06-01 10:19:28.874  INFO 17332 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
+2020-06-01 10:20:28.874  INFO 17332 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
+2020-06-01 10:21:28.875  INFO 17332 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
+2020-06-01 10:22:28.876  INFO 17332 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
+2020-06-01 10:23:28.876  INFO 17332 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
+2020-06-01 10:24:28.877  INFO 17332 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
+2020-06-01 10:25:28.877  INFO 17332 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
+2020-06-01 10:26:28.878  INFO 17332 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 1ms
+2020-06-01 10:27:28.879  INFO 17332 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
+2020-06-01 10:28:16.581  INFO 17332 --- [http-nio-8000-exec-6] c.n.e.registry.AbstractInstanceRegistry  : Registered instance STRAW-SEARCH/localhost:straw-search:8081 with status UP (replication=false)
+2020-06-01 10:28:24.546  INFO 17332 --- [http-nio-8000-exec-9] c.n.e.registry.AbstractInstanceRegistry  : Registered instance STRAW-PORTAL/localhost:straw-portal:8080 with status UP (replication=false)
+2020-06-01 10:28:28.708  WARN 17332 --- [Eureka-PeerNodesUpdater] c.n.eureka.cluster.PeerEurekaNodes       : The replica size seems to be empty. Check the route 53 DNS Registry
+2020-06-01 10:28:28.879  INFO 17332 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
+2020-06-01 10:29:28.880  INFO 17332 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
+2020-06-01 10:30:28.880  INFO 17332 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
+2020-06-01 10:31:28.881  INFO 17332 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
+2020-06-01 10:32:28.881  INFO 17332 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
+2020-06-01 10:33:28.740  INFO 17332 --- [ReplicaAwareInstanceRegistry - RenewalThresholdUpdater] c.n.e.r.PeerAwareInstanceRegistryImpl    : Current renewal threshold is : 6
+2020-06-01 10:33:28.882  INFO 17332 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
+2020-06-01 10:34:28.882  INFO 17332 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
+2020-06-01 10:35:28.883  INFO 17332 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
+2020-06-01 10:36:28.883  INFO 17332 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
+2020-06-01 10:37:28.884  INFO 17332 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
+2020-06-01 10:38:28.710  WARN 17332 --- [Eureka-PeerNodesUpdater] c.n.eureka.cluster.PeerEurekaNodes       : The replica size seems to be empty. Check the route 53 DNS Registry
+2020-06-01 10:38:28.884  INFO 17332 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
+2020-06-01 10:39:28.884  INFO 17332 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
+2020-06-01 10:40:28.885  INFO 17332 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
+2020-06-01 10:41:28.886  INFO 17332 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
+2020-06-01 10:42:09.131  INFO 17332 --- [http-nio-8000-exec-2] c.n.e.registry.AbstractInstanceRegistry  : Registered instance STRAW-PORTAL/localhost:straw-portal:8080 with status DOWN (replication=false)
+2020-06-01 10:42:12.241  INFO 17332 --- [http-nio-8000-exec-7] c.n.e.registry.AbstractInstanceRegistry  : Cancelled instance STRAW-PORTAL/localhost:straw-portal:8080 (replication=false)
+2020-06-01 10:42:28.886  INFO 17332 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
+2020-06-01 10:43:28.886  INFO 17332 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
+2020-06-01 10:44:28.886  INFO 17332 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
+2020-06-01 10:45:28.887  INFO 17332 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
+2020-06-01 10:46:28.887  INFO 17332 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
+2020-06-01 10:47:28.887  INFO 17332 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
+2020-06-01 10:48:28.722  WARN 17332 --- [Eureka-PeerNodesUpdater] c.n.eureka.cluster.PeerEurekaNodes       : The replica size seems to be empty. Check the route 53 DNS Registry
+2020-06-01 10:48:28.741  INFO 17332 --- [ReplicaAwareInstanceRegistry - RenewalThresholdUpdater] c.n.e.r.PeerAwareInstanceRegistryImpl    : Current renewal threshold is : 5
+2020-06-01 10:48:28.888  INFO 17332 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
+2020-06-01 10:49:28.890  INFO 17332 --- [Eureka-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 1ms
