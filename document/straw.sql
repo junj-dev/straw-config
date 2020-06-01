@@ -11,7 +11,7 @@
  Target Server Version : 50725
  File Encoding         : 65001
 
- Date: 20/05/2020 11:31:37
+ Date: 01/06/2020 10:54:48
 */
 
 SET NAMES utf8mb4;
@@ -31,7 +31,7 @@ CREATE TABLE `answer`  (
   `createtime` datetime(0) NOT NULL COMMENT '回答时间',
   `accept_status` tinyint(4) NOT NULL COMMENT '是否采纳',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 62 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 63 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of answer
@@ -85,6 +85,7 @@ INSERT INTO `answer` VALUES (51, '<p>测试</p>', 0, 9, '刘苍松', 118, '2020-
 INSERT INTO `answer` VALUES (52, '<p>测试</p>', 0, 9, '刘苍松', 114, '2020-05-06 16:12:32', 0);
 INSERT INTO `answer` VALUES (60, '<ul class=\"list-paddingleft-2\" style=\'margin: 0px; padding: 0px 0px 0px 2.2em; max-width: 100%; box-sizing: border-box !important; overflow-wrap: break-word !important; color: rgb(51, 51, 51); font-family: -apple-system-font, BlinkMacSystemFont, \"Helvetica Neue\", \"PingFang SC\", \"Hiragino Sans GB\", \"Microsoft YaHei UI\", \"Microsoft YaHei\", Arial, sans-serif; font-size: 17px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: 0.544px; orphans: 2; text-align: justify; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-style: initial; text-decoration-color: initial;\'><li style=\"margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; overflow-wrap: break-word !important;\"><p style=\"margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; overflow-wrap: break-word !important; clear: both; min-height: 1em;\">JDK：Java Development Kit 的简称，java 开发工具包，提供了 java 的开发环境和运行环境。</p></li><li style=\"margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; overflow-wrap: break-word !important;\"><p style=\"margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; overflow-wrap: break-word !important; clear: both; min-height: 1em;\">JRE：Java Runtime Environment 的简称，java 运行环境，为 java 的运行提供了所需环境。</p></li></ul><p style=\'margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; overflow-wrap: break-word !important; clear: both; min-height: 1em; color: rgb(51, 51, 51); font-family: -apple-system-font, BlinkMacSystemFont, \"Helvetica Neue\", \"PingFang SC\", \"Hiragino Sans GB\", \"Microsoft YaHei UI\", \"Microsoft YaHei\", Arial, sans-serif; font-size: 17px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: 0.544px; orphans: 2; text-align: justify; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-style: initial; text-decoration-color: initial;\'><br style=\"margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; overflow-wrap: break-word !important;\"></p><p style=\'margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; overflow-wrap: break-word !important; clear: both; min-height: 1em; color: rgb(51, 51, 51); font-family: -apple-system-font, BlinkMacSystemFont, \"Helvetica Neue\", \"PingFang SC\", \"Hiragino Sans GB\", \"Microsoft YaHei UI\", \"Microsoft YaHei\", Arial, sans-serif; font-size: 17px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: 0.544px; orphans: 2; text-align: justify; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-style: initial; text-decoration-color: initial;\'>具体来说 JDK 其实包含了 JRE，同时还包含了编译 java 源码的编译器 javac，还包含了很多 java 程序调试和分析的工具。简单来说：如果你需要运行 java 程序，只需安装 JRE 就可以了，如果你需要编写 java 程序，需要安装 JDK。</p><p><b></b><i></i><u></u><sub></sub><sup></sup><strike></strike><br></p>', 0, 4, '王克晶', 121, '2020-05-11 14:49:21', 1);
 INSERT INTO `answer` VALUES (61, '<p>测试</p>', 0, 9, '刘苍松', 3, '2020-05-11 17:51:33', 0);
+INSERT INTO `answer` VALUES (62, '<p>xxxxxxxxxxxxxxxxxxxxxxxxxaaaaa<img src=\"http://localhost:8080/uploadFile/2020/05/29/2ff531a0-eaba-47be-aa12-ca19a50a38f5.png\" data-filename=\"img\" style=\"width: 865px;\"></p>', 0, 2, '老师1', 9, '2020-05-29 09:45:10', 0);
 
 -- ----------------------------
 -- Table structure for classroom
@@ -103,10 +104,10 @@ CREATE TABLE `classroom`  (
 -- ----------------------------
 -- Records of classroom
 -- ----------------------------
-INSERT INTO `classroom` VALUES (1, 'JSD1912', 'JSD1912-327399', 1, '2020-03-31 11:29:26', '2020-05-19 15:03:53');
-INSERT INTO `classroom` VALUES (2, 'JSD2001', 'JSD2001-570064', 1, '2020-03-31 13:41:29', '2020-05-19 15:03:53');
-INSERT INTO `classroom` VALUES (3, 'JSD2002', 'JSD2002-678992', 1, '2020-03-31 13:41:58', '2020-05-19 15:03:53');
-INSERT INTO `classroom` VALUES (4, 'JSD2003', 'JSD2003-586562', 1, '2020-03-31 13:42:23', '2020-05-19 15:03:53');
+INSERT INTO `classroom` VALUES (1, 'JSD1912', 'JSD1912-460913', 1, '2020-03-31 11:29:26', '2020-06-01 10:28:27');
+INSERT INTO `classroom` VALUES (2, 'JSD2001', 'JSD2001-452852', 1, '2020-03-31 13:41:29', '2020-06-01 10:28:27');
+INSERT INTO `classroom` VALUES (3, 'JSD2002', 'JSD2002-513766', 1, '2020-03-31 13:41:58', '2020-06-01 10:28:27');
+INSERT INTO `classroom` VALUES (4, 'JSD2003', 'JSD2003-239960', 1, '2020-03-31 13:42:23', '2020-06-01 10:28:27');
 
 -- ----------------------------
 -- Table structure for comment
@@ -119,7 +120,7 @@ CREATE TABLE `comment`  (
   `content` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '评论内容',
   `createtime` datetime(0) NOT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 44 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 46 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of comment
@@ -160,6 +161,7 @@ INSERT INTO `comment` VALUES (33, 9, 51, '测试2', '2020-05-06 11:21:34');
 INSERT INTO `comment` VALUES (34, 9, 51, '测试3', '2020-05-06 11:22:27');
 INSERT INTO `comment` VALUES (35, 9, 51, '测试4', '2020-05-06 11:23:33');
 INSERT INTO `comment` VALUES (36, 11, 52, '测试', '2020-05-06 22:05:05');
+INSERT INTO `comment` VALUES (44, 2, 62, '就这样aaaa\r\n', '2020-05-29 09:45:41');
 
 -- ----------------------------
 -- Table structure for notice
@@ -174,7 +176,7 @@ CREATE TABLE `notice`  (
   `reply_user_id` int(11) DEFAULT NULL COMMENT '回复者id',
   `read_status` tinyint(4) DEFAULT NULL COMMENT '消息是否已查看，0-》否，1-》是',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 195 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 204 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of notice
@@ -207,119 +209,119 @@ INSERT INTO `notice` VALUES (39, 0, 25, '2020-05-01 23:21:30', 9, 11, 1);
 INSERT INTO `notice` VALUES (40, 2, 1, '2020-05-01 23:28:49', 13, 9, 0);
 INSERT INTO `notice` VALUES (41, 1, 113, '2020-05-02 15:35:00', 11, 9, 0);
 INSERT INTO `notice` VALUES (42, 0, 113, '2020-05-02 16:19:28', 9, 11, 0);
-INSERT INTO `notice` VALUES (43, 3, 115, '2020-05-03 01:36:23', 2, 11, 0);
+INSERT INTO `notice` VALUES (43, 3, 115, '2020-05-03 01:36:23', 2, 11, 1);
 INSERT INTO `notice` VALUES (44, 3, 115, '2020-05-03 01:36:23', 4, 11, 0);
 INSERT INTO `notice` VALUES (45, 3, 115, '2020-05-03 01:36:23', 9, 11, 0);
-INSERT INTO `notice` VALUES (46, 3, 116, '2020-05-03 01:37:35', 2, 11, 0);
+INSERT INTO `notice` VALUES (46, 3, 116, '2020-05-03 01:37:35', 2, 11, 1);
 INSERT INTO `notice` VALUES (47, 3, 116, '2020-05-03 01:37:35', 4, 11, 0);
 INSERT INTO `notice` VALUES (48, 3, 116, '2020-05-03 01:37:35', 9, 11, 0);
-INSERT INTO `notice` VALUES (49, 3, 117, '2020-05-03 01:37:49', 2, 11, 0);
+INSERT INTO `notice` VALUES (49, 3, 117, '2020-05-03 01:37:49', 2, 11, 1);
 INSERT INTO `notice` VALUES (50, 3, 117, '2020-05-03 01:37:49', 4, 11, 0);
 INSERT INTO `notice` VALUES (51, 3, 117, '2020-05-03 01:37:50', 9, 11, 0);
-INSERT INTO `notice` VALUES (52, 3, 117, '2020-05-03 21:48:12', 2, 11, 0);
-INSERT INTO `notice` VALUES (53, 3, 117, '2020-05-03 21:48:11', 2, 11, 0);
+INSERT INTO `notice` VALUES (52, 3, 117, '2020-05-03 21:48:12', 2, 11, 1);
+INSERT INTO `notice` VALUES (53, 3, 117, '2020-05-03 21:48:11', 2, 11, 1);
 INSERT INTO `notice` VALUES (54, 3, 117, '2020-05-03 21:48:12', 4, 11, 0);
 INSERT INTO `notice` VALUES (55, 3, 117, '2020-05-03 21:48:11', 4, 11, 0);
 INSERT INTO `notice` VALUES (56, 3, 117, '2020-05-03 21:48:12', 9, 11, 0);
 INSERT INTO `notice` VALUES (57, 3, 117, '2020-05-03 21:48:11', 9, 11, 0);
-INSERT INTO `notice` VALUES (58, 3, 117, '2020-05-03 23:44:26', 2, 11, 0);
-INSERT INTO `notice` VALUES (59, 3, 117, '2020-05-03 23:44:26', 2, 11, 0);
+INSERT INTO `notice` VALUES (58, 3, 117, '2020-05-03 23:44:26', 2, 11, 1);
+INSERT INTO `notice` VALUES (59, 3, 117, '2020-05-03 23:44:26', 2, 11, 1);
 INSERT INTO `notice` VALUES (60, 3, 117, '2020-05-03 23:44:26', 4, 11, 0);
 INSERT INTO `notice` VALUES (61, 3, 117, '2020-05-03 23:44:26', 4, 11, 0);
 INSERT INTO `notice` VALUES (62, 3, 117, '2020-05-03 23:44:26', 9, 11, 0);
 INSERT INTO `notice` VALUES (63, 3, 117, '2020-05-03 23:44:26', 9, 11, 0);
-INSERT INTO `notice` VALUES (64, 3, 117, '2020-05-03 23:48:43', 2, 11, 0);
-INSERT INTO `notice` VALUES (65, 3, 117, '2020-05-03 23:48:42', 2, 11, 0);
+INSERT INTO `notice` VALUES (64, 3, 117, '2020-05-03 23:48:43', 2, 11, 1);
+INSERT INTO `notice` VALUES (65, 3, 117, '2020-05-03 23:48:42', 2, 11, 1);
 INSERT INTO `notice` VALUES (66, 3, 117, '2020-05-03 23:48:43', 4, 11, 0);
 INSERT INTO `notice` VALUES (67, 3, 117, '2020-05-03 23:48:42', 4, 11, 0);
 INSERT INTO `notice` VALUES (68, 3, 117, '2020-05-03 23:48:42', 9, 11, 0);
 INSERT INTO `notice` VALUES (69, 3, 117, '2020-05-03 23:48:43', 9, 11, 0);
-INSERT INTO `notice` VALUES (70, 3, 117, '2020-05-04 00:10:54', 2, 11, 0);
-INSERT INTO `notice` VALUES (71, 3, 117, '2020-05-04 00:10:53', 2, 11, 0);
+INSERT INTO `notice` VALUES (70, 3, 117, '2020-05-04 00:10:54', 2, 11, 1);
+INSERT INTO `notice` VALUES (71, 3, 117, '2020-05-04 00:10:53', 2, 11, 1);
 INSERT INTO `notice` VALUES (72, 3, 117, '2020-05-04 00:10:53', 4, 11, 0);
 INSERT INTO `notice` VALUES (73, 3, 117, '2020-05-04 00:10:54', 4, 11, 0);
 INSERT INTO `notice` VALUES (74, 3, 117, '2020-05-04 00:10:54', 9, 11, 0);
 INSERT INTO `notice` VALUES (75, 3, 117, '2020-05-04 00:10:53', 9, 11, 0);
-INSERT INTO `notice` VALUES (76, 3, 117, '2020-05-04 00:14:03', 2, 11, 0);
-INSERT INTO `notice` VALUES (77, 3, 117, '2020-05-04 00:14:03', 2, 11, 0);
+INSERT INTO `notice` VALUES (76, 3, 117, '2020-05-04 00:14:03', 2, 11, 1);
+INSERT INTO `notice` VALUES (77, 3, 117, '2020-05-04 00:14:03', 2, 11, 1);
 INSERT INTO `notice` VALUES (78, 3, 117, '2020-05-04 00:14:03', 4, 11, 0);
 INSERT INTO `notice` VALUES (79, 3, 117, '2020-05-04 00:14:03', 4, 11, 0);
 INSERT INTO `notice` VALUES (80, 3, 117, '2020-05-04 00:14:03', 9, 11, 0);
 INSERT INTO `notice` VALUES (81, 3, 117, '2020-05-04 00:14:03', 9, 11, 0);
-INSERT INTO `notice` VALUES (82, 3, 117, '2020-05-04 00:24:25', 2, 11, 0);
-INSERT INTO `notice` VALUES (83, 3, 117, '2020-05-04 00:24:24', 2, 11, 0);
+INSERT INTO `notice` VALUES (82, 3, 117, '2020-05-04 00:24:25', 2, 11, 1);
+INSERT INTO `notice` VALUES (83, 3, 117, '2020-05-04 00:24:24', 2, 11, 1);
 INSERT INTO `notice` VALUES (84, 3, 117, '2020-05-04 00:24:24', 4, 11, 0);
 INSERT INTO `notice` VALUES (85, 3, 117, '2020-05-04 00:24:25', 4, 11, 0);
 INSERT INTO `notice` VALUES (86, 3, 117, '2020-05-04 00:24:25', 9, 11, 0);
 INSERT INTO `notice` VALUES (87, 3, 117, '2020-05-04 00:24:24', 9, 11, 0);
-INSERT INTO `notice` VALUES (88, 3, 117, '2020-05-04 00:25:41', 2, 11, 0);
-INSERT INTO `notice` VALUES (89, 3, 117, '2020-05-04 00:25:40', 2, 11, 0);
+INSERT INTO `notice` VALUES (88, 3, 117, '2020-05-04 00:25:41', 2, 11, 1);
+INSERT INTO `notice` VALUES (89, 3, 117, '2020-05-04 00:25:40', 2, 11, 1);
 INSERT INTO `notice` VALUES (90, 3, 117, '2020-05-04 00:25:41', 4, 11, 0);
 INSERT INTO `notice` VALUES (91, 3, 117, '2020-05-04 00:25:40', 4, 11, 0);
 INSERT INTO `notice` VALUES (92, 3, 117, '2020-05-04 00:25:41', 9, 11, 0);
 INSERT INTO `notice` VALUES (93, 3, 117, '2020-05-04 00:25:40', 9, 11, 0);
-INSERT INTO `notice` VALUES (94, 3, 117, '2020-05-04 00:28:37', 2, 11, 0);
-INSERT INTO `notice` VALUES (95, 3, 117, '2020-05-04 00:28:36', 2, 11, 0);
+INSERT INTO `notice` VALUES (94, 3, 117, '2020-05-04 00:28:37', 2, 11, 1);
+INSERT INTO `notice` VALUES (95, 3, 117, '2020-05-04 00:28:36', 2, 11, 1);
 INSERT INTO `notice` VALUES (96, 3, 117, '2020-05-04 00:28:37', 4, 11, 0);
 INSERT INTO `notice` VALUES (97, 3, 117, '2020-05-04 00:28:36', 4, 11, 0);
 INSERT INTO `notice` VALUES (98, 3, 117, '2020-05-04 00:28:37', 9, 11, 0);
 INSERT INTO `notice` VALUES (99, 3, 117, '2020-05-04 00:28:36', 9, 11, 0);
-INSERT INTO `notice` VALUES (100, 3, 117, '2020-05-04 00:40:14', 2, 11, 0);
-INSERT INTO `notice` VALUES (101, 3, 117, '2020-05-04 00:40:14', 2, 11, 0);
+INSERT INTO `notice` VALUES (100, 3, 117, '2020-05-04 00:40:14', 2, 11, 1);
+INSERT INTO `notice` VALUES (101, 3, 117, '2020-05-04 00:40:14', 2, 11, 1);
 INSERT INTO `notice` VALUES (102, 3, 117, '2020-05-04 00:40:14', 4, 11, 0);
 INSERT INTO `notice` VALUES (103, 3, 117, '2020-05-04 00:40:14', 4, 11, 0);
 INSERT INTO `notice` VALUES (104, 3, 117, '2020-05-04 00:40:14', 9, 11, 0);
 INSERT INTO `notice` VALUES (105, 3, 117, '2020-05-04 00:40:14', 9, 11, 1);
-INSERT INTO `notice` VALUES (106, 3, 117, '2020-05-04 09:58:02', 2, 11, 0);
-INSERT INTO `notice` VALUES (107, 3, 117, '2020-05-04 09:58:02', 2, 11, 0);
+INSERT INTO `notice` VALUES (106, 3, 117, '2020-05-04 09:58:02', 2, 11, 1);
+INSERT INTO `notice` VALUES (107, 3, 117, '2020-05-04 09:58:02', 2, 11, 1);
 INSERT INTO `notice` VALUES (108, 3, 117, '2020-05-04 09:58:02', 4, 11, 0);
 INSERT INTO `notice` VALUES (109, 3, 117, '2020-05-04 09:58:02', 4, 11, 0);
 INSERT INTO `notice` VALUES (110, 3, 117, '2020-05-04 09:58:02', 9, 11, 1);
 INSERT INTO `notice` VALUES (111, 3, 117, '2020-05-04 09:58:02', 9, 11, 0);
-INSERT INTO `notice` VALUES (112, 3, 117, '2020-05-03 21:48:11', 2, 11, 0);
+INSERT INTO `notice` VALUES (112, 3, 117, '2020-05-03 21:48:11', 2, 11, 1);
 INSERT INTO `notice` VALUES (113, 3, 117, '2020-05-03 21:48:11', 4, 11, 0);
 INSERT INTO `notice` VALUES (114, 3, 117, '2020-05-03 21:48:11', 9, 11, 0);
-INSERT INTO `notice` VALUES (115, 3, 117, '2020-05-03 23:44:26', 2, 11, 0);
+INSERT INTO `notice` VALUES (115, 3, 117, '2020-05-03 23:44:26', 2, 11, 1);
 INSERT INTO `notice` VALUES (116, 3, 117, '2020-05-03 23:44:26', 4, 11, 0);
 INSERT INTO `notice` VALUES (117, 3, 117, '2020-05-03 23:44:26', 9, 11, 0);
-INSERT INTO `notice` VALUES (118, 3, 117, '2020-05-03 23:48:42', 2, 11, 0);
+INSERT INTO `notice` VALUES (118, 3, 117, '2020-05-03 23:48:42', 2, 11, 1);
 INSERT INTO `notice` VALUES (119, 3, 117, '2020-05-03 23:48:42', 4, 11, 0);
 INSERT INTO `notice` VALUES (120, 3, 117, '2020-05-03 23:48:42', 9, 11, 0);
-INSERT INTO `notice` VALUES (121, 3, 117, '2020-05-04 00:10:53', 2, 11, 0);
+INSERT INTO `notice` VALUES (121, 3, 117, '2020-05-04 00:10:53', 2, 11, 1);
 INSERT INTO `notice` VALUES (122, 3, 117, '2020-05-04 00:10:53', 4, 11, 0);
 INSERT INTO `notice` VALUES (123, 3, 117, '2020-05-04 00:10:53', 9, 11, 0);
-INSERT INTO `notice` VALUES (124, 3, 117, '2020-05-04 00:14:03', 2, 11, 0);
+INSERT INTO `notice` VALUES (124, 3, 117, '2020-05-04 00:14:03', 2, 11, 1);
 INSERT INTO `notice` VALUES (125, 3, 117, '2020-05-04 00:14:03', 4, 11, 0);
 INSERT INTO `notice` VALUES (126, 3, 117, '2020-05-04 00:14:03', 9, 11, 0);
-INSERT INTO `notice` VALUES (127, 3, 117, '2020-05-04 00:24:24', 2, 11, 0);
+INSERT INTO `notice` VALUES (127, 3, 117, '2020-05-04 00:24:24', 2, 11, 1);
 INSERT INTO `notice` VALUES (128, 3, 117, '2020-05-04 00:24:24', 4, 11, 0);
 INSERT INTO `notice` VALUES (129, 3, 117, '2020-05-04 00:24:24', 9, 11, 0);
-INSERT INTO `notice` VALUES (130, 3, 117, '2020-05-04 00:25:40', 2, 11, 0);
+INSERT INTO `notice` VALUES (130, 3, 117, '2020-05-04 00:25:40', 2, 11, 1);
 INSERT INTO `notice` VALUES (131, 3, 117, '2020-05-04 00:25:40', 4, 11, 0);
 INSERT INTO `notice` VALUES (132, 3, 117, '2020-05-04 00:25:40', 9, 11, 0);
-INSERT INTO `notice` VALUES (133, 3, 117, '2020-05-04 00:28:36', 2, 11, 0);
+INSERT INTO `notice` VALUES (133, 3, 117, '2020-05-04 00:28:36', 2, 11, 1);
 INSERT INTO `notice` VALUES (134, 3, 117, '2020-05-04 00:28:36', 4, 11, 0);
 INSERT INTO `notice` VALUES (135, 3, 117, '2020-05-04 00:28:36', 9, 11, 0);
-INSERT INTO `notice` VALUES (136, 3, 117, '2020-05-04 00:40:14', 2, 11, 0);
+INSERT INTO `notice` VALUES (136, 3, 117, '2020-05-04 00:40:14', 2, 11, 1);
 INSERT INTO `notice` VALUES (137, 3, 117, '2020-05-04 00:40:14', 4, 11, 0);
 INSERT INTO `notice` VALUES (138, 3, 117, '2020-05-04 00:40:14', 9, 11, 0);
-INSERT INTO `notice` VALUES (139, 3, 117, '2020-05-04 09:58:02', 2, 11, 0);
+INSERT INTO `notice` VALUES (139, 3, 117, '2020-05-04 09:58:02', 2, 11, 1);
 INSERT INTO `notice` VALUES (140, 3, 117, '2020-05-04 09:58:02', 4, 11, 0);
 INSERT INTO `notice` VALUES (141, 3, 117, '2020-05-04 09:58:02', 9, 11, 1);
-INSERT INTO `notice` VALUES (142, 3, 117, '2020-05-04 10:10:13', 2, 11, 0);
-INSERT INTO `notice` VALUES (143, 3, 117, '2020-05-04 10:10:12', 2, 11, 0);
+INSERT INTO `notice` VALUES (142, 3, 117, '2020-05-04 10:10:13', 2, 11, 1);
+INSERT INTO `notice` VALUES (143, 3, 117, '2020-05-04 10:10:12', 2, 11, 1);
 INSERT INTO `notice` VALUES (144, 3, 117, '2020-05-04 10:10:13', 4, 11, 0);
 INSERT INTO `notice` VALUES (145, 3, 117, '2020-05-04 10:10:12', 4, 11, 0);
 INSERT INTO `notice` VALUES (146, 3, 117, '2020-05-04 10:10:13', 9, 11, 1);
 INSERT INTO `notice` VALUES (147, 3, 117, '2020-05-04 10:10:12', 9, 11, 1);
-INSERT INTO `notice` VALUES (148, 3, 117, '2020-05-04 10:20:52', 2, 11, 0);
-INSERT INTO `notice` VALUES (149, 3, 117, '2020-05-04 10:20:51', 2, 11, 0);
+INSERT INTO `notice` VALUES (148, 3, 117, '2020-05-04 10:20:52', 2, 11, 1);
+INSERT INTO `notice` VALUES (149, 3, 117, '2020-05-04 10:20:51', 2, 11, 1);
 INSERT INTO `notice` VALUES (150, 3, 117, '2020-05-04 10:20:52', 4, 11, 0);
 INSERT INTO `notice` VALUES (151, 3, 117, '2020-05-04 10:20:51', 4, 11, 0);
 INSERT INTO `notice` VALUES (152, 3, 117, '2020-05-04 10:20:52', 9, 11, 1);
 INSERT INTO `notice` VALUES (153, 3, 117, '2020-05-04 10:20:51', 9, 11, 0);
-INSERT INTO `notice` VALUES (154, 3, 117, '2020-05-04 10:22:07', 2, 11, 0);
-INSERT INTO `notice` VALUES (155, 3, 117, '2020-05-04 10:22:06', 2, 11, 0);
+INSERT INTO `notice` VALUES (154, 3, 117, '2020-05-04 10:22:07', 2, 11, 1);
+INSERT INTO `notice` VALUES (155, 3, 117, '2020-05-04 10:22:06', 2, 11, 1);
 INSERT INTO `notice` VALUES (156, 3, 117, '2020-05-04 10:22:07', 4, 11, 1);
 INSERT INTO `notice` VALUES (157, 3, 117, '2020-05-04 10:22:06', 4, 11, 0);
 INSERT INTO `notice` VALUES (158, 3, 117, '2020-05-04 10:22:07', 9, 11, 0);
@@ -357,8 +359,17 @@ INSERT INTO `notice` VALUES (189, 3, 121, '2020-05-11 14:48:21', 9, 11, 0);
 INSERT INTO `notice` VALUES (190, 1, 121, '2020-05-11 14:49:21', 11, 4, 1);
 INSERT INTO `notice` VALUES (191, 0, 121, '2020-05-11 14:58:54', 4, 11, 1);
 INSERT INTO `notice` VALUES (192, 3, 122, '2020-05-11 17:50:09', 9, 11, 0);
-INSERT INTO `notice` VALUES (193, 1, 3, '2020-05-11 17:51:32', 13, 9, 0);
+INSERT INTO `notice` VALUES (193, 1, 3, '2020-05-11 17:51:32', 13, 9, 1);
 INSERT INTO `notice` VALUES (194, 3, 123, '2020-05-11 22:52:23', 4, 9, 0);
+INSERT INTO `notice` VALUES (195, 3, 124, '2020-05-22 15:41:58', 2, 10, 1);
+INSERT INTO `notice` VALUES (196, 3, 125, '2020-05-22 15:51:40', 3, 10, 0);
+INSERT INTO `notice` VALUES (197, 3, 126, '2020-05-22 16:08:15', 3, 10, 0);
+INSERT INTO `notice` VALUES (198, 3, 127, '2020-05-22 16:16:37', 28, 10, 0);
+INSERT INTO `notice` VALUES (199, 3, 128, '2020-05-22 16:19:27', 33, 10, 0);
+INSERT INTO `notice` VALUES (200, 1, 9, '2020-05-29 09:45:10', 13, 2, 0);
+INSERT INTO `notice` VALUES (201, 2, 9, '2020-05-29 09:45:41', 13, 2, 0);
+INSERT INTO `notice` VALUES (202, 0, 2, '2020-05-29 16:43:19', 4, 2, 0);
+INSERT INTO `notice` VALUES (203, 2, 2, '2020-05-29 16:43:20', 13, 2, 0);
 
 -- ----------------------------
 -- Table structure for permission
@@ -397,21 +408,21 @@ CREATE TABLE `question`  (
   `public_status` int(1) NOT NULL COMMENT '该问题是否公开，所有学生都可见，0-》否，1-》是',
   `delete_status` tinyint(4) NOT NULL DEFAULT 0 COMMENT '删除状态，0-》否，1-》是',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 124 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 129 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of question
 -- ----------------------------
 INSERT INTO `question` VALUES (1, '大量的if-eles要怎么优化?', '像这样有大量的if-else做判断，而且后续还会新增，每次新增都要再加一个if-else,有没有大佬来指导一下工作', '同学4', 13, '2020-03-09 14:39:25', NULL, 1, 69, 1, 1);
-INSERT INTO `question` VALUES (2, 'jdk1.8对sycn做了什么优化？', 'jdk1.8对sycn做了什么优化？', '同学4', 13, '2020-03-09 15:12:28', NULL, 2, 51, 1, 0);
-INSERT INTO `question` VALUES (3, 'Eureka的多活请问那节课有的啊?', '双活系统是怎么做的啊?哪里有啊?谢谢', '同学4', 13, '2020-03-09 23:39:39', NULL, 1, 38, 1, 0);
+INSERT INTO `question` VALUES (2, 'jdk1.8对sycn做了什么优化？', 'jdk1.8对sycn做了什么优化？', '同学4', 13, '2020-03-09 15:12:28', NULL, 2, 57, 1, 0);
+INSERT INTO `question` VALUES (3, 'Eureka的多活请问那节课有的啊?', '双活系统是怎么做的啊?哪里有啊?谢谢', '同学4', 13, '2020-03-09 23:39:39', NULL, 1, 39, 1, 0);
 INSERT INTO `question` VALUES (4, '寻求mybatis二级缓存失效的解决方案', '我有一点疑问 ，关于 mybatis二级缓存的，因为二级缓存运用域在相同的namespace上，这时候这个namespace里面做了增删改，二级缓存就失效了，那我们可不可以采用多namespace在代码层面实现读写分离，也就是cqrs，这样是不是就可以避免二级缓存失效的问题', '同学4', 13, '2020-03-10 12:05:03', NULL, 0, 116, 0, 0);
 INSERT INTO `question` VALUES (5, 'springIOC容器中的bean在什么时候被实例化和初始化？', '容器中的bean在被使用之前是不是都是没有初始化的？那有没有被实例化呢？还是说被使用之前一直都是以beandefinition的实例保存在容器中，直到getBean方法被调用才会实例化和初始化？', '同学4', 13, '2020-03-10 12:06:20', NULL, 0, 68, 0, 0);
-INSERT INTO `question` VALUES (6, 'ES做全文搜索会过滤特殊符号怎么办?', 'boolQuery.should(QueryBuilders.matchPhrasePrefixQuery(s.fieldName(), word).boost(s.boostScore()));\r\n或\r\nboolQuery.should(QueryBuilders.matchPhraseQuery(s.fieldName(), word).boost(s.boostScore()));\r\n\r\n使用这个方法搜索 x2-2 结果搜出来的是x22的结果 - 被屏蔽掉\r\n\r\n使用了转义也没有用 QueryParser.escape(word.toLowerCase())', '同学4', 13, '2020-03-10 12:08:20', NULL, 1, 127, 0, 0);
+INSERT INTO `question` VALUES (6, 'ES做全文搜索会过滤特殊符号怎么办?', 'boolQuery.should(QueryBuilders.matchPhrasePrefixQuery(s.fieldName(), word).boost(s.boostScore()));\r\n或\r\nboolQuery.should(QueryBuilders.matchPhraseQuery(s.fieldName(), word).boost(s.boostScore()));\r\n\r\n使用这个方法搜索 x2-2 结果搜出来的是x22的结果 - 被屏蔽掉\r\n\r\n使用了转义也没有用 QueryParser.escape(word.toLowerCase())', '同学4', 13, '2020-03-10 12:08:20', NULL, 1, 129, 0, 0);
 INSERT INTO `question` VALUES (7, '阿里一道面试题', '题目：找出用户最爱歌曲风格\r\n假设有个用户唱歌的数据结构: Map<String, List> userSongs。 key是用户名，list是用户最近唱歌列表。\r\n有个歌曲风格的数据结构: Map<String, List> songGenres。 key是歌曲风格，list是歌曲列表。\r\n任务是返回一个用户最喜欢的歌曲风格map: Map<String, List>。 key是用户名，list是歌曲风格列表，list中的value是用户听的最多个歌曲对应的歌曲风格。', '同学4', 13, '2020-03-10 16:57:53', NULL, 2, 48, 1, 0);
 INSERT INTO `question` VALUES (8, 'JVM判断垃圾对象问题', '判断一个对象是否是垃圾对象的方法有两种：引用计数法和可达性分析法。\r\n请问：这两种方法是怎么使用的？是针对不同的运行时区域有不同的垃圾对象判断还是两者混合使用？', '同学4', 13, '2020-03-10 16:58:33', NULL, 0, 41, 0, 0);
-INSERT INTO `question` VALUES (9, 'docker', '为什么jack老师 课堂上，它也是使用的阿里云，在自己电脑上可以访问。我的为什么不行呢？', '同学4', 13, '2020-03-10 16:59:18', NULL, 0, 15, 0, 0);
-INSERT INTO `question` VALUES (10, 'java反射', '有没有人清楚JDK1.7和1.8在反射调用实例方法上对参数检查处理上是否有差异？\r\n发现一段代码，对象有个com.edu.bean.A类型的属性type，反射调用setType(com.edu.A)，在1.7环境中运行正常，1.8就报类型不匹配了。\r\n【PS】：先不用管type是com.edu.bean.A类型，为啥setType传入的参数是com.edu.bean.A的问题，希望能从反射原理帮忙解释一下为什么1.7和1.8会出现不同的现象。', '同学4', 13, '2020-03-10 17:05:12', NULL, 1, 12, 0, 0);
+INSERT INTO `question` VALUES (9, 'docker', '为什么jack老师 课堂上，它也是使用的阿里云，在自己电脑上可以访问。我的为什么不行呢？', '同学4', 13, '2020-03-10 16:59:18', NULL, 1, 22, 0, 0);
+INSERT INTO `question` VALUES (10, 'java反射', '有没有人清楚JDK1.7和1.8在反射调用实例方法上对参数检查处理上是否有差异？\r\n发现一段代码，对象有个com.edu.bean.A类型的属性type，反射调用setType(com.edu.A)，在1.7环境中运行正常，1.8就报类型不匹配了。\r\n【PS】：先不用管type是com.edu.bean.A类型，为啥setType传入的参数是com.edu.bean.A的问题，希望能从反射原理帮忙解释一下为什么1.7和1.8会出现不同的现象。', '同学4', 13, '2020-03-10 17:05:12', NULL, 1, 13, 0, 0);
 INSERT INTO `question` VALUES (11, 'Feign报错feign.FeignException$BadRequest: ....', '测试', '同学4', 13, '2020-03-12 17:21:22', NULL, 2, 15, 1, 0);
 INSERT INTO `question` VALUES (12, 'Zookeeper源码分析中的Leader选举问题 java', '<p style=\"-webkit-tap-highlight-color: transparent; margin-bottom: 16px; padding: 0px; color: rgb(36, 41, 46); font-family: &quot;PingFang SC&quot;, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; font-size: 16px;\">类文件FastLeaderElection</p><p style=\"-webkit-tap-highlight-color: transparent; margin-bottom: 16px; padding: 0px; color: rgb(36, 41, 46); font-family: &quot;PingFang SC&quot;, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; font-size: 16px;\">// 缓存收到的票据<br style=\"-webkit-tap-highlight-color: transparent; margin: 0px; padding: 0px;\">recvset.put(n.sid, new Vote(n.leader, n.zxid, n.electionEpoch, n.peerEpoch));</p><p style=\"-webkit-tap-highlight-color: transparent; margin-bottom: 16px; padding: 0px; color: rgb(36, 41, 46); font-family: &quot;PingFang SC&quot;, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; font-size: 16px;\">// Leader选举<br style=\"-webkit-tap-highlight-color: transparent; margin: 0px; padding: 0px;\">if (termPredicate(recvset,new Vote(proposedLeader, proposedZxid,logicalclock.get(), proposedEpoch)))</p><p style=\"-webkit-tap-highlight-color: transparent; margin-bottom: 16px; padding: 0px; color: rgb(36, 41, 46); font-family: &quot;PingFang SC&quot;, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; font-size: 16px;\">// votes表示收到的外部选票的集合<br style=\"-webkit-tap-highlight-color: transparent; margin: 0px; padding: 0px;\">// vote表示当前服务器的选票<br style=\"-webkit-tap-highlight-color: transparent; margin: 0px; padding: 0px;\">protected boolean termPredicate(<br style=\"-webkit-tap-highlight-color: transparent; margin: 0px; padding: 0px;\">HashMap&lt;Long, Vote&gt; votes,<br style=\"-webkit-tap-highlight-color: transparent; margin: 0px; padding: 0px;\">Vote vote) {</p><pre style=\"-webkit-tap-highlight-color: transparent; margin-bottom: 16px; padding: 16px; font-family: SFMono-Regular, Consolas, &quot;Liberation Mono&quot;, Menlo, Courier, monospace; font-size: 13.6px; overflow-wrap: normal; line-height: 1.45; background-color: rgb(246, 248, 250); border-radius: 3px; color: rgb(36, 41, 46);\"><code style=\"-webkit-tap-highlight-color: transparent; margin: 0px; font-family: SFMono-Regular, Consolas, &quot;Liberation Mono&quot;, Menlo, Courier, monospace; font-size: 13.6px; background-image: initial; background-position: 0px 0px; background-size: initial; background-repeat: initial; background-attachment: initial; background-origin: initial; background-clip: initial; border-radius: 3px; word-break: normal; white-space: pre; border: 0px; display: inline; overflow: visible; line-height: inherit; overflow-wrap: normal;\">HashSet&lt;Long&gt; set = new HashSet&lt;Long&gt;();\r\n\r\n/*\r\n * First make the views consistent. Sometimes peers will have\r\n * different zxids for a server depending on timing.\r\n *\r\n */\r\n// 遍历接收到的所有选票数据\r\nfor (Map.Entry&lt;Long,Vote&gt; entry : votes.entrySet()) {\r\n    //对选票进行归纳，就是把所有选票数据中和当前节点的票据相同的票据进行统计\r\n    if (vote.equals(entry.getValue())){ //对票据进行归纳\r\n        set.add(entry.getKey()); //如果存在2票，set里面是不是有2个？\r\n    }\r\n}\r\n\r\n//对选票进行判断\r\n// 判断当前节点的票数是否是大于一半，默认采用QuorumMaj来实现\r\nreturn self.getQuorumVerifier().containsQuorum(set); //验证\r\n</code></pre><p style=\"-webkit-tap-highlight-color: transparent; margin-bottom: 16px; padding: 0px; color: rgb(36, 41, 46); font-family: &quot;PingFang SC&quot;, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; font-size: 16px;\">}</p><p style=\"-webkit-tap-highlight-color: transparent; padding: 0px; color: rgb(36, 41, 46); font-family: &quot;PingFang SC&quot;, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; font-size: 16px; margin-bottom: 0px !important;\">问题：假如有3台机器的zookeeper集群（server1,server2,server3），那votes的最多存在2票，如果要选出Leader，那么必须所有机器都要统一votes才行，这样不就和\"过半原则不符\"了吗？</p><p style=\"-webkit-tap-highlight-color: transparent; padding: 0px; color: rgb(36, 41, 46); font-family: &quot;PingFang SC&quot;, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; font-size: 16px; margin-bottom: 0px !important;\"><br></p><p style=\"-webkit-tap-highlight-color: transparent; padding: 0px; color: rgb(36, 41, 46); font-family: &quot;PingFang SC&quot;, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; font-size: 16px; margin-bottom: 0px !important;\"><img src=\"http://39.97.229.107/group1/M00/00/06/rBF9h15qAfeAfFDJAAEOO-Kw6X8445.jpg\" data-filename=\"img\" style=\"width: 763px;\"><br></p>', '同学4', 13, '2020-03-12 17:33:46', NULL, 2, 14, 1, 0);
 INSERT INTO `question` VALUES (13, '数据库已存在的大数据量的表如何进行分表', '<p><span style=\"color: rgb(36, 41, 46); font-family: &quot;PingFang SC&quot;, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; font-size: 16px;\">由于历史原因，系统中有一张表数据量逐年变大，变到了几千万甚至上亿，这些数据不能像日志一样定时归档和删除，求问怎么做分表？</span><br></p>', '同学4', 13, '2020-03-13 10:51:36', NULL, 0, 2, 0, 0);
@@ -442,6 +453,11 @@ INSERT INTO `question` VALUES (120, 'JDK 和 JRE 有什么区别？', '<h6><span
 INSERT INTO `question` VALUES (121, 'JDK 和 JRE 有什么区别？', '<p>JDK和JRE有什么区别？</p>', '同学2', 11, '2020-05-11 14:48:22', '2020-05-11 15:02:59', 2, 17, 0, 1);
 INSERT INTO `question` VALUES (122, '测试111', '<p>测试</p>', '同学2', 11, '2020-05-11 17:50:09', NULL, 0, 4, 0, 0);
 INSERT INTO `question` VALUES (123, '测试111', '<p>测试</p>', '老师8', 9, '2020-05-11 22:52:23', NULL, 0, 1, 0, 0);
+INSERT INTO `question` VALUES (124, '客户端和服务器端之间的通讯是基于什么', '<p><span style=\"color: rgb(33, 37, 41); background-color: rgb(248, 249, 250);\">老师,请问客户端和服务器端的通讯是怎么通讯的啊,Socket是什么?</span><br></p>', '同学1', 10, '2020-05-22 15:41:58', '2020-05-22 15:51:00', 0, 3, 0, 1);
+INSERT INTO `question` VALUES (125, '客户端和服务器端之间的通讯是基于什么', '<p><span style=\"color: rgb(33, 37, 41); background-color: rgb(248, 249, 250);\">老师,请问客户端和服务器端的通讯是怎么通讯的啊,Socket是什么?</span><br></p>', '同学1', 10, '2020-05-22 15:51:40', '2020-05-22 16:07:45', 0, 2, 0, 1);
+INSERT INTO `question` VALUES (126, '客户端和服务器端之间的通讯是基于什么', '<p><span style=\"color: rgb(33, 37, 41); background-color: rgb(248, 249, 250);\">老师,请问客户端和服务器端的通讯是怎么通讯的啊,Socket是什么?</span><br></p>', '同学1', 10, '2020-05-22 16:08:15', '2020-05-22 16:16:22', 0, 1, 0, 1);
+INSERT INTO `question` VALUES (127, '测试111', '<p>测试</p>', '同学1', 10, '2020-05-22 16:16:38', '2020-05-22 16:19:13', 0, 1, 0, 1);
+INSERT INTO `question` VALUES (128, '测试1111', '<p>测试111</p>', '同学1', 10, '2020-05-22 16:19:28', NULL, 0, 2, 0, 0);
 
 -- ----------------------------
 -- Table structure for question_tag
@@ -452,7 +468,7 @@ CREATE TABLE `question_tag`  (
   `question_id` int(20) NOT NULL,
   `tag_id` int(20) NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 249 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 254 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of question_tag
@@ -523,6 +539,11 @@ INSERT INTO `question_tag` VALUES (245, 122, 1);
 INSERT INTO `question_tag` VALUES (246, 122, 15);
 INSERT INTO `question_tag` VALUES (247, 123, 4);
 INSERT INTO `question_tag` VALUES (248, 123, 15);
+INSERT INTO `question_tag` VALUES (249, 124, 3);
+INSERT INTO `question_tag` VALUES (250, 125, 3);
+INSERT INTO `question_tag` VALUES (251, 126, 3);
+INSERT INTO `question_tag` VALUES (252, 127, 8);
+INSERT INTO `question_tag` VALUES (253, 128, 1);
 
 -- ----------------------------
 -- Table structure for role
@@ -607,10 +628,100 @@ INSERT INTO `tag` VALUES (19, 'centos', 'admin', '2020-03-16 14:44:22');
 INSERT INTO `tag` VALUES (20, 'dubbo', 'admin', '2020-03-19 09:52:09');
 
 -- ----------------------------
+-- Table structure for teacher_question
+-- ----------------------------
+DROP TABLE IF EXISTS `teacher_question`;
+CREATE TABLE `teacher_question`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `question_id` int(11) NOT NULL,
+  `createtime` datetime(0) DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 265 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of teacher_question
+-- ----------------------------
+INSERT INTO `teacher_question` VALUES (1, 3, 1, '2020-04-01 12:48:50');
+INSERT INTO `teacher_question` VALUES (2, 3, 2, '2020-04-01 12:48:58');
+INSERT INTO `teacher_question` VALUES (3, 3, 3, '2020-04-01 12:49:05');
+INSERT INTO `teacher_question` VALUES (4, 3, 4, '2020-04-01 12:49:10');
+INSERT INTO `teacher_question` VALUES (5, 3, 5, '2020-04-01 12:49:21');
+INSERT INTO `teacher_question` VALUES (6, 3, 6, '2020-04-01 12:49:27');
+INSERT INTO `teacher_question` VALUES (7, 3, 7, '2020-04-01 12:49:35');
+INSERT INTO `teacher_question` VALUES (8, 3, 8, '2020-04-01 12:49:42');
+INSERT INTO `teacher_question` VALUES (9, 3, 9, '2020-04-01 12:49:49');
+INSERT INTO `teacher_question` VALUES (10, 3, 10, '2020-04-01 12:49:56');
+INSERT INTO `teacher_question` VALUES (11, 3, 11, '2020-04-01 12:50:03');
+INSERT INTO `teacher_question` VALUES (12, 3, 12, '2020-04-01 12:50:13');
+INSERT INTO `teacher_question` VALUES (91, 4, 70, '2020-04-03 11:18:20');
+INSERT INTO `teacher_question` VALUES (92, 8, 70, '2020-04-03 12:58:44');
+INSERT INTO `teacher_question` VALUES (93, 8, 63, '2020-04-03 14:19:56');
+INSERT INTO `teacher_question` VALUES (94, 8, 47, '2020-04-03 15:45:59');
+INSERT INTO `teacher_question` VALUES (95, 8, 46, '2020-04-03 15:45:59');
+INSERT INTO `teacher_question` VALUES (96, 8, 50, '2020-04-03 15:47:29');
+INSERT INTO `teacher_question` VALUES (97, 8, 43, '2020-04-03 15:48:16');
+INSERT INTO `teacher_question` VALUES (98, 8, 42, '2020-04-03 15:48:16');
+INSERT INTO `teacher_question` VALUES (99, 8, 53, '2020-04-03 15:49:25');
+INSERT INTO `teacher_question` VALUES (100, 8, 52, '2020-04-03 15:49:25');
+INSERT INTO `teacher_question` VALUES (101, 3, 71, '2020-04-03 17:43:11');
+INSERT INTO `teacher_question` VALUES (102, 4, 71, '2020-04-03 17:43:11');
+INSERT INTO `teacher_question` VALUES (103, 8, 12, '2020-04-03 17:44:47');
+INSERT INTO `teacher_question` VALUES (107, 3, 74, '2020-04-08 10:36:45');
+INSERT INTO `teacher_question` VALUES (108, 4, 74, '2020-04-08 10:36:45');
+INSERT INTO `teacher_question` VALUES (109, 2, 75, '2020-04-08 15:48:28');
+INSERT INTO `teacher_question` VALUES (110, 4, 75, '2020-04-08 15:48:28');
+INSERT INTO `teacher_question` VALUES (111, 1, 10, '2020-04-09 17:18:02');
+INSERT INTO `teacher_question` VALUES (112, 8, 10, '2020-04-09 17:22:50');
+INSERT INTO `teacher_question` VALUES (113, 7, 10, '2020-04-09 17:30:18');
+INSERT INTO `teacher_question` VALUES (114, 2, 9, '2020-04-09 17:32:19');
+INSERT INTO `teacher_question` VALUES (115, 2, 4, '2020-04-09 17:33:11');
+INSERT INTO `teacher_question` VALUES (116, 2, 10, '2020-04-09 19:09:11');
+INSERT INTO `teacher_question` VALUES (117, 4, 7, '2020-04-09 19:22:39');
+INSERT INTO `teacher_question` VALUES (178, 4, 105, '2020-04-20 12:17:29');
+INSERT INTO `teacher_question` VALUES (179, 8, 105, '2020-04-20 12:17:29');
+INSERT INTO `teacher_question` VALUES (180, 4, 106, '2020-04-20 12:17:42');
+INSERT INTO `teacher_question` VALUES (181, 8, 106, '2020-04-20 12:17:42');
+INSERT INTO `teacher_question` VALUES (186, 4, 109, '2020-04-22 17:18:55');
+INSERT INTO `teacher_question` VALUES (187, 8, 109, '2020-04-22 17:18:55');
+INSERT INTO `teacher_question` VALUES (188, 4, 110, '2020-04-22 17:19:20');
+INSERT INTO `teacher_question` VALUES (189, 8, 110, '2020-04-22 17:19:20');
+INSERT INTO `teacher_question` VALUES (190, 9, 109, '2020-04-28 10:53:42');
+INSERT INTO `teacher_question` VALUES (197, 9, 113, '2020-04-28 23:55:21');
+INSERT INTO `teacher_question` VALUES (198, 8, 113, '2020-04-28 23:55:21');
+INSERT INTO `teacher_question` VALUES (199, 5, 113, '2020-04-28 23:55:21');
+INSERT INTO `teacher_question` VALUES (200, 9, 114, '2020-04-29 00:05:39');
+INSERT INTO `teacher_question` VALUES (201, 6, 114, '2020-04-29 00:05:39');
+INSERT INTO `teacher_question` VALUES (202, 8, 114, '2020-04-29 00:05:39');
+INSERT INTO `teacher_question` VALUES (203, 2, 115, '2020-05-03 01:36:23');
+INSERT INTO `teacher_question` VALUES (204, 4, 115, '2020-05-03 01:36:23');
+INSERT INTO `teacher_question` VALUES (205, 9, 115, '2020-05-03 01:36:23');
+INSERT INTO `teacher_question` VALUES (206, 2, 116, '2020-05-03 01:37:35');
+INSERT INTO `teacher_question` VALUES (207, 4, 116, '2020-05-03 01:37:35');
+INSERT INTO `teacher_question` VALUES (208, 9, 116, '2020-05-03 01:37:35');
+INSERT INTO `teacher_question` VALUES (248, 2, 117, '2020-05-04 10:22:07');
+INSERT INTO `teacher_question` VALUES (249, 4, 117, '2020-05-04 10:22:07');
+INSERT INTO `teacher_question` VALUES (250, 9, 117, '2020-05-04 10:22:07');
+INSERT INTO `teacher_question` VALUES (251, 9, 118, '2020-05-04 11:00:53');
+INSERT INTO `teacher_question` VALUES (252, 5, 118, '2020-05-04 11:00:53');
+INSERT INTO `teacher_question` VALUES (253, 9, 119, '2020-05-06 17:31:58');
+INSERT INTO `teacher_question` VALUES (254, 4, 120, '2020-05-11 14:27:35');
+INSERT INTO `teacher_question` VALUES (255, 9, 120, '2020-05-11 14:27:35');
+INSERT INTO `teacher_question` VALUES (256, 4, 121, '2020-05-11 14:48:22');
+INSERT INTO `teacher_question` VALUES (257, 9, 121, '2020-05-11 14:48:22');
+INSERT INTO `teacher_question` VALUES (258, 9, 122, '2020-05-11 17:50:09');
+INSERT INTO `teacher_question` VALUES (259, 4, 123, '2020-05-11 22:52:23');
+INSERT INTO `teacher_question` VALUES (260, 2, 124, '2020-05-22 15:41:58');
+INSERT INTO `teacher_question` VALUES (261, 3, 125, '2020-05-22 15:51:40');
+INSERT INTO `teacher_question` VALUES (262, 3, 126, '2020-05-22 16:08:15');
+INSERT INTO `teacher_question` VALUES (263, 28, 127, '2020-05-22 16:16:38');
+INSERT INTO `teacher_question` VALUES (264, 33, 128, '2020-05-22 16:19:28');
+
+-- ----------------------------
 -- Table structure for user
 -- ----------------------------
 DROP TABLE IF EXISTS `user`;
-CREATE TABLE `user`  (e
+CREATE TABLE `user`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '用户名',
   `nickname` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '昵称',
@@ -666,98 +777,15 @@ CREATE TABLE `user_collect`  (
   `question_id` int(11) NOT NULL COMMENT '问题id',
   `createtime` datetime(0) NOT NULL COMMENT '收藏时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 15 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 22 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of user_collect
 -- ----------------------------
 INSERT INTO `user_collect` VALUES (13, 4, 114, '2020-05-09 11:57:30');
 INSERT INTO `user_collect` VALUES (14, 9, 119, '2020-05-09 15:01:47');
-
--- ----------------------------
--- Table structure for user_question
--- ----------------------------
-DROP TABLE IF EXISTS `user_question`;
-CREATE TABLE `user_question`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) NOT NULL,
-  `question_id` int(11) NOT NULL,
-  `createtime` datetime(0) DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 260 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of user_question
--- ----------------------------
-INSERT INTO `user_question` VALUES (1, 3, 1, '2020-04-01 12:48:50');
-INSERT INTO `user_question` VALUES (2, 3, 2, '2020-04-01 12:48:58');
-INSERT INTO `user_question` VALUES (3, 3, 3, '2020-04-01 12:49:05');
-INSERT INTO `user_question` VALUES (4, 3, 4, '2020-04-01 12:49:10');
-INSERT INTO `user_question` VALUES (5, 3, 5, '2020-04-01 12:49:21');
-INSERT INTO `user_question` VALUES (6, 3, 6, '2020-04-01 12:49:27');
-INSERT INTO `user_question` VALUES (7, 3, 7, '2020-04-01 12:49:35');
-INSERT INTO `user_question` VALUES (8, 3, 8, '2020-04-01 12:49:42');
-INSERT INTO `user_question` VALUES (9, 3, 9, '2020-04-01 12:49:49');
-INSERT INTO `user_question` VALUES (10, 3, 10, '2020-04-01 12:49:56');
-INSERT INTO `user_question` VALUES (11, 3, 11, '2020-04-01 12:50:03');
-INSERT INTO `user_question` VALUES (12, 3, 12, '2020-04-01 12:50:13');
-INSERT INTO `user_question` VALUES (91, 4, 70, '2020-04-03 11:18:20');
-INSERT INTO `user_question` VALUES (92, 8, 70, '2020-04-03 12:58:44');
-INSERT INTO `user_question` VALUES (93, 8, 63, '2020-04-03 14:19:56');
-INSERT INTO `user_question` VALUES (94, 8, 47, '2020-04-03 15:45:59');
-INSERT INTO `user_question` VALUES (95, 8, 46, '2020-04-03 15:45:59');
-INSERT INTO `user_question` VALUES (96, 8, 50, '2020-04-03 15:47:29');
-INSERT INTO `user_question` VALUES (97, 8, 43, '2020-04-03 15:48:16');
-INSERT INTO `user_question` VALUES (98, 8, 42, '2020-04-03 15:48:16');
-INSERT INTO `user_question` VALUES (99, 8, 53, '2020-04-03 15:49:25');
-INSERT INTO `user_question` VALUES (100, 8, 52, '2020-04-03 15:49:25');
-INSERT INTO `user_question` VALUES (101, 3, 71, '2020-04-03 17:43:11');
-INSERT INTO `user_question` VALUES (102, 4, 71, '2020-04-03 17:43:11');
-INSERT INTO `user_question` VALUES (103, 8, 12, '2020-04-03 17:44:47');
-INSERT INTO `user_question` VALUES (107, 3, 74, '2020-04-08 10:36:45');
-INSERT INTO `user_question` VALUES (108, 4, 74, '2020-04-08 10:36:45');
-INSERT INTO `user_question` VALUES (109, 2, 75, '2020-04-08 15:48:28');
-INSERT INTO `user_question` VALUES (110, 4, 75, '2020-04-08 15:48:28');
-INSERT INTO `user_question` VALUES (111, 1, 10, '2020-04-09 17:18:02');
-INSERT INTO `user_question` VALUES (112, 8, 10, '2020-04-09 17:22:50');
-INSERT INTO `user_question` VALUES (113, 7, 10, '2020-04-09 17:30:18');
-INSERT INTO `user_question` VALUES (114, 2, 9, '2020-04-09 17:32:19');
-INSERT INTO `user_question` VALUES (115, 2, 4, '2020-04-09 17:33:11');
-INSERT INTO `user_question` VALUES (116, 2, 10, '2020-04-09 19:09:11');
-INSERT INTO `user_question` VALUES (117, 4, 7, '2020-04-09 19:22:39');
-INSERT INTO `user_question` VALUES (178, 4, 105, '2020-04-20 12:17:29');
-INSERT INTO `user_question` VALUES (179, 8, 105, '2020-04-20 12:17:29');
-INSERT INTO `user_question` VALUES (180, 4, 106, '2020-04-20 12:17:42');
-INSERT INTO `user_question` VALUES (181, 8, 106, '2020-04-20 12:17:42');
-INSERT INTO `user_question` VALUES (186, 4, 109, '2020-04-22 17:18:55');
-INSERT INTO `user_question` VALUES (187, 8, 109, '2020-04-22 17:18:55');
-INSERT INTO `user_question` VALUES (188, 4, 110, '2020-04-22 17:19:20');
-INSERT INTO `user_question` VALUES (189, 8, 110, '2020-04-22 17:19:20');
-INSERT INTO `user_question` VALUES (190, 9, 109, '2020-04-28 10:53:42');
-INSERT INTO `user_question` VALUES (197, 9, 113, '2020-04-28 23:55:21');
-INSERT INTO `user_question` VALUES (198, 8, 113, '2020-04-28 23:55:21');
-INSERT INTO `user_question` VALUES (199, 5, 113, '2020-04-28 23:55:21');
-INSERT INTO `user_question` VALUES (200, 9, 114, '2020-04-29 00:05:39');
-INSERT INTO `user_question` VALUES (201, 6, 114, '2020-04-29 00:05:39');
-INSERT INTO `user_question` VALUES (202, 8, 114, '2020-04-29 00:05:39');
-INSERT INTO `user_question` VALUES (203, 2, 115, '2020-05-03 01:36:23');
-INSERT INTO `user_question` VALUES (204, 4, 115, '2020-05-03 01:36:23');
-INSERT INTO `user_question` VALUES (205, 9, 115, '2020-05-03 01:36:23');
-INSERT INTO `user_question` VALUES (206, 2, 116, '2020-05-03 01:37:35');
-INSERT INTO `user_question` VALUES (207, 4, 116, '2020-05-03 01:37:35');
-INSERT INTO `user_question` VALUES (208, 9, 116, '2020-05-03 01:37:35');
-INSERT INTO `user_question` VALUES (248, 2, 117, '2020-05-04 10:22:07');
-INSERT INTO `user_question` VALUES (249, 4, 117, '2020-05-04 10:22:07');
-INSERT INTO `user_question` VALUES (250, 9, 117, '2020-05-04 10:22:07');
-INSERT INTO `user_question` VALUES (251, 9, 118, '2020-05-04 11:00:53');
-INSERT INTO `user_question` VALUES (252, 5, 118, '2020-05-04 11:00:53');
-INSERT INTO `user_question` VALUES (253, 9, 119, '2020-05-06 17:31:58');
-INSERT INTO `user_question` VALUES (254, 4, 120, '2020-05-11 14:27:35');
-INSERT INTO `user_question` VALUES (255, 9, 120, '2020-05-11 14:27:35');
-INSERT INTO `user_question` VALUES (256, 4, 121, '2020-05-11 14:48:22');
-INSERT INTO `user_question` VALUES (257, 9, 121, '2020-05-11 14:48:22');
-INSERT INTO `user_question` VALUES (258, 9, 122, '2020-05-11 17:50:09');
-INSERT INTO `user_question` VALUES (259, 4, 123, '2020-05-11 22:52:23');
+INSERT INTO `user_collect` VALUES (18, 2, 9, '2020-05-29 09:46:03');
+INSERT INTO `user_collect` VALUES (21, 2, 2, '2020-05-29 16:43:12');
 
 -- ----------------------------
 -- Table structure for user_role
