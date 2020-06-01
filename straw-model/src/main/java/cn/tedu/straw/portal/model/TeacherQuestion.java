@@ -23,9 +23,9 @@ import java.util.Date;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("user_question")
-@ApiModel(value="UserQuestion对象", description="")
-public class UserQuestion implements Serializable {
+@TableName("teacher_question")
+@ApiModel(value="TeacherQuestion对象", description="")
+public class TeacherQuestion implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -41,11 +41,11 @@ public class UserQuestion implements Serializable {
     @TableField("createtime")
     private Date createtime;
 
-    public UserQuestion() {
+    public TeacherQuestion() {
 
     }
 
-    public UserQuestion(Integer UserId, Integer questionId, Date createtime) {
+    public TeacherQuestion(Integer UserId, Integer questionId, Date createtime) {
         this.UserId = UserId;
         this.questionId = questionId;
         this.createtime = createtime;

@@ -1,8 +1,8 @@
 package cn.tedu.straw.portal.service.impl;
 
 import cn.tedu.straw.portal.base.BaseServiceImpl;
-import cn.tedu.straw.portal.mapper.UserQuestionMapper;
-import cn.tedu.straw.portal.model.UserQuestion;
+import cn.tedu.straw.portal.mapper.TeacherQuestionMapper;
+import cn.tedu.straw.portal.model.TeacherQuestion;
 import cn.tedu.straw.portal.service.ITeacherQuestionService;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +15,6 @@ import org.springframework.stereotype.Service;
  * @since 2020-04-01
  */
 @Service
-public class TeacherQuestionServiceImpl extends BaseServiceImpl<UserQuestionMapper, UserQuestion> implements ITeacherQuestionService {
+public class TeacherQuestionServiceImpl extends BaseServiceImpl<TeacherQuestionMapper, TeacherQuestion> implements ITeacherQuestionService {
 
 }

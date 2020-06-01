@@ -1,6 +1,6 @@
 package cn.tedu.straw.portal.service;
 
-import cn.tedu.straw.portal.model.UserQuestion;
+import cn.tedu.straw.portal.model.TeacherQuestion;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @author ChenHaiBao
  * @since 2020-04-01
  */
-public interface ITeacherQuestionService extends IService<UserQuestion> {
+public interface ITeacherQuestionService extends IService<TeacherQuestion> {
 
 }

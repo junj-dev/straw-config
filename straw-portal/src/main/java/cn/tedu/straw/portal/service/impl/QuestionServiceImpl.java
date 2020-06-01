@@ -21,7 +21,6 @@ import com.github.pagehelper.PageInfo;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,7 +32,6 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
-import java.io.StringWriter;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -55,7 +53,7 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
     private  QuestionMapper questionMapper;
 
     @Resource
-    private UserQuestionMapper userQuestionMapper;
+    private TeacherQuestionMapper teacherQuestionMapper;
     @Resource
     private QuestionTagMapper questionTagMapper;
     @Resource
@@ -217,8 +215,8 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
            teacherQuery.eq("nickname",teaherName);
            User teacher = userMapper.selectOne(teacherQuery);
            if(teacher==null){throw  new BusinessException(teaherName+":该老师名称已被删除,请重新选择!");}
-           UserQuestion userQuestion =new UserQuestion(teacher.getId(),question.getId(),new Date());
-           int i = userQuestionMapper.insert(userQuestion);
+           TeacherQuestion teacherQuestion =new TeacherQuestion(teacher.getId(),question.getId(),new Date());
+           int i = teacherQuestionMapper.insert(teacherQuestion);
            if(i!=1){
                throw  new BusinessException("服务器繁忙，请稍后重试");
            }
@@ -453,15 +451,15 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
        Date now=new Date();
        for(Integer teacherId:teacherIds){
            for(Integer questionId:questionIds){
-               UserQuestion userQuestion =new UserQuestion(teacherId,questionId,now);
+               TeacherQuestion teacherQuestion =new TeacherQuestion(teacherId,questionId,now);
                //先查找该TeacherQuestion是否已存在，如果存在则不做处理
                QueryWrapper queryWrapper=new QueryWrapper();
                queryWrapper.eq("user_id",teacherId);
                queryWrapper.eq("question_id",questionId);
-               UserQuestion t = userQuestionMapper.selectOne(queryWrapper);
+               TeacherQuestion t = teacherQuestionMapper.selectOne(queryWrapper);
                //不存在则添加，防止重复
                if(t==null){
-                   int n = userQuestionMapper.insert(userQuestion);
+                   int n = teacherQuestionMapper.insert(teacherQuestion);
                    if(n!=1){
                        throw  new BusinessException("服务繁忙，请稍后再试！");
                    }
@@ -484,8 +482,8 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
         //查找出该问题的所有老师
         QueryWrapper queryWrapper=new QueryWrapper();
         queryWrapper.eq("question_id",id);
-        List<UserQuestion> userQuestionList= userQuestionMapper.selectList(queryWrapper);
-        List<String> teacherNames= userQuestionList.stream().map(userQuestion -> {
+        List<TeacherQuestion> teacherQuestionList = teacherQuestionMapper.selectList(queryWrapper);
+        List<String> teacherNames= teacherQuestionList.stream().map(userQuestion -> {
            User user= userMapper.selectById(userQuestion.getUserId());
            if(user!=null){
                return user.getNickname();
@@ -542,7 +540,7 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
         //把之前的老师和问题的关系记录删除
         QueryWrapper deleteUserQuestionQuery=new QueryWrapper();
         deleteUserQuestionQuery.eq("question_id",q.getId());
-        userQuestionMapper.delete(deleteUserQuestionQuery);
+        teacherQuestionMapper.delete(deleteUserQuestionQuery);
         //保存老师和问题的关系
         String[] teacherNames = q.getTeacherNames();
         for(String teaherName:teacherNames){
@@ -550,8 +548,8 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
             teacherQuery.eq("nickname",teaherName);
             User teacher = userMapper.selectOne(teacherQuery);
             if(teacher==null){throw  new BusinessException(teaherName+":该老师名称已被删除,请重新选择!");}
-            UserQuestion userQuestion =new UserQuestion(teacher.getId(),question.getId(),new Date());
-            int i = userQuestionMapper.insert(userQuestion);
+            TeacherQuestion teacherQuestion =new TeacherQuestion(teacher.getId(),question.getId(),new Date());
+            int i = teacherQuestionMapper.insert(teacherQuestion);
             if(i!=1){
                 throw  new BusinessException("服务器繁忙，请稍后重试");
             }
