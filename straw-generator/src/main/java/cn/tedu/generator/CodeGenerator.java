@@ -102,6 +102,8 @@ public class CodeGenerator {
         cfg.setFileOutConfigList(focList);
         mpg.setCfg(cfg);
         mpg.setTemplate(new TemplateConfig().setXml(null));
+        
+       
 
         // 策略配置
         StrategyConfig strategy = new StrategyConfig();
