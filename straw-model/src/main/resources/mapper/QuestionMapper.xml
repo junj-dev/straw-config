@@ -124,7 +124,7 @@
     <select id="findQuestionByUserIdAndStatus" resultMap="questionWithTags">
         SELECT q.*
         FROM question AS q
-        left outer  join user_question AS uq on  uq.question_id = q.id
+        left outer  join teacher_question AS uq on  uq.question_id = q.id
         where  uq.user_id = #{userId} and
                q.delete_status=0 and
                q.status=#{status}
@@ -135,7 +135,7 @@
     <select id="countTaskByUserId" parameterType="integer" resultType="java.lang.Integer">
          SELECT count(*)
          FROM question AS q
-         left outer  join user_question AS uq on  uq.question_id = q.id
+         left outer  join teacher_question AS uq on  uq.question_id = q.id
          where  uq.user_id = #{userId} and
                 q.delete_status=0 and
                 q.status in (0,1)

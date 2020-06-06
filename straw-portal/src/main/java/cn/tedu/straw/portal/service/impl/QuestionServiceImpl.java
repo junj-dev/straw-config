@@ -21,6 +21,7 @@ import com.github.pagehelper.PageInfo;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -76,6 +77,8 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
     private UserCollectMapper userCollectMapper;
 
     private Gson gson = new GsonBuilder().create();
+    @Value("${file.request.prefix}")
+    private String requestPrefix;
 
 
     @Override
@@ -168,7 +171,7 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
                     targetFile.delete();
                 }
                 file.transferTo(targetFile);
-                String filePath=request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+"/uploadFile/"+format+newName;
+                String filePath=requestPrefix+format+newName;
                 images.add(filePath);
             }catch (IOException e){
                 e.printStackTrace();

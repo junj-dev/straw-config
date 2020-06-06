@@ -3,7 +3,7 @@
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
   <title>稻草FAQ首页</title>
-  <link th:href="@{/img/logo.ico}" href="../static/img/logo.ico" rel="SHORTCUT ICON"/>
+  <link href="https://resource.straw.org.cn/img/logo.ico"  rel="SHORTCUT ICON"/>
 </head>
 <head th:replace="common/head :: head">
   <meta charset="UTF-8">
@@ -36,7 +36,7 @@
 <header th:replace="common/head :: header" class="container-fluid mb-3 bg-light">
   <nav class="navbar navbar-expand-lg   navbar-light bg-light">
     <a class="navbar-brand" href="#" >
-      <img alt="稻草问答"  src="../static/img/straw_logo_239x80.png" height="33">
+      <img alt="稻草问答"  src="https://resource.straw.org.cn/img/straw_logo_239x80.png" height="33">
     </a>
     <button class="navbar-toggler" type="button"
             data-toggle="collapse" data-target="#navbarNavAltMarkup"
@@ -72,7 +72,7 @@
       <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown"
               aria-haspopup="true" aria-expanded="false">
         <img style="width: 30px;height: 30px;border-radius: 50%;"
-             src="http://39.97.229.107/group1/M00/00/06/rBF9h15rOE-ARERBAABVIbenIVo282.jpg">
+             src="https://resource.straw.org.cn/img/user.jpg">
       </button>
       <div class="dropdown-menu dropdown-menu-sm-left text-sm border-0" aria-labelledby="dropdownMenu2">
         <a class="dropdown-item " href="personal/userInfo.html">账号设置</a>
@@ -293,7 +293,7 @@
 
             </div>
             <!-- / class="media-body"-->
-            <img :src="'/img/tags/example'+index+'.jpg'" alt="无法显示" class="ml-3 border img-fluid rounded"
+            <img :src="'https://resource.straw.org.cn/img/tags/example'+index+'.jpg'" alt="无法显示" class="ml-3 border img-fluid rounded"
                  width="208" height="116">
           </div>
           <div class="media bg-white m-2 p-3" th:remove="all">
@@ -336,7 +336,7 @@
 
             </div>
             <!-- / class="media-body"-->
-            <img  src="../static/img/tags/example1.jpg"  class="ml-3 border img-fluid rounded" alt=""
+            <img  src="https://resource.straw.org.cn/img/tags/example1.jpg"  class="ml-3 border img-fluid rounded" alt=""
                  width="208" height="116">
 
           </div>
@@ -380,7 +380,7 @@
 
             </div>
             <!-- / class="media-body"-->
-            <img  src="../static/img/tags/example2.jpg" class="ml-3 border img-fluid rounded" alt=""
+            <img  src="https://resource.straw.org.cn/img/tags/example2.jpg" class="ml-3 border img-fluid rounded" alt=""
                  width="208" height="116">
           </div>
           <div class="media bg-white m-2 p-3" th:remove="all">
@@ -423,7 +423,7 @@
 
             </div>
             <!-- / class="media-body"-->
-            <img  src="../static/img/tags/example3.jpg" class="ml-3 border img-fluid rounded" alt=""
+            <img  src="https://resource.straw.org.cn/img/tags/example3.jpg" class="ml-3 border img-fluid rounded" alt=""
                  width="208" height="116">
           </div>
           <div class="media bg-white m-2 p-3" th:remove="all">
@@ -466,7 +466,7 @@
 
             </div>
             <!-- / class="media-body"-->
-            <img  src="../static/img/tags/example4.jpg" class="ml-3 border img-fluid rounded" alt=""
+            <img  src="https://resource.straw.org.cn/img/tags/example4.jpg" class="ml-3 border img-fluid rounded" alt=""
                  width="208" height="116">
           </div>
           <!--分页信息-->
@@ -697,9 +697,13 @@
   <p class="text-center font-weight-light">达内教育-Java教研部 版权所有<br><a href="http://tedu.cn" rel="nofollow" target="_blank">京ICP备16053980号-3</a>
   </p>
 </footer>
-<script th:src="@{/js/index.js?v=20200512}"></script>
-<script th:src="@{/js/myinfo.js?v=20200512}"></script>
-<script th:src="@{/js/tag.js?v=20200512}"></script>
-<script th:src="@{/js/header.js?v=1.32}"></script>
+<!--<script th:src="@{/js/index.js?v=20200512}"></script>-->
+<!--<script th:src="@{/js/myinfo.js?v=20200512}"></script>-->
+<!--<script th:src="@{/js/tag.js?v=20200512}"></script>-->
+<!--<script th:src="@{/js/header.js?v=1.32}"></script>-->
+<script src="https://resource.straw.org.cn/js/index.js?v=20200512"></script>
+<script src="https://resource.straw.org.cn/js/myinfo.js?v=20200512"></script>
+<script src="https://resource.straw.org.cn/js/tag.js?v=20200512"></script>
+<script src="https://resource.straw.org.cn/js/header.js?v=1.32"></script>
 </body>
 </html>
