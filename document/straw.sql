@@ -612,20 +612,20 @@ INSERT INTO `tag` VALUES (3, 'Java SE', 'admin', '2020-03-09 23:32:13');
 INSERT INTO `tag` VALUES (4, 'WebServer', 'admin', '2020-03-09 23:32:50');
 INSERT INTO `tag` VALUES (5, '二进制', 'admin', '2020-03-09 23:33:18');
 INSERT INTO `tag` VALUES (6, 'Web', 'admin', '2020-03-09 23:33:58');
-INSERT INTO `tag` VALUES (7, 'Mysql', 'admin', '2020-03-09 23:34:20');
+INSERT INTO `tag` VALUES (7, 'MySQL', 'admin', '2020-03-09 23:34:20');
 INSERT INTO `tag` VALUES (8, 'Servlet', 'admin', '2020-03-09 23:34:40');
 INSERT INTO `tag` VALUES (9, 'Spring', 'admin', '2020-03-09 23:34:58');
 INSERT INTO `tag` VALUES (10, 'SpringMVC', 'admin', '2020-03-09 23:35:17');
-INSERT INTO `tag` VALUES (11, 'Mybatis', 'admin', '2020-03-09 23:35:38');
+INSERT INTO `tag` VALUES (11, 'MyBatis', 'admin', '2020-03-09 23:35:38');
 INSERT INTO `tag` VALUES (12, 'Ajax', 'admin', '2020-03-09 23:36:02');
 INSERT INTO `tag` VALUES (13, 'SpringBoot', 'admin', '2020-03-09 23:36:22');
 INSERT INTO `tag` VALUES (14, 'SpringCloud', 'admin', '2020-03-09 23:36:43');
 INSERT INTO `tag` VALUES (15, '面试题', 'admin', '2020-03-09 23:37:28');
 INSERT INTO `tag` VALUES (16, '搜索引擎', 'admin', '2020-03-09 23:40:47');
-INSERT INTO `tag` VALUES (17, 'docker', 'admin', '2020-03-10 17:19:05');
-INSERT INTO `tag` VALUES (18, 'linux', 'admin', '2020-03-16 14:44:04');
-INSERT INTO `tag` VALUES (19, 'centos', 'admin', '2020-03-16 14:44:22');
-INSERT INTO `tag` VALUES (20, 'dubbo', 'admin', '2020-03-19 09:52:09');
+INSERT INTO `tag` VALUES (17, 'Docker', 'admin', '2020-03-10 17:19:05');
+INSERT INTO `tag` VALUES (18, 'Linux', 'admin', '2020-03-16 14:44:04');
+INSERT INTO `tag` VALUES (19, 'Centos', 'admin', '2020-03-16 14:44:22');
+INSERT INTO `tag` VALUES (20, 'Dubbo', 'admin', '2020-03-19 09:52:09');
 
 -- ----------------------------
 -- Table structure for teacher_question
