@@ -1,38 +1,27 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
-<head th:replace="common/head :: head">
-  <meta charset="UTF-8">
+<head>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="renderer" content="webkit"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="author" content="Chen HaiBao">
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-
-  <link rel="stylesheet" href="../../static/bower_components/bootstrap/dist/css/bootstrap.min.css">
-  <link rel="stylesheet" href="../../static/bower_components/font-awesome/css/font-awesome.min.css"/>
-  <link rel="stylesheet" href="../../static/bower_components/plugins/css/zpageNav.css" />
-  <link rel="stylesheet" href="../../static/bower_components/plugins/css/vueAlert.css">
-  <script src="../../static/bower_components/jquery/dist/jquery.min.js"></script>
-  <script src="../../static/bower_components/popper.js/dist/umd/popper.min.js"></script>
-  <script src="../../static/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-  <link rel="stylesheet" href="../../static/bower_components/plugins/css/select2.min.css">
-  <script src="../../static/bower_components/plugins/js/select2.full.js"></script>
-  <link type="text/css" rel="stylesheet" href="../../static/bower_components/bootstrap-vue/dist/bootstrap-vue.min.css"/>
-  <script src="../../static/bower_components/polyfill/dist/polyfill.min.js"></script>
-  <script src="../../static/bower_components/vue/dist/vue.min.js"></script>
-  <script src="../../static/bower_components/bootstrap-vue/dist/bootstrap-vue.min.js"></script>
-  <script src="../../static/bower_components/bootstrap-vue/dist/bootstrap-vue-icons.min.js"></script>
-  <script src="../../static/bower_components/plugins/js/zpageNav.js"></script>
-</head>
-<head>
   <title th:text="${question.title}"></title>
   <link href="//resource.straw.org.cn/img/logo.ico" rel="SHORTCUT ICON"/>
   <link rel="stylesheet" href="../../static/bower_components/summernote/summernote.min.css"    th:href="@{//resource.straw.org.cn/bower_components/summernote/summernote.min.css}">
   <!--提问内容-->
   <link rel="stylesheet"  href="//resource.straw.org.cn/css/question-content.css">
-
+  <link  th:href="@{//resource.straw.org.cn/img/logo.ico}" href="../../static/img/logo.ico"  rel="SHORTCUT ICON"/>
+  <link rel="stylesheet" th:href="@{//resource.straw.org.cn/bower_components/bootstrap/dist/css/bootstrap.min.css}" href="../../static/bower_components/bootstrap/dist/css/bootstrap.min.css" >
+  <link rel="stylesheet" th:href="@{//resource.straw.org.cn/bower_components/font-awesome/css/font-awesome.min.css}" href="../../static/bower_components/font-awesome/css/font-awesome.min.css"/>
+  <script th:src="@{//resource.straw.org.cn/bower_components/jquery/dist/jquery.min.js}" src="../../static/bower_components/jquery/dist/jquery.min.js"></script>
+  <script th:src="@{//resource.straw.org.cn/bower_components/@popperjs/core/dist/umd/popper.min.js}" src="../../static/bower_components/@popperjs/core/dist/umd/popper.min.js"></script>
+  <script th:src="@{//resource.straw.org.cn/bower_components/bootstrap/dist/js/bootstrap.min.js}" src="../../static/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script th:src="@{//resource.straw.org.cn/bower_components/polyfill/dist/polyfill.min.js}" src="../../static/bower_components/polyfill/dist/polyfill.min.js"></script>
+  <script th:src="@{//resource.straw.org.cn/bower_components/vue/dist/vue.min.js}" src="../../static/bower_components/vue/dist/vue.min.js"></script>
 </head>
+
 <body>
 <header th:replace="common/head :: header" class="container-fluid mb-3 bg-light">
   <nav class="navbar navbar-expand-lg   navbar-light bg-light">
@@ -498,8 +487,8 @@
 <script src="../../static/bower_components/summernote/summernote.min.js" th:src="@{//resource.straw.org.cn/bower_components/summernote/summernote.min.js}"></script>
 <script src="../../static/bower_components/summernote/summernote-zh-CN.min.js" th:src="@{//resource.straw.org.cn/bower_components/summernote/summernote-zh-CN.min.js}"></script>
 
-<script src="//resource.straw.org.cn/js/detail.js"></script>
-<script src="//resource.straw.org.cn/js/tag.js?v=20200512"></script>
-<script src="//resource.straw.org.cn/js/header.js?v=1.32"></script>
+<script th:src="@{//resource.straw.org.cn/js/detail.js}" src="../../static/js/detail.js"></script>
+<script th:src="@{//resource.straw.org.cn/js/tag.js?v=20200512}"></script>
+<script th:src="@{//resource.straw.org.cn/js/header.js?v=1.32}"></script>
 </body>
 </html>

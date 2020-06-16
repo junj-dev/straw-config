@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -8,78 +7,74 @@
   <link  href="//resource.straw.org.cn/img/logo.ico" rel="SHORTCUT ICON"/>
   <link rel="stylesheet" href="../static/bower_components/bootstrap/dist/css/bootstrap.min.css" th:href="@{//resource.straw.org.cn/bower_components/bootstrap/dist/css/bootstrap.min.css}">
   <link rel="stylesheet" href="../static/bower_components/font-awesome/css/font-awesome.min.css" th:href="@{//resource.straw.org.cn/bower_components/font-awesome/css/font-awesome.min.css}">
-  <link rel="stylesheet" href="../static/bower_components/ionicons/docs/css/ionicons.min.css" th:href="@{//resource.straw.org.cn/bower_components/ionicons/docs/css/ionicons.min.css}">
-  <link rel="stylesheet" href="../static/bower_components/adminlte/dist/css/adminlte.min.css"  th:href="@{//resource.straw.org.cn/bower_components/adminlte/dist/css/adminlte.min.css}" >
-  <link rel="stylesheet" href="../static/bower_components/iCheck/skins/square/blue.css" th:href="@{//resource.straw.org.cn/bower_components/iCheck/skins/square/blue.css}">
   <link rel="stylesheet" href="../static/bower_components/plugins/css/vueAlert.css" th:href="@{//resource.straw.org.cn/bower_components/plugins/css/vueAlert.css}">
+  <link rel="stylesheet" href="../static/css/login.css" th:href="@{//resource.straw.org.cn/css/login.css}">
   <!--防止使用vue标签闪烁-->
   <link rel="stylesheet" href="../static/css/vueCloak.css" th:href="@{/css/vueCloak.css}" >
 </head>
-<body class="hold-transition register-page">
-<div class="register-box" id="app" v-cloak>
-  <div class="alsrtInfo" style="display: none"  :style="{display: displayStsates}" ref="alertMsg">
-    <div class="profPrompt_test" v-text="aletMsg"></div>
-  </div>
-  <div class="register-logo">
-    <a href="#"><b>达内稻草问答系统</b></a>
-  </div>
+<body class="bg-light">
 
-  <div class="register-box-body">
-
-    <p class="login-box-msg"><b>注册新用户</b></p>
-
-    <form>
-      <div class="form-group has-feedback">
-        <input type="text" v-model="inviteCode" class="form-control" placeholder="请输入邀请码">
-        <span class="glyphicon glyphicon-barcode form-control-feedback"></span>
+<div class="container-fluid" id="app" v-cloak>
+  <div class="row">
+    <div class="mx-auto mt-5">
+      <div class="alsrtInfo" style="display: none"  :style="{display: displayStsates}" ref="alertMsg">
+        <div class="profPrompt_test" v-text="aletMsg"></div>
       </div>
-      <div class="form-group has-feedback">
-        <input type="text" name="username" v-model="phone" class="form-control" placeholder="请输入手机号">
-        <span class=" glyphicon glyphicon-phone form-control-feedback"></span>
-      </div>
+      <h2 class="text-center">达内稻草问答系统</h2>
+      <div class="bg-white p-4">
 
-      <div class="form-group has-feedback row">
-        <div class="col-md-7">
-          <input type="text" v-model="code" class="form-control" placeholder="输入短信验证码">
-        </div>
-        <div class="col-md-5">
-          <button type="button" v-bind:disabled="disabled" class="btn btn-primary" v-on:click="sendMessage" v-text="message">
-            发送验证码
-          </button>
-        </div>
+        <p class="text-center"><b>注册新用户</b></p>
 
-      </div>
+        <form>
+          <div class="form-group has-icon">
+            <input type="text" v-model="inviteCode" class="form-control" placeholder="请输入邀请码">
+            <span class="fa fa-barcode form-control-icon"></span>
+          </div>
+          <div class="form-group has-icon">
+            <input type="text" name="username" v-model="phone" class="form-control" placeholder="请输入手机号">
+            <span class=" fa fa-phone form-control-icon"></span>
+          </div>
 
-      <div class="form-group has-feedback">
-        <input type="text" v-model="nickname" class="form-control" placeholder="请设置昵称，字数为2-20之间">
-        <span class="glyphicon glyphicon-user form-control-feedback"></span>
-      </div>
+          <div class="form-group has-icon row">
+            <div class="col-md-7">
+              <input type="text" v-model="code" class="form-control" placeholder="输入短信验证码">
+            </div>
+            <div class="col-md-5">
+              <button type="button" v-bind:disabled="disabled" class="btn btn-primary" v-on:click="sendMessage" v-text="message">
+                发送验证码
+              </button>
+            </div>
 
-      <div class="form-group has-feedback">
-        <input type="password" v-model="password" class="form-control" placeholder="设置密码6-20个字母、数字、下划线">
-        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
-      </div>
-      <div class="form-group has-feedback">
-        <input type="password" v-model="comfirmPassword" class="form-control" placeholder="请再次输入密码">
-        <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
-      </div>
-      <div class="row">
-        <div class="col-xs-12">
+          </div>
+
+          <div class="form-group has-icon">
+            <input type="text" v-model="nickname" class="form-control" placeholder="请设置昵称，字数为2-20之间">
+            <span class="fa fa-user form-control-icon"></span>
+          </div>
+
+          <div class="form-group has-icon">
+            <input type="password" v-model="password" class="form-control" placeholder="设置密码6-20个字母、数字、下划线">
+            <span class="fa fa-lock form-control-icon"></span>
+          </div>
+          <div class="form-group has-icon">
+            <input type="password" v-model="comfirmPassword" class="form-control" placeholder="请再次输入密码">
+            <span class="fa fa-lock form-control-icon"></span>
+          </div>
           <button type="button" class="btn btn-primary btn-block btn-flat" v-on:click="register">注册</button>
-        </div>
-        <!-- /.col -->
-      </div>
-    </form>
+        </form>
 
-    <br>
-    <a th:href="@{/login.html}" href="login.html" class="text-center">已有账号，立即登录</a>
+        <br>
+        <a th:href="@{/login.html}" href="login.html" class="text-center">已有账号，立即登录</a>
+      </div>
+      <!-- /.form-box -->
+    </div>
+
   </div>
-  <!-- /.form-box -->
+
 </div>
 <script src="../static/bower_components/jquery/dist/jquery.min.js" th:src="@{//resource.straw.org.cn/bower_components/jquery/dist/jquery.min.js}"></script>
-<script src="../static/bower_components/bootstrap/dist/js/bootstrap.min.js" th:src="//resource.straw.org.cn/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-<script src="../static/bower_components/iCheck/icheck.min.js" th:src="@{//resource.straw.org.cn/bower_components/iCheck/icheck.min.js}"></script>
-<script src="../static/bower_components/vue/dist/vue.min.js" th:href="@{//resource.straw.org.cn/bower_components/vue/dist/vue.min.js}"></script>
+<script src="../static/bower_components/bootstrap/dist/js/bootstrap.min.js" th:src="@{//resource.straw.org.cn/bower_components/bootstrap/dist/js/bootstrap.min.js}"></script>
+<script src="../static/bower_components/vue/dist/vue.min.js" th:src="@{//resource.straw.org.cn/bower_components/vue/dist/vue.min.js}"></script>
 <script src="../static/js/register.js" th:src="@{//resource.straw.org.cn/js/register.js?v=20200616}"></script>
 
 </body>
