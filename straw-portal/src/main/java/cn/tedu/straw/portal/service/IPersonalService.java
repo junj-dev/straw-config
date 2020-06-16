@@ -1,7 +1,6 @@
 package cn.tedu.straw.portal.service;
 
-import cn.tedu.straw.portal.domian.vo.MyInfo;
-import cn.tedu.straw.portal.model.User;
+import cn.tedu.straw.portal.domian.vo.MyInfoVO;
 import cn.tedu.straw.portal.model.UserInfoVO;
 
 /**
@@ -11,7 +10,7 @@ import cn.tedu.straw.portal.model.UserInfoVO;
  * @Version: 1.0
  */
 public interface IPersonalService {
-    MyInfo getMyInfo();
+    MyInfoVO getMyInfo();
 
     UserInfoVO getUserInfo();
 

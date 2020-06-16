@@ -2,7 +2,7 @@ package cn.tedu.straw.portal.controller;
 
 import cn.tedu.straw.common.StrawResult;
 import cn.tedu.straw.portal.base.BaseController;
-import cn.tedu.straw.portal.domian.vo.TagVo;
+import cn.tedu.straw.portal.domian.vo.TagVO;
 import cn.tedu.straw.portal.model.Tag;
 import cn.tedu.straw.portal.service.ITagService;
 import org.springframework.stereotype.Controller;
@@ -44,16 +44,16 @@ public class TagController extends BaseController {
 
     @GetMapping("/findAllTagVos")
     @ResponseBody
-    public StrawResult<List<TagVo>> loadAllTagVos(){
+    public StrawResult<List<TagVO>> loadAllTagVos(){
         List<Tag> tags = tagService.list();
         if(!CollectionUtils.isEmpty(tags)){
-            List<TagVo> tagVos = tags.stream().map(t -> {
-                TagVo vo = new TagVo();
+            List<TagVO> tagVOS = tags.stream().map(t -> {
+                TagVO vo = new TagVO();
                 vo.setText(t.getName());
                 vo.setValue(t.getId());
                 return vo;
             }).collect(Collectors.toList());
-            return new StrawResult().success(tagVos);
+            return new StrawResult().success(tagVOS);
         }
         return new StrawResult().success(null);
     }

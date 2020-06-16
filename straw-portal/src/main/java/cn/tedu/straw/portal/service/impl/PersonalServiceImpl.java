@@ -1,7 +1,7 @@
 package cn.tedu.straw.portal.service.impl;
 
 import cn.tedu.straw.portal.base.BaseService;
-import cn.tedu.straw.portal.domian.vo.MyInfo;
+import cn.tedu.straw.portal.domian.vo.MyInfoVO;
 import cn.tedu.straw.portal.mapper.AnswerMapper;
 import cn.tedu.straw.portal.mapper.QuestionMapper;
 import cn.tedu.straw.portal.mapper.UserCollectMapper;
@@ -41,7 +41,7 @@ public class PersonalServiceImpl extends BaseService implements IPersonalService
     @Override
 
 
-    public MyInfo getMyInfo() {
+    public MyInfoVO getMyInfo() {
 //        //先从redis中取，如果没有再到数据库查询
 //        String key="personal:myInfo:"+getUseId();
 //        if(strRedisTemplate.hasKey(key)){
@@ -49,7 +49,7 @@ public class PersonalServiceImpl extends BaseService implements IPersonalService
 //
 //        }
 
-        MyInfo myInfo=new MyInfo();
+        MyInfoVO myInfo=new MyInfoVO();
         //TODO 金币统计功能暂时未开发,统一设置为0
         myInfo.setGoldCount(0);
         //收藏数量

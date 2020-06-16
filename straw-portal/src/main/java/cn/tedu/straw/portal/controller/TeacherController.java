@@ -3,10 +3,9 @@ package cn.tedu.straw.portal.controller;
 
 import cn.tedu.straw.common.StrawResult;
 import cn.tedu.straw.portal.base.BaseController;
-import cn.tedu.straw.portal.domian.vo.TeacherVo;
+import cn.tedu.straw.portal.domian.vo.TeacherVO;
 import cn.tedu.straw.portal.model.User;
 import cn.tedu.straw.portal.service.IUserService;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import java.lang.annotation.Retention;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -54,13 +52,13 @@ public class TeacherController extends BaseController {
     public StrawResult loadAllTeacherVos(){
         List<User> teachers = getAvalibleTeachers();
         //把老师封装成页面的复选框数组内容
-        List<TeacherVo> teacherVos = teachers.stream().map(t -> {
-            TeacherVo vo = new TeacherVo();
+        List<TeacherVO> teacherVOS = teachers.stream().map(t -> {
+            TeacherVO vo = new TeacherVO();
             vo.setText(t.getNickname());
             vo.setValue(t.getId());
             return vo;
         }).collect(Collectors.toList());
-        return new StrawResult().success(teacherVos);
+        return new StrawResult().success(teacherVOS);
     }
 
 

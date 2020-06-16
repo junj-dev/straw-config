@@ -9,7 +9,7 @@ import cn.tedu.straw.portal.base.BaseController;
 import cn.tedu.straw.portal.config.GateWayUrlConfig;
 import cn.tedu.straw.portal.domian.param.QuestionParam;
 import cn.tedu.straw.portal.domian.param.QuestionUpdateParam;
-import cn.tedu.straw.portal.domian.vo.QuestionInfo;
+import cn.tedu.straw.portal.domian.vo.QuestionInfoVO;
 import cn.tedu.straw.portal.domian.vo.QuestionVO;
 import cn.tedu.straw.portal.exception.BusinessException;
 import cn.tedu.straw.portal.model.*;
@@ -20,7 +20,6 @@ import com.github.pagehelper.PageInfo;
 import com.google.gson.Gson;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.models.auth.In;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -143,7 +142,7 @@ public class QuestionController extends BaseController {
         int collectCount = userCollectService.count(collectQuery);
         model.addAttribute("collectCount",collectCount);
         //设置问题的相关信息
-        QuestionInfo questionInfo=new QuestionInfo(question.getUserId().intValue()==getUseId().intValue()?true:false,
+        QuestionInfoVO questionInfo=new QuestionInfoVO(question.getUserId().intValue()==getUseId().intValue()?true:false,
                 getUseId(),getUserRoleNames().contains(RoleName.TEACHER)?RoleName.TEACHER:RoleName.STUDENT,question.getId(),question.getStatus()
                 );
         model.addAttribute("questionInfo",gson.toJson(questionInfo));

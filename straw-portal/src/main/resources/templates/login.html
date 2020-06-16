@@ -6,20 +6,17 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>稻草FAQ登录</title>
   <link href="//resource.straw.org.cn/img/logo.ico" rel="SHORTCUT ICON"/>
-  <!-- Tell the browser to be responsive to screen width -->
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <!-- Bootstrap 3.3.7 -->
-  <link rel="stylesheet" href="//resource.straw.org.cn/css/bootstrap.min.css">
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="//resource.straw.org.cn/css/font-awesome.min.css">
+  <link rel="stylesheet" href="../static/bower_components/bootstrap/dist/css/bootstrap.min.css" th:href="@{//resource.straw.org.cn/bower_components/bootstrap/dist/css/bootstrap.min.css}">
+  <link rel="stylesheet" href="../static/bower_components/font-awesome/css/font-awesome.min.css" th:href="@{//resource.straw.org.cn/bower_components/font-awesome/css/font-awesome.min.css}">
   <!-- Ionicons -->
-  <link rel="stylesheet" href="//resource.straw.org.cn/css/ionicons.min.css">
+  <link rel="stylesheet" href="../static/bower_components/ionicons/docs/css/ionicons.min.css" th:href="@{//resource.straw.org.cn/bower_components/ionicons/docs/css/ionicons.min.css}">
   <!-- Theme style -->
-  <link rel="stylesheet"  href="//resource.straw.org.cn/css/AdminLTE.min.css">
+  <link rel="stylesheet" href="../static/bower_components/adminlte/dist/css/adminlte.min.css"  th:href="@{//resource.straw.org.cn/bower_components/adminlte/dist/css/adminlte.min.css}" >
   <!-- iCheck -->
-  <link rel="stylesheet"  href="//resource.straw.org.cn/plugins/iCheck/square/blue.css">
-  <script src="//oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-  <script src="//oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+  <link rel="stylesheet" href="../static/bower_components/iCheck/skins/square/blue.css" th:href="@{//resource.straw.org.cn/bower_components/iCheck/skins/square/blue.css}">
+<!--  <script src="//oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>-->
+<!--  <script src="//oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>-->
 
 </head>
 <body class="hold-transition login-page">
@@ -62,10 +59,9 @@
   </div>
   <!-- /.login-box-body -->
 </div>
-<script src="//resource.straw.org.cn/js/jquery.min.js"></script>
-<script src="//resource.straw.org.cn/js/bootstrap.min.js"></script>
-<!-- iCheck -->
-<script src="//resource.straw.org.cn/js/icheck.min.js"></script>
+<script src="../static/bower_components/jquery/dist/jquery.min.js" th:src="@{//resource.straw.org.cn/bower_components/jquery/dist/jquery.min.js}"></script>
+<script src="../static/bower_components/bootstrap/dist/js/bootstrap.min.js" th:src="//resource.straw.org.cn/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="../static/bower_components/iCheck/icheck.min.js" th:src="@{//resource.straw.org.cn/bower_components/iCheck/icheck.min.js}"></script>
 <script>
     $(function () {
         $('input').iCheck({

@@ -2,24 +2,20 @@ package cn.tedu.straw.portal.controller;
 
 import cn.tedu.straw.common.StrawResult;
 import cn.tedu.straw.portal.base.BaseController;
-import cn.tedu.straw.portal.domian.vo.MyInfo;
+import cn.tedu.straw.portal.domian.vo.MyInfoVO;
 import cn.tedu.straw.portal.model.Question;
 import cn.tedu.straw.portal.model.User;
-import cn.tedu.straw.portal.model.UserCollect;
 import cn.tedu.straw.portal.model.UserInfoVO;
 import cn.tedu.straw.portal.service.IPersonalService;
 import cn.tedu.straw.portal.service.IRecommendQuestionService;
 import cn.tedu.straw.portal.service.IUserCollectService;
 import cn.tedu.straw.portal.service.IUserService;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.CollectionUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -63,7 +59,7 @@ public class PersonalController extends BaseController {
     @ResponseBody
     @ApiOperation("获取首页个人信息，包括任务，提问信息")
     public StrawResult getMyInfo(){
-      MyInfo myInfo= personalService.getMyInfo();
+      MyInfoVO myInfo= personalService.getMyInfo();
       if(myInfo==null){
           log.error("系统出错，用户信息为空");
           return new StrawResult().failed("系统繁忙，请稍后再试！");
