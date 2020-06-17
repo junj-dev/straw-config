@@ -10,7 +10,6 @@ $(function () {
             }
         },
     });
-     $('.select2').select2();
 })
 function insertImg(imgeList){
     //for(i in imageUrl){

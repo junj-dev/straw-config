@@ -1,33 +1,22 @@
 <!DOCTYPE html>
-<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <title>我的提问</title>
-  <link href="//resource.straw.org.cn/img/logo.ico" rel="SHORTCUT ICON"/>
-</head>
-<head th:replace="common/head :: head">
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="renderer" content="webkit"/>
+  <meta name="renderer" content="webkit">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="author" content="Chen HaiBao">
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-
-  <link rel="stylesheet" href="../../static/bower_components/bootstrap/dist/css/bootstrap.min.css">
-  <link rel="stylesheet" href="../../static/bower_components/font-awesome/css/font-awesome.min.css"/>
-  <link rel="stylesheet" href="../../static/bower_components/plugins/css/zpageNav.css" />
-  <link rel="stylesheet" href="../../static/bower_components/plugins/css/vueAlert.css">
-  <script src="../../static/bower_components/jquery/dist/jquery.min.js"></script>
-  <script src="../../static/bower_components/popper.js/dist/umd/popper.min.js"></script>
-  <script src="../../static/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-  <link rel="stylesheet" href="../../static/bower_components/plugins/css/select2.min.css">
-  <script src="../../static/bower_components/plugins/js/select2.full.js"></script>
-  <link type="text/css" rel="stylesheet" href="../../static/bower_components/bootstrap-vue/dist/bootstrap-vue.min.css"/>
-  <script src="../../static/bower_components/polyfill/dist/polyfill.min.js"></script>
-  <script src="../../static/bower_components/vue/dist/vue.min.js"></script>
-  <script src="../../static/bower_components/bootstrap-vue/dist/bootstrap-vue.min.js"></script>
-  <script src="../../static/bower_components/bootstrap-vue/dist/bootstrap-vue-icons.min.js"></script>
-  <script src="../../static/bower_components/plugins/js/zpageNav.js"></script>
+  <title>我的提问</title>
+  <link href="//resource.straw.org.cn/img/logo.ico" rel="SHORTCUT ICON"/>
+  <link rel="stylesheet" th:href="@{//resource.straw.org.cn/bower_components/bootstrap/dist/css/bootstrap.min.css}" href="../../static/bower_components/bootstrap/dist/css/bootstrap.min.css" >
+  <link rel="stylesheet" th:href="@{//resource.straw.org.cn/bower_components/font-awesome/css/font-awesome.min.css}" href="../../static/bower_components/font-awesome/css/font-awesome.min.css"/>
+  <link rel="stylesheet" th:href="@{//resource.straw.org.cn/bower_components/plugins/css/zpageNav.css}" href="../../static/bower_components/plugins/css/zpageNav.css" />
+  <script th:src="@{//resource.straw.org.cn/bower_components/jquery/dist/jquery.min.js}" src="../../static/bower_components/jquery/dist/jquery.min.js"></script>
+  <script th:src="@{//resource.straw.org.cn/bower_components/@popperjs/core/dist/umd/popper.min.js}" src="../../static/bower_components/@popperjs/core/dist/umd/popper.min.js"></script>
+  <script th:src="@{//resource.straw.org.cn/bower_components/bootstrap/dist/js/bootstrap.min.js}" src="../../static/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script th:src="@{//resource.straw.org.cn/bower_components/polyfill/dist/polyfill.min.js}" src="../../static/bower_components/polyfill/dist/polyfill.min.js"></script>
+  <script th:src="@{//resource.straw.org.cn/bower_components/vue/dist/vue.min.js}" src="../../static/bower_components/vue/dist/vue.min.js"></script>
+  <script th:src="@{//resource.straw.org.cn/bower_components/plugins/js/zpageNav.js}" src="../../static/bower_components/plugins/js/zpageNav.js"></script>
 </head>
 <body>
 <header th:replace="common/head :: header" class="container-fluid mb-3 bg-light">
@@ -180,9 +169,9 @@
     <div class="col-3  w-100 h-100">
       <ul class="list-group">
         <li class="list-group-item active">我的提问</li>
-        <li class="list-group-item">我的回答</li>
-        <li class="list-group-item">我的关注</li>
-        <li class="list-group-item "><a class="text-dark" href="collect.html">我的收藏</a></li>
+<!--        <li class="list-group-item">我的回答</li>-->
+<!--        <li class="list-group-item">我的关注</li>-->
+        <li class="list-group-item "><a class="text-dark" th:href="@{/personal/collect}">我的收藏</a></li>
       </ul>
 
     </div>
@@ -276,7 +265,7 @@
   <p class="text-center font-weight-light">达内教育-Java教研部 版权所有<br><a href="http://tedu.cn" rel="nofollow" target="_blank">京ICP备16053980号-3</a>
   </p>
 </footer>
-<script src="//resource.straw.org.cn/js/myQuestion.js?v=20200512"></script>
-<script src="//resource.straw.org.cn/js/header.js?v=1.32"></script>
+<script th:src="@{//resource.straw.org.cn/js/myQuestion.js?v=20200512}"></script>
+<script th:src="@{//resource.straw.org.cn/js/header.js?v=1.32}"></script>
 </body>
 </html>
