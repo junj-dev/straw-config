@@ -1,5 +1,6 @@
 package cn.tedu.straw.portal.base;
 
+import cn.tedu.straw.common.R;
 import cn.tedu.straw.portal.model.Role;
 import cn.tedu.straw.portal.model.User;
 import cn.tedu.straw.portal.service.IUserService;
@@ -133,6 +134,17 @@ public class BaseController {
 		queryWrapper.eq("type", true);
 		return userService.list(queryWrapper);
 	}
-	
- 
+
+
+	protected R toAjax(int rows)
+	{
+		return rows > 0 ? R.success() : R.failed();
+	}
+
+	protected R toAjax(boolean result)
+	{
+		return result ? R.success() : R.failed();
+	}
+
+
 }
