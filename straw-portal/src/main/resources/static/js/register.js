@@ -11,8 +11,6 @@ const vm=new Vue({
         aletMsg: '', // 弹出框中的提示语
         displayStsates: 'none',
         inviteCode:''
-
-
     },
     methods:{
         //发送验证码
