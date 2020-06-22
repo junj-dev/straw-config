@@ -1,16 +1,11 @@
 package cn.tedu.straw.portal.controller;
 
-import cn.tedu.straw.common.StrawResult;
-import cn.tedu.straw.portal.domian.param.RegisterParam;
+import cn.tedu.straw.common.R;
+import cn.tedu.straw.portal.base.BaseController;
 import cn.tedu.straw.portal.service.IMessageService;
-import com.aliyuncs.CommonResponse;
-import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
 import javax.annotation.Resource;
 
 /**
@@ -21,25 +16,22 @@ import javax.annotation.Resource;
  */
 @Controller
 @RequestMapping("/aliyunMessage")
-public class AliyunMessageController {
+public class AliyunMessageController extends BaseController {
     @Resource
     private IMessageService messageService;
 
     @GetMapping("/sendRegisterCode")
     @ResponseBody
     @ApiOperation("发送注册验证码")
-    public StrawResult sendRegisterCode(@RequestParam("phone")String phone,@RequestParam("inviteCode")String inviteCode){
-       return messageService.sendRegisterCode(phone,inviteCode);
-
-
+    public R sendRegisterCode(@RequestParam("phone")String phone, @RequestParam("inviteCode")String inviteCode){
+       return toAjax(messageService.sendRegisterCode(phone,inviteCode));
     }
 
     @GetMapping("/sendResetPasswordCode")
     @ResponseBody
     @ApiOperation("发送忘记密码短信验证码")
-    public StrawResult sendResetPasswordCode (@RequestParam("phone")String phone){
-        return messageService.sendResetPasswordCode(phone);
-
+    public R sendResetPasswordCode (@RequestParam("phone")String phone){
+         return toAjax(messageService.sendResetPasswordCode(phone));
     }
 
 
