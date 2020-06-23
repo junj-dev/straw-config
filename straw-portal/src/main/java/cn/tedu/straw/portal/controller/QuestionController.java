@@ -180,7 +180,7 @@ public class QuestionController extends BaseController {
             return R.success(pageInfo);
         }
         //否则按照标签查找问题
-        PageInfo<Question> pageInfo = questionService.selectPage(tagId,pageNum, pageSize);
+        PageInfo<Question> pageInfo = questionService.listQuestions(tagId,pageNum, pageSize);
         return R.success(pageInfo);
     }
 
