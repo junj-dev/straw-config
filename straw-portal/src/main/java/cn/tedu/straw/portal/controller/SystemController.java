@@ -1,8 +1,9 @@
 package cn.tedu.straw.portal.controller;
 
-import cn.tedu.straw.common.StrawResult;
+import cn.tedu.straw.common.R;
 import cn.tedu.straw.portal.domian.param.RegisterParam;
 import cn.tedu.straw.portal.domian.param.ResetPasswordParam;
+import cn.tedu.straw.portal.exception.BusinessException;
 import cn.tedu.straw.portal.service.IUserService;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
@@ -46,12 +47,12 @@ public class SystemController {
     @PostMapping("/register")
     @ResponseBody
     @ApiModelProperty("注册新用户")
-    public StrawResult register(@Validated RegisterParam param, BindingResult bindingResult){
+    public R register(@Validated RegisterParam param, BindingResult bindingResult){
         if(bindingResult.hasErrors()){
-            return new StrawResult().validateFailed(bindingResult);
+            return  R.validateFailed(bindingResult);
         }
-       return userService.register(param);
-
+        userService.register(param);
+        return R.success();
     }
 
     @GetMapping("/resetpassword.html")
@@ -63,24 +64,27 @@ public class SystemController {
     @PostMapping("/resetpassword")
     @ResponseBody
     @ApiOperation("重置密码")
-    public StrawResult resetPassword(@Validated ResetPasswordParam param,BindingResult bindingResult){
+    public R resetPassword(@Validated ResetPasswordParam param, BindingResult bindingResult){
         if(bindingResult.hasErrors()){
-            return new StrawResult().validateFailed(bindingResult);
+            return R.validateFailed(bindingResult);
         }
-        return userService.resetPassword(param);
+        userService.resetPassword(param);
+        return R.success();
     }
 
+    /**
+     * 创建老师
+     * @param teacher
+     * @param bindingResult
+     * @return
+     */
     @PostMapping("/createTeacher")
-    public StrawResult createTeacher(@RequestBody @Validated TeacherCreateForm teacher,BindingResult bindingResult){
+    public R createTeacher(@RequestBody @Validated TeacherCreateForm teacher, BindingResult bindingResult){
         if(bindingResult.hasErrors()){
-            return new StrawResult().validateFailed(bindingResult);
+            return R.validateFailed(bindingResult);
         }
-        boolean isSuccess= userService.createTeacher(teacher);
-       if(isSuccess){
-           return new StrawResult().success();
-       }else {
-           return new StrawResult().failed();
-       }
+        userService.createTeacher(teacher);
+        return R.success();
 
     }
 }
