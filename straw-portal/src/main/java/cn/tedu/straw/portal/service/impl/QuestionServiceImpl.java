@@ -2,7 +2,7 @@ package cn.tedu.straw.portal.service.impl;
 
 import cn.tedu.straw.common.CommonPage;
 import cn.tedu.straw.common.constant.KafkaTopic;
-import cn.tedu.straw.common.constant.QuestionPublicStatus;
+import cn.tedu.straw.common.enums.QuestionPublicStatusEnum;
 import cn.tedu.straw.common.R;
 import cn.tedu.straw.portal.base.BaseServiceImpl;
 import cn.tedu.straw.portal.config.UploadFileConfig;
@@ -103,7 +103,7 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
         List<String> userRoleNames = getUserRoleNames();
         if (userRoleNames.contains("ROLE_STUDENT") && userRoleNames.size() == 1) {//只有学生角色一个角色，没有其它的角色
             //只查找本人发布的问题和已经公开的问题
-            questionList = questionMapper.findQuestionByUserIdOrPublicStatus(getUseId(), QuestionPublicStatus.PUBLIC.getStatus());
+            questionList = questionMapper.findQuestionByUserIdOrPublicStatus(getUseId(), QuestionPublicStatusEnum.PUBLIC.getStatus());
         } else if (userRoleNames.contains("ROLE_TEACHER")) {//只要拥有老师角色就ok,管理员拥有学生和老师的角色
             //老师角色和管理员可以查看所有的问题
             questionList = questionMapper.findAllQuestion();
@@ -197,9 +197,13 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void saveQuestion(QuestionParam param) {
+        if(param==null){
+            log.debug("参数不能为空");
+            throw new BusinessException("参数不能为空");
+        }
         //保存问题
         Question question = new Question(param.getTitle(), param.getContent()
-                , getUserNickname(), getUseId(), new Date(), 0, 0, QuestionPublicStatus.PRIVATE.getStatus());
+                , getUserNickname(), getUseId(), new Date(), 0, 0, QuestionPublicStatusEnum.PRIVATE.getStatus());
         int rows = questionMapper.insert(question);
         //提取标签列表
         List<Tag> tagList = getTagList(param.getTagNames());
@@ -216,6 +220,14 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
                 question.getPublicStatus(), Arrays.asList(param.getTagNames()), tagList);
         log.debug("向kafka发送消息:{}", esQuestion);
         ListenableFuture<SendResult<String, String>> sendResult = kafkaTemplate.send(KafkaTopic.PORTAL_CREATE_QUESTION, gson.toJson(esQuestion));
+        //查看发送结果
+        checkSendResult(esQuestion, sendResult);
+
+
+    }
+
+
+    private void checkSendResult(EsQuestion esQuestion, ListenableFuture<SendResult<String, String>> sendResult) {
         sendResult.addCallback(new SuccessCallback<SendResult<String, String>>() {
             @Override
             public void onSuccess(SendResult<String, String> result) {
@@ -228,8 +240,6 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
                 throw new BusinessException("服务器开小差，请稍后重试！");
             }
         });
-
-
     }
 
     /**
@@ -310,7 +320,7 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
         if (getUserRoleNames().contains("ROLE_STUDENT") //学生角色
                 && getUserRoleNames().size() == 1//只拥有一个角色，该角色是学生
                 && question.getUserId().intValue() != getUseId().intValue() //问题不是本人发表
-                && QuestionPublicStatus.PRIVATE.getStatus().equals(question.getPublicStatus())) { //问题不是公开的
+                && QuestionPublicStatusEnum.PRIVATE.getStatus().equals(question.getPublicStatus())) { //问题不是公开的
             throw new PageNotExistException();//表示该问题不存在，无权访问
         }
 
@@ -378,7 +388,7 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
         R<CommonPage<EsQuestion>> result = new R<>();
         //只有学生角色
         if (userRoleNames.contains("ROLE_STUDENT") && userRoleNames.size() == 1) {
-            result = questionServiceApi.searchOpenQuestion(keyword, pageNum, pageSize, getUseId(), QuestionPublicStatus.PUBLIC.getStatus());
+            result = questionServiceApi.searchOpenQuestion(keyword, pageNum, pageSize, getUseId(), QuestionPublicStatusEnum.PUBLIC.getStatus());
         } else {
             result = questionServiceApi.search(keyword, pageNum, pageSize);
         }
@@ -396,13 +406,7 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
         return result;
     }
 
-    @Override
-    public PageInfo<Question> findAllQuestion(Integer pageNum, Integer pageSize) {
-        PageHelper.startPage(pageNum, pageSize);
-        List<Question> questions = questionMapper.findAllQuestion();
-        PageInfo<Question> pageInfo = new PageInfo<>(questions);
-        return pageInfo;
-    }
+
 
     /**
      * 按条件查询提问
@@ -429,26 +433,6 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
         return pageInfo;
     }
 
-    /**
-     * 修改问题的公开状态
-     */
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public void updateQuestionPublicStatus(Integer[] ids,Integer status) {
-        if(ids==null||ids.length==0){
-            throw new BusinessException("id参数不能为空");
-        }
-        Question question = new Question();
-        question.setPublicStatus(status);
-        questionMapper.updateById(question);
-        QueryWrapper queryWrapper = new QueryWrapper();
-        queryWrapper.in("id", ids);
-        int rows = questionMapper.update(question, queryWrapper);
-        if(rows!=ids.length){
-            log.error("服务器出错，修改问题公开状态失败！");
-            throw new BusinessException("服务器开小差了，操作失败！");
-        }
-    }
 
     @Override
     public PageInfo<Question> findMyUnAnwerQuestion(Integer pageNum, Integer pageSize) {
@@ -471,24 +455,7 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
         return getQuestionPageInfo(pageNum, pageSize, 2);
     }
 
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public boolean setQuestionSolved(Integer id) {
-        Question question = new Question();
-        question.setId(id);
-        question.setStatus(2);
-        return questionMapper.updateById(question) == 1;
-    }
 
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public boolean setQuestionSolved(Integer[] ids) {
-        Question question = new Question();
-        question.setStatus(2);
-        QueryWrapper queryWrapper = new QueryWrapper();
-        queryWrapper.in("id", ids);
-        return questionMapper.update(question, queryWrapper) >= 1;
-    }
 
     /**
      * 把问题转发给其他老师
@@ -564,95 +531,61 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public boolean updateQuestion(QuestionUpdateParam q) {
-        //保存问题
-        Question question = questionMapper.selectById(q.getId());
-        question.setTitle(q.getTitle());
-        question.setContent(q.getContent());
+    public void updateQuestion(QuestionUpdateParam param) {
+        if(param==null){
+            log.debug("参数不能为空");
+            throw new BusinessException("参数不能为空");
+        }
+        //修改问题
+        Question question = questionMapper.selectById(param.getId());
+        if(question==null){
+            log.info("不存在该问题id：{}",param.getId());
+            throw new BusinessException("不存在该问题id:"+question.getId());
+        }
+        question.setTitle(param.getTitle()).setContent(param.getContent());
         int n = questionMapper.updateById(question);
         if (n != 1) {
             throw new BusinessException("服务器繁忙，请稍后重试");
         }
-        //先删除问题和标签的关系记录
+        //先删除问题标签记录
         QueryWrapper deleteQuestionTagQuery = new QueryWrapper();
-        deleteQuestionTagQuery.eq("question_id", q.getId());
-        questionTagMapper.delete(deleteQuestionTagQuery);
+        deleteQuestionTagQuery.eq("question_id", param.getId());
+        Integer count1 = questionTagMapper.selectCount(deleteQuestionTagQuery);
+        int rows1 = questionTagMapper.delete(deleteQuestionTagQuery);
+        if(count1!=rows1){
+            log.error("服务器出错，删除问题标签失败！");
+            throw  new BusinessException("服务器开小差了，请稍后再试！");
+        }
+        //提取标签列表
+        List<Tag> tagList = getTagList(param.getTagNames());
         //再保存问题标签
-        String[] tagNames = q.getTagNames();
-        List<Tag> tagList = new ArrayList<>();
-        for (String tagName : tagNames) {
-            QueryWrapper tagQuery = new QueryWrapper();
-            tagQuery.eq("name", tagName);
-            Tag tag = tagMapper.selectOne(tagQuery);
-            if (tag == null) {
-                throw new BusinessException(tagName + "标签已被删除,请重新选择!");
-            }
-            tagList.add(tag);
-            QuestionTag questionTag = new QuestionTag(question.getId(), tag.getId());
-            int m = questionTagMapper.insert(questionTag);
-            if (m != 1) {
-                throw new BusinessException("服务器繁忙，请稍后重试");
-            }
-        }
-        //把之前的老师和问题的关系记录删除
+        log.debug("保存问题标签:{}", tagList);
+        saveQuestionTags(question, tagList);
+        //把之前的老师问题的关系记录删除
         QueryWrapper deleteUserQuestionQuery = new QueryWrapper();
-        deleteUserQuestionQuery.eq("question_id", q.getId());
-        teacherQuestionMapper.delete(deleteUserQuestionQuery);
-        //保存老师和问题的关系
-        String[] teacherNames = q.getTeacherNames();
-        for (String teaherName : teacherNames) {
-            QueryWrapper teacherQuery = new QueryWrapper();
-            teacherQuery.eq("nickname", teaherName);
-            User teacher = userMapper.selectOne(teacherQuery);
-            if (teacher == null) {
-                throw new BusinessException(teaherName + ":该老师名称已被删除,请重新选择!");
-            }
-            TeacherQuestion teacherQuestion = new TeacherQuestion(teacher.getId(), question.getId(), new Date());
-            int i = teacherQuestionMapper.insert(teacherQuestion);
-            if (i != 1) {
-                throw new BusinessException("服务器繁忙，请稍后重试");
-            }
-
-
+        deleteUserQuestionQuery.eq("question_id", param.getId());
+        Integer count2 = teacherQuestionMapper.selectCount(deleteUserQuestionQuery);
+        log.debug("删除问题id为：{}的老师问题记录",param.getId());
+        int rows2 = teacherQuestionMapper.delete(deleteUserQuestionQuery);
+        if(count2!=rows2){
+            log.error("服务器出错，删除老师问题出错！");
+            throw new BusinessException("服务器开小差了，请稍后再试！");
         }
+        //保存老师问题记录
+        log.debug("保存老师问题的关系:{}", param.getTeacherNames());
+        saveTeacherQuestions(param.getTeacherNames(), question);
+
         EsQuestion esQuestion = new EsQuestion(question.getId(), question.getTitle(), question.getContent(),
                 question.getUserNickName(), question.getUserId(), question.getCreatetime(), question.getStatus(), question.getPageViews(),
-                question.getPublicStatus(), Arrays.asList(q.getTagNames()), tagList);
+                question.getPublicStatus(), Arrays.asList(param.getTagNames()), tagList);
 
-        kafkaTemplate.send(KafkaTopic.PROTAL_UPDATE_QUESTION, gson.toJson(esQuestion));
-
-        return true;
-
-    }
-
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public Boolean deleteById(Integer id) {
-        //删除问题
-        Question question = new Question();
-        question.setId(id);
-        question.setDeleteStatus(true);
-        question.setModifytime(new Date());
-
-        return questionMapper.updateById(question) == 1;
-    }
-
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public Boolean collectQuestion(Integer id) {
-        //先判断该问题是否已收藏
-        QueryWrapper queryWrapper = new QueryWrapper();
-        queryWrapper.eq("user_id", getUseId());
-        queryWrapper.eq("question_id", id);
-        List<UserCollect> userCollect2 = userCollectMapper.selectList(queryWrapper);
-        //只有该收藏不存在时才处理
-        if (!CollectionUtils.isEmpty(userCollect2)) {
-            throw new BusinessException("该问题已收藏");
-        }
-        UserCollect userCollect = new UserCollect(getUseId(), id, new Date());
-        return userCollectMapper.insert(userCollect) == 1;
+        log.debug("发送信息到kafak:{}",esQuestion);
+        ListenableFuture<SendResult<String, String>> sendResult = kafkaTemplate.send(KafkaTopic.PROTAL_UPDATE_QUESTION, gson.toJson(esQuestion));
+        //查看发送结果
+        checkSendResult(esQuestion, sendResult);
 
     }
+
 
     /**
      * 收藏提问
@@ -672,29 +605,34 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
         return false;
     }
 
-    /**
-     * 取消收藏
-     *
-     * @param id
-     * @return
-     */
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public Boolean cancelCollectQuestion(Integer id) {
-        //用kafka消息队列
-        QueryWrapper queryWrapper = new QueryWrapper();
-        queryWrapper.eq("user_id", getUseId());
-        queryWrapper.eq("question_id", id);
-        //删除该收藏
-        return userCollectMapper.delete(queryWrapper) == 1;
 
-
-    }
 
     @Override
     public List<Answer> getQuestionAnswerById(Integer questionId) {
         List<Answer> answers = getAnswers(questionId);
         return answers;
+    }
+
+    /**
+     * 修改多个问题
+     * @param ids
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void update(Integer[] ids, Question question) {
+        if(ids==null||ids.length==0){
+            log.debug("ids参数不能为空");
+            throw new BusinessException("ids参数不能为空");
+        }
+        for (Integer id : ids) {
+            log.debug("修改问题，修改参数为：{}",question);
+            question.setId(id);
+            int update = questionMapper.updateById(question);
+            if(update!=1){
+                log.error("服务器出错，修改问题失败！");
+                throw new BusinessException("服务器开小差了，修改失败！");
+            }
+        }
     }
 
     private List<Answer> getAnswers(Integer questionId) {
