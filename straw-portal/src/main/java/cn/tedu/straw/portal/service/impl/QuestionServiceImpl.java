@@ -114,7 +114,7 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
     }
 
     @Override
-    public PageInfo<Question> listPersonalQuestion(Integer pageNum, Integer pageSize) {
+    public PageInfo<Question> listPersonalQuestions(Integer pageNum, Integer pageSize) {
         //使用分页插件
         if (pageNum == null || pageSize == null) {
             throw new BusinessException("分页参数不能为空！");
