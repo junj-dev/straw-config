@@ -127,7 +127,7 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
     }
 
     @Override
-    public PageInfo<Question> selectPage(Integer tagId, Integer pageNum, Integer pageSize) {
+    public PageInfo<Question> listQuestions(Integer tagId, Integer pageNum, Integer pageSize) {
         //使用分页插件
         if (pageNum == null || pageSize == null) {
             throw new BusinessException("分页参数不能为空！");
