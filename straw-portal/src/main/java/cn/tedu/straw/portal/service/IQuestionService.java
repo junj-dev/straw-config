@@ -18,7 +18,7 @@ import java.util.List;
 
 /**
  * <p>
- *  服务类
+ *  问题服务实现类
  * </p>
  *
  * @author ChenHaiBao
@@ -34,7 +34,7 @@ public interface IQuestionService extends IService<Question> {
 
     List<String> uploadImg(MultipartFile[] files, HttpServletRequest request);
 
-    int create(QuestionParam param);
+    void saveQuestion(QuestionParam param);
 
     Question getQuestionDetailById(Integer id);
 
