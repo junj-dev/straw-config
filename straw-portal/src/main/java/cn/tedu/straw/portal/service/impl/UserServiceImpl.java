@@ -1,6 +1,6 @@
 package cn.tedu.straw.portal.service.impl;
 
-import cn.tedu.straw.common.StrawResult;
+import cn.tedu.straw.common.R;
 import cn.tedu.straw.common.constant.RedisKeyPrefix;
 import cn.tedu.straw.portal.base.BaseServiceImpl;
 import cn.tedu.straw.portal.domian.param.RegisterParam;
@@ -11,7 +11,6 @@ import cn.tedu.straw.portal.mapper.*;
 import cn.tedu.straw.portal.model.*;
 import cn.tedu.straw.portal.service.IUserService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -30,8 +29,6 @@ import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 
 /**
@@ -89,19 +86,19 @@ public class UserServiceImpl extends BaseServiceImpl<UserMapper, User> implement
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public StrawResult register(RegisterParam param) {
+    public void register(RegisterParam param) {
         //判断邀请码是否正确,直接通过邀请码查找班级，如果班级不存在说明邀请码错误
         QueryWrapper query=new QueryWrapper();
         query.eq("invite_code",param.getInviteCode());
         Classroom classroom = classroomMapper.selectOne(query);
         if(classroom==null){
-            return new StrawResult().failed("邀请码错误");
+            throw  new BusinessException("邀请码错误");
         }
         //先判断手机验证码是否正确，从redis中取出验证码
         String realCode = strRedisTemplate.opsForValue().get(RedisKeyPrefix.REGISTER_CODE_PREFIX + param.getPhone());
         String code=param.getCode();
         if(StringUtils.isEmpty(realCode)|| !realCode.equals(code)){
-            return new StrawResult().failed("手机验证码错误");
+            throw  new BusinessException("手机验证码错误");
         }
         //判断手机号是否已被注册
         String phone=param.getPhone();
@@ -109,7 +106,7 @@ public class UserServiceImpl extends BaseServiceImpl<UserMapper, User> implement
         queryWrapper.eq("username",phone);
         User u = userService.getOne(queryWrapper);
         if(u!=null){
-            return new StrawResult().failed("该手机号已注册！请直接登录！");
+            throw  new BusinessException("该手机号已注册！请直接登录！");
         }
         //开始注册
         //密码要加密
@@ -117,51 +114,52 @@ public class UserServiceImpl extends BaseServiceImpl<UserMapper, User> implement
         User user=new User(phone,param.getNickname(),realPasswd,classroom.getId(),true,true,new Date());
         //保存
         if(userMapper.insert(user)!=1){
-            throw  new BusinessException("服务繁忙，注册失败，请稍后再试!");
+            throw  new BusinessException("注册失败!");
         }
         //添加角色
         UserRole userRole=new UserRole(user.getId(),2);
         if(userRoleMapper.insert(userRole)!=1){
-            throw  new BusinessException("服务繁忙，注册失败，请稍后再试!");
+            throw  new BusinessException("注册失败!");
         }
-        return new StrawResult().success("注册成功！");
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public StrawResult resetPassword(ResetPasswordParam param) {
+    public void resetPassword(ResetPasswordParam param) {
         //判断手机号是否已被注册
         String phone=param.getPhone();
         QueryWrapper queryWrapper=new QueryWrapper();
         queryWrapper.eq("username",phone);
         User u = userService.getOne(queryWrapper);
         if(u==null){
-            return new StrawResult().failed("该手机号未注册，请先注册！");
+            throw new BusinessException("该手机号未注册，请先注册！");
         }
         //先判断手机验证码是否正确，从redis中取出验证码
         String realCode = strRedisTemplate.opsForValue().get(RedisKeyPrefix.RESET_PASSWORD_CODE_PREFIX + param.getPhone());
         String code=param.getCode();
         if(StringUtils.isEmpty(realCode)|| !realCode.equals(code)){
-            return new StrawResult().failed("手机验证码错误");
+            throw new BusinessException("手机验证码错误");
         }
         //修改密码
-        String realPasswd=passwordEncoder.encode(param.getPassword());
-        int n = userMapper.updatePasswordByUsername(phone,realPasswd);
+        String realPassword=passwordEncoder.encode(param.getPassword());
+        int n = userMapper.updatePasswordByUsername(phone,realPassword);
         if(n!=1){
             log.error("修改密码时系统出错");
             throw  new BusinessException("系统繁忙，请稍后再试！");
         }
 
-        return new StrawResult().success("设置密码成功！");
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public boolean createTeacher(TeacherCreateForm teacher) {
+    public void createTeacher(TeacherCreateForm teacher) {
         //创建用户
         String realPasswd=passwordEncoder.encode(teacher.getPassword());
         User user=new User(teacher.getUsername(),teacher.getNickname(),realPasswd);
-        userMapper.insert(user);
-        return false;
+        if(userMapper.insert(user)!=1){
+            log.info("");
+            throw new BusinessException("创建失败");
+        }
+
     }
 }
