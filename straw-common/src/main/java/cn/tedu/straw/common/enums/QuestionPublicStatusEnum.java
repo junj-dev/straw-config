@@ -1,9 +1,9 @@
-package cn.tedu.straw.common.constant;
+package cn.tedu.straw.common.enums;
 
 /**
  * 问题是否开放枚举类
  */
-public enum QuestionPublicStatus {
+public enum QuestionPublicStatusEnum {
     /**
      * 公开
      */
@@ -14,7 +14,7 @@ public enum QuestionPublicStatus {
     PRIVATE(0);
     private Integer status;
 
-    private QuestionPublicStatus(Integer status){
+    private QuestionPublicStatusEnum(Integer status){
         this.status=status;
     }
 
