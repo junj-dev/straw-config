@@ -12,7 +12,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2020-04-25
  */
 public interface ICommentService extends IService<Comment> {
-   boolean create(Integer answerId, String content, Integer questionId);
+   void create(Integer answerId, String content, Integer questionId);
 
-   boolean update(Integer commentId, String content);
+   void update(Integer commentId, String content);
 }
