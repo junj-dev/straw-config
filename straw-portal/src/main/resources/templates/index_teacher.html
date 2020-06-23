@@ -9,7 +9,6 @@
   <meta name="author" content="Chen HaiBao">
   <title>稻草FAQ首页</title>
   <link th:href="@{//resource.straw.org.cn/img/logo.ico}" href="../static/img/logo.ico"  rel="SHORTCUT ICON"/>
-  <link href="../static/img/logo.ico"  th:href="@{//resource.straw.org.cn/img/logo.ico}" rel="SHORTCUT ICON"/>
   <link rel="stylesheet" href="../static/bower_components/bootstrap/dist/css/bootstrap.min.css" th:href="@{//resource.straw.org.cn/bower_components/bootstrap/dist/css/bootstrap.min.css}">
   <link rel="stylesheet" href="../static/bower_components/font-awesome/css/font-awesome.min.css" th:href="@{//resource.straw.org.cn/bower_components/font-awesome/css/font-awesome.min.css}"/>
   <link rel="stylesheet" href="../static/bower_components/plugins/css/zpageNav.css" th:href="@{//resource.straw.org.cn/bower_components/plugins/css/zpageNav.css}" />
@@ -260,7 +259,7 @@
               <div class="row">
                 <div class="col-12 mt-1 text-info">
                   <i class="fa fa-tags" aria-hidden="true"></i>
-                  <a class="text-info" :href="'/question/tag_question.html?tagId='+tag.id"  v-for="tag in question.tags">
+                  <a class="text-info mr-1" :href="'/question/tag_question.html?tagId='+tag.id"  v-for="tag in question.tags">
                     <small v-text="tag.name">Java基础</small>
                   </a>
                   <a class="text-info" href="tag/tag_question.html" th:remove="all"><small>Java SE &nbsp;</small></a>

@@ -34,7 +34,7 @@
 
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav">
-        <a class="nav-item nav-link active" href="#">首页</a>
+        <a class="nav-item nav-link active"  href="#">首页</a>
         <a class="nav-item nav-link active" href="question/create.html">提问</a>
         <a class="nav-item nav-link active" href="personal/task.html">任务</a>
         <a class="nav-item nav-link active" href="personal/collect.html">收藏</a>
@@ -259,7 +259,7 @@
               <div class="row">
                 <div class="col-12 mt-1 text-info">
                   <i class="fa fa-tags" aria-hidden="true"></i>
-                  <a class="text-info" :href="'/question/tag_question.html?tagId='+tag.id"  v-for="tag in question.tags"><small
+                  <a class="text-info mr-1" :href="'/question/tag_question.html?tagId='+tag.id"  v-for="tag in question.tags"><small
                           v-text="tag.name">Java基础 &nbsp;</small></a>
                   <a class="text-info" href="tag/tag_question.html" th:remove="all"><small>Java SE &nbsp;</small></a>
                   <a class="text-info" href="tag/tag_question.html" th:remove="all"><small>面试题 &nbsp;</small></a>
@@ -663,7 +663,7 @@
               <h6 class="mb-1 text-dark">jdk1.8对sycn做了什么优化？</h6>
               <small><span class="badge badge-primary badge-pill"></span></small>
             </div>
-            <div class="row">
+            <div class="row" >
               <div class="col-6">
                 <small class="mr-2">1条回答</small>
                 <small class="text-success">已解决</small>

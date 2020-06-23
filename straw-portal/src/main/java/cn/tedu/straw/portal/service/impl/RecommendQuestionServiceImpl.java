@@ -1,12 +1,10 @@
 package cn.tedu.straw.portal.service.impl;
 
-import cn.tedu.straw.common.constant.QuestionPublicStatus;
+import cn.tedu.straw.common.enums.QuestionPublicStatusEnum;
 import cn.tedu.straw.common.constant.RedisKey;
 import cn.tedu.straw.common.constant.RedisKeyPrefix;
 import cn.tedu.straw.common.constant.RoleName;
-import cn.tedu.straw.common.util.NumberUtils;
 import cn.tedu.straw.portal.base.BaseService;
-import cn.tedu.straw.portal.base.BaseServiceImpl;
 import cn.tedu.straw.portal.mapper.AnswerMapper;
 import cn.tedu.straw.portal.mapper.QuestionMapper;
 import cn.tedu.straw.portal.mapper.QuestionTagMapper;
@@ -15,7 +13,6 @@ import cn.tedu.straw.portal.model.QuestionTag;
 import cn.tedu.straw.portal.service.IRecommendQuestionService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -84,7 +81,7 @@ public class RecommendQuestionServiceImpl extends BaseService implements IRecomm
             return true;
         }
         //或者是公开的问题
-        if(q.getPublicStatus()== QuestionPublicStatus.PUBLIC.getStatus()){
+        if(q.getPublicStatus()== QuestionPublicStatusEnum.PUBLIC.getStatus()){
             return true;
         }
         //除此之外都不可见

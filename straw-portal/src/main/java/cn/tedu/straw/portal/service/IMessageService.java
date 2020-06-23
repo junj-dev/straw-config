@@ -1,7 +1,6 @@
 package cn.tedu.straw.portal.service;
 
-import cn.tedu.straw.common.StrawResult;
-import com.aliyuncs.CommonResponse;
+import cn.tedu.straw.common.R;
 
 /**
  * @Description: 短信发送业务接口
@@ -10,7 +9,7 @@ import com.aliyuncs.CommonResponse;
  * @Version: 1.0
  */
 public interface IMessageService {
-    StrawResult sendRegisterCode(String phone,String inviteCode);
+    boolean sendRegisterCode(String phone, String inviteCode);
 
-    StrawResult sendResetPasswordCode(String phone);
+    boolean sendResetPasswordCode(String phone);
 }
