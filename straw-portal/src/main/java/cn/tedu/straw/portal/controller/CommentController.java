@@ -1,13 +1,11 @@
 package cn.tedu.straw.portal.controller;
 
 
-import cn.tedu.straw.common.StrawResult;
+import cn.tedu.straw.common.R;
 import cn.tedu.straw.portal.base.BaseController;
-import cn.tedu.straw.portal.model.Comment;
 import cn.tedu.straw.portal.service.ICommentService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.models.Model;
-import io.swagger.models.auth.In;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,7 +34,7 @@ public class CommentController extends BaseController {
                       @RequestParam("content")String content,
                       Model model){
 
-        commentService.create(answerId,content,questionId);
+        commentService.create(answerId, content, questionId);
         return "redirect:/question/detail/"+questionId;
     }
     @PostMapping("/update")
@@ -53,12 +51,9 @@ public class CommentController extends BaseController {
     @GetMapping("/delete/{id}")
     @ApiOperation("删除提问")
     @ResponseBody
-    public StrawResult delete(@PathVariable("id")Integer id){
-        boolean isSuccess = commentService.removeById(id);
-        if(isSuccess){
-            return new StrawResult().success();
-        }
-        return new StrawResult().failed();
+    public R delete(@PathVariable("id")Integer id){
+        return toAjax(commentService.removeById(id));
+
     }
 
 
