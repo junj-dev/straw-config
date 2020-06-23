@@ -92,7 +92,7 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
 
 
     @Override
-    public PageInfo<Question> selectPage(Integer pageNum, Integer pageSize) {
+    public PageInfo<Question> listQuestions(Integer pageNum, Integer pageSize) {
         //使用分页插件
         if (pageNum == null || pageSize == null) {
             throw new BusinessException("分页参数不能为空！");
@@ -114,7 +114,7 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
     }
 
     @Override
-    public PageInfo<Question> selectPersonalQuestion(Integer pageNum, Integer pageSize) {
+    public PageInfo<Question> listPersonalQuestion(Integer pageNum, Integer pageSize) {
         //使用分页插件
         if (pageNum == null || pageSize == null) {
             throw new BusinessException("分页参数不能为空！");
@@ -196,7 +196,7 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public int create(QuestionParam param) {
+    public void saveQuestion(QuestionParam param) {
         //保存问题
         Question question = new Question(param.getTitle(), param.getContent()
                 , getUserNickname(), getUseId(), new Date(), 0, 0, QuestionPublicStatus.PRIVATE.getStatus());
@@ -215,8 +215,21 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
                 question.getUserNickName(), question.getUserId(), question.getCreatetime(), question.getStatus(), question.getPageViews(),
                 question.getPublicStatus(), Arrays.asList(param.getTagNames()), tagList);
         log.debug("向kafka发送消息:{}", esQuestion);
-        kafkaTemplate.send(KafkaTopic.PORTAL_CREATE_QUESTION, gson.toJson(esQuestion));
-        return rows;
+        ListenableFuture<SendResult<String, String>> sendResult = kafkaTemplate.send(KafkaTopic.PORTAL_CREATE_QUESTION, gson.toJson(esQuestion));
+        sendResult.addCallback(new SuccessCallback<SendResult<String, String>>() {
+            @Override
+            public void onSuccess(SendResult<String, String> result) {
+                log.debug("向kafka发送消息成功:{}", esQuestion);
+            }
+        }, new FailureCallback() {
+            @Override
+            public void onFailure(Throwable ex) {
+                log.error("发送消息到kafka失败",ex);
+                throw new BusinessException("服务器开小差，请稍后重试！");
+            }
+        });
+
+
     }
 
     /**
