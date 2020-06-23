@@ -3,8 +3,9 @@ package cn.tedu.straw.portal.controller;
 
 import cn.tedu.straw.common.CommonPage;
 import cn.tedu.straw.common.R;
-import cn.tedu.straw.common.constant.QuestionPublicStatus;
+import cn.tedu.straw.common.enums.QuestionPublicStatusEnum;
 import cn.tedu.straw.common.constant.RoleName;
+import cn.tedu.straw.common.enums.QuestionStatusEnum;
 import cn.tedu.straw.portal.annotation.NoRepeatSubmit;
 import cn.tedu.straw.portal.base.BaseController;
 import cn.tedu.straw.portal.config.GateWayUrlConfig;
@@ -24,6 +25,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.CollectionUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -32,7 +34,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -214,8 +216,9 @@ public class QuestionController extends BaseController {
     @PreAuthorize("hasRole('ROLE_TEACHER')")
     @ApiOperation("提问设置为公开提问")
     public R setQuestionPublic(@PathVariable("id")Integer id){
-      questionService.updateQuestionPublicStatus(new Integer[]{id}, QuestionPublicStatus.PUBLIC.getStatus());
-      return R.success();
+        Question question=new Question();
+        question.setId(id).setPublicStatus(QuestionPublicStatusEnum.PUBLIC.getStatus());
+        return toAjax(questionService.updateById(question));
     }
 
     @PostMapping("/setQuestionPublic")
@@ -223,8 +226,11 @@ public class QuestionController extends BaseController {
     @PreAuthorize("hasRole('ROLE_TEACHER')")
     @ApiOperation("提问设置为公开提问")
     public R setQuestionPublic(@RequestParam("ids[]") Integer[] ids){
-        questionService.updateQuestionPublicStatus(ids, QuestionPublicStatus.PUBLIC.getStatus());
+        Question question=new Question();
+        question.setPublicStatus(QuestionPublicStatusEnum.PUBLIC.getStatus());
+        questionService.update(ids,question);
         return R.success();
+
     }
 
 
@@ -234,8 +240,9 @@ public class QuestionController extends BaseController {
     @PreAuthorize("hasRole('ROLE_TEACHER')")
     @ApiOperation("取消公开提问")
     public R cancelQuestionPublic(@PathVariable("id")Integer id){
-        questionService.updateQuestionPublicStatus(new Integer[]{id}, QuestionPublicStatus.PRIVATE.getStatus());
-        return R.success();
+        Question question=new Question();
+        question.setId(id).setPublicStatus(QuestionPublicStatusEnum.PRIVATE.getStatus());
+        return toAjax(questionService.updateById(question));
 
     }
     @PostMapping("/cancelQuestionPublic")
@@ -243,7 +250,9 @@ public class QuestionController extends BaseController {
     @PreAuthorize("hasRole('ROLE_TEACHER')")
     @ApiOperation("取消公开提问")
     public R cancelQuestionPublic(@RequestParam("ids[]") Integer[] ids){
-        questionService.updateQuestionPublicStatus(ids, QuestionPublicStatus.PRIVATE.getStatus());
+        Question question=new Question();
+        question.setPublicStatus(QuestionPublicStatusEnum.PRIVATE.getStatus());
+        questionService.update(ids,question);
         return R.success();
 
     }
@@ -284,24 +293,22 @@ public class QuestionController extends BaseController {
     @PreAuthorize("hasRole('ROLE_TEACHER')")
     @ApiOperation("提问设置为已解决")
     public R setQuestionSolved(@PathVariable("id")Integer id){
-        boolean isSuccess= questionService.setQuestionSolved(id);
-        if(isSuccess){
-            return R.success("操作成功");
-        }else {
-            return R.failed("操作失败");
-        }
+        Question question=new Question();
+        question.setId(id).setStatus(QuestionStatusEnum.SOLVED.getStatus());
+        return toAjax(questionService.updateById(question));
+
     }
     @PostMapping("/setQuestionSolved")
     @ResponseBody
     @PreAuthorize("hasRole('ROLE_TEACHER')")
     @ApiOperation("提问设置为已解决")
     public R setQuestionSolved(@RequestParam("ids[]") Integer[] ids){
-        boolean isSuccess= questionService.setQuestionSolved(ids);
-        if(isSuccess){
-            return R.success("操作成功");
-        }else {
-            return R.failed("操作失败");
-        }
+        Question question=new Question();
+        //问题设置为已解决
+        question.setStatus(QuestionStatusEnum.SOLVED.getStatus());
+        questionService.update(ids,question);
+        return R.success();
+
     }
 
     @PostMapping("/transferToTeacher")
@@ -365,48 +372,56 @@ public class QuestionController extends BaseController {
         if(bindingResult.hasErrors()){
             return R.validateFailed(bindingResult);
         }
-        boolean isSucess=questionService.updateQuestion(question);
-        if(isSucess){
-            return R.success();
-        }else {
-            return R.failed("服务繁忙,请稍后重试!");
-        }
+       questionService.updateQuestion(question);
+        return R.success();
+
     }
 
     @GetMapping("/delete/{id}")
     @ApiOperation("删除提问")
     @ResponseBody
-    public R delete(@PathVariable("id")Integer id){
-       Boolean flag= questionService.deleteById(id);
-       if(flag){
-           return R.success();
-       }else {
-           return R.failed();
-       }
+    public R deleteQuestion(@PathVariable("id")Integer id){
+        if(id==null){
+            return R.failed("id参数不能为空");
+        }
+        Question question = new Question();
+        question.setId(id).setDeleteStatus(true);
+        return toAjax(questionService.updateById(question));
     }
 
     @GetMapping("/collect/{id}")
     @ApiOperation("收藏问题")
     @ResponseBody
-    public R collect(@PathVariable("id")Integer id){
-       Boolean flag= questionService.collectQuestion(id);
-       if(flag){
-           return R.success();
-       }else {
-           return R.failed("系统繁忙，请稍后重试！");
-       }
+    public R collectQuetion(@PathVariable("id")Integer id){
+        if(id==null){
+            return R.failed("id参数不能为空");
+        }
+        //先判断该问题是否已收藏
+        QueryWrapper queryWrapper = new QueryWrapper();
+        queryWrapper.eq("user_id", getUseId());
+        queryWrapper.eq("question_id", id);
+        List<UserCollect> userCollect2 = userCollectService.list(queryWrapper);
+        //只有该收藏不存在时才处理
+        if (!CollectionUtils.isEmpty(userCollect2)) {
+            return R.failed("该问题已收藏");
+        }
+        UserCollect userCollect = new UserCollect(getUseId(), id, new Date());
+        return toAjax(userCollectService.save(userCollect));
+
     }
 
     @GetMapping("/cancelCollect/{id}")
     @ApiOperation("取消收藏")
     @ResponseBody
     public R cancelCollect(@PathVariable("id")Integer id){
-        Boolean flag= questionService.cancelCollectQuestion(id);
-        if(flag){
-            return R.success();
-        }else {
-            return R.failed("系统繁忙，请稍后重试！");
+        if(id==null){
+            return R.failed("id参数不能为空");
         }
+        QueryWrapper queryWrapper = new QueryWrapper();
+        queryWrapper.eq("user_id", getUseId());
+        queryWrapper.eq("question_id", id);
+        //删除该收藏
+        return toAjax(userCollectService.remove(queryWrapper));
     }
 
     @GetMapping("/checkCollectStatus/{id}")
