@@ -44,30 +44,22 @@ public interface IQuestionService extends IService<Question> {
 
     PageInfo<Question> findQuestionByCondition(QuestionQueryParam queryParam);
 
-    void updateQuestionPublicStatus(Integer[] ids,Integer status);
-
     PageInfo<Question> findMyUnAnwerQuestion(Integer pageNum, Integer pageSize);
 
     PageInfo<Question> findMyUnSolveQuestion(Integer pageNum, Integer pageSize);
 
     PageInfo<Question> findMySolvedQuestion(Integer pageNum, Integer pageSize);
 
-    boolean setQuestionSolved(Integer id);
-    boolean setQuestionSolved(Integer[] id);
-
     boolean transferToTeacher(Integer[] teacherIds,Integer[] questionIds);
 
     QuestionVO getQuestionParamById(Integer id);
 
-    boolean updateQuestion(QuestionUpdateParam question);
-
-    Boolean deleteById(Integer id);
-
-    Boolean collectQuestion(Integer id);
+    void updateQuestion(QuestionUpdateParam question);
 
     Boolean checkCollectStatus(Integer id);
 
-    Boolean cancelCollectQuestion(Integer id);
 
     List<Answer> getQuestionAnswerById(Integer questionId);
+
+    void update(Integer[] ids, Question question);
 }
