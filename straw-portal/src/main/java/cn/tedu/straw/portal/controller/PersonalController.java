@@ -1,6 +1,6 @@
 package cn.tedu.straw.portal.controller;
 
-import cn.tedu.straw.common.StrawResult;
+import cn.tedu.straw.common.R;
 import cn.tedu.straw.portal.base.BaseController;
 import cn.tedu.straw.portal.domian.vo.MyInfoVO;
 import cn.tedu.straw.portal.model.Question;
@@ -58,24 +58,24 @@ public class PersonalController extends BaseController {
     @GetMapping("/getMyInfo")
     @ResponseBody
     @ApiOperation("获取首页个人信息，包括任务，提问信息")
-    public StrawResult getMyInfo(){
+    public R getMyInfo(){
       MyInfoVO myInfo= personalService.getMyInfo();
       if(myInfo==null){
           log.error("系统出错，用户信息为空");
-          return new StrawResult().failed("系统繁忙，请稍后再试！");
+          return R.failed("系统繁忙，请稍后再试！");
       }
-      return new StrawResult().success(myInfo);
+      return R.success(myInfo);
     }
 
     @GetMapping("/getUserInfo")
     @ResponseBody
     @ApiOperation("获取用户资料")
-    public StrawResult<UserInfoVO> getUserInfo(){
+    public R<UserInfoVO> getUserInfo(){
       UserInfoVO user=  personalService.getUserInfo();
       if(user==null){
-          return new StrawResult<UserInfoVO>().failed("系统繁忙，请稍后再试！");
+          return R.failed("系统繁忙，请稍后再试！");
       }
-      return new StrawResult<UserInfoVO>().success(user);
+      return  R.success(user);
     }
 
 
@@ -92,16 +92,12 @@ public class PersonalController extends BaseController {
     @PostMapping("/resetMyInfo")
     @ResponseBody
     @ApiOperation("修改用户资料")
-    public StrawResult resetMyInfo(@RequestBody @Validated  UserInfoVO userInfo, BindingResult bindingResult){
+    public R resetMyInfo(@RequestBody @Validated  UserInfoVO userInfo, BindingResult bindingResult){
         if(bindingResult.hasErrors()){
-            return new StrawResult().validateFailed(bindingResult);
+            return R.validateFailed(bindingResult);
         }
-        boolean isSuccess= personalService.resetMyInfo(userInfo);
-        if(isSuccess){
-            return new StrawResult().success();
-        }else {
-            return new StrawResult().failed("系统繁忙，修改失败，请稍后重试！");
-        }
+        return toAjax(personalService.resetMyInfo(userInfo));
+
     }
 
 
@@ -116,19 +112,15 @@ public class PersonalController extends BaseController {
     @PostMapping("/resetpasswd")
     @ResponseBody
     @ApiOperation("重置密码")
-    public StrawResult resetpasswd(@RequestParam("oldpasswd")String oldpasswd,
-                                   @RequestParam("newpasswd")String newpasswd){
+    public R resetpasswd(@RequestParam("oldpasswd")String oldpasswd,
+                         @RequestParam("newpasswd")String newpasswd){
         //检查原密码是否正确
        boolean isCorrect= personalService.checkPasswd(oldpasswd);
        if(!isCorrect){
-          return new StrawResult().failed("原密码错误！");
+          return R.failed("原密码错误！");
        }
-       boolean isSuccess= personalService.resetpasswd(newpasswd);
-        if(isSuccess){
-            return new StrawResult().success();
-        }
+        return toAjax(personalService.resetpasswd(newpasswd));
 
-        return new StrawResult().failed("服务繁忙，请稍后再试！");
 
     }
 
@@ -142,10 +134,10 @@ public class PersonalController extends BaseController {
     @PostMapping("/findCollectQuestionsPage")
     @ResponseBody
     @ApiOperation("分页查询收藏列表")
-    public StrawResult<PageInfo<Question>>  findCollectQuestionsPage(@RequestParam(value = "pageNum",defaultValue = "1") Integer pageNum,@RequestParam(value = "pageSize",defaultValue = "10")Integer pageSize){
+    public R<PageInfo<Question>> findCollectQuestionsPage(@RequestParam(value = "pageNum",defaultValue = "1") Integer pageNum, @RequestParam(value = "pageSize",defaultValue = "10")Integer pageSize){
         PageInfo<Question> pageInfo = userCollectService.selectPage(pageNum, pageSize);
 
-        return new StrawResult<PageInfo<Question>>().success(pageInfo);
+        return R.success(pageInfo);
     }
 
 
