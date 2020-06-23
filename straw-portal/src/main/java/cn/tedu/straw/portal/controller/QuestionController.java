@@ -2,7 +2,8 @@ package cn.tedu.straw.portal.controller;
 
 
 import cn.tedu.straw.common.CommonPage;
-import cn.tedu.straw.common.StrawResult;
+import cn.tedu.straw.common.R;
+import cn.tedu.straw.common.constant.QuestionPublicStatus;
 import cn.tedu.straw.common.constant.RoleName;
 import cn.tedu.straw.portal.annotation.NoRepeatSubmit;
 import cn.tedu.straw.portal.base.BaseController;
@@ -31,6 +32,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -75,7 +77,7 @@ public class QuestionController extends BaseController {
     @GetMapping("/importAllQuestionToEs")
     @ResponseBody
     @ApiOperation("把数据库所有的问题导入es")
-    public StrawResult importAllQuestionToEs(){
+    public R importAllQuestionToEs(){
        return questionServiceApi.importAllQuestionFromDB();
     }
 
@@ -90,19 +92,20 @@ public class QuestionController extends BaseController {
     @PostMapping("/uploadMultipleFile")
     @ApiOperation(value = "上传图片到图片服务器")
     @ResponseBody
-    public StrawResult uploadImg(@RequestParam("file") MultipartFile[] files, HttpServletRequest request) throws IOException {
-        return questionService.uploadImg(files, request);
+    public R uploadImg(@RequestParam("file") MultipartFile[] files, HttpServletRequest request) throws IOException {
+        List<String> imgs = questionService.uploadImg(files, request);
+        return R.success(imgs);
     }
 
     @GetMapping("/{id}")
     @ApiOperation("根据id查找问题")
     @ResponseBody
-    public StrawResult getQuestionById(@PathVariable("id")Integer id){
+    public R getQuestionById(@PathVariable("id")Integer id){
         QuestionVO questionVO= questionService.getQuestionParamById(id);
       if(questionVO!=null){
-          return new StrawResult().success(questionVO);
+          return R.success(questionVO);
       }
-      return new StrawResult().failed();
+      return R.failed();
 
     }
 
@@ -111,22 +114,14 @@ public class QuestionController extends BaseController {
     @ApiOperation("创建问题")
     @NoRepeatSubmit
     @ResponseBody
-    public StrawResult create(@Validated @RequestBody  QuestionParam question, BindingResult bindingResult){
+    public R insertQuestion(@Validated @RequestBody  QuestionParam question, BindingResult bindingResult){
         if(bindingResult.hasErrors()){
-            return new StrawResult().validateFailed(bindingResult);
+            return R.validateFailed(bindingResult);
         }
-      boolean isSucess=questionService.create(question);
-        if(isSucess){
-            return new StrawResult().success();
-        }else {
-            return new StrawResult().failed("服务繁忙,请稍后重试!");
-        }
-
-
+        questionService.saveQuestion(question);
+        return R.success();
 
     }
-
-
 
     @GetMapping("/detail/{id}")
     @ApiOperation("查看某个问题详情")
@@ -153,9 +148,9 @@ public class QuestionController extends BaseController {
     @GetMapping("/answers/{id}")
     @ResponseBody
     @ApiOperation("获取某个问题的回答")
-    public StrawResult getAnswers(@PathVariable("id")Integer questionId){
+    public R getAnswers(@PathVariable("id")Integer questionId){
         List<Answer> answers= questionService.getQuestionAnswerById(questionId);
-        return new StrawResult().success(answers);
+        return R.success(answers);
     }
 
 
@@ -164,41 +159,37 @@ public class QuestionController extends BaseController {
     @PreAuthorize("hasAuthority('/question/answer')")
     @ApiOperation("回答问题")
     public  String answer(@RequestParam("id")Integer id,@RequestParam("content")String content){
-       Boolean isSuccess= questionService.answer(id,content);
+        questionService.saveAnswer(id, content);
+        return "redirect:"+gateWayUrlConfig.getUrl()+"/question/detail/"+id;
 
-       if(isSuccess){
-           return "redirect:"+gateWayUrlConfig.getUrl()+"/question/detail/"+id;
-       }else {
-           return "redirect:\"+gateWayUrlConfig.getUrl()+\"/error";
-       }
     }
 
     @PostMapping("/search")
     @ResponseBody
-    public StrawResult<CommonPage<EsQuestion>> search(String keyword, Integer pageNum, Integer pageSize) {
+    public R<CommonPage<EsQuestion>> search(String keyword, Integer pageNum, Integer pageSize) {
         return questionService.search(keyword,pageNum,pageSize);
     }
 
     @PostMapping("/findQuestionByTagId")
     @ResponseBody
     @ApiOperation("根据标签查找问题")
-    public  StrawResult<PageInfo<Question>>  findQuestionByTagId(@RequestParam("tagId")Integer tagId,@RequestParam(value = "pageNum",defaultValue = "1") Integer pageNum,@RequestParam(value = "pageSize",defaultValue = "5")Integer pageSize){
+    public R<PageInfo<Question>> findQuestionByTagId(@RequestParam("tagId")Integer tagId, @RequestParam(value = "pageNum",defaultValue = "1") Integer pageNum, @RequestParam(value = "pageSize",defaultValue = "5")Integer pageSize){
         //0代表查询所有标签的问题
         if(tagId.intValue()==0){
             PageInfo<Question> pageInfo = questionService.selectPage(pageNum, pageSize);
-            return new StrawResult<PageInfo<Question>>().success(pageInfo);
+            return R.success(pageInfo);
         }
         //否则按照标签查找问题
         PageInfo<Question> pageInfo = questionService.selectPage(tagId,pageNum, pageSize);
-        return new StrawResult<PageInfo<Question>>().success(pageInfo);
+        return R.success(pageInfo);
     }
 
     @PostMapping("/findPersonalAllQuestions")
     @ResponseBody
     @ApiOperation("查找本人提出的所有问题")
-    public StrawResult<PageInfo<Question>> findPersonalAllQuestions(@RequestParam(value = "pageNum",defaultValue = "1") Integer pageNum,@RequestParam(value = "pageSize",defaultValue = "10")Integer pageSize){
+    public R<PageInfo<Question>> findPersonalAllQuestions(@RequestParam(value = "pageNum",defaultValue = "1") Integer pageNum, @RequestParam(value = "pageSize",defaultValue = "10")Integer pageSize){
         PageInfo<Question> pageInfo = questionService.selectPersonalQuestion(pageNum, pageSize);
-        return new StrawResult<PageInfo<Question>>().success(pageInfo);
+        return R.success(pageInfo);
     }
 
 
@@ -213,35 +204,27 @@ public class QuestionController extends BaseController {
     @ApiOperation("条件查询提问")
     @PreAuthorize("hasRole('ROLE_TEACHER')")
     @ResponseBody
-    public StrawResult<PageInfo<Question>> findQuestionByCondition( QuestionQueryParam queryParam){
+    public R<PageInfo<Question>> findQuestionByCondition(QuestionQueryParam queryParam){
         PageInfo<Question> pageInfo =questionService.findQuestionByCondition(queryParam);
-        return new StrawResult<PageInfo<Question>>().success(pageInfo);
+        return R.success(pageInfo);
     }
 
     @GetMapping("/setQuestionPublic/{id}")
     @ResponseBody
     @PreAuthorize("hasRole('ROLE_TEACHER')")
     @ApiOperation("提问设置为公开提问")
-    public StrawResult setQuestionPublic(@PathVariable("id")Integer id){
-       boolean isSuccess= questionService.setQuestionPublic(id);
-       if(isSuccess){
-           return new StrawResult().success("操作成功");
-       }else {
-           return new StrawResult().failed("操作失败");
-       }
+    public R setQuestionPublic(@PathVariable("id")Integer id){
+      questionService.updateQuestionPublicStatus(new Integer[]{id}, QuestionPublicStatus.PUBLIC.getStatus());
+      return R.success();
     }
 
     @PostMapping("/setQuestionPublic")
     @ResponseBody
     @PreAuthorize("hasRole('ROLE_TEACHER')")
     @ApiOperation("提问设置为公开提问")
-    public StrawResult setQuestionPublic(@RequestParam("ids[]") Integer[] ids){
-        boolean isSuccess= questionService.setQuestionPublic(ids);
-        if(isSuccess){
-            return new StrawResult().success("操作成功");
-        }else {
-            return new StrawResult().failed("操作失败");
-        }
+    public R setQuestionPublic(@RequestParam("ids[]") Integer[] ids){
+        questionService.updateQuestionPublicStatus(ids, QuestionPublicStatus.PUBLIC.getStatus());
+        return R.success();
     }
 
 
@@ -250,25 +233,19 @@ public class QuestionController extends BaseController {
     @ResponseBody
     @PreAuthorize("hasRole('ROLE_TEACHER')")
     @ApiOperation("取消公开提问")
-    public StrawResult cancelQuestionPublic(@PathVariable("id")Integer id){
-        boolean isSuccess= questionService.cancelQuestionPublic(id);
-        if(isSuccess){
-            return new StrawResult().success("操作成功");
-        }else {
-            return new StrawResult().failed("操作失败");
-        }
+    public R cancelQuestionPublic(@PathVariable("id")Integer id){
+        questionService.updateQuestionPublicStatus(new Integer[]{id}, QuestionPublicStatus.PRIVATE.getStatus());
+        return R.success();
+
     }
     @PostMapping("/cancelQuestionPublic")
     @ResponseBody
     @PreAuthorize("hasRole('ROLE_TEACHER')")
     @ApiOperation("取消公开提问")
-    public StrawResult cancelQuestionPublic(@RequestParam("ids[]") Integer[] ids){
-        boolean isSuccess= questionService.cancelQuestionPublic(ids);
-        if(isSuccess){
-            return new StrawResult().success("操作成功");
-        }else {
-            return new StrawResult().failed("操作失败");
-        }
+    public R cancelQuestionPublic(@RequestParam("ids[]") Integer[] ids){
+        questionService.updateQuestionPublicStatus(ids, QuestionPublicStatus.PRIVATE.getStatus());
+        return R.success();
+
     }
 
 
@@ -276,54 +253,54 @@ public class QuestionController extends BaseController {
     @ResponseBody
     @PreAuthorize("hasRole('ROLE_TEACHER')")
     @ApiOperation("老师获取未回答的问题列表")
-    public StrawResult<PageInfo<Question>> findMyUnAnwerQuestion(@RequestParam(value = "pageNum",defaultValue = "1") Integer pageNum,
-                                                                 @RequestParam(value = "pageSize",defaultValue = "10")Integer pageSize){
+    public R<PageInfo<Question>> findMyUnAnwerQuestion(@RequestParam(value = "pageNum",defaultValue = "1") Integer pageNum,
+                                                       @RequestParam(value = "pageSize",defaultValue = "10")Integer pageSize){
         PageInfo<Question> pageInfo =questionService.findMyUnAnwerQuestion(pageNum,pageSize);
-        return new StrawResult<PageInfo<Question>>().success(pageInfo);
+        return R.success(pageInfo);
     }
 
     @PostMapping("/findMyUnSolveQuestion")
     @ResponseBody
     @PreAuthorize("hasRole('ROLE_TEACHER')")
     @ApiOperation("老师获取未解决的问题列表")
-    public StrawResult<PageInfo<Question>> findMyUnSolveQuestion(@RequestParam(value = "pageNum",defaultValue = "1") Integer pageNum,
-                                                                 @RequestParam(value = "pageSize",defaultValue = "10")Integer pageSize){
+    public R<PageInfo<Question>> findMyUnSolveQuestion(@RequestParam(value = "pageNum",defaultValue = "1") Integer pageNum,
+                                                       @RequestParam(value = "pageSize",defaultValue = "10")Integer pageSize){
         PageInfo<Question> pageInfo =questionService.findMyUnSolveQuestion(pageNum,pageSize);
-        return new StrawResult<PageInfo<Question>>().success(pageInfo);
+        return R.success(pageInfo);
     }
 
     @PostMapping("/findMySolvedQuestion")
     @ResponseBody
     @PreAuthorize("hasRole('ROLE_TEACHER')")
     @ApiOperation("老师获取已解决的问题列表")
-    public StrawResult<PageInfo<Question>> findMySolvedQuestion(@RequestParam(value = "pageNum",defaultValue = "1") Integer pageNum,
-                                                                 @RequestParam(value = "pageSize",defaultValue = "10")Integer pageSize){
+    public R<PageInfo<Question>> findMySolvedQuestion(@RequestParam(value = "pageNum",defaultValue = "1") Integer pageNum,
+                                                      @RequestParam(value = "pageSize",defaultValue = "10")Integer pageSize){
         PageInfo<Question> pageInfo =questionService.findMySolvedQuestion(pageNum,pageSize);
-        return new StrawResult<PageInfo<Question>>().success(pageInfo);
+        return R.success(pageInfo);
     }
 
     @GetMapping("/setQuestionSolved/{id}")
     @ResponseBody
     @PreAuthorize("hasRole('ROLE_TEACHER')")
     @ApiOperation("提问设置为已解决")
-    public StrawResult setQuestionSolved(@PathVariable("id")Integer id){
+    public R setQuestionSolved(@PathVariable("id")Integer id){
         boolean isSuccess= questionService.setQuestionSolved(id);
         if(isSuccess){
-            return new StrawResult().success("操作成功");
+            return R.success("操作成功");
         }else {
-            return new StrawResult().failed("操作失败");
+            return R.failed("操作失败");
         }
     }
     @PostMapping("/setQuestionSolved")
     @ResponseBody
     @PreAuthorize("hasRole('ROLE_TEACHER')")
     @ApiOperation("提问设置为已解决")
-    public StrawResult setQuestionSolved(@RequestParam("ids[]") Integer[] ids){
+    public R setQuestionSolved(@RequestParam("ids[]") Integer[] ids){
         boolean isSuccess= questionService.setQuestionSolved(ids);
         if(isSuccess){
-            return new StrawResult().success("操作成功");
+            return R.success("操作成功");
         }else {
-            return new StrawResult().failed("操作失败");
+            return R.failed("操作失败");
         }
     }
 
@@ -331,12 +308,12 @@ public class QuestionController extends BaseController {
     @ResponseBody
     @PreAuthorize("hasRole('ROLE_TEACHER')")
     @ApiOperation("将问题转发给其他老师")
-    public StrawResult transferToTeacher(@RequestParam("teacherIds[]") Integer[] teacherIds,@RequestParam("questionIds[]")Integer[] questionIds){
+    public R transferToTeacher(@RequestParam("teacherIds[]") Integer[] teacherIds, @RequestParam("questionIds[]")Integer[] questionIds){
        boolean isSuccess= questionService.transferToTeacher(teacherIds,questionIds);
         if(isSuccess){
-            return new StrawResult().success("操作成功");
+            return R.success("操作成功");
         }else {
-            return new StrawResult().failed("操作失败");
+            return R.failed("操作失败");
         }
     }
 
@@ -384,60 +361,60 @@ public class QuestionController extends BaseController {
     @ApiOperation("修改问题")
     @NoRepeatSubmit
     @ResponseBody
-    public StrawResult edit(@Validated @RequestBody QuestionUpdateParam question, BindingResult bindingResult){
+    public R edit(@Validated @RequestBody QuestionUpdateParam question, BindingResult bindingResult){
         if(bindingResult.hasErrors()){
-            return new StrawResult().validateFailed(bindingResult);
+            return R.validateFailed(bindingResult);
         }
         boolean isSucess=questionService.updateQuestion(question);
         if(isSucess){
-            return new StrawResult().success();
+            return R.success();
         }else {
-            return new StrawResult().failed("服务繁忙,请稍后重试!");
+            return R.failed("服务繁忙,请稍后重试!");
         }
     }
 
     @GetMapping("/delete/{id}")
     @ApiOperation("删除提问")
     @ResponseBody
-    public StrawResult delete(@PathVariable("id")Integer id){
+    public R delete(@PathVariable("id")Integer id){
        Boolean flag= questionService.deleteById(id);
        if(flag){
-           return new StrawResult().success();
+           return R.success();
        }else {
-           return new StrawResult().failed();
+           return R.failed();
        }
     }
 
     @GetMapping("/collect/{id}")
     @ApiOperation("收藏问题")
     @ResponseBody
-    public StrawResult collect(@PathVariable("id")Integer id){
+    public R collect(@PathVariable("id")Integer id){
        Boolean flag= questionService.collectQuestion(id);
        if(flag){
-           return new StrawResult().success();
+           return R.success();
        }else {
-           return new StrawResult().failed("系统繁忙，请稍后重试！");
+           return R.failed("系统繁忙，请稍后重试！");
        }
     }
 
     @GetMapping("/cancelCollect/{id}")
     @ApiOperation("取消收藏")
     @ResponseBody
-    public StrawResult cancelCollect(@PathVariable("id")Integer id){
+    public R cancelCollect(@PathVariable("id")Integer id){
         Boolean flag= questionService.cancelCollectQuestion(id);
         if(flag){
-            return new StrawResult().success();
+            return R.success();
         }else {
-            return new StrawResult().failed("系统繁忙，请稍后重试！");
+            return R.failed("系统繁忙，请稍后重试！");
         }
     }
 
     @GetMapping("/checkCollectStatus/{id}")
     @ApiOperation("查看问题是否已收藏")
     @ResponseBody
-    public  StrawResult checkCollectStatus(@PathVariable("id")Integer id){
+    public R checkCollectStatus(@PathVariable("id")Integer id){
        Boolean isCollect= questionService.checkCollectStatus(id);
-       return new StrawResult().success(isCollect);
+       return R.success(isCollect);
     }
 
 }
