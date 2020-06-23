@@ -1,7 +1,7 @@
 package cn.tedu.straw.portal.service;
 
 import cn.tedu.straw.common.CommonPage;
-import cn.tedu.straw.common.StrawResult;
+import cn.tedu.straw.common.R;
 import cn.tedu.straw.portal.domian.param.QuestionParam;
 import cn.tedu.straw.portal.domian.param.QuestionUpdateParam;
 import cn.tedu.straw.portal.domian.vo.QuestionVO;
@@ -32,26 +32,21 @@ public interface IQuestionService extends IService<Question> {
 
     PageInfo<Question> selectPage(Integer tagId,Integer pageNum, Integer pageSize);
 
-    StrawResult uploadImg(MultipartFile[] files, HttpServletRequest request);
+    List<String> uploadImg(MultipartFile[] files, HttpServletRequest request);
 
-    boolean create(QuestionParam param);
+    int create(QuestionParam param);
 
     Question getQuestionDetailById(Integer id);
 
-    Boolean answer(Integer id, String content);
+    void saveAnswer(Integer id, String content);
 
-    StrawResult<CommonPage<EsQuestion>> search(String keyword, Integer pageNum, Integer pageSize);
+    R<CommonPage<EsQuestion>> search(String keyword, Integer pageNum, Integer pageSize);
 
     PageInfo<Question> findAllQuestion(Integer pageNum, Integer pageSize);
 
     PageInfo<Question> findQuestionByCondition(QuestionQueryParam queryParam);
 
-    boolean setQuestionPublic(Integer id);
-    boolean setQuestionPublic(Integer[] ids);
-
-    boolean cancelQuestionPublic(Integer id);
-    boolean cancelQuestionPublic(Integer[] ids);
-
+    void updateQuestionPublicStatus(Integer[] ids,Integer status);
     PageInfo<Question> findMyUnAnwerQuestion(Integer pageNum, Integer pageSize);
 
     PageInfo<Question> findMyUnSolveQuestion(Integer pageNum, Integer pageSize);
