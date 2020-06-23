@@ -176,7 +176,7 @@ public class QuestionController extends BaseController {
     public R<PageInfo<Question>> findQuestionByTagId(@RequestParam("tagId")Integer tagId, @RequestParam(value = "pageNum",defaultValue = "1") Integer pageNum, @RequestParam(value = "pageSize",defaultValue = "5")Integer pageSize){
         //0代表查询所有标签的问题
         if(tagId.intValue()==0){
-            PageInfo<Question> pageInfo = questionService.selectPage(pageNum, pageSize);
+            PageInfo<Question> pageInfo = questionService.listQuestions(pageNum, pageSize);
             return R.success(pageInfo);
         }
         //否则按照标签查找问题
@@ -188,7 +188,7 @@ public class QuestionController extends BaseController {
     @ResponseBody
     @ApiOperation("查找本人提出的所有问题")
     public R<PageInfo<Question>> findPersonalAllQuestions(@RequestParam(value = "pageNum",defaultValue = "1") Integer pageNum, @RequestParam(value = "pageSize",defaultValue = "10")Integer pageSize){
-        PageInfo<Question> pageInfo = questionService.selectPersonalQuestion(pageNum, pageSize);
+        PageInfo<Question> pageInfo = questionService.listPersonalQuestions(pageNum, pageSize);
         return R.success(pageInfo);
     }
 
