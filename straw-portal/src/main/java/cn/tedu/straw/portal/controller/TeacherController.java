@@ -1,7 +1,7 @@
 package cn.tedu.straw.portal.controller;
 
 
-import cn.tedu.straw.common.StrawResult;
+import cn.tedu.straw.common.R;
 import cn.tedu.straw.portal.base.BaseController;
 import cn.tedu.straw.portal.domian.vo.TeacherVO;
 import cn.tedu.straw.portal.model.User;
@@ -33,23 +33,23 @@ public class TeacherController extends BaseController {
     @GetMapping("/loadAllTeachers")
     @ResponseBody
     @ApiOperation("加载所有老师")
-    public StrawResult<User> loadAllTeachers(){
+    public R<User> loadAllTeachers(){
         List<User> teachers = getAvalibleTeachers();
-        return new StrawResult().success(teachers);
+        return R.success(teachers);
     }
     @GetMapping("/loadAllTeacherNames")
     @ResponseBody
     @ApiOperation("加载所有老师")
-    public StrawResult<List<String>> loadAllTeacherNames(){
+    public R<List<String>> loadAllTeacherNames(){
         List<User> teachers = getAvalibleTeachers();
         List<String> teacherNames = teachers.stream().map(User::getNickname).collect(Collectors.toList());
-        return new StrawResult().success(teacherNames);
+        return R.success(teacherNames);
     }
 
     @GetMapping("/loadAllTeacherVos")
     @ResponseBody
     @ApiOperation("加载所有老师,用于复选框展示")
-    public StrawResult loadAllTeacherVos(){
+    public R loadAllTeacherVos(){
         List<User> teachers = getAvalibleTeachers();
         //把老师封装成页面的复选框数组内容
         List<TeacherVO> teacherVOS = teachers.stream().map(t -> {
@@ -58,7 +58,7 @@ public class TeacherController extends BaseController {
             vo.setValue(t.getId());
             return vo;
         }).collect(Collectors.toList());
-        return new StrawResult().success(teacherVOS);
+        return R.success(teacherVOS);
     }
 
 

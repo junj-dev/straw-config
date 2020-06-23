@@ -1,6 +1,6 @@
 package cn.tedu.straw.portal.controller;
 
-import cn.tedu.straw.common.StrawResult;
+import cn.tedu.straw.common.R;
 import cn.tedu.straw.portal.base.BaseController;
 import cn.tedu.straw.portal.domian.vo.TagVO;
 import cn.tedu.straw.portal.model.Tag;
@@ -29,22 +29,22 @@ public class TagController extends BaseController {
 
     @GetMapping("/findAllTags")
     @ResponseBody
-    public StrawResult<List<Tag>> loadAllTags(){
+    public R<List<Tag>> loadAllTags(){
         List<Tag> tags = tagService.list();
-        return new StrawResult().success(tags);
+        return R.success(tags);
     }
 
     @GetMapping("/findAllTagNames")
     @ResponseBody
-    public StrawResult<List<String>> findAllTagNames(){
+    public R<List<String>> findAllTagNames(){
         List<Tag> tags = tagService.list();
         List<String> tagNames = tags.stream().map(Tag::getName).collect(Collectors.toList());
-        return new StrawResult().success(tagNames);
+        return R.success(tagNames);
     }
 
     @GetMapping("/findAllTagVos")
     @ResponseBody
-    public StrawResult<List<TagVO>> loadAllTagVos(){
+    public R<List<TagVO>> loadAllTagVos(){
         List<Tag> tags = tagService.list();
         if(!CollectionUtils.isEmpty(tags)){
             List<TagVO> tagVOS = tags.stream().map(t -> {
@@ -53,8 +53,8 @@ public class TagController extends BaseController {
                 vo.setValue(t.getId());
                 return vo;
             }).collect(Collectors.toList());
-            return new StrawResult().success(tagVOS);
+            return R.success(tagVOS);
         }
-        return new StrawResult().success(null);
+        return R.success(null);
     }
 }

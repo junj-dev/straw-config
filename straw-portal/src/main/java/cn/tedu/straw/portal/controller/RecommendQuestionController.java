@@ -1,11 +1,10 @@
 package cn.tedu.straw.portal.controller;
 
-import cn.tedu.straw.common.StrawResult;
+import cn.tedu.straw.common.R;
 import cn.tedu.straw.portal.model.Question;
 import cn.tedu.straw.portal.service.IRecommendQuestionService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,18 +29,12 @@ public class RecommendQuestionController {
 
     @GetMapping("/getHotspotQuestion")
     @ApiOperation("获取热点问题")
-    public StrawResult<List<Question>> getHotspotQuestion(){
+    public R<List<Question>> getHotspotQuestion(){
       List<Question> questions= recommendQuestionService.getHotspotQuestion();
-      return new StrawResult<List<Question>>().success(questions);
+      return R.success(questions);
     }
 
 
-//    @GetMapping("/getSimilarQuestion")
-//    @ApiOperation("获取相似问题")
-//    public StrawResult getSimilarQuestion(){
-//       List<Question> questions= recommendQuestionService.getSimilarQuestion();
-//        return new StrawResult<List<Question>>().success(questions);
-//    }
 
 
 }
