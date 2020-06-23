@@ -28,9 +28,9 @@ public interface IQuestionService extends IService<Question> {
 
     PageInfo<Question> listQuestions(Integer pageNum, Integer pageSize);
 
-    PageInfo<Question> selectPersonalQuestion(Integer pageNum, Integer pageSize);
+    PageInfo<Question> listPersonalQuestions(Integer pageNum, Integer pageSize);
 
-    PageInfo<Question> selectPage(Integer tagId,Integer pageNum, Integer pageSize);
+    PageInfo<Question> listQuestions(Integer tagId,Integer pageNum, Integer pageSize);
 
     List<String> uploadImg(MultipartFile[] files, HttpServletRequest request);
 
