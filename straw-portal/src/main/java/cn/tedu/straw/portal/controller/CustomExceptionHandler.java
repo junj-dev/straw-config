@@ -1,7 +1,7 @@
 package cn.tedu.straw.portal.controller;
 
 
-import cn.tedu.straw.common.StrawResult;
+import cn.tedu.straw.common.R;
 import cn.tedu.straw.common.constant.KafkaTopic;
 import cn.tedu.straw.common.util.ExceptionUtil;
 import cn.tedu.straw.portal.exception.BusinessException;
@@ -19,8 +19,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 /**
  * 自定义全局异常处理
@@ -44,11 +42,11 @@ public class CustomExceptionHandler {
         String callback = request.getParameter("callback");
         if (StringUtils.isEmpty(callback)) {
             log.error(exception.getMessage(),exception);
-            return new StrawResult().failed("服务繁忙，请稍后重试！");
+            return R.failed("服务繁忙，请稍后重试！");
         } else {
             //用户跨域请求
             log.error(exception.getMessage(),exception);
-            return new JSONPObject(callback, new StrawResult().failed("服务繁忙，请稍后重试！"));
+            return new JSONPObject(callback, R.failed("服务繁忙，请稍后重试！"));
         }
     }
 
@@ -58,11 +56,11 @@ public class CustomExceptionHandler {
         if (StringUtils.isEmpty(callback)) {
             exception.printStackTrace();
             log.error(exception.getMessage());
-            return new StrawResult().failed(exception.getMessage());
+            return R.failed(exception.getMessage());
         } else {
             //用户跨域请求
             log.error(exception.getMessage(),exception);
-            return new JSONPObject(callback, new StrawResult().failed(exception.getMessage()));
+            return new JSONPObject(callback, R.failed(exception.getMessage()));
         }
     }
 
@@ -75,11 +73,11 @@ public class CustomExceptionHandler {
         String callback = request.getParameter("callback");
         if (StringUtils.isEmpty(callback)) {
             log.error(exception.getMessage());
-            return new StrawResult().forbidden();
+            return R.forbidden();
         } else {
             //用户跨域请求
             log.error(exception.getMessage(),exception);
-            return new JSONPObject(callback, new StrawResult().forbidden());
+            return new JSONPObject(callback, R.forbidden());
         }
     }
 
