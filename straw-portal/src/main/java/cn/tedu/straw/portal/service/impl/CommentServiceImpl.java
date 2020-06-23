@@ -60,7 +60,7 @@ public class CommentServiceImpl extends BaseServiceImpl<CommentMapper, Comment> 
      */
     @Override
     @Transactional
-    public boolean create(Integer answerId, String content, Integer questionId) {
+    public void create(Integer answerId, String content, Integer questionId) {
 
         if(answerId==null){
             throw  new BusinessException("答案id不能为空！");
@@ -102,8 +102,6 @@ public class CommentServiceImpl extends BaseServiceImpl<CommentMapper, Comment> 
             //添加回调函数，检查发送状态
             checkKafkaSendStatus(notice,sendResult);
         }
-
-        return true;
     }
 
     /**
@@ -134,7 +132,7 @@ public class CommentServiceImpl extends BaseServiceImpl<CommentMapper, Comment> 
      * @return
      */
     @Override
-    public boolean update(Integer commentId, String content) {
+    public void update(Integer commentId, String content) {
         if(commentId==null){
             throw new BusinessException("评论id参数不能为空");
         }
@@ -145,8 +143,10 @@ public class CommentServiceImpl extends BaseServiceImpl<CommentMapper, Comment> 
         //只能修改自己提的评论内容
         if(comment.getUserId().intValue()==getUseId().intValue()){
             comment.setContent(content);
-            return commentMapper.updateById(comment)==1;
+           if(commentMapper.updateById(comment)!=1){
+               throw new BusinessException("服务器开小差了，修改失败！");
+           }
         }
-       return  true;
+
     }
 }
