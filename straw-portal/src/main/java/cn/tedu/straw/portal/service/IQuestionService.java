@@ -26,7 +26,7 @@ import java.util.List;
  */
 public interface IQuestionService extends IService<Question> {
 
-    PageInfo<Question> selectPage(Integer pageNum, Integer pageSize);
+    PageInfo<Question> listQuestions(Integer pageNum, Integer pageSize);
 
     PageInfo<Question> selectPersonalQuestion(Integer pageNum, Integer pageSize);
 
