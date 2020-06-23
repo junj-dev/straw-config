@@ -42,11 +42,10 @@ public interface IQuestionService extends IService<Question> {
 
     R<CommonPage<EsQuestion>> search(String keyword, Integer pageNum, Integer pageSize);
 
-    PageInfo<Question> findAllQuestion(Integer pageNum, Integer pageSize);
-
     PageInfo<Question> findQuestionByCondition(QuestionQueryParam queryParam);
 
     void updateQuestionPublicStatus(Integer[] ids,Integer status);
+
     PageInfo<Question> findMyUnAnwerQuestion(Integer pageNum, Integer pageSize);
 
     PageInfo<Question> findMyUnSolveQuestion(Integer pageNum, Integer pageSize);
