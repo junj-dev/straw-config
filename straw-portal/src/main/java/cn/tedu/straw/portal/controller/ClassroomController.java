@@ -1,7 +1,7 @@
 package cn.tedu.straw.portal.controller;
 
 
-import cn.tedu.straw.common.StrawResult;
+import cn.tedu.straw.common.R;
 import cn.tedu.straw.portal.base.BaseController;
 import cn.tedu.straw.portal.model.Classroom;
 import cn.tedu.straw.portal.service.IClassroomService;
@@ -30,11 +30,11 @@ public class ClassroomController extends BaseController {
 
     @GetMapping("/list")
     @ApiOperation("获取班级列表")
-    public StrawResult<List<Classroom>> list(){
+    public R<List<Classroom>> list(){
         QueryWrapper queryWrapper=new QueryWrapper();
         queryWrapper.eq("enabled",true);
         List<Classroom> list = classroomService.list(queryWrapper);
-        return new StrawResult<List<Classroom>>().success(list);
+        return R.success(list);
     }
 
 }
