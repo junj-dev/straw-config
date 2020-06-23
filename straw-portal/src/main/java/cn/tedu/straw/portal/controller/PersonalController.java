@@ -92,7 +92,7 @@ public class PersonalController extends BaseController {
     @PostMapping("/resetMyInfo")
     @ResponseBody
     @ApiOperation("修改用户资料")
-    public R resetMyInfo(@RequestBody @Validated  UserInfoVO userInfo, BindingResult bindingResult){
+    public R updateMyInfo(@RequestBody @Validated  UserInfoVO userInfo, BindingResult bindingResult){
         if(bindingResult.hasErrors()){
             return R.validateFailed(bindingResult);
         }
@@ -112,11 +112,10 @@ public class PersonalController extends BaseController {
     @PostMapping("/resetpasswd")
     @ResponseBody
     @ApiOperation("重置密码")
-    public R resetpasswd(@RequestParam("oldpasswd")String oldpasswd,
+    public R updatPassword(@RequestParam("oldpasswd")String oldpasswd,
                          @RequestParam("newpasswd")String newpasswd){
         //检查原密码是否正确
-       boolean isCorrect= personalService.checkPasswd(oldpasswd);
-       if(!isCorrect){
+       if(!personalService.checkPasswd(oldpasswd)){
           return R.failed("原密码错误！");
        }
         return toAjax(personalService.resetpasswd(newpasswd));
