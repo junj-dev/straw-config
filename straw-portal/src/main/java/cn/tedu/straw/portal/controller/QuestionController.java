@@ -14,6 +14,7 @@ import cn.tedu.straw.portal.domian.param.QuestionUpdateParam;
 import cn.tedu.straw.portal.domian.vo.QuestionInfoVO;
 import cn.tedu.straw.portal.domian.vo.QuestionVO;
 import cn.tedu.straw.portal.exception.BusinessException;
+import cn.tedu.straw.portal.exception.PageNotExistException;
 import cn.tedu.straw.portal.model.*;
 import cn.tedu.straw.portal.service.*;
 import cn.tedu.straw.search.api.EsQuestionServiceApi;
@@ -22,6 +23,7 @@ import com.github.pagehelper.PageInfo;
 import com.google.gson.Gson;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -139,9 +141,13 @@ public class QuestionController extends BaseController {
         int collectCount = userCollectService.count(collectQuery);
         model.addAttribute("collectCount",collectCount);
         //设置问题的相关信息
-        QuestionInfoVO questionInfo=new QuestionInfoVO(question.getUserId().intValue()==getUseId().intValue()?true:false,
-                getUseId(),getUserRoleNames().contains(RoleName.TEACHER)?RoleName.TEACHER:RoleName.STUDENT,question.getId(),question.getStatus()
-                );
+        QuestionInfoVO questionInfo=new QuestionInfoVO();
+        questionInfo.setMyQuestion(question.getUserId().intValue()==getUseId().intValue()?true:false)
+            .setUserId(getUseId())
+            .setRole(getUserRoleNames().contains(RoleName.TEACHER)?RoleName.TEACHER:RoleName.STUDENT)
+            .setQuestionId(question.getId())
+            .setQuestionStatus(question.getStatus());
+
         model.addAttribute("questionInfo",gson.toJson(questionInfo));
         model.addAttribute("isMyQuestion",questionInfo.isMyQuestion());
         return "question/detail";
@@ -325,12 +331,11 @@ public class QuestionController extends BaseController {
     public String toTagQuestionPge(@RequestParam("tagId")Integer tagId,Model model){
         if(tagId==0){
             Tag tag=new Tag();
-            tag.setId(0);
-            tag.setName("全部");
+            tag.setId(0).setName("全部");
             model.addAttribute("tag",tag);
         }else {
             Tag tag = tagService.getById(tagId);
-            if(tag==null){throw  new BusinessException("该标签不存在");
+            if(tag==null){throw  new PageNotExistException("该标签不存在");
             }
             model.addAttribute("tag",tag);
         }
@@ -354,6 +359,14 @@ public class QuestionController extends BaseController {
     @GetMapping("/edit/{id}")
     @ApiOperation("编辑问题")
     public String edit(@PathVariable("id")Integer id,Model model){
+        //只能修改本用户提出的问题
+        Question question = questionService.getById(id);
+        if(question==null){
+            throw new PageNotExistException();
+        }
+        if(question.getUserId().intValue()!=getUseId().intValue()){
+            throw new AccessDeniedException("抱歉,没有该权限！");
+        }
         model.addAttribute("id",id);
         List<Question> hotspotQuestions = recommendQuestionService.getHotspotQuestion();
         model.addAttribute("hotspotQuestions",hotspotQuestions);
