@@ -197,7 +197,7 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void saveQuestion(QuestionParam param) {
-        if(param==null){
+        if (param == null) {
             log.debug("参数不能为空");
             throw new BusinessException("参数不能为空");
         }
@@ -236,7 +236,7 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
         }, new FailureCallback() {
             @Override
             public void onFailure(Throwable ex) {
-                log.error("发送消息到kafka失败",ex);
+                log.error("发送消息到kafka失败", ex);
                 throw new BusinessException("服务器开小差，请稍后重试！");
             }
         });
@@ -351,14 +351,14 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
             throw new BusinessException("内容不能为空");
         }
         Question question = questionMapper.selectById(id);
-        if(question==null){
+        if (question == null) {
             log.info("id参数错误，不存在该问题！");
-            throw  new BusinessException("id参数错误，不存在该问题！");
+            throw new BusinessException("id参数错误，不存在该问题！");
         }
         Answer answer = new Answer(content, 0, getUseId(), getUserNickname(), id, new Date());
         //保存问题的答案
-        int rows=answerMapper.insert(answer);
-        if(rows!=1){
+        int rows = answerMapper.insert(answer);
+        if (rows != 1) {
             log.error("服务器开小差了，问题保存失败！");
             throw new BusinessException("服务器开小差了，保存失败！");
         }
@@ -376,8 +376,8 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
         }, new FailureCallback() {
             @Override
             public void onFailure(Throwable ex) {
-                log.error("发送kafka信息失败！",ex);
-                throw  new BusinessException("服务器开小差了，请稍后再试！");
+                log.error("发送kafka信息失败！", ex);
+                throw new BusinessException("服务器开小差了，请稍后再试！");
             }
         });
     }
@@ -407,7 +407,6 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
     }
 
 
-
     /**
      * 按条件查询提问
      *
@@ -415,7 +414,7 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
      * @return
      */
     @Override
-    public PageInfo<Question> findQuestionByCondition(QuestionQueryParam condition) {
+    public PageInfo<Question> getQuestionByCondition(QuestionQueryParam condition) {
         if (condition == null) {
             throw new BusinessException("请求参数不能为空");
         }
@@ -435,7 +434,7 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
 
 
     @Override
-    public PageInfo<Question> findMyUnAnwerQuestion(Integer pageNum, Integer pageSize) {
+    public PageInfo<Question> getMyUnAnwerQuestion(Integer pageNum, Integer pageSize) {
         return getQuestionPageInfo(pageNum, pageSize, 0);
     }
 
@@ -446,15 +445,14 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
     }
 
     @Override
-    public PageInfo<Question> findMyUnSolveQuestion(Integer pageNum, Integer pageSize) {
+    public PageInfo<Question> getMyUnSolveQuestion(Integer pageNum, Integer pageSize) {
         return getQuestionPageInfo(pageNum, pageSize, 1);
     }
 
     @Override
-    public PageInfo<Question> findMySolvedQuestion(Integer pageNum, Integer pageSize) {
+    public PageInfo<Question> getMySolvedQuestion(Integer pageNum, Integer pageSize) {
         return getQuestionPageInfo(pageNum, pageSize, 2);
     }
-
 
 
     /**
@@ -466,14 +464,14 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public boolean transferToTeacher(Integer[] teacherIds, Integer[] questionIds) {
-        if (teacherIds.length == 0 || questionIds.length == 0) {
+    public void transferToTeacher(Integer[] teacherIds, Integer[] questionIds) {
+        if (teacherIds == null || teacherIds.length == 0 || questionIds == null || questionIds.length == 0) {
             throw new BusinessException("所选的老师和问题都不能为空！");
         }
         Date now = new Date();
+        List<TeacherQuestion> teacherQuestionList = new ArrayList<>();
         for (Integer teacherId : teacherIds) {
             for (Integer questionId : questionIds) {
-                TeacherQuestion teacherQuestion = new TeacherQuestion(teacherId, questionId, now);
                 //先查找该TeacherQuestion是否已存在，如果存在则不做处理
                 QueryWrapper queryWrapper = new QueryWrapper();
                 queryWrapper.eq("user_id", teacherId);
@@ -481,15 +479,17 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
                 TeacherQuestion t = teacherQuestionMapper.selectOne(queryWrapper);
                 //不存在则添加，防止重复
                 if (t == null) {
-                    int n = teacherQuestionMapper.insert(teacherQuestion);
-                    if (n != 1) {
-                        throw new BusinessException("服务繁忙，请稍后再试！");
-                    }
+                    TeacherQuestion teacherQuestion = new TeacherQuestion(teacherId, questionId, now);
+                    teacherQuestionList.add(teacherQuestion);
                 }
 
             }
         }
-        return true;
+
+        //统一批量插入
+        log.debug("批量插入数据：{}",teacherQuestionList);
+        teacherQuestionService.saveBatch(teacherQuestionList);
+
     }
 
     @Override
@@ -532,15 +532,15 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void updateQuestion(QuestionUpdateParam param) {
-        if(param==null){
+        if (param == null) {
             log.debug("参数不能为空");
             throw new BusinessException("参数不能为空");
         }
         //修改问题
         Question question = questionMapper.selectById(param.getId());
-        if(question==null){
-            log.info("不存在该问题id：{}",param.getId());
-            throw new BusinessException("不存在该问题id:"+question.getId());
+        if (question == null) {
+            log.info("不存在该问题id：{}", param.getId());
+            throw new BusinessException("不存在该问题id:" + question.getId());
         }
         question.setTitle(param.getTitle()).setContent(param.getContent());
         int n = questionMapper.updateById(question);
@@ -552,9 +552,9 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
         deleteQuestionTagQuery.eq("question_id", param.getId());
         Integer count1 = questionTagMapper.selectCount(deleteQuestionTagQuery);
         int rows1 = questionTagMapper.delete(deleteQuestionTagQuery);
-        if(count1!=rows1){
+        if (count1 != rows1) {
             log.error("服务器出错，删除问题标签失败！");
-            throw  new BusinessException("服务器开小差了，请稍后再试！");
+            throw new BusinessException("服务器开小差了，请稍后再试！");
         }
         //提取标签列表
         List<Tag> tagList = getTagList(param.getTagNames());
@@ -565,9 +565,9 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
         QueryWrapper deleteUserQuestionQuery = new QueryWrapper();
         deleteUserQuestionQuery.eq("question_id", param.getId());
         Integer count2 = teacherQuestionMapper.selectCount(deleteUserQuestionQuery);
-        log.debug("删除问题id为：{}的老师问题记录",param.getId());
+        log.debug("删除问题id为：{}的老师问题记录", param.getId());
         int rows2 = teacherQuestionMapper.delete(deleteUserQuestionQuery);
-        if(count2!=rows2){
+        if (count2 != rows2) {
             log.error("服务器出错，删除老师问题出错！");
             throw new BusinessException("服务器开小差了，请稍后再试！");
         }
@@ -579,7 +579,7 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
                 question.getUserNickName(), question.getUserId(), question.getCreatetime(), question.getStatus(), question.getPageViews(),
                 question.getPublicStatus(), Arrays.asList(param.getTagNames()), tagList);
 
-        log.debug("发送信息到kafak:{}",esQuestion);
+        log.debug("发送信息到kafak:{}", esQuestion);
         ListenableFuture<SendResult<String, String>> sendResult = kafkaTemplate.send(KafkaTopic.PROTAL_UPDATE_QUESTION, gson.toJson(esQuestion));
         //查看发送结果
         checkSendResult(esQuestion, sendResult);
@@ -606,7 +606,6 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
     }
 
 
-
     @Override
     public List<Answer> getQuestionAnswerById(Integer questionId) {
         List<Answer> answers = getAnswers(questionId);
@@ -615,20 +614,21 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
 
     /**
      * 修改多个问题
+     *
      * @param ids
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void update(Integer[] ids, Question question) {
-        if(ids==null||ids.length==0){
+    public void updateQuestion(Integer[] ids, Question question) {
+        if (ids == null || ids.length == 0) {
             log.debug("ids参数不能为空");
             throw new BusinessException("ids参数不能为空");
         }
         for (Integer id : ids) {
-            log.debug("修改问题，修改参数为：{}",question);
+            log.debug("修改问题，修改参数为：{}", question);
             question.setId(id);
             int update = questionMapper.updateById(question);
-            if(update!=1){
+            if (update != 1) {
                 log.error("服务器出错，修改问题失败！");
                 throw new BusinessException("服务器开小差了，修改失败！");
             }
