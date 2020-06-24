@@ -18,7 +18,7 @@ public interface IAnswerService extends IService<Answer> {
      * @param answerId
      * @return 执行成功返回true,执行失败返回false
      */
-    Boolean deleteById(Integer answerId);
+    void deleteAnswerById(Integer answerId);
 
     /**
      * 采纳答案
@@ -26,5 +26,5 @@ public interface IAnswerService extends IService<Answer> {
      * @param questionId
      * @return 执行成功返回true,执行失败返回false
      */
-    boolean acceptAnswer(Integer answerId, Integer questionId);
+    void acceptAnswer(Integer answerId, Integer questionId);
 }
