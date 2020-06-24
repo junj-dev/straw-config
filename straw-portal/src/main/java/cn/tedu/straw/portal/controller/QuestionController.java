@@ -207,7 +207,7 @@ public class QuestionController extends BaseController {
     @PreAuthorize("hasRole('ROLE_TEACHER')")
     @ResponseBody
     public R<PageInfo<Question>> findQuestionByCondition(QuestionQueryParam queryParam){
-        PageInfo<Question> pageInfo =questionService.findQuestionByCondition(queryParam);
+        PageInfo<Question> pageInfo =questionService.getQuestionByCondition(queryParam);
         return R.success(pageInfo);
     }
 
@@ -228,7 +228,7 @@ public class QuestionController extends BaseController {
     public R setQuestionPublic(@RequestParam("ids[]") Integer[] ids){
         Question question=new Question();
         question.setPublicStatus(QuestionPublicStatusEnum.PUBLIC.getStatus());
-        questionService.update(ids,question);
+        questionService.updateQuestion(ids,question);
         return R.success();
 
     }
@@ -252,7 +252,7 @@ public class QuestionController extends BaseController {
     public R cancelQuestionPublic(@RequestParam("ids[]") Integer[] ids){
         Question question=new Question();
         question.setPublicStatus(QuestionPublicStatusEnum.PRIVATE.getStatus());
-        questionService.update(ids,question);
+        questionService.updateQuestion(ids,question);
         return R.success();
 
     }
@@ -264,7 +264,7 @@ public class QuestionController extends BaseController {
     @ApiOperation("老师获取未回答的问题列表")
     public R<PageInfo<Question>> findMyUnAnwerQuestion(@RequestParam(value = "pageNum",defaultValue = "1") Integer pageNum,
                                                        @RequestParam(value = "pageSize",defaultValue = "10")Integer pageSize){
-        PageInfo<Question> pageInfo =questionService.findMyUnAnwerQuestion(pageNum,pageSize);
+        PageInfo<Question> pageInfo =questionService.getMyUnAnwerQuestion(pageNum,pageSize);
         return R.success(pageInfo);
     }
 
@@ -274,7 +274,7 @@ public class QuestionController extends BaseController {
     @ApiOperation("老师获取未解决的问题列表")
     public R<PageInfo<Question>> findMyUnSolveQuestion(@RequestParam(value = "pageNum",defaultValue = "1") Integer pageNum,
                                                        @RequestParam(value = "pageSize",defaultValue = "10")Integer pageSize){
-        PageInfo<Question> pageInfo =questionService.findMyUnSolveQuestion(pageNum,pageSize);
+        PageInfo<Question> pageInfo =questionService.getMyUnSolveQuestion(pageNum,pageSize);
         return R.success(pageInfo);
     }
 
@@ -284,7 +284,7 @@ public class QuestionController extends BaseController {
     @ApiOperation("老师获取已解决的问题列表")
     public R<PageInfo<Question>> findMySolvedQuestion(@RequestParam(value = "pageNum",defaultValue = "1") Integer pageNum,
                                                       @RequestParam(value = "pageSize",defaultValue = "10")Integer pageSize){
-        PageInfo<Question> pageInfo =questionService.findMySolvedQuestion(pageNum,pageSize);
+        PageInfo<Question> pageInfo =questionService.getMySolvedQuestion(pageNum,pageSize);
         return R.success(pageInfo);
     }
 
@@ -306,7 +306,7 @@ public class QuestionController extends BaseController {
         Question question=new Question();
         //问题设置为已解决
         question.setStatus(QuestionStatusEnum.SOLVED.getStatus());
-        questionService.update(ids,question);
+        questionService.updateQuestion(ids,question);
         return R.success();
 
     }
@@ -316,12 +316,8 @@ public class QuestionController extends BaseController {
     @PreAuthorize("hasRole('ROLE_TEACHER')")
     @ApiOperation("将问题转发给其他老师")
     public R transferToTeacher(@RequestParam("teacherIds[]") Integer[] teacherIds, @RequestParam("questionIds[]")Integer[] questionIds){
-       boolean isSuccess= questionService.transferToTeacher(teacherIds,questionIds);
-        if(isSuccess){
-            return R.success("操作成功");
-        }else {
-            return R.failed("操作失败");
-        }
+       questionService.transferToTeacher(teacherIds,questionIds);
+       return R.success();
     }
 
     @GetMapping("/tag_question.html")
@@ -428,8 +424,7 @@ public class QuestionController extends BaseController {
     @ApiOperation("查看问题是否已收藏")
     @ResponseBody
     public R checkCollectStatus(@PathVariable("id")Integer id){
-       Boolean isCollect= questionService.checkCollectStatus(id);
-       return R.success(isCollect);
+       return toAjax(questionService.checkCollectStatus(id));
     }
 
 }
