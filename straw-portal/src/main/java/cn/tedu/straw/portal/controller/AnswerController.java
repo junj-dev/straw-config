@@ -41,11 +41,9 @@ public class AnswerController extends BaseController {
     @ApiOperation("采纳该回答")
     public String acceptAnswer(@RequestParam("answerId")Integer answerId,@RequestParam("questionId")Integer questionId){
 
-        boolean isSuccess=answerService.acceptAnswer(answerId,questionId);
-        if(isSuccess){
-            return "redirect:/question/detail/"+questionId;
-        }
-        return "error";
+       answerService.acceptAnswer(answerId,questionId);
+       return "redirect:/question/detail/"+questionId;
+
     }
 
     @GetMapping("/edit/{id}")
@@ -92,8 +90,10 @@ public class AnswerController extends BaseController {
     @ApiOperation("删除回答")
     @PreAuthorize("hasAuthority('ROLE_TEACHER')")
     @ResponseBody
-    public R delete(@PathVariable("answerId")Integer answerId){
-      return toAjax(answerService.deleteById(answerId));
+    public R delete(@PathVariable("answerId")Integer answerId)
+    {
+      answerService.deleteAnswerById(answerId);
+      return R.success();
     }
 
 }
