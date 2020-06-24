@@ -55,11 +55,11 @@ public class CustomExceptionHandler {
         String callback = request.getParameter("callback");
         if (StringUtils.isEmpty(callback)) {
             exception.printStackTrace();
-            log.error(exception.getMessage());
+            log.info(exception.getMessage());
             return R.failed(exception.getMessage());
         } else {
             //用户跨域请求
-            log.error(exception.getMessage(),exception);
+            log.info(exception.getMessage(),exception);
             return new JSONPObject(callback, R.failed(exception.getMessage()));
         }
     }
@@ -71,13 +71,24 @@ public class CustomExceptionHandler {
     @ExceptionHandler(AccessDeniedException.class)
     public Object AccessDeniedHandler(Exception exception, HttpServletRequest request){
         String callback = request.getParameter("callback");
+        String message = exception.getMessage();
         if (StringUtils.isEmpty(callback)) {
-            log.error(exception.getMessage());
-            return R.forbidden();
+            log.error(message);
+            if(StringUtils.isEmpty(message)){
+                return R.forbidden();
+            }else {
+                return R.forbidden(message);
+            }
+
         } else {
             //用户跨域请求
-            log.error(exception.getMessage(),exception);
-            return new JSONPObject(callback, R.forbidden());
+            log.error(message,exception);
+           if(StringUtils.isEmpty(message)){
+               return new JSONPObject(callback, R.forbidden());
+           }else {
+               return new JSONPObject(callback, R.forbidden(message));
+           }
+
         }
     }
 
@@ -87,11 +98,17 @@ public class CustomExceptionHandler {
      */
     @ExceptionHandler(PageNotExistException.class)
     public void PageNotFoundExceptionHandler(Exception exception, HttpServletRequest request, HttpServletResponse response) throws IOException {
-        log.error(exception.getMessage());
+        String message = exception.getMessage();
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json; charset=utf-8");
         PrintWriter writer = response.getWriter();
-        writer.println("页面已被删除或不存在！");
+        if(StringUtils.isEmpty(message)){
+            writer.println("页面已被删除或不存在！");
+        }else {
+            log.info(message);
+            writer.println(message);
+        }
+
     }
 
 }

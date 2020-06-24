@@ -17,6 +17,7 @@ import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -63,29 +64,36 @@ public class CommentServiceImpl extends BaseServiceImpl<CommentMapper, Comment> 
     public void create(Integer answerId, String content, Integer questionId) {
 
         if(answerId==null){
+            log.info("答案id不能为空！");
             throw  new BusinessException("答案id不能为空！");
         }
 
         if(StringUtils.isEmpty(content)){
+            log.info("内容不能为空！");
             throw  new BusinessException("内容不能为空！");
         }
         if(questionId==null){
+            log.info("问题id不能为空！");
             throw  new BusinessException("问题id不能为空！");
         }
         //判断是否存在该回答
         Answer answer = answerMapper.selectById(answerId);
         if(answer==null){
+            log.info("参数错误，不存在该回答");
             throw  new BusinessException("参数错误，不存在该回答");
         }
         //判断是否存在该问题
         Question question = questionMapper.selectById(questionId);
         if(question==null){
+            log.info("参数错误，不存在该问题id");
             throw new BusinessException("参数错误，不存在该问题id");
         }
 
         Comment comment=new Comment(getUseId(),answerId,content,new Date());
+        log.debug("保存评论：{}",comment);
         int b = commentMapper.insert(comment);
         if(b!=1){
+            log.error("服务器出错，评论保存失败：{}",comment);
             throw  new BusinessException("服务器开小差了，评论保存失败！");
         }
         //生成消息通知
@@ -120,6 +128,7 @@ public class CommentServiceImpl extends BaseServiceImpl<CommentMapper, Comment> 
 
                     @Override
                     public void onFailure(Throwable ex) {
+                        log.error("发送kafka消息失败",ex.getMessage(),ex);
                         throw new BusinessException("服务开小差了！");
                     }
                 });
@@ -132,20 +141,30 @@ public class CommentServiceImpl extends BaseServiceImpl<CommentMapper, Comment> 
      * @return
      */
     @Override
+    @Transactional
     public void update(Integer commentId, String content) {
         if(commentId==null){
+            log.info("评论id参数不能为空");
             throw new BusinessException("评论id参数不能为空");
+        }
+        if(StringUtils.isEmpty(content)){
+            log.info("评论内容不能为空！");
+            throw new BusinessException("评论内容不能为空！");
         }
         Comment comment = commentMapper.selectById(commentId);
         if(comment==null){
+            log.info("参数错误，不存在该评论");
             throw new BusinessException("参数错误，不存在该评论");
         }
         //只能修改自己提的评论内容
-        if(comment.getUserId().intValue()==getUseId().intValue()){
-            comment.setContent(content);
-           if(commentMapper.updateById(comment)!=1){
-               throw new BusinessException("服务器开小差了，修改失败！");
-           }
+        if(comment.getUserId().intValue()!=getUseId().intValue()){
+           throw new AccessDeniedException("抱歉，您没有修改的权限！");
+        }
+        comment.setContent(content);
+        log.debug("修改评论：{}",comment);
+        if(commentMapper.updateById(comment)!=1){
+            log.error("服务器出错,修改失败:{}",comment);
+            throw new BusinessException("服务器开小差了，修改失败,请稍后再试！");
         }
 
     }

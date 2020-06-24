@@ -3,6 +3,7 @@ package cn.tedu.straw.portal.controller;
 import cn.tedu.straw.common.R;
 import cn.tedu.straw.portal.base.BaseController;
 import cn.tedu.straw.portal.exception.BusinessException;
+import cn.tedu.straw.portal.exception.PageNotExistException;
 import cn.tedu.straw.portal.model.Answer;
 import cn.tedu.straw.portal.model.Question;
 import cn.tedu.straw.portal.service.IAnswerService;
@@ -51,7 +52,7 @@ public class AnswerController extends BaseController {
     public String toEditPage(@PathVariable("id")Integer id, Model model){
         Answer answer = answerService.getById(id);
         if(answer==null){
-           throw  new BusinessException("没有该记录！");
+           throw  new PageNotExistException("没有该记录！");
         }
         List<Question> hotspotQuestions = recommendQuestionService.getHotspotQuestion();
         model.addAttribute("hotspotQuestions",hotspotQuestions);

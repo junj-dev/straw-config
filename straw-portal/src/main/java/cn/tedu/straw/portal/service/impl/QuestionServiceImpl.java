@@ -26,6 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
@@ -314,14 +315,14 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
         questionQuery.eq("id", id);
         Question question = questionMapper.selectOne(questionQuery);
         if (question == null) {
-            throw new PageNotExistException();
+            throw new PageNotExistException("不存在该问题！");
         }
         //如果该问题既不是本人发表的问题又不是公开的问题，角色又是学生
         if (getUserRoleNames().contains("ROLE_STUDENT") //学生角色
                 && getUserRoleNames().size() == 1//只拥有一个角色，该角色是学生
                 && question.getUserId().intValue() != getUseId().intValue() //问题不是本人发表
                 && QuestionPublicStatusEnum.PRIVATE.getStatus().equals(question.getPublicStatus())) { //问题不是公开的
-            throw new PageNotExistException();//表示该问题不存在，无权访问
+            throw new AccessDeniedException("无权访问");//表示该问题不存在，无权访问
         }
 
         //设置标签
@@ -333,8 +334,18 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
 
         //浏览量加1
         //kafka消息队列
-        kafkaTemplate.send("straw-portal-pageView", String.valueOf(question.getId()));
-
+        ListenableFuture<SendResult<String, String>> sendResult = kafkaTemplate.send("straw-portal-pageView", String.valueOf(question.getId()));
+        sendResult.addCallback(new SuccessCallback<SendResult<String, String>>() {
+            @Override
+            public void onSuccess(SendResult<String, String> result) {
+                log.debug("页面浏览消息发送成功！");
+            }
+        }, new FailureCallback() {
+            @Override
+            public void onFailure(Throwable ex) {
+                throw new BusinessException("服务器繁忙，请稍后再试！");
+            }
+        });
         return question;
     }
 
@@ -353,7 +364,7 @@ public class QuestionServiceImpl extends BaseServiceImpl<QuestionMapper, Questio
         Question question = questionMapper.selectById(id);
         if (question == null) {
             log.info("id参数错误，不存在该问题！");
-            throw new BusinessException("id参数错误，不存在该问题！");
+            throw new PageNotExistException();
         }
         Answer answer = new Answer(content, 0, getUseId(), getUserNickname(), id, new Date());
         //保存问题的答案

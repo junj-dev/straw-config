@@ -66,15 +66,16 @@ public class NoticeController extends BaseController {
 
     @GetMapping("/detail/{questionId}/{noticeId}")
     @ApiOperation("查看某个问题详情")
-    public String noticeDetail(@PathVariable("questionId")Integer id,
+    public String noticeDetail(@PathVariable("questionId")Integer questionId,
                                @PathVariable("noticeId")Integer noticeId, Model model) {
-        //把该条信息删除掉
+
+        //把该条信息删除
         Notice notice=new Notice();
         notice.setId(noticeId);
         notice.setReadStatus(true);
         noticeService.updateById(notice);
         //转发到问题详情
-        return "redirect:/question/detail/"+id;
+        return "redirect:/question/detail/"+questionId;
     }
 
 }

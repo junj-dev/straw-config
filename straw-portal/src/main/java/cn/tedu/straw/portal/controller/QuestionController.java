@@ -362,7 +362,7 @@ public class QuestionController extends BaseController {
         //只能修改本用户提出的问题
         Question question = questionService.getById(id);
         if(question==null){
-            throw new PageNotExistException();
+            throw new PageNotExistException("不存在该问题记录！");
         }
         if(question.getUserId().intValue()!=getUseId().intValue()){
             throw new AccessDeniedException("抱歉,没有该权限！");
