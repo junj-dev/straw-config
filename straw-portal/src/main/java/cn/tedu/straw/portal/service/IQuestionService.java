@@ -42,15 +42,15 @@ public interface IQuestionService extends IService<Question> {
 
     R<CommonPage<EsQuestion>> search(String keyword, Integer pageNum, Integer pageSize);
 
-    PageInfo<Question> findQuestionByCondition(QuestionQueryParam queryParam);
+    PageInfo<Question> getQuestionByCondition(QuestionQueryParam queryParam);
 
-    PageInfo<Question> findMyUnAnwerQuestion(Integer pageNum, Integer pageSize);
+    PageInfo<Question> getMyUnAnwerQuestion(Integer pageNum, Integer pageSize);
 
-    PageInfo<Question> findMyUnSolveQuestion(Integer pageNum, Integer pageSize);
+    PageInfo<Question> getMyUnSolveQuestion(Integer pageNum, Integer pageSize);
 
-    PageInfo<Question> findMySolvedQuestion(Integer pageNum, Integer pageSize);
+    PageInfo<Question> getMySolvedQuestion(Integer pageNum, Integer pageSize);
 
-    boolean transferToTeacher(Integer[] teacherIds,Integer[] questionIds);
+    void transferToTeacher(Integer[] teacherIds,Integer[] questionIds);
 
     QuestionVO getQuestionParamById(Integer id);
 
@@ -58,8 +58,7 @@ public interface IQuestionService extends IService<Question> {
 
     Boolean checkCollectStatus(Integer id);
 
-
     List<Answer> getQuestionAnswerById(Integer questionId);
 
-    void update(Integer[] ids, Question question);
+    void updateQuestion(Integer[] ids, Question question);
 }
