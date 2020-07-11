@@ -1,832 +1,438 @@
-/*
- Navicat Premium Data Transfer
+-- MySQL dump 10.13  Distrib 5.7.15, for osx10.11 (x86_64)
+--
+-- Host: localhost    Database: straw
+-- ------------------------------------------------------
+-- Server version	5.7.15
 
- Source Server         : 39.97.229.107
- Source Server Type    : MySQL
- Source Server Version : 50725
- Source Host           : 39.97.229.107:3306
- Source Schema         : straw
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
- Target Server Type    : MySQL
- Target Server Version : 50725
- File Encoding         : 65001
+--
+-- Table structure for table `answer`
+--
 
- Date: 01/06/2020 10:54:48
-*/
-
-SET NAMES utf8mb4;
-SET FOREIGN_KEY_CHECKS = 0;
-
--- ----------------------------
--- Table structure for answer
--- ----------------------------
 DROP TABLE IF EXISTS `answer`;
-CREATE TABLE `answer`  (
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `answer` (
   `id` int(20) NOT NULL AUTO_INCREMENT,
-  `content` longtext CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '回答内容',
+  `content` longtext NOT NULL COMMENT '回答内容',
   `like_count` int(255) NOT NULL COMMENT '点赞数量',
   `user_id` int(11) NOT NULL COMMENT '回答问题的用户id',
-  `user_nick_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '回答者用户名',
+  `user_nick_name` varchar(255) NOT NULL COMMENT '回答者用户名',
   `quest_id` int(11) NOT NULL COMMENT '对应的问题id',
-  `createtime` datetime(0) NOT NULL COMMENT '回答时间',
+  `createtime` datetime NOT NULL COMMENT '回答时间',
   `accept_status` tinyint(4) NOT NULL COMMENT '是否采纳',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 63 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE=InnoDB AUTO_INCREMENT=82 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------
--- Records of answer
--- ----------------------------
-INSERT INTO `answer` VALUES (1, '如果是MySql的话，先确定分库分表的规则，比如按主键取模，实施方案可以有两种：\r\n\r\n停服方案：首先按照分库分表库规则写好一个处理工具类，然后把现有的数据导入相应的库，这种办法比较笨重；\r\n双写机制（可不停服）：在涉及到增删改的地方，加上新的分库分表处理方案，这样在线上跑一段时间后，大部分的活跃数据也就会存在于新表，剩余少部分的数据，可以用上面的导入工具类在非活跃时段进行处理，这样就不用停服了。', 0, 1, '小陈', 13, '2020-03-13 10:41:40', 0);
-INSERT INTO `answer` VALUES (2, 'oracle数据库可以使用分区，容量进一步大的话可考虑分表+分区。如果涉及跨分区甚至跨表统计，建议定时将统计数据写入新表中。', 0, 1, '小陈', 13, '2020-03-13 10:52:31', 0);
-INSERT INTO `answer` VALUES (3, '看你们用的什么数据库，如果是oracle就好办了，直接使用分区就行了，按照日期分区。目前我们就是这么做的，我们数据量比你的要大多了，每个月都是上亿的数据，所以我们是按照日期分区的。如果是mysql那你就可能要分表，分库了。', 0, 1, '小陈', 13, '2020-03-13 10:52:52', 0);
-INSERT INTO `answer` VALUES (4, '<p><span style=\"color: rgb(36, 41, 46); font-family: &quot;PingFang SC&quot;, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; font-size: 16px;\">getBean这个方法是spring内部自己调用的。。。。在spring启动的时候，他会调用refresh方法会触发这个方法，然后跟据beandefinition里的配置的条件，会判断是否需要延迟加载，然后将类加载并实例化，你可以配置延迟加载，根据延迟加载的条件，它可以在你调用这个bean的时候实例化该对象</span><br></p>', 0, 1, '小陈', 14, '2020-03-13 13:01:33', 0);
-INSERT INTO `answer` VALUES (5, '<p><img src=\"http://39.97.229.107/group1/M00/00/06/rBF9h15rJveADyamAAEOO-Kw6X8804.jpg\" data-filename=\"img\" style=\"width: 809px;\"><br></p>', 0, 1, '小陈', 14, '2020-03-13 14:23:51', 0);
-INSERT INTO `answer` VALUES (6, '<p>随便写写。。。。。。。。。。。。</p>', 0, 2, '花倩', 14, '2020-03-13 14:36:21', 0);
-INSERT INTO `answer` VALUES (7, '<p>随便说说，，，，，，，，，，</p>', 0, 9, '刘苍松', 14, '2020-03-13 14:56:36', 0);
-INSERT INTO `answer` VALUES (8, '<p><span style=\"color: rgb(36, 41, 46); font-family: &quot;PingFang SC&quot;, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; font-size: 16px;\">你就把图片存在服务器上指定文件夹就行了。</span><br></p>', 0, 6, '成恒', 15, '2020-03-13 16:16:04', 0);
-INSERT INTO `answer` VALUES (9, '<p>随便说点啥.......</p>', 0, 6, '成恒', 14, '2020-03-14 00:55:16', 0);
-INSERT INTO `answer` VALUES (10, '<p>答案A</p>', 0, 6, '成恒', 18, '2020-03-16 20:02:17', 1);
-INSERT INTO `answer` VALUES (11, '<p>随便写写</p>', 0, 1, 'admin', 14, '2020-03-16 21:44:42', 0);
-INSERT INTO `answer` VALUES (12, '<p>随便写两句。。</p>', 0, 11, '李四', 18, '2020-03-16 21:45:22', 0);
-INSERT INTO `answer` VALUES (13, '<p><img src=\"http://39.97.229.107/group1/M00/00/06/rBF9h154FGiAY2dJAALaarBrVyA915.png\" data-filename=\"img\" style=\"width: 981px;\"></p>', 0, 1, 'admin', 1, '2020-03-23 09:44:14', 0);
-INSERT INTO `answer` VALUES (14, '<p>随便写写。。。</p>', 0, 9, '刘苍松', 28, '2020-03-23 10:01:04', 0);
-INSERT INTO `answer` VALUES (15, '<p><img src=\"http://39.97.229.107/group1/M00/00/06/rBF9h154GGyAWBIOAAHTQf0oRLo363.png\" data-filename=\"img\" style=\"width: 903px;\"><br></p>', 0, 9, '刘苍松', 28, '2020-03-23 10:01:22', 0);
-INSERT INTO `answer` VALUES (16, '<p>随便写写。。。。。</p>', 0, 9, '刘苍松', 7, '2020-03-23 10:12:41', 0);
-INSERT INTO `answer` VALUES (17, '<p><img src=\"http://39.97.229.107/group1/M00/00/06/rBF9h154GyaAN4iSAAHTQf0oRLo183.png\" data-filename=\"img\" style=\"width: 903px;\"><br></p>', 0, 9, '刘苍松', 7, '2020-03-23 10:12:57', 0);
-INSERT INTO `answer` VALUES (18, '<p>随便写写</p>', 0, 4, '王克晶', 2, '2020-03-25 11:32:13', 0);
-INSERT INTO `answer` VALUES (19, '随便写写', 0, 4, '王克晶', 66, '2020-04-02 16:43:53', 0);
-INSERT INTO `answer` VALUES (20, '<p>随便写写</p>', 0, 5, '刘国斌', 70, '2020-04-03 12:32:33', 0);
-INSERT INTO `answer` VALUES (21, '<p>随便写两句</p>', 0, 5, '刘国斌', 63, '2020-04-03 13:00:18', 0);
-INSERT INTO `answer` VALUES (22, '<p>随便写写</p><p><img src=\"http://localhost:8080/uploadFile/2020/04/03/ac18b72d-c041-4615-b46c-d602835cb8aa.png\" data-filename=\"img\" style=\"width: 1121px;\"><br></p>', 0, 9, '刘苍松', 63, '2020-04-03 14:21:01', 0);
-INSERT INTO `answer` VALUES (23, '<p>随便写写</p>', 0, 5, '刘国斌', 62, '2020-04-03 14:34:05', 0);
-INSERT INTO `answer` VALUES (24, '<p>随便写写</p>', 0, 5, '刘国斌', 61, '2020-04-03 14:34:16', 0);
-INSERT INTO `answer` VALUES (25, '<p>随便写写</p>', 0, 4, '王克晶', 71, '2020-04-03 17:43:52', 0);
-INSERT INTO `answer` VALUES (26, '<p>随便写写</p>', 0, 9, '刘苍松', 1, '2020-04-08 11:48:59', 0);
-INSERT INTO `answer` VALUES (27, '<p>测试数据<img src=\"http://localhost:8080/uploadFile/2020/04/08/22a50d5e-4279-4b25-825b-067d4208f428.jpg\" data-filename=\"img\" style=\"width: 1088px;\"></p>', 0, 9, '刘苍松', 6, '2020-04-08 11:57:30', 0);
-INSERT INTO `answer` VALUES (28, '<p>随便说说......</p>', 0, 4, '王克晶', 84, '2020-04-10 17:15:43', 0);
-INSERT INTO `answer` VALUES (29, '<p>测试。。。。</p>', 0, 4, '王克晶', 10, '2020-04-10 17:26:51', 0);
-INSERT INTO `answer` VALUES (30, '<p>测试。。。。</p>', 0, 4, '王克晶', 31, '2020-04-17 21:34:40', 1);
-INSERT INTO `answer` VALUES (31, '<p>测试222</p>', 0, 4, '王克晶', 31, '2020-04-17 21:36:25', 1);
-INSERT INTO `answer` VALUES (32, '<p>测试<img src=\"http://localhost:8083/uploadFile/2020/04/22/a2b057a8-2096-49a6-96cf-07a6602908be.png\" data-filename=\"img\" style=\"width: 708px;\"></p>', 0, 4, '王克晶', 106, '2020-04-22 16:59:19', 0);
-INSERT INTO `answer` VALUES (33, '<p>测试</p><table class=\"table table-bordered\"><tbody><tr><td>ss</td><td><br></td><td><br></td><td><br></td></tr><tr><td>sss</td><td><br></td><td><br></td><td><br></td></tr><tr><td>ss</td><td><br></td><td><br></td><td><br></td></tr><tr><td>sss</td><td><br></td><td><br></td><td><br></td></tr><tr><td><br></td><td><br></td><td><br></td><td><br></td></tr><tr><td><br></td><td><br></td><td><br></td><td><br></td></tr></tbody></table><p><br></p>', 0, 4, '王克晶', 106, '2020-04-22 17:14:04', 0);
-INSERT INTO `answer` VALUES (34, '<p>测试一下</p>', 0, 9, '刘苍松', 26, '2020-04-26 15:12:25', 1);
-INSERT INTO `answer` VALUES (35, '<p>测试回答2</p>', 0, 9, '刘苍松', 26, '2020-04-26 15:13:08', 1);
-INSERT INTO `answer` VALUES (36, '<p>测试数据</p>', 0, 9, '刘苍松', 25, '2020-04-27 10:16:33', 1);
-INSERT INTO `answer` VALUES (37, '<p>测试</p>', 0, 9, '刘苍松', 6, '2020-04-27 14:19:31', 0);
-INSERT INTO `answer` VALUES (38, '<p>测试一下</p>', 0, 9, '刘苍松', 20, '2020-04-27 14:46:25', 1);
-INSERT INTO `answer` VALUES (39, '<p>测试一下</p>', 0, 9, '刘苍松', 110, '2020-04-27 16:23:49', 1);
-INSERT INTO `answer` VALUES (45, '<p>测试一下</p>', 0, 9, '刘苍松', 31, '2020-04-27 17:49:35', 0);
-INSERT INTO `answer` VALUES (46, '<p>测试</p>', 0, 9, '刘苍松', 25, '2020-04-27 17:51:04', 1);
-INSERT INTO `answer` VALUES (47, '<p>测试一下</p>', 0, 4, '王克晶', 31, '2020-04-28 00:25:34', 0);
-INSERT INTO `answer` VALUES (48, '<p>测试</p>', 0, 9, '刘苍松', 109, '2020-04-28 10:54:25', 0);
-INSERT INTO `answer` VALUES (49, '<p style=\"margin: 10px auto; padding: 0px; line-height: 1.5; color: rgb(0, 0, 0); font-size: 13px; text-indent: 0px; font-family: Verdana, Arial, Helvetica, sans-serif; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: left; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(254, 254, 242); text-decoration-style: initial; text-decoration-color: initial;\">1.JSP与Java&nbsp;Servlet一样，是在服务器端执行的，通常返回该客户端的就是一个HTML文本，因此客户端只要有浏览器就能浏览</p><p style=\"margin: 10px auto; padding: 0px; line-height: 1.5; color: rgb(0, 0, 0); font-size: 13px; text-indent: 0px; font-family: Verdana, Arial, Helvetica, sans-serif; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: left; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(254, 254, 242); text-decoration-style: initial; text-decoration-color: initial;\">2.在大多数Browser/Server结构的Web应用中，浏览器直接通过HTML或者JSP的形式与用户交互，响应用户的请求</p><p style=\"margin: 10px auto; padding: 0px; line-height: 1.5; color: rgb(0, 0, 0); font-size: 13px; text-indent: 0px; font-family: Verdana, Arial, Helvetica, sans-serif; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: left; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(254, 254, 242); text-decoration-style: initial; text-decoration-color: initial;\">3.JSP在服务器上执行，并将执行结果输出到客户端浏览器，我们可以说基本上与浏览器无关</p><p><b></b><i></i><u></u><sub></sub><sup></sup><strike></strike><br></p>', 0, 9, '刘苍松', 113, '2020-04-29 00:10:42', 1);
-INSERT INTO `answer` VALUES (50, '<p><span style=\"color: rgb(52, 58, 64); background-color: rgba(0, 0, 0, 0.03);\">1.JSP与Java Servlet一样，是在服务器端执行的，通常返回该客户端的就是一个HTML文本，因此客户端只要有浏览器就能浏览 2.在大多数Browser/Server结构的Web应用中，浏览器直接通过HTML或者JSP的形式与用户交互，响应用户的请求 3.JSP在服务器上执行，并将执行结果输出到客户端浏览器，我们可以说基本上与浏览器无关</span><br></p>', 0, 9, '刘苍松', 113, '2020-05-02 15:35:00', 1);
-INSERT INTO `answer` VALUES (51, '<p>测试</p>', 0, 9, '刘苍松', 118, '2020-05-06 11:21:18', 0);
-INSERT INTO `answer` VALUES (52, '<p>测试</p>', 0, 9, '刘苍松', 114, '2020-05-06 16:12:32', 0);
-INSERT INTO `answer` VALUES (60, '<ul class=\"list-paddingleft-2\" style=\'margin: 0px; padding: 0px 0px 0px 2.2em; max-width: 100%; box-sizing: border-box !important; overflow-wrap: break-word !important; color: rgb(51, 51, 51); font-family: -apple-system-font, BlinkMacSystemFont, \"Helvetica Neue\", \"PingFang SC\", \"Hiragino Sans GB\", \"Microsoft YaHei UI\", \"Microsoft YaHei\", Arial, sans-serif; font-size: 17px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: 0.544px; orphans: 2; text-align: justify; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-style: initial; text-decoration-color: initial;\'><li style=\"margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; overflow-wrap: break-word !important;\"><p style=\"margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; overflow-wrap: break-word !important; clear: both; min-height: 1em;\">JDK：Java Development Kit 的简称，java 开发工具包，提供了 java 的开发环境和运行环境。</p></li><li style=\"margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; overflow-wrap: break-word !important;\"><p style=\"margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; overflow-wrap: break-word !important; clear: both; min-height: 1em;\">JRE：Java Runtime Environment 的简称，java 运行环境，为 java 的运行提供了所需环境。</p></li></ul><p style=\'margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; overflow-wrap: break-word !important; clear: both; min-height: 1em; color: rgb(51, 51, 51); font-family: -apple-system-font, BlinkMacSystemFont, \"Helvetica Neue\", \"PingFang SC\", \"Hiragino Sans GB\", \"Microsoft YaHei UI\", \"Microsoft YaHei\", Arial, sans-serif; font-size: 17px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: 0.544px; orphans: 2; text-align: justify; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-style: initial; text-decoration-color: initial;\'><br style=\"margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; overflow-wrap: break-word !important;\"></p><p style=\'margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; overflow-wrap: break-word !important; clear: both; min-height: 1em; color: rgb(51, 51, 51); font-family: -apple-system-font, BlinkMacSystemFont, \"Helvetica Neue\", \"PingFang SC\", \"Hiragino Sans GB\", \"Microsoft YaHei UI\", \"Microsoft YaHei\", Arial, sans-serif; font-size: 17px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: 0.544px; orphans: 2; text-align: justify; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-style: initial; text-decoration-color: initial;\'>具体来说 JDK 其实包含了 JRE，同时还包含了编译 java 源码的编译器 javac，还包含了很多 java 程序调试和分析的工具。简单来说：如果你需要运行 java 程序，只需安装 JRE 就可以了，如果你需要编写 java 程序，需要安装 JDK。</p><p><b></b><i></i><u></u><sub></sub><sup></sup><strike></strike><br></p>', 0, 4, '王克晶', 121, '2020-05-11 14:49:21', 1);
-INSERT INTO `answer` VALUES (61, '<p>测试</p>', 0, 9, '刘苍松', 3, '2020-05-11 17:51:33', 0);
-INSERT INTO `answer` VALUES (62, '<p>xxxxxxxxxxxxxxxxxxxxxxxxxaaaaa<img src=\"http://localhost:8080/uploadFile/2020/05/29/2ff531a0-eaba-47be-aa12-ca19a50a38f5.png\" data-filename=\"img\" style=\"width: 865px;\"></p>', 0, 2, '老师1', 9, '2020-05-29 09:45:10', 0);
+--
+-- Dumping data for table `answer`
+--
 
--- ----------------------------
--- Table structure for classroom
--- ----------------------------
+LOCK TABLES `answer` WRITE;
+/*!40000 ALTER TABLE `answer` DISABLE KEYS */;
+INSERT INTO `answer` VALUES (36,'测试数据1111',0,9,'刘苍松',114,'2020-04-27 09:43:24',1),(40,'<p><span style=\"color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;\">spring cloud 是一系列框架的有序集合。它利用 spring boot 的开发便利性巧妙地简化了分布式系统基础设施的开发，如服务发现注册、配置中心、消息总线、负载均衡、断路器、数据监控等，都可以用 spring boot 的开发风格做到一键启动和部署。</span><b></b><i></i><u></u><sub></sub><sup></sup><strike></strike><br></p>',0,9,'刘苍松',115,'2020-04-28 17:43:11',1),(42,'<h2 style=\"outline: 0px; margin: 8px 0px 16px; padding: 0px; font-weight: 700; font-family: &quot;Microsoft YaHei&quot;, &quot;SF Pro Display&quot;, Roboto, Noto, Arial, &quot;PingFang SC&quot;, sans-serif; font-size: 24px; color: rgb(79, 79, 79); line-height: 32px; overflow-wrap: break-word;\"><span style=\"outline: 0px; margin: 0px; padding: 0px; font-weight: normal; font-family: Verdana, Arial, Helvetica, sans-serif; overflow-wrap: break-word;\"><span style=\"outline: 0px; margin: 0px; padding: 0px; font-family: &quot;Microsoft YaHei&quot;, &quot;SF Pro Display&quot;, Roboto, Noto, Arial, &quot;PingFang SC&quot;, sans-serif; overflow-wrap: break-word; font-size: 15px;\">九个内置对象</span></span></h2><div style=\"outline: 0px; margin: 0px; padding: 0px; overflow-wrap: break-word; color: rgb(51, 51, 51); font-family: -apple-system, &quot;SF UI Text&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif, SimHei, SimSun; font-size: 14px;\"><span style=\"outline: 0px; margin: 0px; padding: 0px; font-family: Verdana, Arial, Helvetica, sans-serif; overflow-wrap: break-word;\"><span style=\"outline: 0px; margin: 0px; padding: 0px; font-family: &quot;Microsoft YaHei&quot;, &quot;SF Pro Display&quot;, Roboto, Noto, Arial, &quot;PingFang SC&quot;, sans-serif; overflow-wrap: break-word; font-size: 15px;\"></span></span><p style=\"outline: 0px; margin-right: 0px; margin-bottom: 16px; margin-left: 0px; padding: 0px; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 16px; color: rgb(77, 77, 77); line-height: 26px; overflow-x: auto; overflow-wrap: break-word;\"><span style=\"outline: 0px; margin: 0px; padding: 0px; font-family: &quot;Microsoft YaHei&quot;, &quot;SF Pro Display&quot;, Roboto, Noto, Arial, &quot;PingFang SC&quot;, sans-serif; overflow-wrap: break-word; font-size: 15px;\">好了，相信现在大家已经对四个作用域有了一定的了解，下面我们来说一下九大内置对象。</span></p></div>',0,9,'刘苍松',118,'2020-04-30 11:51:09',0),(44,'<blockquote style=\"margin-top: 0.8em; margin-bottom: 0.8em; border-left: 4px solid rgb(223, 226, 229); padding: 0px 15px; color: rgb(119, 119, 119); font-family: &quot;Open Sans&quot;, &quot;Clear Sans&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;\"><p style=\"line-height: inherit; orphans: 4; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; width: inherit; position: relative;\">JSON(JavaScript Object Notation，JS对象简谱) 是一种轻量级的数据交换格式。它基于ECMAScript(欧洲计算机协会制定的js规范)的一个子集，采用完全独立于编程语言的文本格式来存储和表示数据。简洁和清晰的层次结构使得JSON成为理想的数据交换语言。易于人阅读和编写，同时也易于机器解析和生成，并有效地提升网络传输效率。</p></blockquote><p style=\"line-height: inherit; orphans: 4; margin: 0.8em 0px; width: inherit; position: relative; color: rgb(51, 51, 51); font-family: &quot;Open Sans&quot;, &quot;Clear Sans&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;\">关于JSON格式的数据示例：</p><pre spellcheck=\"false\" class=\"md-fences md-end-block ty-contain-cm modeLoaded\" lang=\"\" style=\"font-family: var(--monospace); font-size: 0.9em; break-inside: avoid; overflow: visible; white-space: normal; background-image: inherit; background-size: inherit; background-attachment: inherit; background-origin: inherit; background-clip: inherit; background-color: rgb(248, 248, 248); border: 1px solid rgb(231, 234, 237); border-radius: 3px; padding: 8px 4px 6px; margin-bottom: 15px; margin-top: 15px; width: inherit; color: rgb(51, 51, 51); position: relative !important;\"><div class=\"CodeMirror cm-s-inner CodeMirror-wrap\" lang=\"\" style=\"height: auto; position: relative; overflow: hidden; background-image: inherit; background-size: inherit; background-attachment: inherit; background-origin: inherit; background-clip: inherit; background-color: inherit;\"><div style=\"overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 8px;\"><textarea autocorrect=\"off\" autocapitalize=\"off\" spellcheck=\"false\" tabindex=\"0\" style=\"font-style: inherit; font-variant-caps: inherit; font-weight: inherit; font-stretch: inherit; position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;\"></textarea></div><div class=\"CodeMirror-scroll\" tabindex=\"-1\" style=\"box-sizing: content-box; overflow: hidden; z-index: 3; height: 299px; outline: 0px; position: relative; background-image: inherit; background-size: inherit; background-attachment: inherit; background-origin: inherit; background-clip: inherit; background-color: inherit;\"><div class=\"CodeMirror-sizer\" style=\"position: relative; margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;\"><div style=\"position: relative; top: 0px;\"><div class=\"CodeMirror-lines\" role=\"presentation\" style=\"padding: 0px 0px 0px 4px; cursor: text;\"><div role=\"presentation\" style=\"position: relative; outline: none;\"><div class=\"CodeMirror-measure\" style=\"position: absolute; width: 786px; height: 0px; overflow: hidden; visibility: hidden;\"><pre style=\"font-family: inherit; padding: 0px 4px; border-radius: 0px; border-width: 0px; font-size: inherit; margin-bottom: 0px; white-space: pre-wrap; overflow-wrap: break-word; color: inherit; z-index: 2; position: static; overflow: visible; background-position: 0px 0px; word-break: normal; width: inherit;\"></pre></div><div class=\"CodeMirror-measure\" style=\"position: absolute; width: 786px; height: 0px; overflow: hidden; visibility: hidden;\"></div><div style=\"position: relative; z-index: 1;\"></div><div class=\"CodeMirror-code\" role=\"presentation\"><div class=\"CodeMirror-activeline\" style=\"position: relative;\"><div class=\"CodeMirror-activeline-background CodeMirror-linebackground\" style=\"position: absolute; left: 0px; right: 0px; top: 0px; bottom: 0px; z-index: 0; background-image: inherit; background-size: inherit; background-attachment: inherit; background-origin: inherit; background-clip: inherit; background-color: inherit;\"></div><div class=\"CodeMirror-gutter-background CodeMirror-activeline-gutter\" style=\"position: absolute; top: 0px; bottom: 0px; z-index: 4; left: 0px; width: 0px;\"></div><pre class=\" CodeMirror-line \" role=\"presentation\" style=\"font-family: inherit; break-inside: avoid; padding: 0px 4px; border-radius: 0px; border-width: 0px 30px 0px 0px; font-size: inherit; margin-bottom: 0px; white-space: pre-wrap; overflow-wrap: break-word; color: inherit; z-index: 2; position: relative; overflow: visible; background-position: 0px 0px; word-break: normal; border-right-style: none; border-right-color: transparent; width: inherit;\"><span role=\"presentation\" style=\"padding-right: 0.1px;\">{</span></pre></div><div class=\"\" style=\"position: relative;\"><pre class=\" CodeMirror-line \" role=\"presentation\" style=\"font-family: inherit; break-inside: avoid; padding: 0px 4px; border-radius: 0px; border-width: 0px 30px 0px 0px; font-size: inherit; margin-bottom: 0px; white-space: pre-wrap; overflow-wrap: break-word; color: inherit; z-index: 2; position: relative; overflow: visible; background-position: 0px 0px; word-break: normal; border-right-style: none; border-right-color: transparent; width: inherit;\"><span role=\"presentation\" style=\"padding-right: 0.1px;\"><span class=\"cm-tab\" role=\"presentation\" cm-text=\"	\">  </span>\"username\":\"root\",</span></pre></div><div class=\"\" style=\"position: relative;\"><pre class=\" CodeMirror-line \" role=\"presentation\" style=\"font-family: inherit; break-inside: avoid; padding: 0px 4px; border-radius: 0px; border-width: 0px 30px 0px 0px; font-size: inherit; margin-bottom: 0px; white-space: pre-wrap; overflow-wrap: break-word; color: inherit; z-index: 2; position: relative; overflow: visible; background-position: 0px 0px; word-break: normal; border-right-style: none; border-right-color: transparent; width: inherit;\"><span role=\"presentation\" style=\"padding-right: 0.1px;\"><span class=\"cm-tab\" role=\"presentation\" cm-text=\"	\">  </span>\"password\":\"1234\",</span></pre></div><div class=\"\" style=\"position: relative;\"><pre class=\" CodeMirror-line \" role=\"presentation\" style=\"font-family: inherit; break-inside: avoid; padding: 0px 4px; border-radius: 0px; border-width: 0px 30px 0px 0px; font-size: inherit; margin-bottom: 0px; white-space: pre-wrap; overflow-wrap: break-word; color: inherit; z-index: 2; position: relative; overflow: visible; background-position: 0px 0px; word-break: normal; border-right-style: none; border-right-color: transparent; width: inherit;\"><span role=\"presentation\" style=\"padding-right: 0.1px;\"><span class=\"cm-tab\" role=\"presentation\" cm-text=\"	\">  </span>\"age\":24,</span></pre></div><div class=\"\" style=\"position: relative;\"><pre class=\" CodeMirror-line \" role=\"presentation\" style=\"font-family: inherit; break-inside: avoid; padding: 0px 4px; border-radius: 0px; border-width: 0px 30px 0px 0px; font-size: inherit; margin-bottom: 0px; white-space: pre-wrap; overflow-wrap: break-word; color: inherit; z-index: 2; position: relative; overflow: visible; background-position: 0px 0px; word-break: normal; border-right-style: none; border-right-color: transparent; width: inherit;\"><span role=\"presentation\" style=\"padding-right: 0.1px;\"><span class=\"cm-tab\" role=\"presentation\" cm-text=\"	\">  </span>\"phone\":\"13800138001\",</span></pre></div><pre class=\" CodeMirror-line \" role=\"presentation\" style=\"font-family: inherit; break-inside: avoid; padding: 0px 4px; border-radius: 0px; border-width: 0px 30px 0px 0px; font-size: inherit; margin-bottom: 0px; white-space: pre-wrap; overflow-wrap: break-word; color: inherit; z-index: 2; position: relative; overflow: visible; background-position: 0px 0px; word-break: normal; border-right-style: none; border-right-color: transparent; width: inherit;\"><span role=\"presentation\" style=\"padding-right: 0.1px;\"><span class=\"cm-tab\" role=\"presentation\" cm-text=\"	\">  </span>\"email\":\"root@tedu.cn\",</span></pre><pre class=\" CodeMirror-line \" role=\"presentation\" style=\"font-family: inherit; break-inside: avoid; padding: 0px 4px; border-radius: 0px; border-width: 0px 30px 0px 0px; font-size: inherit; margin-bottom: 0px; white-space: pre-wrap; overflow-wrap: break-word; color: inherit; z-index: 2; position: relative; overflow: visible; background-position: 0px 0px; word-break: normal; border-right-style: none; border-right-color: transparent; width: inherit;\"><span role=\"presentation\" style=\"padding-right: 0.1px;\"><span class=\"cm-tab\" role=\"presentation\" cm-text=\"	\">  </span>\"from\":\"Beijing\",</span></pre><div class=\"\" style=\"position: relative;\"><pre class=\" CodeMirror-line \" role=\"presentation\" style=\"font-family: inherit; break-inside: avoid; padding: 0px 4px; border-radius: 0px; border-width: 0px 30px 0px 0px; font-size: inherit; margin-bottom: 0px; white-space: pre-wrap; overflow-wrap: break-word; color: inherit; z-index: 2; position: relative; overflow: visible; background-position: 0px 0px; word-break: normal; border-right-style: none; border-right-color: transparent; width: inherit;\"><span role=\"presentation\" style=\"padding-right: 0.1px;\"><span class=\"cm-tab\" role=\"presentation\" cm-text=\"	\">  </span>\"skills\":[\"Java\", \"HTML\", \"CSS\", \"JavaScript\", \"MySQL\"],</span></pre></div><div class=\"\" style=\"position: relative;\"><pre class=\" CodeMirror-line \" role=\"presentation\" style=\"font-family: inherit; break-inside: avoid; padding: 0px 4px; border-radius: 0px; border-width: 0px 30px 0px 0px; font-size: inherit; margin-bottom: 0px; white-space: pre-wrap; overflow-wrap: break-word; color: inherit; z-index: 2; position: relative; overflow: visible; background-position: 0px 0px; word-break: normal; border-right-style: none; border-right-color: transparent; width: inherit;\"><span role=\"presentation\" style=\"padding-right: 0.1px;\"><span class=\"cm-tab\" role=\"presentation\" cm-text=\"	\">  </span>\"department\": {</span></pre></div><pre class=\" CodeMirror-line \" role=\"presentation\" style=\"font-family: inherit; break-inside: avoid; padding: 0px 4px; border-radius: 0px; border-width: 0px 30px 0px 0px; font-size: inherit; margin-bottom: 0px; white-space: pre-wrap; overflow-wrap: break-word; color: inherit; z-index: 2; position: relative; overflow: visible; background-position: 0px 0px; word-break: normal; border-right-style: none; border-right-color: transparent; width: inherit;\"><span role=\"presentation\" style=\"padding-right: 0.1px;\"><span class=\"cm-tab\" role=\"presentation\" cm-text=\"	\">  </span><span class=\"cm-tab\" role=\"presentation\" cm-text=\"	\">  </span>\"id\":6,</span></pre><div class=\"\" style=\"position: relative;\"><pre class=\" CodeMirror-line \" role=\"presentation\" style=\"font-family: inherit; break-inside: avoid; padding: 0px 4px; border-radius: 0px; border-width: 0px 30px 0px 0px; font-size: inherit; margin-bottom: 0px; white-space: pre-wrap; overflow-wrap: break-word; color: inherit; z-index: 2; position: relative; overflow: visible; background-position: 0px 0px; word-break: normal; border-right-style: none; border-right-color: transparent; width: inherit;\"><span role=\"presentation\" style=\"padding-right: 0.1px;\"><span class=\"cm-tab\" role=\"presentation\" cm-text=\"	\">  </span><span class=\"cm-tab\" role=\"presentation\" cm-text=\"	\">  </span>\"name\":\"RD\"</span></pre></div><pre class=\" CodeMirror-line \" role=\"presentation\" style=\"font-family: inherit; break-inside: avoid; padding: 0px 4px; border-radius: 0px; border-width: 0px 30px 0px 0px; font-size: inherit; margin-bottom: 0px; white-space: pre-wrap; overflow-wrap: break-word; color: inherit; z-index: 2; position: relative; overflow: visible; background-position: 0px 0px; word-break: normal; border-right-style: none; border-right-color: transparent; width: inherit;\"><span role=\"presentation\" style=\"padding-right: 0.1px;\"><span class=\"cm-tab\" role=\"presentation\" cm-text=\"	\">  </span>}</span></pre><div class=\"\" style=\"position: relative;\"><pre class=\" CodeMirror-line \" role=\"presentation\" style=\"font-family: inherit; break-inside: avoid; padding: 0px 4px; border-radius: 0px; border-width: 0px 30px 0px 0px; font-size: inherit; margin-bottom: 0px; white-space: pre-wrap; overflow-wrap: break-word; color: inherit; z-index: 2; position: relative; overflow: visible; background-position: 0px 0px; word-break: normal; border-right-style: none; border-right-color: transparent; width: inherit;\"><span role=\"presentation\" style=\"padding-right: 0.1px;\">}</span></pre></div></div></div></div></div></div><div style=\"position: absolute; height: 0px; width: 1px; border-bottom: 0px solid transparent; top: 286px;\"></div></div></div></pre><p style=\"line-height: inherit; orphans: 4; margin: 0.8em 0px; width: inherit; position: relative; color: rgb(51, 51, 51); font-family: &quot;Open Sans&quot;, &quot;Clear Sans&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;\">关于JSON语法：</p><ul style=\"margin: 0.8em 0px; padding-left: 30px; position: relative; color: rgb(51, 51, 51); font-family: &quot;Open Sans&quot;, &quot;Clear Sans&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;\"><li style=\"margin: 0px; position: relative;\"><span style=\"margin-top: 0px;\">每个</span><strong>JSON对象</strong>必须使用一对大括号<code style=\"font-family: var(--monospace); border: 1px solid rgb(231, 234, 237); background-color: rgb(243, 244, 244); border-radius: 3px; padding: 0px 2px; font-size: 0.9em;\">{}</code>框住；</li></ul><ul style=\"margin: 0.8em 0px; padding-left: 30px; position: relative; color: rgb(51, 51, 51); font-family: &quot;Open Sans&quot;, &quot;Clear Sans&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;\"><li style=\"margin: 0px; position: relative;\"><span style=\"margin-top: 0px;\">整个JSON数据是一个</span><strong>JSON对象</strong>；</li><li style=\"margin: 0px; position: relative;\"><span style=\"margin-top: 0px;\">每个</span><strong>JSON对象</strong>中可以配置若干个<strong>属性</strong>与<strong>值</strong>的对应关系，每一组属性与值的配置之间使用逗号<code style=\"font-family: var(--monospace); border: 1px solid rgb(231, 234, 237); background-color: rgb(243, 244, 244); border-radius: 3px; padding: 0px 2px; font-size: 0.9em;\">,</code>分隔；</li><li style=\"margin: 0px; position: relative;\"><span style=\"margin-top: 0px;\">每组</span><strong>属性</strong>与<strong>值</strong>的对应关系，<strong>属性</strong>与<strong>值</strong>使用冒号<code style=\"font-family: var(--monospace); border: 1px solid rgb(231, 234, 237); background-color: rgb(243, 244, 244); border-radius: 3px; padding: 0px 2px; font-size: 0.9em;\">:</code>分隔；</li><li style=\"margin: 0px; position: relative;\"><strong style=\"margin-top: 0px;\">属性名称</strong>都是字符串，需要使用一对双引号<code style=\"font-family: var(--monospace); border: 1px solid rgb(231, 234, 237); background-color: rgb(243, 244, 244); border-radius: 3px; padding: 0px 2px; font-size: 0.9em;\">\"\"</code>框住；</li><li style=\"margin: 0px; position: relative;\"><strong style=\"margin-top: 0px;\">属性值</strong>可以是任意简单的类型，如果是字符串类型，也需要使用一对双引号<code style=\"font-family: var(--monospace); border: 1px solid rgb(231, 234, 237); background-color: rgb(243, 244, 244); border-radius: 3px; padding: 0px 2px; font-size: 0.9em;\">\"\"</code>框住，如果是数值或布尔值，则不需要使用符号；</li><li style=\"margin: 0px; position: relative;\"><strong style=\"margin-top: 0px;\">属性值</strong>也可以是其它复杂的类型，例如数组类型，则应该使用中括号<code style=\"font-family: var(--monospace); border: 1px solid rgb(231, 234, 237); background-color: rgb(243, 244, 244); border-radius: 3px; padding: 0px 2px; font-size: 0.9em;\">[]</code>框住多个值，且在中括号内部，各个值之间使用逗号<code style=\"font-family: var(--monospace); border: 1px solid rgb(231, 234, 237); background-color: rgb(243, 244, 244); border-radius: 3px; padding: 0px 2px; font-size: 0.9em;\">,</code>分隔；</li><li style=\"margin: 0px; position: relative;\"><strong style=\"margin-top: 0px;\">属性值</strong>还可以是另一个对象；</li></ul>',0,9,'刘苍松',121,'2020-04-30 15:51:02',0),(45,'<p><span style=\"font-family: -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto, &quot;Helvetica Neue&quot;, Arial, &quot;Noto Sans&quot;, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;, &quot;Noto Color Emoji&quot;; font-size: 1rem;\">== 用于比较两个变量的值是否相等，</span></p><ul><li>基本类型时候就是比较其值是否相等</li><li>引用类型的值是对象的地址，==比较时候就在比较这个地址值是否是相同地址，当两个引用值相等时候表示两个引用同时引用了同一个对象。相反不等时候就是引用了不同的对象。</li><li>当两个对象索引属性数值相等时候，使用==比较其引用将得到false结果，所以==不能用于比较对象是否相等。</li></ul><p>equals方法是在Object上定义的方法，被全部子类型继承，其功能用于比较两个对象是否相等。</p><p><br></p>',0,9,'刘苍松',104,'2020-05-05 23:59:00',0),(46,'<ul style=\"outline: 0px; margin-right: 0px; margin-bottom: 24px; margin-left: 0px; padding: 0px; list-style: none; font-family: &quot;Microsoft YaHei&quot;, &quot;SF Pro Display&quot;, Roboto, Noto, Arial, &quot;PingFang SC&quot;, sans-serif; overflow-wrap: break-word; color: rgba(0, 0, 0, 0.75); font-variant-ligatures: common-ligatures;\"><li style=\"outline: 0px; margin: 8px 0px 0px 32px; padding: 0px; list-style: disc; overflow-wrap: break-word;\"><span style=\"outline: 0px; margin: 0px; padding: 0px; font-weight: 700; overflow-wrap: break-word;\">Lambda表达式</span></li><li style=\"outline: 0px; margin: 8px 0px 0px 32px; padding: 0px; list-style: disc; overflow-wrap: break-word;\"><span style=\"outline: 0px; margin: 0px; padding: 0px; font-weight: 700; overflow-wrap: break-word;\">函数式接口</span></li><li style=\"outline: 0px; margin: 8px 0px 0px 32px; padding: 0px; list-style: disc; overflow-wrap: break-word;\"><span style=\"outline: 0px; margin: 0px; padding: 0px; font-weight: 700; overflow-wrap: break-word;\">*方法引用和构造器调用</span></li><li style=\"outline: 0px; margin: 8px 0px 0px 32px; padding: 0px; list-style: disc; overflow-wrap: break-word;\"><span style=\"outline: 0px; margin: 0px; padding: 0px; font-weight: 700; overflow-wrap: break-word;\">Stream API</span></li><li style=\"outline: 0px; margin: 8px 0px 0px 32px; padding: 0px; list-style: disc; overflow-wrap: break-word;\"><span style=\"outline: 0px; margin: 0px; padding: 0px; font-weight: 700; overflow-wrap: break-word;\">接口中的默认方法和静态方法</span></li><li style=\"outline: 0px; margin: 8px 0px 0px 32px; padding: 0px; list-style: disc; overflow-wrap: break-word;\"><span style=\"outline: 0px; margin: 0px; padding: 0px; font-weight: 700; overflow-wrap: break-word;\">新时间日期API</span></li></ul>',0,39,'陈瑞丰',123,'2020-05-07 14:13:22',1),(47,'<ul class=\"list-paddingleft-2\" style=\'margin: 0px; padding: 0px 0px 0px 2.2em; max-width: 100%; box-sizing: border-box !important; overflow-wrap: break-word !important; color: rgb(51, 51, 51); font-family: -apple-system-font, BlinkMacSystemFont, \"Helvetica Neue\", \"PingFang SC\", \"Hiragino Sans GB\", \"Microsoft YaHei UI\", \"Microsoft YaHei\", Arial, sans-serif; font-size: 17px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: 0.544px; orphans: 2; text-align: justify; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-style: initial; text-decoration-color: initial;\'><li style=\"margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; overflow-wrap: break-word !important;\"><p style=\"margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; overflow-wrap: break-word !important; clear: both; min-height: 1em;\">JDK：Java Development Kit 的简称，java 开发工具包，提供了 java 的开发环境和运行环境。</p></li><li style=\"margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; overflow-wrap: break-word !important;\"><p style=\"margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; overflow-wrap: break-word !important; clear: both; min-height: 1em;\">JRE：Java Runtime Environment 的简称，java 运行环境，为 java 的运行提供了所需环境。</p></li></ul><p style=\'margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; overflow-wrap: break-word !important; clear: both; min-height: 1em; color: rgb(51, 51, 51); font-family: -apple-system-font, BlinkMacSystemFont, \"Helvetica Neue\", \"PingFang SC\", \"Hiragino Sans GB\", \"Microsoft YaHei UI\", \"Microsoft YaHei\", Arial, sans-serif; font-size: 17px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: 0.544px; orphans: 2; text-align: justify; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-style: initial; text-decoration-color: initial;\'><br style=\"margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; overflow-wrap: break-word !important;\"></p><p style=\'margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; overflow-wrap: break-word !important; clear: both; min-height: 1em; color: rgb(51, 51, 51); font-family: -apple-system-font, BlinkMacSystemFont, \"Helvetica Neue\", \"PingFang SC\", \"Hiragino Sans GB\", \"Microsoft YaHei UI\", \"Microsoft YaHei\", Arial, sans-serif; font-size: 17px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: 0.544px; orphans: 2; text-align: justify; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-style: initial; text-decoration-color: initial;\'>具体来说 JDK 其实包含了 JRE，同时还包含了编译 java 源码的编译器 javac，还包含了很多 java 程序调试和分析的工具。简单来说：如果你需要运行 java 程序，只需安装 JRE 就可以了，如果你需要编写 java 程序，需要安装 JDK。</p><p><b></b><i></i><u></u><sub></sub><sup></sup><strike></strike><br></p>',0,4,'王克晶',124,'2020-05-11 12:24:07',0),(48,'<p>您好同学,设置 eclipse 工具中书写 java代码提示按照如下步骤设置即可:</p><p>1.打开 eclipse</p><p>2.选择 window-&gt;Preferences-&gt;Java-&gt;Editor-&gt;Content Assist</p><p>3.找到Auto activation triggers for Java:</p><p>4.设置内容为.abcdefghijklmnopqrstuvwxyz<span style=\"font-size: 1rem;\">(注意是有.的)</span></p><p>5.点击应用</p><p><img src=\"https://resource.straw.org.cn/upload_file/2020/05/11/57b14dd8-1437-409f-91e2-791415a9ea37.png\" data-filename=\"img\" style=\"width: 867px;\"><br></p><p><br></p>',0,34,'包佳奇',125,'2020-05-11 15:54:43',0),(59,'<p>您好同学,这个问题的解决方案如下:<br>1.打开 eclipse</p><p>2.window-&gt;preferences-&gt;general-&gt;editors-&gt;text editors</p><p>3.找到 show whitespace characters 把选项前面的勾取消掉</p><p>4.点击确认应用</p><p>图示:</p><p><img src=\"https://resource.straw.org.cn/upload_file/2020/05/12/1e428312-f2de-4fa1-b42d-6a59e33aba12.png\" data-filename=\"img\" style=\"width: 867px;\"><br></p><span style=\"font-size: medium;\"></span>',0,34,'包佳奇',126,'2020-05-12 00:27:05',1),(60,'<p class=\"MsoNormal\" align=\"left\" style=\"margin-bottom: 12pt; line-height: 19.5pt; background-image: initial; background-position: initial; background-size: initial; background-repeat: initial; background-attachment: initial; background-origin: initial; background-clip: initial; word-break: break-all;\"><span lang=\"EN-US\" style=\"font-size:18.0pt;font-family:宋体;mso-bidi-font-family:\r\nArial;color:#4F4F4F;mso-font-kerning:0pt\">java</span><span style=\"font-size:\r\n18.0pt;font-family:宋体;mso-bidi-font-family:Arial;color:#4F4F4F;mso-font-kerning:\r\n0pt\">类中是可以有多个类。<span lang=\"EN-US\"><o:p></o:p></span></span></p><p>\r\n\r\n</p><p class=\"MsoNormal\" align=\"left\" style=\"margin-bottom: 12pt; line-height: 19.5pt; background-image: initial; background-position: initial; background-size: initial; background-repeat: initial; background-attachment: initial; background-origin: initial; background-clip: initial; word-break: break-all;\"><span style=\"font-size:18.0pt;font-family:宋体;mso-bidi-font-family:\r\nArial;color:#4F4F4F;mso-font-kerning:0pt\">但是，在多个类中，有且只有一个<span lang=\"EN-US\">public</span>类，且<span lang=\"EN-US\">public</span>类的类名必须与<span lang=\"EN-US\">*.java</span>的文件名相一致<span lang=\"EN-US\"><o:p></o:p></span></span></p>',0,40,'林森',128,'2020-05-12 10:17:04',0),(61,'重写后equals()方法对比的是两个对象的内容是否是一样的,==判断的是两个对象的地址是否一样,但是Object中equals()依旧使用==比地址,,所以如果需要自定义对比的对象(要比内容)需要重写equals();',0,35,'赵秀佳',127,'2020-05-12 10:19:40',1),(62,'<p class=\"MsoNormal\" align=\"left\"><b><span style=\"font-size:18.0pt;font-family:宋体;color:red\">关键字</span></b><span style=\"font-size:18.0pt;font-family:宋体\">：其实就是某种语言赋予了特殊含义的单词。<span lang=\"EN-US\"><o:p></o:p></span></span></p><p class=\"MsoNormal\" align=\"left\" style=\"text-indent: 72pt;\"><span style=\"font-size:18.0pt;font-family:宋体\">除了关键字,java还有一些保留字：其实就是还没有赋予特殊含义，</span></p><p class=\"MsoNormal\" align=\"left\" style=\"text-indent: 72pt;\"><span style=\"font-size:18.0pt;font-family:宋体\">但是准备日后要使用过的单词。c<span lang=\"EN-US\">onst goto</span></span></p><p class=\"MsoNormal\" align=\"left\" style=\"text-indent: 72pt;\"><span style=\"font-size:18.0pt;font-family:宋体\"><span lang=\"EN-US\">另外呢java还有一些字面量: t</span></span><span lang=\"EN-US\" style=\"font-size: 18pt; font-family: 宋体;\">rue false null</span><span style=\"font-size: 18pt; font-family: 宋体;\">是字面量</span></p>',0,40,'林森',129,'2020-05-12 10:20:59',0),(63,'<p>这个错是说服务器的端口被占用了,查看一下是否已经有启动的服务器了,如果没有的话修改一下端口号</p><p>要启动服务器的时候要确保当前没有已经启动的服务器了,并且这个端口号不能被占用了.</p>',0,35,'赵秀佳',130,'2020-05-12 10:36:16',1),(64,'<div class=\"c-line-clamp1\" data-a-72ad71e4=\"\" style=\"line-height: 24px; color: rgb(51, 51, 51); font-family: arial; font-size: 14px;\"><div target=\"_blank\" data-visited=\"off\" data-a-72ad71e4=\"\" class=\"\" style=\"line-height: 24px;\"><span data-a-72ad71e4=\"\">第一步、在电脑打开eclipse软件，点击导航栏中的 file-&gt; 选择 Import,</span></div></div><div class=\"c-line-clamp1\" data-a-72ad71e4=\"\" style=\"line-height: 24px; color: rgb(51, 51, 51); font-family: arial; font-size: 14px;\"><div target=\"_blank\" data-visited=\"off\" data-a-72ad71e4=\"\" class=\"\" style=\"line-height: 24px;\"><span data-a-72ad71e4=\"\">第二步、继续选择General-&gt;Existing Projects into workspace,点击next，</span></div></div><div class=\"c-line-clamp1\" data-a-72ad71e4=\"\" style=\"line-height: 24px; color: rgb(51, 51, 51); font-family: arial; font-size: 14px;\"><div target=\"_blank\" data-visited=\"off\" data-a-72ad71e4=\"\" class=\"\" style=\"line-height: 24px;\"><span data-a-72ad71e4=\"\">第三步、点击选择要导入的项目路径（项目存放位置），选好，点击finish,</span></div></div><div class=\"c-line-clamp1\" data-a-72ad71e4=\"\" style=\"line-height: 24px; color: rgb(51, 51, 51); font-family: arial; font-size: 14px;\"><div target=\"_blank\" data-visited=\"off\" data-a-72ad71e4=\"\" class=\"\" style=\"line-height: 24px;\"><span data-a-72ad71e4=\"\">第四步、可以看到已经导入成功了。</span></div></div>',0,32,'李大帅',131,'2020-05-12 14:19:13',0),(65,'<p>您好同学,HTTP 响应中的状态行总共分三部分组成,每部分是以空格间隔的.<br>第一部分为:协议版本</p><p>第二部分为:状态代码</p><p>第三部分为:状态描述</p><p>例如:HTTP/1.1 200 OK</p><p><br></p>',0,34,'包佳奇',132,'2020-05-13 16:49:59',0),(66,'<p>方法的重载是overloading，方法名相同，参数的类型或个数不同，对权限没有要求</p><p>方法的重写是overrding 方法名称和参数列表，参数类型，返回值类型全部相同，但是所实现的内容可以不同，一般发生在继承中</p>',0,38,'高书瑀',133,'2020-05-13 18:52:09',0),(67,'<div class=\"c-line-clamp1\" data-a-72ad71e4=\"\" style=\"line-height: 24px; color: rgb(51, 51, 51); font-family: arial; font-size: 14px;\"><div target=\"_blank\" data-visited=\"off\" data-a-72ad71e4=\"\" class=\"\" style=\"line-height: 24px;\"><span class=\"wenda-abstract-listnum\" data-a-72ad71e4=\"\" style=\"margin-right: 3px;\">第一步、</span><span data-a-72ad71e4=\"\">打开eclipse,点击菜单栏中的</span>【Windows】</div></div><div class=\"c-line-clamp1\" data-a-72ad71e4=\"\" style=\"line-height: 24px; color: rgb(51, 51, 51); font-family: arial; font-size: 14px;\"><div target=\"_blank\" data-visited=\"off\" data-a-72ad71e4=\"\" class=\"\" style=\"line-height: 24px;\"><span data-a-72ad71e4=\"\">第二步、选择【Windows】下拉菜单中的【Preferences】打开。</span></div></div><div class=\"c-line-clamp1\" data-a-72ad71e4=\"\" style=\"line-height: 24px; color: rgb(51, 51, 51); font-family: arial; font-size: 14px;\"><div target=\"_blank\" data-visited=\"off\" data-a-72ad71e4=\"\" class=\"\" style=\"line-height: 24px;\"><span data-a-72ad71e4=\"\">第三步、在【Preferences】页面,依次点击打开【General】--【Workspace 】。</span></div></div><div class=\"c-line-clamp1\" data-a-72ad71e4=\"\" style=\"line-height: 24px; color: rgb(51, 51, 51); font-family: arial; font-size: 14px;\"><div target=\"_blank\" data-visited=\"off\" data-a-72ad71e4=\"\" class=\"\" style=\"line-height: 24px;\"><span data-a-72ad71e4=\"\">第四步、在右侧的【Workspace】栏中,找到【 Text file encoding】,...修改对应的字符集即可。一般为utf-8</span></div></div><div class=\"c-line-clamp1\" data-a-72ad71e4=\"\" style=\"line-height: 24px; color: rgb(51, 51, 51); font-family: arial; font-size: 14px;\"><div target=\"_blank\" data-visited=\"off\" data-a-72ad71e4=\"\" class=\"\" style=\"line-height: 24px;\"><span data-a-72ad71e4=\"\">第五步、修改完之后,记得点击【Apply】提交保存刚才的操作。</span></div></div>',0,32,'李大帅',134,'2020-05-14 17:47:26',0),(68,'<p>同学您好，我们想要在 java 中使用正则表达式匹配\\时,按照正则表达式的写法就是写斜杠“\\\\”，因为正则表达式不是 java 特有的，咱们再用字符串表示出来，这两个”\\\\“都分别需要一个转义，这样就成了 4 个”\\\\\\\\“来匹配一个\\（反斜杠）。</p>',0,34,'包佳奇',135,'2020-05-16 12:42:30',1),(69,'<p>客户端和服务器端之间的通讯是基于两条流进行传输,在客户端中通过Scoket中获取输出流,然后服务器端通过ServerSocket接收客户端的请求,如果连接成功,服务端也会产生一个Scoket对象,并成Scoket对象中获取输入流</p>',0,35,'赵秀佳',137,'2020-05-16 13:38:36',1),(70,'<p>对象的数据随对象存储在堆内存中,如果想将对象长久的保存在本地,就需要对对象进行序列化操作,是指将一个对象转换为一组字节写出到硬盘上,对象反序列化指将一组字节重新还原回一个对象</p>',0,35,'赵秀佳',136,'2020-05-16 13:41:20',1),(71,'<div class=\"c-line-clamp1\" data-a-72ad71e4=\"\" style=\"line-height: 24px; color: rgb(51, 51, 51); font-family: arial; font-size: 14px;\"><p style=\"line-height: 24px;\"><span data-a-72ad71e4=\"\">找到</span>eclipse左上角的\'\'window\'\'</p><p style=\"line-height: 24px;\">点击后在下拉菜单中找到\"preferences\"</p><p style=\"line-height: 24px;\">在弹出窗口的左上角搜索\"font\"，然后选择\"colors and fonts\"</p><p style=\"line-height: 24px;\">点击展开\"basic\"，最下面有\"text font\"选项，点击后就可以在弹出窗口中设置喜欢的字体、字形以及字体大小了</p><p style=\"line-height: 24px;\"><br></p></div>',0,37,'爼超',139,'2020-05-28 17:25:57',0),(72,'<p><span style=\"font-weight: bolder;\">WIN 7配置环境变量步骤：</span></p><p>1. 在\"电脑\"属性中配置JDK</p><p><img src=\"http://resource.straw.org.cn/upload_file/2020/06/03/e074da4f-d271-43fe-875f-33c6260e554c.png\" data-filename=\"img\" style=\"width: 761px;\"><br></p><p>2. 选择 \"高级系统设置\"</p><p><img src=\"http://resource.straw.org.cn/upload_file/2020/06/03/220014c8-3426-4f0b-a6ba-fa9536f25b70.png\" data-filename=\"img\" style=\"width: 700px;\"><br></p><p>3. 点击 \"高级\" -&gt; \"环境变量\"</p><p><img src=\"http://resource.straw.org.cn/upload_file/2020/06/03/34da9487-bac8-468e-af58-3922cab9d7dd.png\" data-filename=\"img\" style=\"width: 500px;\"><br></p><p>4. 增加 JAVA_HOME 环境变量, 其值指向JDK的安装目录</p><p><img src=\"http://resource.straw.org.cn/upload_file/2020/06/03/617e0fa2-ef93-4bb7-874e-b7ba7cece960.png\" data-filename=\"img\" style=\"width: 781px;\"><br></p><p>5. 修改Path环境变量, 在值中增加\"JDK安装目录\\bin\"</p><p><img src=\"http://resource.straw.org.cn/upload_file/2020/06/03/42d2bcce-84b7-48d0-87bb-c53ca51dd642.png\" data-filename=\"img\" style=\"width: 779px;\"><br></p><p>6. 增加环境变量 CLASSPATH, 其值是英文点 \".\"</p><p><img src=\"http://resource.straw.org.cn/upload_file/2020/06/03/3aee9632-177f-4a70-85e3-a4fb57f01407.png\" data-filename=\"img\" style=\"width: 778px;\"><br></p><p>7.一直点击“确定”直到退出界面</p><p>8. 检查是否配置成功：右键点击开始菜单，选择此选项</p><p><img src=\"http://resource.straw.org.cn/upload_file/2020/06/03/f25294bb-218c-494a-988e-e2708e061600.png\" data-filename=\"img\" style=\"width: 459px;\"><br></p><p>9. 在运行中填写，“cmd”</p><p><img src=\"http://resource.straw.org.cn/upload_file/2020/06/03/c8c3d3d6-cf9e-4bfb-82bc-be3bc584406f.png\" data-filename=\"img\" style=\"width: 513px;\"><br></p><p>10．在此窗口中输入“javac”回车，出现以下内容代表配置成功了</p><p><img src=\"http://resource.straw.org.cn/upload_file/2020/06/03/105e02a2-7c6e-42ec-81c1-6a738b9cbc14.png\" data-filename=\"img\" style=\"width: 1223px;\"><br></p><p><span style=\"font-weight: bolder;\">WIN 10配置环境变量步骤：</span><br></p><p>WIN 10系统配置环境变量步骤与WIN7系统大体一致，只是在步骤5<span style=\"font-size: 1rem;\">修改Path环境变量时新建\"</span>%JAVA_HOME%\\bin\"</p><p><img src=\"http://resource.straw.org.cn/upload_file/2020/06/03/1663e468-3a7d-4488-a569-7c1e9d8a74de.png\" data-filename=\"img\" style=\"width: 525px;\"><br></p>',0,37,'爼超',138,'2020-05-29 17:26:40',0),(73,'<p>点击eclipse左上角的file，选择switch workspace中的other就可以更换了</p><p><img src=\"http://resource.straw.org.cn/upload_file/2020/06/03/d25f3aee-30f2-4b25-9f22-9350825538cb.png\" data-filename=\"img\" style=\"width: 757px;\"><br></p>',0,37,'爼超',140,'2020-05-30 15:41:51',0),(74,'<p><span style=\"color: rgb(154, 154, 154); font-family: mp-quote, -apple-system-font, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; font-size: 14px;\">main是主要的意思，main方法是程序的入口，没有main方法则无法执行一个程序。</span></p><p><span style=\"color: rgb(154, 154, 154); font-family: mp-quote, -apple-system-font, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; font-size: 14px;\">String[] args是main函数的形参，可以用来获取用户输入进去的参数。</span><br></p>',0,37,'爼超',144,'2020-05-30 15:42:35',0),(75,'<p><span style=\"color: rgb(154, 154, 154); font-family: mp-quote, -apple-system-font, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; font-size: 14px;\">超出int范围时,编译会出错,这时就需要加L</span><br></p>',0,37,'爼超',143,'2020-05-30 15:43:20',0),(76,'<p><span style=\"color: rgb(77, 77, 77); font-family: &quot;Microsoft YaHei&quot;, &quot;SF Pro Display&quot;, Roboto, Noto, Arial, &quot;PingFang SC&quot;, sans-serif; font-variant-ligatures: common-ligatures;\">右键<b>src</b>文件夹 -&gt;&nbsp;</span><span style=\"outline: 0px; margin: 0px; padding: 0px; font-weight: 700; overflow-wrap: break-word; color: rgb(77, 77, 77); font-family: &quot;Microsoft YaHei&quot;, &quot;SF Pro Display&quot;, Roboto, Noto, Arial, &quot;PingFang SC&quot;, sans-serif; font-variant-ligatures: common-ligatures;\">Build Path</span><span style=\"color: rgb(77, 77, 77); font-family: &quot;Microsoft YaHei&quot;, &quot;SF Pro Display&quot;, Roboto, Noto, Arial, &quot;PingFang SC&quot;, sans-serif; font-variant-ligatures: common-ligatures;\">&nbsp;-&gt;&nbsp;</span><span style=\"outline: 0px; margin: 0px; padding: 0px; font-weight: 700; overflow-wrap: break-word; color: rgb(77, 77, 77); font-family: &quot;Microsoft YaHei&quot;, &quot;SF Pro Display&quot;, Roboto, Noto, Arial, &quot;PingFang SC&quot;, sans-serif; font-variant-ligatures: common-ligatures;\">Use as Source Folder</span><br></p>',0,37,'爼超',141,'2020-05-30 15:44:20',0),(77,'<p>分数可以通过定义两个int类型的数字进行/除法运算表示.</p><p><span style=\"font-size: 1rem;\">JAVA加减乘除的运算规则是基于咱们的数学运算规则的，</span><span style=\"font-size: 1rem;\">正常计算就可以，就是在JAVA中乘号是用星号*表示的。</span></p>',0,37,'爼超',142,'2020-05-30 15:50:20',0),(78,'<p>点击左上角的file-&gt;new，选择java project，如果没有的话点击下面的other搜索一下。</p><p><img src=\"http://resource.straw.org.cn/upload_file/2020/06/03/fa94761b-3656-4e96-b3ff-d08d69418c32.png\" data-filename=\"img\" style=\"width: 627px;\"><br></p>',0,37,'爼超',145,'2020-05-30 19:58:21',0),(79,'<p>右键点击想要导出的项目，选择export</p><p>以我想要导出的TAirplaneShoot项目为例，以橙色框圈出来的文件都必须选中</p><p>然后点击Browse选择导出项目想要存储的路径</p><p><img src=\"http://resource.straw.org.cn/upload_file/2020/06/03/51d7bccb-3675-49ae-8dbe-9eef760ba85c.png\" data-filename=\"img\" style=\"width: 612px;\"><br></p><p><span style=\"font-size: 1rem;\">最后点击finish</span></p>',0,37,'爼超',146,'2020-05-30 20:14:11',0),(80,'<p>需要用到特殊符号的时候，就必须得转义。<br></p>',0,37,'爼超',148,'2020-05-30 20:22:07',0),(81,'代码不会被删除的，依旧保存在之前的工作空间中',0,37,'爼超',147,'2020-05-30 20:23:10',0);
+/*!40000 ALTER TABLE `answer` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `classroom`
+--
+
 DROP TABLE IF EXISTS `classroom`;
-CREATE TABLE `classroom`  (
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `classroom` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '班级名称',
-  `invite_code` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '邀请码',
+  `name` varchar(30) NOT NULL COMMENT '班级名称',
+  `invite_code` varchar(255) NOT NULL COMMENT '邀请码',
   `enabled` tinyint(4) NOT NULL COMMENT '班级是否可用',
-  `createtime` datetime(0) NOT NULL,
-  `modifytime` datetime(0) NOT NULL,
+  `createtime` datetime NOT NULL,
+  `modifytime` datetime NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------
--- Records of classroom
--- ----------------------------
-INSERT INTO `classroom` VALUES (1, 'JSD1912', 'JSD1912-460913', 1, '2020-03-31 11:29:26', '2020-06-01 10:28:27');
-INSERT INTO `classroom` VALUES (2, 'JSD2001', 'JSD2001-452852', 1, '2020-03-31 13:41:29', '2020-06-01 10:28:27');
-INSERT INTO `classroom` VALUES (3, 'JSD2002', 'JSD2002-513766', 1, '2020-03-31 13:41:58', '2020-06-01 10:28:27');
-INSERT INTO `classroom` VALUES (4, 'JSD2003', 'JSD2003-239960', 1, '2020-03-31 13:42:23', '2020-06-01 10:28:27');
+--
+-- Dumping data for table `classroom`
+--
 
--- ----------------------------
--- Table structure for comment
--- ----------------------------
+LOCK TABLES `classroom` WRITE;
+/*!40000 ALTER TABLE `classroom` DISABLE KEYS */;
+INSERT INTO `classroom` VALUES (1,'JSD1912','JSD1912-876840',1,'2020-03-31 11:29:26','2020-07-01 10:41:33'),(2,'JSD2001','JSD2001-706246',1,'2020-03-31 13:41:29','2020-07-01 10:41:33'),(3,'JSD2002','JSD2002-525416',1,'2020-03-31 13:41:58','2020-07-01 10:41:33'),(4,'JSD2003','JSD2003-005803',1,'2020-03-31 13:42:23','2020-07-01 10:41:33');
+/*!40000 ALTER TABLE `classroom` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `comment`
+--
+
 DROP TABLE IF EXISTS `comment`;
-CREATE TABLE `comment`  (
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `comment` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
   `user_id` int(11) NOT NULL COMMENT '用户id',
   `answer_id` int(11) NOT NULL COMMENT '回答id',
-  `content` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '评论内容',
-  `createtime` datetime(0) NOT NULL COMMENT '创建时间',
+  `content` text NOT NULL COMMENT '评论内容',
+  `createtime` datetime NOT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 46 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------
--- Records of comment
--- ----------------------------
-INSERT INTO `comment` VALUES (1, 9, 31, '测试一下看看', '2020-04-26 00:13:33');
-INSERT INTO `comment` VALUES (2, 4, 31, '我也测试一下', '2020-04-26 14:49:53');
-INSERT INTO `comment` VALUES (3, 11, 35, '不明白也', '2020-04-26 15:13:53');
-INSERT INTO `comment` VALUES (4, 11, 35, '测试一下评论', '2020-04-26 15:14:08');
-INSERT INTO `comment` VALUES (5, 11, 35, '测试3', '2020-04-26 15:25:57');
-INSERT INTO `comment` VALUES (6, 9, 10, '对', '2020-04-27 14:21:22');
-INSERT INTO `comment` VALUES (7, 9, 35, '测试一下', '2020-04-27 14:44:03');
-INSERT INTO `comment` VALUES (8, 11, 38, '测试评论', '2020-04-27 14:46:56');
-INSERT INTO `comment` VALUES (9, 11, 35, '什么', '2020-04-27 16:24:37');
-INSERT INTO `comment` VALUES (10, 11, 35, '测试', '2020-04-27 16:53:56');
-INSERT INTO `comment` VALUES (11, 11, 35, '测试一下', '2020-04-27 16:58:25');
-INSERT INTO `comment` VALUES (12, 9, 39, '测试一下', '2020-04-28 00:18:01');
-INSERT INTO `comment` VALUES (13, 4, 47, '测试222', '2020-04-28 00:25:46');
-INSERT INTO `comment` VALUES (14, 9, 39, '测试111', '2020-04-28 09:57:28');
-INSERT INTO `comment` VALUES (15, 4, 39, '不明白', '2020-04-28 09:59:16');
-INSERT INTO `comment` VALUES (16, 4, 39, '测试一下', '2020-04-28 10:04:20');
-INSERT INTO `comment` VALUES (17, 4, 39, '测试一下', '2020-04-28 12:20:31');
-INSERT INTO `comment` VALUES (18, 4, 39, '测试测试2222', '2020-04-28 12:23:10');
-INSERT INTO `comment` VALUES (19, 11, 35, '测试11', '2020-04-28 14:45:58');
-INSERT INTO `comment` VALUES (20, 11, 35, '测试22', '2020-04-28 14:46:15');
-INSERT INTO `comment` VALUES (21, 11, 34, 'balaba测试', '2020-04-28 16:18:08');
-INSERT INTO `comment` VALUES (22, 11, 49, '明白了。谢谢老师！', '2020-04-29 00:12:18');
-INSERT INTO `comment` VALUES (23, 11, 26, '测试', '2020-04-29 17:27:13');
-INSERT INTO `comment` VALUES (24, 9, 49, '1.JSP与Java Servlet一样，是在服务器端执行的，通常返回该客户端的就是一个HTML文本，因此客户端只要有浏览器就能浏览\r\n\r\n2.在大多数Browser/Server结构的Web应用中，浏览器直接通过HTML或者JSP的形式与用户交互，响应用户的请求\r\n\r\n3.JSP在服务器上执行，并将执行结果输出到客户端浏览器，我们可以说基本上与浏览器无关', '2020-05-01 23:12:52');
-INSERT INTO `comment` VALUES (25, 9, 49, '1.JSP与Java Servlet一样，是在服务器端执行的，通常返回该客户端的就是一个HTML文本，因此客户端只要有浏览器就能浏览\r\n\r\n2.在大多数Browser/Server结构的Web应用中，浏览器直接通过HTML或者JSP的形式与用户交互，响应用户的请求\r\n\r\n3.JSP在服务器上执行，并将执行结果输出到客户端浏览器，我们可以说基本上与浏览器无关', '2020-05-01 23:13:59');
-INSERT INTO `comment` VALUES (26, 11, 35, '1.JSP与Java Servlet一样，是在服务器端执行的，通常返回该客户端的就是一个HTML文本，因此客户端只要有浏览器就能浏览\r\n\r\n2.在大多数Browser/Server结构的Web应用中，浏览器直接通过HTML或者JSP的形式与用户交互，响应用户的请求\r\n\r\n3.JSP在服务器上执行，并将执行结果输出到客户端浏览器，我们可以说基本上与浏览器无关', '2020-05-01 23:19:30');
-INSERT INTO `comment` VALUES (27, 11, 46, '1.JSP与Java Servlet一样，是在服务器端执行的，通常返回该客户端的就是一个HTML文本，因此客户端只要有浏览器就能浏览\r\n\r\n2.在大多数Browser/Server结构的Web应用中，浏览器直接通过HTML或者JSP的形式与用户交互，响应用户的请求\r\n\r\n3.JSP在服务器上执行，并将执行结果输出到客户端浏览器，我们可以说基本上与浏览器无关', '2020-05-01 23:21:30');
-INSERT INTO `comment` VALUES (28, 9, 26, '1.JSP与Java Servlet一样，是在服务器端执行的，通常返回该客户端的就是一个HTML文本，因此客户端只要有浏览器就能浏览\r\n\r\n2.在大多数Browser/Server结构的Web应用中，浏览器直接通过HTML或者JSP的形式与用户交互，响应用户的请求\r\n\r\n3.JSP在服务器上执行，并将执行结果输出到客户端浏览器，我们可以说基本上与浏览器无关', '2020-05-01 23:28:49');
-INSERT INTO `comment` VALUES (29, 11, 50, '1.JSP与Java Servlet一样，是在服务器端执行的，通常返回该客户端的就是一个HTML文本，因此客户端只要有浏览器就能浏览 2.在大多数Browser/Server结构的Web应用中，浏览器直接通过HTML或者JSP的形式与用户交互，响应用户的请求 3.JSP在服务器上执行，并将执行结果输出到客户端浏览器，我们可以说基本上与浏览器无关', '2020-05-02 16:19:28');
-INSERT INTO `comment` VALUES (30, 9, 50, '测试', '2020-05-06 10:27:23');
-INSERT INTO `comment` VALUES (31, 9, 49, '1.JSP与Java Servlet一样，是在服务器端执行的，通常返回该客户端的就是一个HTML文本，因此客户端只要有浏览器就能浏览 2.在大多数Browser/Server结构的Web应用中，浏览器直接通过HTML或者JSP的形式与用户交互，响应用户的请求 3.JSP在服务器上执行，并将执行结果输出到客户端浏览器，我们可以说基本上与浏览器无关\r\n\r\n', '2020-05-06 10:51:29');
-INSERT INTO `comment` VALUES (32, 9, 51, '测试1', '2020-05-06 11:21:25');
-INSERT INTO `comment` VALUES (33, 9, 51, '测试2', '2020-05-06 11:21:34');
-INSERT INTO `comment` VALUES (34, 9, 51, '测试3', '2020-05-06 11:22:27');
-INSERT INTO `comment` VALUES (35, 9, 51, '测试4', '2020-05-06 11:23:33');
-INSERT INTO `comment` VALUES (36, 11, 52, '测试', '2020-05-06 22:05:05');
-INSERT INTO `comment` VALUES (44, 2, 62, '就这样aaaa\r\n', '2020-05-29 09:45:41');
+--
+-- Dumping data for table `comment`
+--
 
--- ----------------------------
--- Table structure for notice
--- ----------------------------
+LOCK TABLES `comment` WRITE;
+/*!40000 ALTER TABLE `comment` DISABLE KEYS */;
+INSERT INTO `comment` VALUES (8,11,36,'测试数据','2020-04-27 18:31:49'),(10,11,36,'测试数据','2020-04-28 16:55:22'),(11,11,36,'测试数据','2020-04-28 16:55:29'),(12,28,41,'明白了，谢谢老师！','2020-04-29 00:31:41'),(13,11,42,'我了解了！','2020-04-30 12:01:13'),(15,30,44,'Java 如何处理 JSON 格式','2020-04-30 15:53:10'),(16,9,45,'由于equas方法默认实现是 “==” 比较两个对象的引用，其规则不是很合理。 Java建议子类型进行合理重写，重写为按照关键属性比较对象是否相等。 由于经常需要重写equals方法，开发工具提供了快捷生成equals方法功能，一般情况下使用开发工具生成即可。','2020-05-06 00:02:31'),(18,4,48,'赞！','2020-05-11 15:57:17');
+/*!40000 ALTER TABLE `comment` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `notice`
+--
+
 DROP TABLE IF EXISTS `notice`;
-CREATE TABLE `notice`  (
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `notice` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `type` tinyint(4) NOT NULL COMMENT '消息类型，0-》评论问题的回答，1-》回答某人的提问，2-》评论某人的提问，3-》向某人提问',
+  `type` tinyint(4) NOT NULL COMMENT '消息类型，0-》评论问题的回答，1-》回答某人的提问，2-》评论某人的提问',
   `question_id` int(11) NOT NULL COMMENT '问题id',
-  `createtime` datetime(0) DEFAULT NULL COMMENT '创建时间',
+  `createtime` datetime DEFAULT NULL COMMENT '创建时间',
   `user_id` int(11) NOT NULL COMMENT '收到消息的用户id',
   `reply_user_id` int(11) DEFAULT NULL COMMENT '回复者id',
   `read_status` tinyint(4) DEFAULT NULL COMMENT '消息是否已查看，0-》否，1-》是',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 204 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE=InnoDB AUTO_INCREMENT=146 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------
--- Records of notice
--- ----------------------------
-INSERT INTO `notice` VALUES (5, 1, 31, '2020-04-27 17:49:35', 23, 9, 0);
-INSERT INTO `notice` VALUES (6, 1, 25, '2020-04-27 17:51:04', 11, 9, 1);
-INSERT INTO `notice` VALUES (8, 1, 31, '2020-04-28 00:25:34', 23, 4, 0);
-INSERT INTO `notice` VALUES (9, 2, 31, '2020-04-28 00:25:47', 23, 4, 0);
-INSERT INTO `notice` VALUES (11, 0, 110, '2020-04-28 09:59:16', 9, 4, 1);
-INSERT INTO `notice` VALUES (14, 1, 109, '2020-04-28 10:54:25', 4, 9, 0);
-INSERT INTO `notice` VALUES (15, 0, 110, '2020-04-28 12:20:31', 9, 4, 1);
-INSERT INTO `notice` VALUES (16, 0, 110, '2020-04-28 12:23:10', 9, 4, 1);
-INSERT INTO `notice` VALUES (17, 0, 26, '2020-04-28 14:45:58', 9, 11, 1);
-INSERT INTO `notice` VALUES (18, 0, 26, '2020-04-28 14:46:15', 9, 11, 1);
-INSERT INTO `notice` VALUES (19, 0, 26, '2020-04-28 16:18:08', 9, 11, 0);
-INSERT INTO `notice` VALUES (26, 3, 113, '2020-04-28 23:55:21', 9, 11, 0);
-INSERT INTO `notice` VALUES (27, 3, 113, '2020-04-28 23:55:21', 8, 11, 0);
-INSERT INTO `notice` VALUES (28, 3, 113, '2020-04-28 23:55:21', 5, 11, 0);
-INSERT INTO `notice` VALUES (29, 3, 114, '2020-04-29 00:05:39', 9, 11, 0);
-INSERT INTO `notice` VALUES (30, 3, 114, '2020-04-29 00:05:39', 6, 11, 0);
-INSERT INTO `notice` VALUES (31, 3, 114, '2020-04-29 00:05:39', 8, 11, 0);
-INSERT INTO `notice` VALUES (32, 1, 113, '2020-04-29 00:10:42', 11, 9, 1);
-INSERT INTO `notice` VALUES (33, 0, 113, '2020-04-29 00:12:18', 9, 11, 1);
-INSERT INTO `notice` VALUES (34, 0, 1, '2020-04-29 17:27:13', 9, 11, 0);
-INSERT INTO `notice` VALUES (35, 2, 1, '2020-04-29 17:27:13', 13, 11, 0);
-INSERT INTO `notice` VALUES (36, 2, 113, '2020-05-01 23:12:52', 11, 9, 0);
-INSERT INTO `notice` VALUES (37, 2, 113, '2020-05-01 23:13:59', 11, 9, 0);
-INSERT INTO `notice` VALUES (38, 0, 26, '2020-05-01 23:19:30', 9, 11, 0);
-INSERT INTO `notice` VALUES (39, 0, 25, '2020-05-01 23:21:30', 9, 11, 1);
-INSERT INTO `notice` VALUES (40, 2, 1, '2020-05-01 23:28:49', 13, 9, 0);
-INSERT INTO `notice` VALUES (41, 1, 113, '2020-05-02 15:35:00', 11, 9, 0);
-INSERT INTO `notice` VALUES (42, 0, 113, '2020-05-02 16:19:28', 9, 11, 0);
-INSERT INTO `notice` VALUES (43, 3, 115, '2020-05-03 01:36:23', 2, 11, 1);
-INSERT INTO `notice` VALUES (44, 3, 115, '2020-05-03 01:36:23', 4, 11, 0);
-INSERT INTO `notice` VALUES (45, 3, 115, '2020-05-03 01:36:23', 9, 11, 0);
-INSERT INTO `notice` VALUES (46, 3, 116, '2020-05-03 01:37:35', 2, 11, 1);
-INSERT INTO `notice` VALUES (47, 3, 116, '2020-05-03 01:37:35', 4, 11, 0);
-INSERT INTO `notice` VALUES (48, 3, 116, '2020-05-03 01:37:35', 9, 11, 0);
-INSERT INTO `notice` VALUES (49, 3, 117, '2020-05-03 01:37:49', 2, 11, 1);
-INSERT INTO `notice` VALUES (50, 3, 117, '2020-05-03 01:37:49', 4, 11, 0);
-INSERT INTO `notice` VALUES (51, 3, 117, '2020-05-03 01:37:50', 9, 11, 0);
-INSERT INTO `notice` VALUES (52, 3, 117, '2020-05-03 21:48:12', 2, 11, 1);
-INSERT INTO `notice` VALUES (53, 3, 117, '2020-05-03 21:48:11', 2, 11, 1);
-INSERT INTO `notice` VALUES (54, 3, 117, '2020-05-03 21:48:12', 4, 11, 0);
-INSERT INTO `notice` VALUES (55, 3, 117, '2020-05-03 21:48:11', 4, 11, 0);
-INSERT INTO `notice` VALUES (56, 3, 117, '2020-05-03 21:48:12', 9, 11, 0);
-INSERT INTO `notice` VALUES (57, 3, 117, '2020-05-03 21:48:11', 9, 11, 0);
-INSERT INTO `notice` VALUES (58, 3, 117, '2020-05-03 23:44:26', 2, 11, 1);
-INSERT INTO `notice` VALUES (59, 3, 117, '2020-05-03 23:44:26', 2, 11, 1);
-INSERT INTO `notice` VALUES (60, 3, 117, '2020-05-03 23:44:26', 4, 11, 0);
-INSERT INTO `notice` VALUES (61, 3, 117, '2020-05-03 23:44:26', 4, 11, 0);
-INSERT INTO `notice` VALUES (62, 3, 117, '2020-05-03 23:44:26', 9, 11, 0);
-INSERT INTO `notice` VALUES (63, 3, 117, '2020-05-03 23:44:26', 9, 11, 0);
-INSERT INTO `notice` VALUES (64, 3, 117, '2020-05-03 23:48:43', 2, 11, 1);
-INSERT INTO `notice` VALUES (65, 3, 117, '2020-05-03 23:48:42', 2, 11, 1);
-INSERT INTO `notice` VALUES (66, 3, 117, '2020-05-03 23:48:43', 4, 11, 0);
-INSERT INTO `notice` VALUES (67, 3, 117, '2020-05-03 23:48:42', 4, 11, 0);
-INSERT INTO `notice` VALUES (68, 3, 117, '2020-05-03 23:48:42', 9, 11, 0);
-INSERT INTO `notice` VALUES (69, 3, 117, '2020-05-03 23:48:43', 9, 11, 0);
-INSERT INTO `notice` VALUES (70, 3, 117, '2020-05-04 00:10:54', 2, 11, 1);
-INSERT INTO `notice` VALUES (71, 3, 117, '2020-05-04 00:10:53', 2, 11, 1);
-INSERT INTO `notice` VALUES (72, 3, 117, '2020-05-04 00:10:53', 4, 11, 0);
-INSERT INTO `notice` VALUES (73, 3, 117, '2020-05-04 00:10:54', 4, 11, 0);
-INSERT INTO `notice` VALUES (74, 3, 117, '2020-05-04 00:10:54', 9, 11, 0);
-INSERT INTO `notice` VALUES (75, 3, 117, '2020-05-04 00:10:53', 9, 11, 0);
-INSERT INTO `notice` VALUES (76, 3, 117, '2020-05-04 00:14:03', 2, 11, 1);
-INSERT INTO `notice` VALUES (77, 3, 117, '2020-05-04 00:14:03', 2, 11, 1);
-INSERT INTO `notice` VALUES (78, 3, 117, '2020-05-04 00:14:03', 4, 11, 0);
-INSERT INTO `notice` VALUES (79, 3, 117, '2020-05-04 00:14:03', 4, 11, 0);
-INSERT INTO `notice` VALUES (80, 3, 117, '2020-05-04 00:14:03', 9, 11, 0);
-INSERT INTO `notice` VALUES (81, 3, 117, '2020-05-04 00:14:03', 9, 11, 0);
-INSERT INTO `notice` VALUES (82, 3, 117, '2020-05-04 00:24:25', 2, 11, 1);
-INSERT INTO `notice` VALUES (83, 3, 117, '2020-05-04 00:24:24', 2, 11, 1);
-INSERT INTO `notice` VALUES (84, 3, 117, '2020-05-04 00:24:24', 4, 11, 0);
-INSERT INTO `notice` VALUES (85, 3, 117, '2020-05-04 00:24:25', 4, 11, 0);
-INSERT INTO `notice` VALUES (86, 3, 117, '2020-05-04 00:24:25', 9, 11, 0);
-INSERT INTO `notice` VALUES (87, 3, 117, '2020-05-04 00:24:24', 9, 11, 0);
-INSERT INTO `notice` VALUES (88, 3, 117, '2020-05-04 00:25:41', 2, 11, 1);
-INSERT INTO `notice` VALUES (89, 3, 117, '2020-05-04 00:25:40', 2, 11, 1);
-INSERT INTO `notice` VALUES (90, 3, 117, '2020-05-04 00:25:41', 4, 11, 0);
-INSERT INTO `notice` VALUES (91, 3, 117, '2020-05-04 00:25:40', 4, 11, 0);
-INSERT INTO `notice` VALUES (92, 3, 117, '2020-05-04 00:25:41', 9, 11, 0);
-INSERT INTO `notice` VALUES (93, 3, 117, '2020-05-04 00:25:40', 9, 11, 0);
-INSERT INTO `notice` VALUES (94, 3, 117, '2020-05-04 00:28:37', 2, 11, 1);
-INSERT INTO `notice` VALUES (95, 3, 117, '2020-05-04 00:28:36', 2, 11, 1);
-INSERT INTO `notice` VALUES (96, 3, 117, '2020-05-04 00:28:37', 4, 11, 0);
-INSERT INTO `notice` VALUES (97, 3, 117, '2020-05-04 00:28:36', 4, 11, 0);
-INSERT INTO `notice` VALUES (98, 3, 117, '2020-05-04 00:28:37', 9, 11, 0);
-INSERT INTO `notice` VALUES (99, 3, 117, '2020-05-04 00:28:36', 9, 11, 0);
-INSERT INTO `notice` VALUES (100, 3, 117, '2020-05-04 00:40:14', 2, 11, 1);
-INSERT INTO `notice` VALUES (101, 3, 117, '2020-05-04 00:40:14', 2, 11, 1);
-INSERT INTO `notice` VALUES (102, 3, 117, '2020-05-04 00:40:14', 4, 11, 0);
-INSERT INTO `notice` VALUES (103, 3, 117, '2020-05-04 00:40:14', 4, 11, 0);
-INSERT INTO `notice` VALUES (104, 3, 117, '2020-05-04 00:40:14', 9, 11, 0);
-INSERT INTO `notice` VALUES (105, 3, 117, '2020-05-04 00:40:14', 9, 11, 1);
-INSERT INTO `notice` VALUES (106, 3, 117, '2020-05-04 09:58:02', 2, 11, 1);
-INSERT INTO `notice` VALUES (107, 3, 117, '2020-05-04 09:58:02', 2, 11, 1);
-INSERT INTO `notice` VALUES (108, 3, 117, '2020-05-04 09:58:02', 4, 11, 0);
-INSERT INTO `notice` VALUES (109, 3, 117, '2020-05-04 09:58:02', 4, 11, 0);
-INSERT INTO `notice` VALUES (110, 3, 117, '2020-05-04 09:58:02', 9, 11, 1);
-INSERT INTO `notice` VALUES (111, 3, 117, '2020-05-04 09:58:02', 9, 11, 0);
-INSERT INTO `notice` VALUES (112, 3, 117, '2020-05-03 21:48:11', 2, 11, 1);
-INSERT INTO `notice` VALUES (113, 3, 117, '2020-05-03 21:48:11', 4, 11, 0);
-INSERT INTO `notice` VALUES (114, 3, 117, '2020-05-03 21:48:11', 9, 11, 0);
-INSERT INTO `notice` VALUES (115, 3, 117, '2020-05-03 23:44:26', 2, 11, 1);
-INSERT INTO `notice` VALUES (116, 3, 117, '2020-05-03 23:44:26', 4, 11, 0);
-INSERT INTO `notice` VALUES (117, 3, 117, '2020-05-03 23:44:26', 9, 11, 0);
-INSERT INTO `notice` VALUES (118, 3, 117, '2020-05-03 23:48:42', 2, 11, 1);
-INSERT INTO `notice` VALUES (119, 3, 117, '2020-05-03 23:48:42', 4, 11, 0);
-INSERT INTO `notice` VALUES (120, 3, 117, '2020-05-03 23:48:42', 9, 11, 0);
-INSERT INTO `notice` VALUES (121, 3, 117, '2020-05-04 00:10:53', 2, 11, 1);
-INSERT INTO `notice` VALUES (122, 3, 117, '2020-05-04 00:10:53', 4, 11, 0);
-INSERT INTO `notice` VALUES (123, 3, 117, '2020-05-04 00:10:53', 9, 11, 0);
-INSERT INTO `notice` VALUES (124, 3, 117, '2020-05-04 00:14:03', 2, 11, 1);
-INSERT INTO `notice` VALUES (125, 3, 117, '2020-05-04 00:14:03', 4, 11, 0);
-INSERT INTO `notice` VALUES (126, 3, 117, '2020-05-04 00:14:03', 9, 11, 0);
-INSERT INTO `notice` VALUES (127, 3, 117, '2020-05-04 00:24:24', 2, 11, 1);
-INSERT INTO `notice` VALUES (128, 3, 117, '2020-05-04 00:24:24', 4, 11, 0);
-INSERT INTO `notice` VALUES (129, 3, 117, '2020-05-04 00:24:24', 9, 11, 0);
-INSERT INTO `notice` VALUES (130, 3, 117, '2020-05-04 00:25:40', 2, 11, 1);
-INSERT INTO `notice` VALUES (131, 3, 117, '2020-05-04 00:25:40', 4, 11, 0);
-INSERT INTO `notice` VALUES (132, 3, 117, '2020-05-04 00:25:40', 9, 11, 0);
-INSERT INTO `notice` VALUES (133, 3, 117, '2020-05-04 00:28:36', 2, 11, 1);
-INSERT INTO `notice` VALUES (134, 3, 117, '2020-05-04 00:28:36', 4, 11, 0);
-INSERT INTO `notice` VALUES (135, 3, 117, '2020-05-04 00:28:36', 9, 11, 0);
-INSERT INTO `notice` VALUES (136, 3, 117, '2020-05-04 00:40:14', 2, 11, 1);
-INSERT INTO `notice` VALUES (137, 3, 117, '2020-05-04 00:40:14', 4, 11, 0);
-INSERT INTO `notice` VALUES (138, 3, 117, '2020-05-04 00:40:14', 9, 11, 0);
-INSERT INTO `notice` VALUES (139, 3, 117, '2020-05-04 09:58:02', 2, 11, 1);
-INSERT INTO `notice` VALUES (140, 3, 117, '2020-05-04 09:58:02', 4, 11, 0);
-INSERT INTO `notice` VALUES (141, 3, 117, '2020-05-04 09:58:02', 9, 11, 1);
-INSERT INTO `notice` VALUES (142, 3, 117, '2020-05-04 10:10:13', 2, 11, 1);
-INSERT INTO `notice` VALUES (143, 3, 117, '2020-05-04 10:10:12', 2, 11, 1);
-INSERT INTO `notice` VALUES (144, 3, 117, '2020-05-04 10:10:13', 4, 11, 0);
-INSERT INTO `notice` VALUES (145, 3, 117, '2020-05-04 10:10:12', 4, 11, 0);
-INSERT INTO `notice` VALUES (146, 3, 117, '2020-05-04 10:10:13', 9, 11, 1);
-INSERT INTO `notice` VALUES (147, 3, 117, '2020-05-04 10:10:12', 9, 11, 1);
-INSERT INTO `notice` VALUES (148, 3, 117, '2020-05-04 10:20:52', 2, 11, 1);
-INSERT INTO `notice` VALUES (149, 3, 117, '2020-05-04 10:20:51', 2, 11, 1);
-INSERT INTO `notice` VALUES (150, 3, 117, '2020-05-04 10:20:52', 4, 11, 0);
-INSERT INTO `notice` VALUES (151, 3, 117, '2020-05-04 10:20:51', 4, 11, 0);
-INSERT INTO `notice` VALUES (152, 3, 117, '2020-05-04 10:20:52', 9, 11, 1);
-INSERT INTO `notice` VALUES (153, 3, 117, '2020-05-04 10:20:51', 9, 11, 0);
-INSERT INTO `notice` VALUES (154, 3, 117, '2020-05-04 10:22:07', 2, 11, 1);
-INSERT INTO `notice` VALUES (155, 3, 117, '2020-05-04 10:22:06', 2, 11, 1);
-INSERT INTO `notice` VALUES (156, 3, 117, '2020-05-04 10:22:07', 4, 11, 1);
-INSERT INTO `notice` VALUES (157, 3, 117, '2020-05-04 10:22:06', 4, 11, 0);
-INSERT INTO `notice` VALUES (158, 3, 117, '2020-05-04 10:22:07', 9, 11, 0);
-INSERT INTO `notice` VALUES (159, 3, 117, '2020-05-04 10:22:06', 9, 11, 0);
-INSERT INTO `notice` VALUES (160, 3, 118, '2020-05-04 11:00:53', 9, 11, 0);
-INSERT INTO `notice` VALUES (161, 3, 118, '2020-05-04 11:00:53', 5, 11, 0);
-INSERT INTO `notice` VALUES (162, 2, 113, '2020-05-06 10:27:23', 11, 9, 0);
-INSERT INTO `notice` VALUES (163, 2, 113, '2020-05-06 10:51:30', 11, 9, 1);
-INSERT INTO `notice` VALUES (164, 1, 118, '2020-05-06 11:21:18', 11, 9, 1);
-INSERT INTO `notice` VALUES (165, 2, 118, '2020-05-06 11:21:25', 11, 9, 0);
-INSERT INTO `notice` VALUES (166, 2, 118, '2020-05-06 11:21:33', 11, 9, 0);
-INSERT INTO `notice` VALUES (167, 2, 118, '2020-05-06 11:22:26', 11, 9, 1);
-INSERT INTO `notice` VALUES (168, 2, 118, '2020-05-06 11:23:32', 11, 9, 1);
-INSERT INTO `notice` VALUES (169, 1, 114, '2020-05-06 16:12:31', 11, 9, 0);
-INSERT INTO `notice` VALUES (170, 3, 119, '2020-05-06 17:31:57', 9, 11, 0);
-INSERT INTO `notice` VALUES (171, 0, 114, '2020-05-06 22:05:04', 9, 11, 0);
-INSERT INTO `notice` VALUES (172, 1, 119, '2020-05-09 14:57:36', 11, 9, 1);
-INSERT INTO `notice` VALUES (173, 0, 119, '2020-05-09 14:58:55', 9, 11, 0);
-INSERT INTO `notice` VALUES (174, 2, 119, '2020-05-09 14:59:49', 11, 9, 0);
-INSERT INTO `notice` VALUES (175, 2, 119, '2020-05-09 16:58:16', 11, 9, 0);
-INSERT INTO `notice` VALUES (176, 1, 119, '2020-05-09 16:59:04', 11, 9, 0);
-INSERT INTO `notice` VALUES (177, 0, 119, '2020-05-10 00:32:32', 9, 11, 0);
-INSERT INTO `notice` VALUES (178, 0, 119, '2020-05-10 00:42:38', 9, 11, 0);
-INSERT INTO `notice` VALUES (179, 1, 119, '2020-05-10 00:43:31', 11, 9, 0);
-INSERT INTO `notice` VALUES (180, 1, 119, '2020-05-10 21:49:23', 11, 9, 0);
-INSERT INTO `notice` VALUES (181, 2, 119, '2020-05-11 10:49:40', 11, 9, 0);
-INSERT INTO `notice` VALUES (182, 1, 119, '2020-05-11 11:26:12', 11, 9, 0);
-INSERT INTO `notice` VALUES (183, 1, 119, '2020-05-11 11:26:12', 11, 9, 0);
-INSERT INTO `notice` VALUES (184, 1, 119, '2020-05-11 11:27:19', 11, 9, 0);
-INSERT INTO `notice` VALUES (185, 1, 119, '2020-05-11 11:55:36', 11, 9, 0);
-INSERT INTO `notice` VALUES (186, 3, 120, '2020-05-11 14:27:35', 4, 11, 1);
-INSERT INTO `notice` VALUES (187, 3, 120, '2020-05-11 14:27:35', 9, 11, 0);
-INSERT INTO `notice` VALUES (188, 3, 121, '2020-05-11 14:48:21', 4, 11, 1);
-INSERT INTO `notice` VALUES (189, 3, 121, '2020-05-11 14:48:21', 9, 11, 0);
-INSERT INTO `notice` VALUES (190, 1, 121, '2020-05-11 14:49:21', 11, 4, 1);
-INSERT INTO `notice` VALUES (191, 0, 121, '2020-05-11 14:58:54', 4, 11, 1);
-INSERT INTO `notice` VALUES (192, 3, 122, '2020-05-11 17:50:09', 9, 11, 0);
-INSERT INTO `notice` VALUES (193, 1, 3, '2020-05-11 17:51:32', 13, 9, 1);
-INSERT INTO `notice` VALUES (194, 3, 123, '2020-05-11 22:52:23', 4, 9, 0);
-INSERT INTO `notice` VALUES (195, 3, 124, '2020-05-22 15:41:58', 2, 10, 1);
-INSERT INTO `notice` VALUES (196, 3, 125, '2020-05-22 15:51:40', 3, 10, 0);
-INSERT INTO `notice` VALUES (197, 3, 126, '2020-05-22 16:08:15', 3, 10, 0);
-INSERT INTO `notice` VALUES (198, 3, 127, '2020-05-22 16:16:37', 28, 10, 0);
-INSERT INTO `notice` VALUES (199, 3, 128, '2020-05-22 16:19:27', 33, 10, 0);
-INSERT INTO `notice` VALUES (200, 1, 9, '2020-05-29 09:45:10', 13, 2, 0);
-INSERT INTO `notice` VALUES (201, 2, 9, '2020-05-29 09:45:41', 13, 2, 0);
-INSERT INTO `notice` VALUES (202, 0, 2, '2020-05-29 16:43:19', 4, 2, 0);
-INSERT INTO `notice` VALUES (203, 2, 2, '2020-05-29 16:43:20', 13, 2, 0);
+--
+-- Dumping data for table `notice`
+--
 
--- ----------------------------
--- Table structure for permission
--- ----------------------------
+LOCK TABLES `notice` WRITE;
+/*!40000 ALTER TABLE `notice` DISABLE KEYS */;
+INSERT INTO `notice` VALUES (20,0,114,'2020-04-28 16:55:22',9,11,1),(21,0,114,'2020-04-28 16:55:29',9,11,1),(22,1,112,'2020-04-28 17:16:58',11,9,1),(23,1,115,'2020-04-28 17:43:11',28,9,1),(24,3,117,'2020-04-29 00:28:56',9,28,1),(25,3,117,'2020-04-29 00:28:56',7,28,0),(26,3,117,'2020-04-29 00:28:56',8,28,0),(27,3,117,'2020-04-29 00:28:56',5,28,0),(28,3,117,'2020-04-29 00:28:56',6,28,0),(29,1,117,'2020-04-29 00:30:37',28,9,0),(30,0,117,'2020-04-29 00:31:41',9,28,1),(31,3,118,'2020-04-29 09:31:50',9,11,1),(32,3,118,'2020-04-29 09:31:50',6,11,0),(33,3,118,'2020-04-29 09:31:50',8,11,0),(34,3,118,'2020-04-29 09:31:50',2,11,0),(35,1,118,'2020-04-30 11:51:09',11,9,0),(36,0,118,'2020-04-30 12:01:13',9,11,1),(37,3,119,'2020-04-30 12:19:22',4,30,1),(38,3,120,'2020-04-30 12:21:33',9,30,1),(39,3,120,'2020-04-30 12:21:33',4,30,0),(40,1,120,'2020-04-30 12:22:22',30,9,1),(41,0,120,'2020-04-30 12:23:33',9,30,1),(42,3,121,'2020-04-30 15:49:47',9,30,1),(43,1,121,'2020-04-30 15:51:02',30,9,0),(44,0,121,'2020-04-30 15:53:10',9,30,1),(45,3,116,'2020-05-03 23:26:28',9,9,1),(46,3,116,'2020-05-03 23:26:28',6,9,0),(47,3,116,'2020-05-03 23:26:28',9,9,0),(48,3,116,'2020-05-03 23:26:28',6,9,0),(49,3,116,'2020-05-03 23:26:28',9,9,1),(50,3,116,'2020-05-03 23:26:28',6,9,0),(51,1,104,'2020-05-05 23:58:59',11,9,1),(52,2,104,'2020-05-06 00:02:31',11,9,1),(53,3,122,'2020-05-06 17:37:36',9,11,1),(54,3,123,'2020-05-07 14:12:16',39,42,1),(55,3,123,'2020-05-07 14:12:17',31,42,0),(56,3,123,'2020-05-07 14:12:17',35,42,1),(57,3,123,'2020-05-07 14:12:17',33,42,0),(58,1,123,'2020-05-07 14:13:22',42,39,1),(59,0,120,'2020-05-10 00:54:51',9,4,1),(60,2,120,'2020-05-10 00:54:51',30,4,0),(61,3,124,'2020-05-11 12:22:49',4,11,1),(62,3,124,'2020-05-11 12:22:49',9,11,1),(63,1,124,'2020-05-11 12:24:07',11,4,1),(64,3,125,'2020-05-11 15:47:36',34,43,1),(65,1,125,'2020-05-11 15:54:42',43,34,1),(66,0,125,'2020-05-11 15:57:16',34,4,1),(67,2,125,'2020-05-11 15:57:16',43,4,1),(68,1,7,'2020-05-11 23:14:54',13,4,0),(69,1,6,'2020-05-11 23:15:24',13,4,0),(70,1,2,'2020-05-11 23:15:48',13,4,0),(71,1,1,'2020-05-11 23:16:04',13,4,0),(72,1,10,'2020-05-11 23:16:26',13,4,0),(73,1,11,'2020-05-11 23:34:26',13,4,0),(74,1,18,'2020-05-11 23:41:39',11,4,0),(75,1,15,'2020-05-11 23:42:10',3,4,0),(76,1,14,'2020-05-11 23:43:47',13,4,0),(77,1,12,'2020-05-11 23:45:02',13,4,0),(78,3,126,'2020-05-12 00:14:25',34,43,1),(79,1,126,'2020-05-12 00:27:05',43,34,1),(80,3,127,'2020-05-12 10:15:20',35,44,1),(81,3,128,'2020-05-12 10:16:12',40,45,1),(82,1,128,'2020-05-12 10:17:04',45,40,1),(83,1,127,'2020-05-12 10:19:40',44,35,1),(84,3,129,'2020-05-12 10:19:40',40,45,1),(85,1,129,'2020-05-12 10:20:58',45,40,1),(86,3,130,'2020-05-12 10:33:31',35,44,1),(87,1,130,'2020-05-12 10:36:15',44,35,1),(88,3,131,'2020-05-12 14:17:43',32,32,1),(89,1,131,'2020-05-12 14:19:13',32,32,1),(90,3,132,'2020-05-13 16:43:02',34,43,1),(91,1,132,'2020-05-13 16:49:59',43,34,1),(92,3,133,'2020-05-13 18:48:10',38,46,0),(93,1,133,'2020-05-13 18:52:09',46,38,0),(94,3,134,'2020-05-14 17:45:52',32,32,1),(95,1,134,'2020-05-14 17:47:25',32,32,0),(96,3,135,'2020-05-16 12:37:53',34,43,1),(97,1,135,'2020-05-16 12:42:29',43,34,1),(98,3,136,'2020-05-16 13:30:58',35,44,1),(99,3,137,'2020-05-16 13:34:09',35,44,1),(100,1,137,'2020-05-16 13:38:36',44,35,1),(101,1,136,'2020-05-16 13:41:19',44,35,1),(102,3,138,'2020-05-25 13:42:39',37,48,1),(103,3,138,'2020-05-25 13:42:39',39,48,0),(104,3,138,'2020-05-25 13:42:39',9,48,0),(105,3,139,'2020-05-28 17:18:59',39,48,0),(106,1,139,'2020-05-28 17:25:56',48,37,1),(107,1,138,'2020-05-29 17:26:39',48,37,1),(108,3,140,'2020-05-29 20:09:58',41,48,0),(109,3,140,'2020-05-29 20:09:58',35,48,1),(110,3,140,'2020-05-29 20:09:58',33,48,0),(111,3,141,'2020-05-30 15:30:46',35,48,1),(112,3,141,'2020-05-30 15:30:46',36,48,0),(113,3,141,'2020-05-30 15:30:46',38,48,0),(114,3,142,'2020-05-30 15:32:52',31,48,0),(115,3,142,'2020-05-30 15:32:52',5,48,0),(116,3,142,'2020-05-30 15:32:52',41,48,0),(117,3,143,'2020-05-30 15:33:49',38,48,0),(118,3,143,'2020-05-30 15:33:49',37,48,1),(119,3,143,'2020-05-30 15:33:49',33,48,0),(120,3,144,'2020-05-30 15:35:01',36,48,0),(121,3,144,'2020-05-30 15:35:01',37,48,1),(122,3,144,'2020-05-30 15:35:01',34,48,0),(123,1,140,'2020-05-30 15:41:50',48,37,1),(124,1,144,'2020-05-30 15:42:35',48,37,1),(125,1,143,'2020-05-30 15:43:20',48,37,1),(126,1,141,'2020-05-30 15:44:20',48,37,1),(127,1,142,'2020-05-30 15:50:19',48,37,1),(128,3,145,'2020-05-30 19:56:18',41,48,0),(129,3,145,'2020-05-30 19:56:18',39,48,0),(130,3,145,'2020-05-30 19:56:18',40,48,0),(131,1,145,'2020-05-30 19:58:21',48,37,1),(132,3,146,'2020-05-30 20:05:10',34,48,1),(133,3,146,'2020-05-30 20:05:10',32,48,0),(134,3,146,'2020-05-30 20:05:10',9,48,0),(135,1,146,'2020-05-30 20:14:10',48,37,0),(136,3,147,'2020-05-30 20:19:11',38,48,0),(137,3,147,'2020-05-30 20:19:11',41,48,0),(138,3,147,'2020-05-30 20:19:11',31,48,0),(139,3,148,'2020-05-30 20:21:28',2,48,0),(140,3,148,'2020-05-30 20:21:28',9,48,0),(141,3,148,'2020-05-30 20:21:28',8,48,0),(142,1,148,'2020-05-30 20:22:07',48,37,0),(143,1,147,'2020-05-30 20:23:10',48,37,0),(144,0,146,'2020-06-01 15:50:55',37,4,0),(145,2,146,'2020-06-01 15:50:55',48,4,0);
+/*!40000 ALTER TABLE `notice` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `permission`
+--
+
 DROP TABLE IF EXISTS `permission`;
-CREATE TABLE `permission`  (
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `permission` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `desc` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `name` varchar(255) NOT NULL,
+  `desc` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------
--- Records of permission
--- ----------------------------
-INSERT INTO `permission` VALUES (1, '/index.html', '访问主页');
-INSERT INTO `permission` VALUES (2, '/question/create', '提问');
-INSERT INTO `permission` VALUES (3, '/question/uploadMultipleFile', '上传图片文件');
-INSERT INTO `permission` VALUES (4, '/question/detail', '查看问题');
-INSERT INTO `permission` VALUES (5, '/question/answer', '回答问题');
+--
+-- Dumping data for table `permission`
+--
 
--- ----------------------------
--- Table structure for question
--- ----------------------------
+LOCK TABLES `permission` WRITE;
+/*!40000 ALTER TABLE `permission` DISABLE KEYS */;
+INSERT INTO `permission` VALUES (1,'/index.html','访问主页'),(2,'/question/create','提问'),(3,'/question/uploadMultipleFile','上传图片文件'),(4,'/question/detail','查看问题'),(5,'/question/answer','回答问题');
+/*!40000 ALTER TABLE `permission` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `question`
+--
+
 DROP TABLE IF EXISTS `question`;
-CREATE TABLE `question`  (
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `question` (
   `id` int(20) NOT NULL AUTO_INCREMENT,
-  `title` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '问题的标题',
-  `content` longtext CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '提问内容',
-  `user_nick_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '提问者用户名',
+  `title` varchar(255) NOT NULL COMMENT '问题的标题',
+  `content` longtext NOT NULL COMMENT '提问内容',
+  `user_nick_name` varchar(255) NOT NULL COMMENT '提问者用户名',
   `user_id` int(11) NOT NULL COMMENT '提问者id',
-  `createtime` datetime(0) NOT NULL COMMENT '创建时间',
-  `modifytime` datetime(0) DEFAULT NULL COMMENT '修改时间',
+  `createtime` datetime NOT NULL COMMENT '创建时间',
   `status` int(1) NOT NULL COMMENT '状态，0-》未回答，1-》待解决，2-》已解决',
   `page_views` int(11) NOT NULL COMMENT '浏览量',
   `public_status` int(1) NOT NULL COMMENT '该问题是否公开，所有学生都可见，0-》否，1-》是',
-  `delete_status` tinyint(4) NOT NULL DEFAULT 0 COMMENT '删除状态，0-》否，1-》是',
+  `modifytime` date DEFAULT NULL,
+  `delete_status` tinyint(4) DEFAULT '0',
+  `tag_names` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 129 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE=InnoDB AUTO_INCREMENT=149 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------
--- Records of question
--- ----------------------------
-INSERT INTO `question` VALUES (1, '大量的if-eles要怎么优化?', '像这样有大量的if-else做判断，而且后续还会新增，每次新增都要再加一个if-else,有没有大佬来指导一下工作', '同学4', 13, '2020-03-09 14:39:25', NULL, 1, 69, 1, 1);
-INSERT INTO `question` VALUES (2, 'jdk1.8对sycn做了什么优化？', 'jdk1.8对sycn做了什么优化？', '同学4', 13, '2020-03-09 15:12:28', NULL, 2, 57, 1, 0);
-INSERT INTO `question` VALUES (3, 'Eureka的多活请问那节课有的啊?', '双活系统是怎么做的啊?哪里有啊?谢谢', '同学4', 13, '2020-03-09 23:39:39', NULL, 1, 39, 1, 0);
-INSERT INTO `question` VALUES (4, '寻求mybatis二级缓存失效的解决方案', '我有一点疑问 ，关于 mybatis二级缓存的，因为二级缓存运用域在相同的namespace上，这时候这个namespace里面做了增删改，二级缓存就失效了，那我们可不可以采用多namespace在代码层面实现读写分离，也就是cqrs，这样是不是就可以避免二级缓存失效的问题', '同学4', 13, '2020-03-10 12:05:03', NULL, 0, 116, 0, 0);
-INSERT INTO `question` VALUES (5, 'springIOC容器中的bean在什么时候被实例化和初始化？', '容器中的bean在被使用之前是不是都是没有初始化的？那有没有被实例化呢？还是说被使用之前一直都是以beandefinition的实例保存在容器中，直到getBean方法被调用才会实例化和初始化？', '同学4', 13, '2020-03-10 12:06:20', NULL, 0, 68, 0, 0);
-INSERT INTO `question` VALUES (6, 'ES做全文搜索会过滤特殊符号怎么办?', 'boolQuery.should(QueryBuilders.matchPhrasePrefixQuery(s.fieldName(), word).boost(s.boostScore()));\r\n或\r\nboolQuery.should(QueryBuilders.matchPhraseQuery(s.fieldName(), word).boost(s.boostScore()));\r\n\r\n使用这个方法搜索 x2-2 结果搜出来的是x22的结果 - 被屏蔽掉\r\n\r\n使用了转义也没有用 QueryParser.escape(word.toLowerCase())', '同学4', 13, '2020-03-10 12:08:20', NULL, 1, 129, 0, 0);
-INSERT INTO `question` VALUES (7, '阿里一道面试题', '题目：找出用户最爱歌曲风格\r\n假设有个用户唱歌的数据结构: Map<String, List> userSongs。 key是用户名，list是用户最近唱歌列表。\r\n有个歌曲风格的数据结构: Map<String, List> songGenres。 key是歌曲风格，list是歌曲列表。\r\n任务是返回一个用户最喜欢的歌曲风格map: Map<String, List>。 key是用户名，list是歌曲风格列表，list中的value是用户听的最多个歌曲对应的歌曲风格。', '同学4', 13, '2020-03-10 16:57:53', NULL, 2, 48, 1, 0);
-INSERT INTO `question` VALUES (8, 'JVM判断垃圾对象问题', '判断一个对象是否是垃圾对象的方法有两种：引用计数法和可达性分析法。\r\n请问：这两种方法是怎么使用的？是针对不同的运行时区域有不同的垃圾对象判断还是两者混合使用？', '同学4', 13, '2020-03-10 16:58:33', NULL, 0, 41, 0, 0);
-INSERT INTO `question` VALUES (9, 'docker', '为什么jack老师 课堂上，它也是使用的阿里云，在自己电脑上可以访问。我的为什么不行呢？', '同学4', 13, '2020-03-10 16:59:18', NULL, 1, 22, 0, 0);
-INSERT INTO `question` VALUES (10, 'java反射', '有没有人清楚JDK1.7和1.8在反射调用实例方法上对参数检查处理上是否有差异？\r\n发现一段代码，对象有个com.edu.bean.A类型的属性type，反射调用setType(com.edu.A)，在1.7环境中运行正常，1.8就报类型不匹配了。\r\n【PS】：先不用管type是com.edu.bean.A类型，为啥setType传入的参数是com.edu.bean.A的问题，希望能从反射原理帮忙解释一下为什么1.7和1.8会出现不同的现象。', '同学4', 13, '2020-03-10 17:05:12', NULL, 1, 13, 0, 0);
-INSERT INTO `question` VALUES (11, 'Feign报错feign.FeignException$BadRequest: ....', '测试', '同学4', 13, '2020-03-12 17:21:22', NULL, 2, 15, 1, 0);
-INSERT INTO `question` VALUES (12, 'Zookeeper源码分析中的Leader选举问题 java', '<p style=\"-webkit-tap-highlight-color: transparent; margin-bottom: 16px; padding: 0px; color: rgb(36, 41, 46); font-family: &quot;PingFang SC&quot;, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; font-size: 16px;\">类文件FastLeaderElection</p><p style=\"-webkit-tap-highlight-color: transparent; margin-bottom: 16px; padding: 0px; color: rgb(36, 41, 46); font-family: &quot;PingFang SC&quot;, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; font-size: 16px;\">// 缓存收到的票据<br style=\"-webkit-tap-highlight-color: transparent; margin: 0px; padding: 0px;\">recvset.put(n.sid, new Vote(n.leader, n.zxid, n.electionEpoch, n.peerEpoch));</p><p style=\"-webkit-tap-highlight-color: transparent; margin-bottom: 16px; padding: 0px; color: rgb(36, 41, 46); font-family: &quot;PingFang SC&quot;, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; font-size: 16px;\">// Leader选举<br style=\"-webkit-tap-highlight-color: transparent; margin: 0px; padding: 0px;\">if (termPredicate(recvset,new Vote(proposedLeader, proposedZxid,logicalclock.get(), proposedEpoch)))</p><p style=\"-webkit-tap-highlight-color: transparent; margin-bottom: 16px; padding: 0px; color: rgb(36, 41, 46); font-family: &quot;PingFang SC&quot;, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; font-size: 16px;\">// votes表示收到的外部选票的集合<br style=\"-webkit-tap-highlight-color: transparent; margin: 0px; padding: 0px;\">// vote表示当前服务器的选票<br style=\"-webkit-tap-highlight-color: transparent; margin: 0px; padding: 0px;\">protected boolean termPredicate(<br style=\"-webkit-tap-highlight-color: transparent; margin: 0px; padding: 0px;\">HashMap&lt;Long, Vote&gt; votes,<br style=\"-webkit-tap-highlight-color: transparent; margin: 0px; padding: 0px;\">Vote vote) {</p><pre style=\"-webkit-tap-highlight-color: transparent; margin-bottom: 16px; padding: 16px; font-family: SFMono-Regular, Consolas, &quot;Liberation Mono&quot;, Menlo, Courier, monospace; font-size: 13.6px; overflow-wrap: normal; line-height: 1.45; background-color: rgb(246, 248, 250); border-radius: 3px; color: rgb(36, 41, 46);\"><code style=\"-webkit-tap-highlight-color: transparent; margin: 0px; font-family: SFMono-Regular, Consolas, &quot;Liberation Mono&quot;, Menlo, Courier, monospace; font-size: 13.6px; background-image: initial; background-position: 0px 0px; background-size: initial; background-repeat: initial; background-attachment: initial; background-origin: initial; background-clip: initial; border-radius: 3px; word-break: normal; white-space: pre; border: 0px; display: inline; overflow: visible; line-height: inherit; overflow-wrap: normal;\">HashSet&lt;Long&gt; set = new HashSet&lt;Long&gt;();\r\n\r\n/*\r\n * First make the views consistent. Sometimes peers will have\r\n * different zxids for a server depending on timing.\r\n *\r\n */\r\n// 遍历接收到的所有选票数据\r\nfor (Map.Entry&lt;Long,Vote&gt; entry : votes.entrySet()) {\r\n    //对选票进行归纳，就是把所有选票数据中和当前节点的票据相同的票据进行统计\r\n    if (vote.equals(entry.getValue())){ //对票据进行归纳\r\n        set.add(entry.getKey()); //如果存在2票，set里面是不是有2个？\r\n    }\r\n}\r\n\r\n//对选票进行判断\r\n// 判断当前节点的票数是否是大于一半，默认采用QuorumMaj来实现\r\nreturn self.getQuorumVerifier().containsQuorum(set); //验证\r\n</code></pre><p style=\"-webkit-tap-highlight-color: transparent; margin-bottom: 16px; padding: 0px; color: rgb(36, 41, 46); font-family: &quot;PingFang SC&quot;, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; font-size: 16px;\">}</p><p style=\"-webkit-tap-highlight-color: transparent; padding: 0px; color: rgb(36, 41, 46); font-family: &quot;PingFang SC&quot;, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; font-size: 16px; margin-bottom: 0px !important;\">问题：假如有3台机器的zookeeper集群（server1,server2,server3），那votes的最多存在2票，如果要选出Leader，那么必须所有机器都要统一votes才行，这样不就和\"过半原则不符\"了吗？</p><p style=\"-webkit-tap-highlight-color: transparent; padding: 0px; color: rgb(36, 41, 46); font-family: &quot;PingFang SC&quot;, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; font-size: 16px; margin-bottom: 0px !important;\"><br></p><p style=\"-webkit-tap-highlight-color: transparent; padding: 0px; color: rgb(36, 41, 46); font-family: &quot;PingFang SC&quot;, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; font-size: 16px; margin-bottom: 0px !important;\"><img src=\"http://39.97.229.107/group1/M00/00/06/rBF9h15qAfeAfFDJAAEOO-Kw6X8445.jpg\" data-filename=\"img\" style=\"width: 763px;\"><br></p>', '同学4', 13, '2020-03-12 17:33:46', NULL, 2, 14, 1, 0);
-INSERT INTO `question` VALUES (13, '数据库已存在的大数据量的表如何进行分表', '<p><span style=\"color: rgb(36, 41, 46); font-family: &quot;PingFang SC&quot;, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; font-size: 16px;\">由于历史原因，系统中有一张表数据量逐年变大，变到了几千万甚至上亿，这些数据不能像日志一样定时归档和删除，求问怎么做分表？</span><br></p>', '同学4', 13, '2020-03-13 10:51:36', NULL, 0, 2, 0, 0);
-INSERT INTO `question` VALUES (14, 'springIOC容器中的bean在什么时候被实例化和初始化', '<p><span style=\"color: rgb(36, 41, 46); font-family: &quot;PingFang SC&quot;, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; font-size: 16px;\">容器中的bean在被使用之前是不是都是没有初始化的？那有没有被实例化呢？还是说被使用之前一直都是以beandefinition的实例保存在容器中，直到getBean方法被调用才会实例化和初始化？</span><br></p>', '同学4', 13, '2020-03-13 12:21:16', NULL, 1, 5, 0, 0);
-INSERT INTO `question` VALUES (15, 'springboot上传图片问题', '<p style=\"-webkit-tap-highlight-color: transparent; margin-bottom: 16px; padding: 0px; color: rgb(36, 41, 46); font-family: &quot;PingFang SC&quot;, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; font-size: 16px;\">使用springboot 上传图片指定到 resources/public目录下，可以通过浏览器直接访问。<br style=\"-webkit-tap-highlight-color: transparent; margin: 0px; padding: 0px;\">如上传的文件为<br style=\"-webkit-tap-highlight-color: transparent; margin: 0px; padding: 0px;\">resources/public/a.jpg</p><p style=\"-webkit-tap-highlight-color: transparent; margin-bottom: 16px; padding: 0px; color: rgb(36, 41, 46); font-family: &quot;PingFang SC&quot;, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; font-size: 16px;\">访问路径 http://host:port/a.jpg</p><p style=\"-webkit-tap-highlight-color: transparent; margin-bottom: 16px; padding: 0px; color: rgb(36, 41, 46); font-family: &quot;PingFang SC&quot;, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; font-size: 16px;\">然而， springboot打包后是一个jar文件，那么public目录无法写文件，造成上传图片功能不可用，请问使用springboot上传到指定目录后通过应用服务如何访问？</p><p style=\"-webkit-tap-highlight-color: transparent; padding: 0px; color: rgb(36, 41, 46); font-family: &quot;PingFang SC&quot;, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; font-size: 16px; margin-bottom: 0px !important;\">前提，没有图片服务器，是通过 应用服务器访问的图片</p>', '老师3', 3, '2020-03-13 16:03:12', NULL, 1, 4, 0, 0);
-INSERT INTO `question` VALUES (16, 'JSON方式实现深克隆', '<p><span style=\"color: rgb(36, 41, 46); font-family: &quot;PingFang SC&quot;, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; font-size: 16px;\">不明白为什么Java转成JSON，JSON再转成Java就成深克隆了。。</span></p><p><img src=\"http://39.97.229.107/group1/M00/00/06/rBF9h15uTu2AKJ5eAALaarBrVyA489.png\" data-filename=\"img\" style=\"width: 665px;\"><span style=\"color: rgb(36, 41, 46); font-family: &quot;PingFang SC&quot;, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; font-size: 16px;\"><br></span><br></p>', '同学2', 11, '2020-03-15 23:51:10', NULL, 0, 1, 0, 0);
-INSERT INTO `question` VALUES (17, 'curl端口访问不通的问题', '<p><span style=\"color: rgb(36, 41, 46); font-family: &quot;PingFang SC&quot;, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; font-size: 16px;\">我这边centos7虚拟机通过curl http://127.0.0.1:5601访问本机端口是正常的,但是通过具体的curl http://具体ip:5601就不行,想请问一下是什么原因</span><img src=\"http://39.97.229.107/group1/M00/00/06/rBF9h15vIJmAJ_DrAAHTQf0oRLo063.png\" data-filename=\"img\" style=\"width: 665px;\"><br></p>', '同学2', 11, '2020-03-16 14:45:46', NULL, 0, 13, 0, 0);
-INSERT INTO `question` VALUES (18, '【大厂面试题2020/3/15】', '<p style=\"-webkit-tap-highlight-color: transparent; margin-bottom: 16px; padding: 0px; color: rgb(36, 41, 46); font-family: &quot;PingFang SC&quot;, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; font-size: 16px;\">关于JSP生命周期的叙述，下列哪些为真?</p><p style=\"-webkit-tap-highlight-color: transparent; padding: 0px; color: rgb(36, 41, 46); font-family: &quot;PingFang SC&quot;, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; font-size: 16px; margin-bottom: 0px !important;\">A、JSP会先解释成Servlet源文件，然后编译成Servlet类文件<br style=\"-webkit-tap-highlight-color: transparent; margin: 0px; padding: 0px;\">B、每当用户端运行JSP时，jsp init()方法都会运行一次<br style=\"-webkit-tap-highlight-color: transparent; margin: 0px; padding: 0px;\">C、每当用户端运行JSP时，jsp service()方法都会运行一次<br style=\"-webkit-tap-highlight-color: transparent; margin: 0px; padding: 0px;\">D、每当用户端运行JSP时，jsp destroy()方法都会运行一次</p>', '同学2', 11, '2020-03-16 15:20:12', NULL, 2, 34, 0, 0);
-INSERT INTO `question` VALUES (19, 'dubbo负载均衡问题', '<p><span style=\"color: rgb(36, 41, 46); font-family: &quot;PingFang SC&quot;, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; font-size: 16px;\">服务端已限制每个节点的dubbo.protocol.threads限制数为600，尝试过使用各种负载均衡策略，及调整每个节点的负载权重，但并发较高时仍是不能分配均衡，总有几个节点会满负载，不清楚是什么原因造成的，该如何解决？</span><br></p>', '同学2', 11, '2020-03-19 09:52:40', NULL, 0, 2, 0, 0);
-INSERT INTO `question` VALUES (20, '数据库已存在的大数据量的表如何进行分表', '<p><span style=\"color: rgb(36, 41, 46); font-family: &quot;PingFang SC&quot;, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; font-size: 16px;\">由于历史原因，系统中有一张表数据量逐年变大，变到了几千万甚至上亿，这些数据不能像日志一样定时归档和删除，求问怎么做分表？</span><br></p>', '同学2', 11, '2020-03-19 12:05:20', NULL, 2, 17, 0, 0);
-INSERT INTO `question` VALUES (25, '求一个优化的薪酬计算方案', '<p><span style=\"color: rgb(36, 41, 46); font-family: &quot;PingFang SC&quot;, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; font-size: 16px;\">薪酬计算方案：目前很简单，就是根据不同薪酬计算方式归类，然后分步计算后加入到待入库集合中统一插入，但是在计算过程中需要请求多次数据库，因为不同的计算方式都在数据库中保存，哪位大神帮忙提供下方案！！！</span><br></p>', '同学2', 11, '2020-03-19 14:57:38', NULL, 2, 105, 0, 0);
-INSERT INTO `question` VALUES (26, 'springboot内置tomcat配置疑问', '<p><span style=\"-webkit-tap-highlight-color: transparent; margin: 0px; padding: 0px; font-weight: 600; color: rgb(36, 41, 46); font-family: &quot;PingFang SC&quot;, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; font-size: 16px;\">spring-boot-autoconfigure 版本为1.5.9 和 2.0.1时，如图所示，很多tomact参数为0，如最大线程maxThreads，在 2.0.7版本中最大线程为200，<br style=\"-webkit-tap-highlight-color: transparent; margin: 0px; padding: 0px;\">那么问题来了，我们平时看资料说 springboot内置tomcat默认线程为200，那么在1.5.9 和 2.0.1默认最大线程为0的情况下，如果不显示声明线程池大小的情况下，那么该项目的最大线程是否就为0？大佬们解答一下我的疑问</span><br></p>', '同学2', 11, '2020-03-19 16:14:17', NULL, 1, 230, 0, 0);
-INSERT INTO `question` VALUES (27, '面试题', '<p>xxxxxxxxxxxxxx<img src=\"http://39.97.229.107/group1/M00/00/06/rBF9h154FA-AfZpxAAHTQf0oRLo407.png\" data-filename=\"img\" style=\"width: 809px;\"></p>', 'admin', 1, '2020-03-23 09:42:45', NULL, 0, 3, 0, 0);
-INSERT INTO `question` VALUES (28, '面试题？？？？', '<p>xxxxxxxx<img src=\"http://39.97.229.107/group1/M00/00/06/rBF9h154F92AMyQhAALaarBrVyA279.png\" data-filename=\"img\" style=\"width: 809px;\"></p>', '同学4', 13, '2020-03-23 09:58:56', NULL, 1, 41, 0, 0);
-INSERT INTO `question` VALUES (29, '什么是springcloud???', '<p>xxxxxxxx<img src=\"http://39.97.229.107/group1/M00/00/06/rBF9h154GoWAbVLlAALaarBrVyA395.png\" data-filename=\"img\" style=\"width: 809px;\"></p>', '同学4', 13, '2020-03-23 10:10:18', NULL, 0, 37, 0, 0);
-INSERT INTO `question` VALUES (105, '测试1s', '<p><img src=\"http://localhost:8083/uploadFile/2020/04/20/2f37fe08-6dbe-4c0d-a874-98f45969ac38.jpg\" data-filename=\"img\" style=\"width: 708px;\"><br></p>', '老师3', 4, '2020-04-20 12:17:29', '2020-05-11 15:01:06', 0, 6, 0, 1);
-INSERT INTO `question` VALUES (106, '测试1s', '<p><img src=\"http://localhost:8083/uploadFile/2020/04/20/2f37fe08-6dbe-4c0d-a874-98f45969ac38.jpg\" data-filename=\"img\" style=\"width: 708px;\"><br></p>', '老师3', 4, '2020-04-20 12:17:42', '2020-05-11 15:00:52', 1, 36, 0, 1);
-INSERT INTO `question` VALUES (109, '测试22', '<p>测试<img src=\"http://localhost:8083/uploadFile/2020/04/22/4b1a1fd9-4c6f-4653-a328-6be2f32f664c.png\" data-filename=\"img\" style=\"width: 708px;\"></p>', '老师3', 4, '2020-04-22 17:18:55', NULL, 1, 7, 0, 1);
-INSERT INTO `question` VALUES (110, '测试22', '<p>测试<img src=\"http://localhost:8083/uploadFile/2020/04/22/4b1a1fd9-4c6f-4653-a328-6be2f32f664c.png\" data-filename=\"img\" style=\"width: 100%;\"></p>', '老师3', 4, '2020-04-22 17:19:20', '2020-05-11 15:00:43', 2, 93, 0, 1);
-INSERT INTO `question` VALUES (113, '浏览器jsp，html之间的关系', '<h2 style=\"margin: 10px 0px; padding: 0px; font-size: 21px; line-height: 1.5; font-family: Verdana, Arial, Helvetica, sans-serif; background-color: rgb(254, 254, 242);\">浏览器jsp，html之间的关系</h2>', '同学2', 11, '2020-04-28 23:55:21', NULL, 2, 133, 0, 1);
-INSERT INTO `question` VALUES (114, '自定义标签要继承哪个类', '<h2 style=\"margin: 10px 0px; padding: 0px; font-size: 21px; line-height: 1.5; font-family: Verdana, Arial, Helvetica, sans-serif; background-color: rgb(254, 254, 242);\">自定义标签要继承哪个类</h2>', '同学2', 11, '2020-04-29 00:05:38', NULL, 2, 287, 1, 0);
-INSERT INTO `question` VALUES (115, 'summernote富文本编辑器的基本使用', '<p>$(\'#summernote\').summernote({</p><p>&nbsp;</p><p>&nbsp;height: 300,&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;// set editor height</p><p>&nbsp;</p><p>&nbsp; minHeight:null,&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;// set minimum heightof editor</p><p>&nbsp;</p><p>&nbsp; maxHeight:null,&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;// set maximum heightof editor</p><p>&nbsp;</p><p>&nbsp; focus: true&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; // set focus to editable areaafter initializing summernote</p><p>&nbsp;</p><p>});</p>', '同学2', 11, '2020-05-03 01:36:23', NULL, 0, 3, 0, 1);
-INSERT INTO `question` VALUES (116, 'summernote富文本编辑器的基本使用', '$(\'#summernote\').summernote({\n height: 300,                 // set editor height\n  minHeight:null,             // set minimum heightof editor\n  maxHeight:null,             // set maximum heightof editor\n  focus: true                  // set focus to editable areaafter initializing summernote\n});', '同学2', 11, '2020-05-03 01:37:35', '2020-05-06 16:00:52', 0, 5, 0, 1);
-INSERT INTO `question` VALUES (117, 'summernote', '$(\'#summernote\').summernote({\n height: 300,                 // set editor height\n  minHeight:null,             // set minimum heightof editor\n  maxHeight:null,             // set maximum heightof editor\n  focus: true                  // set focus to editable areaafter initializing summernote\n});qqqqqqqqqqqqqqaaabbccssfffbb', '同学2', 11, '2020-05-03 01:37:49', '2020-05-06 16:00:46', 0, 52, 0, 1);
-INSERT INTO `question` VALUES (118, '报错信息', '<pre style=\"\"><font color=\"#458383\" face=\"Consolas\">java.net.SocketTimeoutException: 30,000 milliseconds timeout on connection http-outgoing-8 [ACTIVE]</font><font color=\"#000000\" face=\"Consolas\"><span style=\"font-size: 10.5pt;\"><br></span></font></pre>', '同学2', 11, '2020-05-04 11:00:53', '2020-05-06 14:41:15', 1, 31, 0, 1);
-INSERT INTO `question` VALUES (119, '什么是JSP', '<p><img src=\"http://localhost:8080/uploadFile/2020/05/06/dca06037-3c87-422a-b2f1-3120f2d22c50.png\" data-filename=\"img\" style=\"width: 708px;\"><br></p>', '同学2', 11, '2020-05-06 17:31:58', NULL, 0, 358, 0, 0);
-INSERT INTO `question` VALUES (120, 'JDK 和 JRE 有什么区别？', '<h6><span style=\"color: rgb(33, 37, 41); font-size: x-large; text-align: center; font-family: &quot;Comic Sans MS&quot;;\">JDK 和 JRE 有什么区别？</span></h6>', '同学2', 11, '2020-05-11 14:27:35', '2020-05-11 14:47:12', 0, 21, 0, 1);
-INSERT INTO `question` VALUES (121, 'JDK 和 JRE 有什么区别？', '<p>JDK和JRE有什么区别？</p>', '同学2', 11, '2020-05-11 14:48:22', '2020-05-11 15:02:59', 2, 17, 0, 1);
-INSERT INTO `question` VALUES (122, '测试111', '<p>测试</p>', '同学2', 11, '2020-05-11 17:50:09', NULL, 0, 4, 0, 0);
-INSERT INTO `question` VALUES (123, '测试111', '<p>测试</p>', '老师8', 9, '2020-05-11 22:52:23', NULL, 0, 1, 0, 0);
-INSERT INTO `question` VALUES (124, '客户端和服务器端之间的通讯是基于什么', '<p><span style=\"color: rgb(33, 37, 41); background-color: rgb(248, 249, 250);\">老师,请问客户端和服务器端的通讯是怎么通讯的啊,Socket是什么?</span><br></p>', '同学1', 10, '2020-05-22 15:41:58', '2020-05-22 15:51:00', 0, 3, 0, 1);
-INSERT INTO `question` VALUES (125, '客户端和服务器端之间的通讯是基于什么', '<p><span style=\"color: rgb(33, 37, 41); background-color: rgb(248, 249, 250);\">老师,请问客户端和服务器端的通讯是怎么通讯的啊,Socket是什么?</span><br></p>', '同学1', 10, '2020-05-22 15:51:40', '2020-05-22 16:07:45', 0, 2, 0, 1);
-INSERT INTO `question` VALUES (126, '客户端和服务器端之间的通讯是基于什么', '<p><span style=\"color: rgb(33, 37, 41); background-color: rgb(248, 249, 250);\">老师,请问客户端和服务器端的通讯是怎么通讯的啊,Socket是什么?</span><br></p>', '同学1', 10, '2020-05-22 16:08:15', '2020-05-22 16:16:22', 0, 1, 0, 1);
-INSERT INTO `question` VALUES (127, '测试111', '<p>测试</p>', '同学1', 10, '2020-05-22 16:16:38', '2020-05-22 16:19:13', 0, 1, 0, 1);
-INSERT INTO `question` VALUES (128, '测试1111', '<p>测试111</p>', '同学1', 10, '2020-05-22 16:19:28', NULL, 0, 2, 0, 0);
+--
+-- Dumping data for table `question`
+--
 
--- ----------------------------
--- Table structure for question_tag
--- ----------------------------
+LOCK TABLES `question` WRITE;
+/*!40000 ALTER TABLE `question` DISABLE KEYS */;
+INSERT INTO `question` VALUES (1,'大量的if-eles要怎么优化?','像这样有大量的if-else做判断，而且后续还会新增，每次新增都要再加一个if-else,有没有大佬来指导一下工作','小陈',13,'2020-03-09 14:39:25',0,78,1,NULL,0,'Java基础,SpringCloud'),(2,'jdk1.8对sycn做了什么优化？','jdk1.8对sycn做了什么优化？','小明同学',13,'2020-03-09 15:12:28',0,33,1,NULL,0,'Java基础'),(3,'Eureka的多活请问那节课有的啊?','双活系统是怎么做的啊?哪里有啊?谢谢','小明同学',13,'2020-03-09 23:39:39',0,42,1,NULL,0,'SpringCloud'),(4,'寻求mybatis二级缓存失效的解决方案','我有一点疑问 ，关于 mybatis二级缓存的，因为二级缓存运用域在相同的namespace上，这时候这个namespace里面做了增删改，二级缓存就失效了，那我们可不可以采用多namespace在代码层面实现读写分离，也就是cqrs，这样是不是就可以避免二级缓存失效的问题','小明同学',13,'2020-03-10 12:05:03',0,126,0,NULL,0,'MyBatis'),(5,'springIOC容器中的bean在什么时候被实例化和初始化？','容器中的bean在被使用之前是不是都是没有初始化的？那有没有被实例化呢？还是说被使用之前一直都是以beandefinition的实例保存在容器中，直到getBean方法被调用才会实例化和初始化？','小明同学',13,'2020-03-10 12:06:20',0,75,0,NULL,0,'Spring'),(6,'ES做全文搜索会过滤特殊符号怎么办?','boolQuery.should(QueryBuilders.matchPhrasePrefixQuery(s.fieldName(), word).boost(s.boostScore()));\r\n或\r\nboolQuery.should(QueryBuilders.matchPhraseQuery(s.fieldName(), word).boost(s.boostScore()));\r\n\r\n使用这个方法搜索 x2-2 结果搜出来的是x22的结果 - 被屏蔽掉\r\n\r\n使用了转义也没有用 QueryParser.escape(word.toLowerCase())','小明同学',13,'2020-03-10 12:08:20',0,128,0,NULL,0,'搜索引擎'),(7,'阿里一道面试题','题目：找出用户最爱歌曲风格\r\n假设有个用户唱歌的数据结构: Map<String, List> userSongs。 key是用户名，list是用户最近唱歌列表。\r\n有个歌曲风格的数据结构: Map<String, List> songGenres。 key是歌曲风格，list是歌曲列表。\r\n任务是返回一个用户最喜欢的歌曲风格map: Map<String, List>。 key是用户名，list是歌曲风格列表，list中的value是用户听的最多个歌曲对应的歌曲风格。','小明同学',13,'2020-03-10 16:57:53',0,51,1,NULL,0,'面试题'),(8,'JVM判断垃圾对象问题','判断一个对象是否是垃圾对象的方法有两种：引用计数法和可达性分析法。\r\n请问：这两种方法是怎么使用的？是针对不同的运行时区域有不同的垃圾对象判断还是两者混合使用？','小明同学',13,'2020-03-10 16:58:33',0,46,0,NULL,0,'Java基础'),(10,'java反射','有没有人清楚JDK1.7和1.8在反射调用实例方法上对参数检查处理上是否有差异？\r\n发现一段代码，对象有个com.edu.bean.A类型的属性type，反射调用setType(com.edu.A)，在1.7环境中运行正常，1.8就报类型不匹配了。\r\n【PS】：先不用管type是com.edu.bean.A类型，为啥setType传入的参数是com.edu.bean.A的问题，希望能从反射原理帮忙解释一下为什么1.7和1.8会出现不同的现象。','小明同学',13,'2020-03-10 17:05:12',0,23,0,NULL,0,'Java基础'),(11,'Feign报错feign.FeignException$BadRequest: ....','测试','小明同学',13,'2020-03-12 17:21:22',0,12,1,NULL,0,'Spring,SpringCloud'),(12,'Zookeeper源码分析中的Leader选举问题 java','<p style=\"-webkit-tap-highlight-color: transparent; margin-bottom: 16px; padding: 0px; color: rgb(36, 41, 46); font-family: &quot;PingFang SC&quot;, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; font-size: 16px;\">类文件FastLeaderElection</p><p style=\"-webkit-tap-highlight-color: transparent; margin-bottom: 16px; padding: 0px; color: rgb(36, 41, 46); font-family: &quot;PingFang SC&quot;, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; font-size: 16px;\">// 缓存收到的票据<br style=\"-webkit-tap-highlight-color: transparent; margin: 0px; padding: 0px;\">recvset.put(n.sid, new Vote(n.leader, n.zxid, n.electionEpoch, n.peerEpoch));</p><p style=\"-webkit-tap-highlight-color: transparent; margin-bottom: 16px; padding: 0px; color: rgb(36, 41, 46); font-family: &quot;PingFang SC&quot;, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; font-size: 16px;\">// Leader选举<br style=\"-webkit-tap-highlight-color: transparent; margin: 0px; padding: 0px;\">if (termPredicate(recvset,new Vote(proposedLeader, proposedZxid,logicalclock.get(), proposedEpoch)))</p><p style=\"-webkit-tap-highlight-color: transparent; margin-bottom: 16px; padding: 0px; color: rgb(36, 41, 46); font-family: &quot;PingFang SC&quot;, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; font-size: 16px;\">// votes表示收到的外部选票的集合<br style=\"-webkit-tap-highlight-color: transparent; margin: 0px; padding: 0px;\">// vote表示当前服务器的选票<br style=\"-webkit-tap-highlight-color: transparent; margin: 0px; padding: 0px;\">protected boolean termPredicate(<br style=\"-webkit-tap-highlight-color: transparent; margin: 0px; padding: 0px;\">HashMap&lt;Long, Vote&gt; votes,<br style=\"-webkit-tap-highlight-color: transparent; margin: 0px; padding: 0px;\">Vote vote) {</p><pre style=\"-webkit-tap-highlight-color: transparent; margin-bottom: 16px; padding: 16px; font-family: SFMono-Regular, Consolas, &quot;Liberation Mono&quot;, Menlo, Courier, monospace; font-size: 13.6px; overflow-wrap: normal; line-height: 1.45; background-color: rgb(246, 248, 250); border-radius: 3px; color: rgb(36, 41, 46);\"><code style=\"-webkit-tap-highlight-color: transparent; margin: 0px; font-family: SFMono-Regular, Consolas, &quot;Liberation Mono&quot;, Menlo, Courier, monospace; font-size: 13.6px; background-image: initial; background-position: 0px 0px; background-size: initial; background-repeat: initial; background-attachment: initial; background-origin: initial; background-clip: initial; border-radius: 3px; word-break: normal; white-space: pre; border: 0px; display: inline; overflow: visible; line-height: inherit; overflow-wrap: normal;\">HashSet&lt;Long&gt; set = new HashSet&lt;Long&gt;();\n\n/*\n * First make the views consistent. Sometimes peers will have\n * different zxids for a server depending on timing.\n *\n */\n// 遍历接收到的所有选票数据\nfor (Map.Entry&lt;Long,Vote&gt; entry : votes.entrySet()) {\n    //对选票进行归纳，就是把所有选票数据中和当前节点的票据相同的票据进行统计\n    if (vote.equals(entry.getValue())){ //对票据进行归纳\n        set.add(entry.getKey()); //如果存在2票，set里面是不是有2个？\n    }\n}\n\n//对选票进行判断\n// 判断当前节点的票数是否是大于一半，默认采用QuorumMaj来实现\nreturn self.getQuorumVerifier().containsQuorum(set); //验证\n</code></pre><p style=\"-webkit-tap-highlight-color: transparent; margin-bottom: 16px; padding: 0px; color: rgb(36, 41, 46); font-family: &quot;PingFang SC&quot;, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; font-size: 16px;\">}</p><p style=\"-webkit-tap-highlight-color: transparent; padding: 0px; color: rgb(36, 41, 46); font-family: &quot;PingFang SC&quot;, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; font-size: 16px; margin-bottom: 0px !important;\">问题：假如有3台机器的zookeeper集群（server1,server2,server3），那votes的最多存在2票，如果要选出Leader，那么必须所有机器都要统一votes才行，这样不就和\"过半原则不符\"了吗？</p><p style=\"-webkit-tap-highlight-color: transparent; padding: 0px; color: rgb(36, 41, 46); font-family: &quot;PingFang SC&quot;, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; font-size: 16px; margin-bottom: 0px !important;\"><img src=\"http://resource.straw.org.cn/upload_file/2020/06/03/a5c04f94-d6bc-43d5-b9b2-a343c7874ce1.jpg\" data-filename=\"img\" style=\"width: 790px;\"><br></p><p style=\"-webkit-tap-highlight-color: transparent; padding: 0px; color: rgb(36, 41, 46); font-family: &quot;PingFang SC&quot;, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; font-size: 16px; margin-bottom: 0px !important;\"><br></p>','小明同学',13,'2020-03-12 17:33:46',0,18,1,NULL,0,'SpringCloud,面试题'),(13,'数据库已存在的大数据量的表如何进行分表','<p><span style=\"color: rgb(36, 41, 46); font-family: &quot;PingFang SC&quot;, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; font-size: 16px;\">由于历史原因，系统中有一张表数据量逐年变大，变到了几千万甚至上亿，这些数据不能像日志一样定时归档和删除，求问怎么做分表？</span><br></p>','小明同学',13,'2020-03-13 10:51:36',0,8,0,NULL,0,'Java基础,MySQL'),(14,'springIOC容器中的bean在什么时候被实例化和初始化','<p><span style=\"color: rgb(36, 41, 46); font-family: &quot;PingFang SC&quot;, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; font-size: 16px;\">容器中的bean在被使用之前是不是都是没有初始化的？那有没有被实例化呢？还是说被使用之前一直都是以beandefinition的实例保存在容器中，直到getBean方法被调用才会实例化和初始化？</span><br></p>','小明同学',13,'2020-03-13 12:21:16',0,13,0,NULL,0,'Spring,面试题'),(15,'springboot上传图片问题','<p style=\"-webkit-tap-highlight-color: transparent; margin-bottom: 16px; padding: 0px; color: rgb(36, 41, 46); font-family: &quot;PingFang SC&quot;, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; font-size: 16px;\">使用springboot 上传图片指定到 resources/public目录下，可以通过浏览器直接访问。<br style=\"-webkit-tap-highlight-color: transparent; margin: 0px; padding: 0px;\">如上传的文件为<br style=\"-webkit-tap-highlight-color: transparent; margin: 0px; padding: 0px;\">resources/public/a.jpg</p><p style=\"-webkit-tap-highlight-color: transparent; margin-bottom: 16px; padding: 0px; color: rgb(36, 41, 46); font-family: &quot;PingFang SC&quot;, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; font-size: 16px;\">访问路径 http://host:port/a.jpg</p><p style=\"-webkit-tap-highlight-color: transparent; margin-bottom: 16px; padding: 0px; color: rgb(36, 41, 46); font-family: &quot;PingFang SC&quot;, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; font-size: 16px;\">然而， springboot打包后是一个jar文件，那么public目录无法写文件，造成上传图片功能不可用，请问使用springboot上传到指定目录后通过应用服务如何访问？</p><p style=\"-webkit-tap-highlight-color: transparent; padding: 0px; color: rgb(36, 41, 46); font-family: &quot;PingFang SC&quot;, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; font-size: 16px; margin-bottom: 0px !important;\">前提，没有图片服务器，是通过 应用服务器访问的图片</p>','范传奇',3,'2020-03-13 16:03:12',0,14,0,NULL,0,'SpringBoot'),(16,'JSON方式实现深克隆','<p><span style=\"color: rgb(36, 41, 46); font-family: &quot;PingFang SC&quot;, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; font-size: 16px;\">不明白为什么Java转成JSON，JSON再转成Java就成深克隆了。。</span></p><p><img src=\"https://resource.straw.org.cn/upload_file/2020/06/03/02be002f-0c9f-465b-b1c6-adc9b565c14b.png\" data-filename=\"img\" style=\"width: 665px;\"><span style=\"color: rgb(36, 41, 46); font-family: &quot;PingFang SC&quot;, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; font-size: 16px;\"><br></span><br></p>','李四同学',11,'2020-03-15 23:51:10',0,7,0,NULL,0,'Java基础,面试题'),(17,'curl端口访问不通的问题','<p><span style=\"color: rgb(36, 41, 46); font-family: &quot;PingFang SC&quot;, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; font-size: 16px;\">我这边centos7虚拟机通过curl http://127.0.0.1:5601访问本机端口是正常的,但是通过具体的curl http://具体ip:5601就不行,想请问一下是什么原因</span><img src=\"http://resource.straw.org.cn/upload_file/2020/06/03/f1398444-1a5f-45ba-8e49-df3d197bd572.png\" data-filename=\"img\" style=\"width: 665px;\"><br></p>','李四同学',11,'2020-03-16 14:45:46',0,16,0,NULL,0,'Linux,CentOS'),(18,'【大厂面试题2020/3/15】','<p style=\"-webkit-tap-highlight-color: transparent; margin-bottom: 16px; padding: 0px; color: rgb(36, 41, 46); font-family: &quot;PingFang SC&quot;, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; font-size: 16px;\">关于JSP生命周期的叙述，下列哪些为真?</p><p style=\"-webkit-tap-highlight-color: transparent; padding: 0px; color: rgb(36, 41, 46); font-family: &quot;PingFang SC&quot;, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; font-size: 16px; margin-bottom: 0px !important;\">A、JSP会先解释成Servlet源文件，然后编译成Servlet类文件<br style=\"-webkit-tap-highlight-color: transparent; margin: 0px; padding: 0px;\">B、每当用户端运行JSP时，jsp init()方法都会运行一次<br style=\"-webkit-tap-highlight-color: transparent; margin: 0px; padding: 0px;\">C、每当用户端运行JSP时，jsp service()方法都会运行一次<br style=\"-webkit-tap-highlight-color: transparent; margin: 0px; padding: 0px;\">D、每当用户端运行JSP时，jsp destroy()方法都会运行一次</p>','李四同学',11,'2020-03-16 15:20:12',0,21,0,NULL,0,'面试题'),(19,'dubbo负载均衡问题','<p><span style=\"color: rgb(36, 41, 46); font-family: &quot;PingFang SC&quot;, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; font-size: 16px;\">服务端已限制每个节点的dubbo.protocol.threads限制数为600，尝试过使用各种负载均衡策略，及调整每个节点的负载权重，但并发较高时仍是不能分配均衡，总有几个节点会满负载，不清楚是什么原因造成的，该如何解决？</span><br></p>','李四同学',11,'2020-03-19 09:52:40',0,6,0,NULL,0,'Dubbo'),(20,'数据库已存在的大数据量的表如何进行分表','<p><span style=\"color: rgb(36, 41, 46); font-family: &quot;PingFang SC&quot;, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; font-size: 16px;\">由于历史原因，系统中有一张表数据量逐年变大，变到了几千万甚至上亿，这些数据不能像日志一样定时归档和删除，求问怎么做分表？</span><br></p>','李四同学',11,'2020-03-19 12:05:20',0,7,0,NULL,0,'Java基础,MySQL'),(25,'求一个优化的薪酬计算方案','<p><span style=\"color: rgb(36, 41, 46); font-family: &quot;PingFang SC&quot;, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; font-size: 16px;\">薪酬计算方案：目前很简单，就是根据不同薪酬计算方式归类，然后分步计算后加入到待入库集合中统一插入，但是在计算过程中需要请求多次数据库，因为不同的计算方式都在数据库中保存，哪位大神帮忙提供下方案！！！</span><br></p>','李四同学',11,'2020-03-19 14:57:38',0,12,0,NULL,0,'Java基础'),(26,'springboot内置tomcat配置疑问','<p><span style=\"-webkit-tap-highlight-color: transparent; margin: 0px; padding: 0px; font-weight: 600; color: rgb(36, 41, 46); font-family: &quot;PingFang SC&quot;, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; font-size: 16px;\">spring-boot-autoconfigure 版本为1.5.9 和 2.0.1时，如图所示，很多tomact参数为0，如最大线程maxThreads，在 2.0.7版本中最大线程为200，<br style=\"-webkit-tap-highlight-color: transparent; margin: 0px; padding: 0px;\">那么问题来了，我们平时看资料说 springboot内置tomcat默认线程为200，那么在1.5.9 和 2.0.1默认最大线程为0的情况下，如果不显示声明线程池大小的情况下，那么该项目的最大线程是否就为0？大佬们解答一下我的疑问</span><br></p>','李四同学',11,'2020-03-19 16:14:17',0,20,0,NULL,0,'Web'),(31,'【大厂面试题2020/4/1】','<p style=\"-webkit-tap-highlight-color: transparent; margin-bottom: 16px; padding: 0px; color: rgb(36, 41, 46); font-family: &quot;PingFang SC&quot;, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; font-size: 16px;\">下面哪个描述正确? （）</p><p style=\"-webkit-tap-highlight-color: transparent; padding: 0px; color: rgb(36, 41, 46); font-family: &quot;PingFang SC&quot;, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; font-size: 16px; margin-bottom: 0px !important;\">A、echo $$返回登录shell的PID和echo $？ 返回上一个命令的状态<br style=\"-webkit-tap-highlight-color: transparent; margin: 0px; padding: 0px;\">B、echo $$返回上一个命令和echo $的状态？ 返回登录shell的PID<br style=\"-webkit-tap-highlight-color: transparent; margin: 0px; padding: 0px;\">C、echo $$和echo $？ 返回一些无意义的整数值<br style=\"-webkit-tap-highlight-color: transparent; margin: 0px; padding: 0px;\">D、所有陈述都是错误的</p>','chenhaibao',23,'2020-04-01 15:02:53',0,5,0,NULL,0,'面试题'),(103,'JDK 和 JRE 有什么区别？','<p>JDK 和 JRE 有什么区别？<br></p>','李四同学',11,'2020-04-23 15:11:49',0,2,0,NULL,0,'Java基础,Java OOP'),(104,'== 和 equals 的区别是什么？','<p><span style=\"color: rgb(77, 77, 77); font-family: &quot;Microsoft YaHei&quot;, &quot;SF Pro Display&quot;, Roboto, Noto, Arial, &quot;PingFang SC&quot;, sans-serif; font-variant-ligatures: common-ligatures;\">== 和 equals 的区别是什么？</span><br></p>','李四同学',11,'2020-04-23 15:13:10',1,10,0,NULL,0,'Java基础'),(105,'两个对象的 hashCode()相同，则 equals()也一定为 true，对吗？','<p><span style=\"color: rgb(77, 77, 77); font-family: &quot;Microsoft YaHei&quot;, &quot;SF Pro Display&quot;, Roboto, Noto, Arial, &quot;PingFang SC&quot;, sans-serif; font-variant-ligatures: common-ligatures;\">两个对象的 hashCode()相同，则 equals()也一定为 true，对吗？</span><br></p>','李四同学',11,'2020-04-23 15:14:28',0,2,0,NULL,0,'Java基础,面试题'),(106,'final 在 java 中有什么作用？','<p><span style=\"color: rgb(77, 77, 77); font-family: &quot;Microsoft YaHei&quot;, &quot;SF Pro Display&quot;, Roboto, Noto, Arial, &quot;PingFang SC&quot;, sans-serif; font-variant-ligatures: common-ligatures;\">final 在 java 中有什么作用？</span><br></p>','李四同学',11,'2020-04-23 15:15:20',0,3,0,NULL,0,'Java基础,Java SE,面试题'),(107,'Collection 和 Collections 有什么区别？','<p><span style=\"color: rgb(77, 77, 77); font-family: &quot;Microsoft YaHei&quot;, &quot;SF Pro Display&quot;, Roboto, Noto, Arial, &quot;PingFang SC&quot;, sans-serif; font-variant-ligatures: common-ligatures;\">Collection 和 Collections 有什么区别？</span><br></p>','李四同学',11,'2020-04-23 15:16:15',0,3,0,NULL,0,'Java SE,面试题'),(108,'HashMap 和 Hashtable 有什么区别？','<p><span style=\"color: rgb(77, 77, 77); font-family: &quot;Microsoft YaHei&quot;, &quot;SF Pro Display&quot;, Roboto, Noto, Arial, &quot;PingFang SC&quot;, sans-serif; font-variant-ligatures: common-ligatures;\">HashMap 和 Hashtable 有什么区别？</span><br></p>','李四同学',11,'2020-04-23 15:16:56',0,1,0,NULL,0,'Java基础,Java SE'),(109,'说一下 HashMap 的实现原理？','<p><span style=\"color: rgb(77, 77, 77); font-family: &quot;Microsoft YaHei&quot;, &quot;SF Pro Display&quot;, Roboto, Noto, Arial, &quot;PingFang SC&quot;, sans-serif; font-variant-ligatures: common-ligatures;\">说一下 HashMap 的实现原理？</span><br></p>','李四同学',11,'2020-04-23 15:17:22',0,9,0,NULL,0,'Java基础,面试题'),(110,'什么是 java 序列化？什么情况下需要序列化？','<p><span style=\"color: rgb(77, 77, 77); font-family: &quot;Microsoft YaHei&quot;, &quot;SF Pro Display&quot;, Roboto, Noto, Arial, &quot;PingFang SC&quot;, sans-serif; font-variant-ligatures: common-ligatures;\">什么是 java 序列化？什么情况下需要序列化？</span><br></p>','李四同学',11,'2020-04-23 15:18:31',0,3,0,NULL,0,'Java基础,面试题'),(111,'jsp 和 servlet 有什么区别？','<p><span style=\"color: rgb(77, 77, 77); font-family: &quot;Microsoft YaHei&quot;, &quot;SF Pro Display&quot;, Roboto, Noto, Arial, &quot;PingFang SC&quot;, sans-serif; font-variant-ligatures: common-ligatures;\">jsp 和 servlet 有什么区别？</span><br></p>','李四同学',11,'2020-04-23 15:19:09',0,3,0,NULL,0,'Servlet,面试题'),(114,'spring 常用的注入方式有哪些？','<p><span style=\"color: rgb(77, 77, 77); font-family: &quot;Microsoft YaHei&quot;, &quot;SF Pro Display&quot;, Roboto, Noto, Arial, &quot;PingFang SC&quot;, sans-serif; font-variant-ligatures: common-ligatures;\">spring 常用的注入方式有哪些？</span><br></p>','李四同学',11,'2020-04-23 15:21:23',2,46,0,NULL,0,'Spring,面试题'),(115,'什么是 spring cloud？','<p><span style=\"font-family: Arial;\">﻿</span><strong style=\"font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 20px;\">什么是 spring cloud？</strong></p>','风继续吹',28,'2020-04-28 17:42:06',2,18,0,NULL,0,'SpringCloud,面试题'),(116,'spring cloud 断路器的作用是什么？','<h2 style=\"margin: 10px 0px; font-size: 20px; font-weight: bold; line-height: 1.5; font-family: Verdana, Arial, Helvetica, sans-serif;\"><strong>spring cloud 断路器的作用是什么？?</strong></h2>','风继续吹',28,'2020-04-28 17:44:11',0,14,0,'2020-05-03',0,'SpringCloud,面试题'),(118,'jsp内置对象和作用？','<p style=\"margin: 10px auto; padding: 0px; text-align: left; text-transform: none; line-height: 1.5; text-indent: 0px; letter-spacing: normal; font-family: Verdana,Arial,Helvetica,sans-serif; font-size: 13px; font-style: normal; font-weight: 400; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; -webkit-text-stroke-width: 0px;\">jsp内置对象和作用？<br></p>','李四同学',11,'2020-04-29 09:31:50',1,26,0,NULL,0,'Servlet,面试题'),(119,'Java如何安装','如何下载安装Java呀？',' 天王盖地虎',30,'2020-04-30 12:19:22',0,32,0,NULL,0,'Java基础,Java SE'),(121,'JSON数据格式是啥？','<p>JSON数据格式是啥样子的？<br></p>',' 天王盖地虎',30,'2020-04-30 15:49:47',1,46,0,NULL,0,'Web'),(123,'jdk1.8有哪些新特性','<p>请老师具体描述一下？</p>','晓峰-学员',42,'2020-05-07 14:12:17',2,22,0,NULL,0,'Java基础'),(124,'JDK 和 JRE 有什么区别？','<p><span style=\"margin: 0px; padding: 0px; max-width: 100%; color: rgb(51, 51, 51); font-family: -apple-system-font, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; font-size: 17px; letter-spacing: 0.544px; text-align: justify; overflow-wrap: break-word !important;\">JDK 和 JRE 有什么区别？</span><br></p>','李四同学',11,'2020-05-11 12:22:49',1,24,0,NULL,0,'Java基础,面试题'),(125,'在eclipse 工具中编写java代码提示问题','<p>老师您好,我看您在写代码的过程中会有java代码提示,我的写代码没有提示,需要如何设置呢?</p>','baozi',43,'2020-05-11 15:47:36',2,60,1,NULL,0,'Java基础'),(126,'eclipse代码中每行的开始和结尾出现多余的特殊符号','<p>老师您好,我在写飞机大战项目的时候也不知道误碰了什么,当前代码显示很多特殊符号,视觉看着很不舒服,如何能取消这些特殊符号呢?请老师解答,感谢老师!!!<img src=\"https://resource.straw.org.cn/upload_file/2020/05/12/ba9886c2-62fa-4087-bd8f-46db15f63d01.png\" data-filename=\"img\" style=\"width: 791px;\"></p>','baozi',43,'2020-05-12 00:14:26',2,26,1,NULL,0,'Java OOP'),(127,'equals和==的区别是啥','<p>老师请问equals方法和==的区别是啥啊</p>','旧约0315',44,'2020-05-12 10:15:21',2,12,0,NULL,0,'Java基础'),(128,'.java源文件的类的问题','<h2 align=\"left\"><span lang=\"EN-US\" style=\"font-size:18.0pt;\nline-height:173%;font-family:宋体;color:red\">2.</span><span style=\"font-size:\n18.0pt;line-height:173%;font-family:宋体;color:red\">一个<span lang=\"EN-US\">\".java\"</span>源文件中是否可以包括多个类（不算内部类）？有什么限制？<span lang=\"EN-US\"><o:p></o:p></span></span></h2>','林森666',45,'2020-05-12 10:16:12',1,9,0,NULL,0,'Java基础'),(129,'关键字','<p>java中关键字这个名词是什么意思啊</p>','林森666',45,'2020-05-12 10:19:41',1,10,0,NULL,0,'Java基础'),(130,'服务器端启动失败','<p>老师我启动服务器的时候总是报这个错是什么原因啊??</p><p><img src=\"https://resource.straw.org.cn/upload_file/2020/05/12/3e8709e0-460c-485c-ae6c-5ac2f4a01dbe.png\" data-filename=\"img\" style=\"width: 623px;\"><br></p>','旧约0315',44,'2020-05-12 10:33:32',2,16,0,NULL,0,'Java SE'),(131,'eclipse 如何导入项目？','项目不小心删除了。怎么把项目“复制”到eclipse中？','李大帅',32,'2020-05-12 14:17:44',1,12,0,NULL,0,'Java基础'),(132,'WebServer 项目状态行问题','<p>老师您好,在学习 WebServer 项目时您给我们讲了有关于HTTP 协议中的状态行,但是我没记住用空格间隔的三个都代表什么?</p>','baozi',43,'2020-05-13 16:43:02',2,15,1,NULL,0,'WebServer'),(133,'Java中方法重载和重写的区别','<p>请问的方法中重写和重载的区别都是什么，如何使用</p>','gsy',46,'2020-05-13 18:48:10',1,13,0,NULL,0,'Java OOP'),(134,'eclipse如何修改字符集','<h1 class=\"exp-title-h1\" title=\"eclipse如何修改字符集\" style=\"margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding: 0px; font-size: 30px; color: rgb(51, 51, 51); font-family: &quot;Microsoft Yahei&quot;, 微软雅黑, arial, 宋体, sans-serif;\">eclipse如何修改字符集</h1>','李大帅',32,'2020-05-14 17:45:53',1,6,0,NULL,0,'Java基础'),(135,'java 中正则表达式中\\处理问题','<p>老师您好，我在学习正则表达式的时候，我想匹配一个\\（反斜杠），我在前面加一个转义符\\后不好用，需要怎么写啊？</p>','baozi',43,'2020-05-16 12:37:53',2,6,0,NULL,0,'Java SE'),(136,'什么是对象序列化和反序列化','<p>老师,请问什么是对象序列化和对象反序列化,为啥要做对象序列化啊?</p>','旧约0315',44,'2020-05-16 13:30:58',2,8,0,NULL,0,'Java SE'),(137,'客户端和服务器端之间的通讯是基于什么','<p>老师,请问客户端和服务器端的通讯是怎么通讯的啊,Socket是什么?</p>','旧约0315',44,'2020-05-16 13:34:09',2,14,0,NULL,0,'Java SE'),(138,'WIN7、WIN10配置环境变量','<p>请老师分别详细描述一下这两个系统配置环境变量的步骤。</p>','山西 - JAVA',48,'2020-05-25 13:42:40',1,18,0,NULL,0,'Java基础'),(139,'eclispe如何修改字体大小？','<p>eclispe的字体太小了，该如何修改？<br></p>','山西 - JAVA',48,'2020-05-28 17:18:59',1,17,0,NULL,0,'Java基础'),(140,'eclispe更换项目空间','<p>老师老师，我想要更换eclipse的工作空间，该怎么更换啊</p>','山西 - JAVA',48,'2020-05-29 20:09:58',1,9,0,NULL,0,'Java基础'),(141,'报错editor not contain a main type','<p>老师我在运行代码的时候报错editor not contain a main type怎么办？</p><p><br></p>','山西 - JAVA',48,'2020-05-30 15:30:46',1,6,0,NULL,0,'Java基础'),(142,'分数用什么类型表示，分数之间是如何去运算的？','<p><span style=\"color: rgb(154, 154, 154); font-family: mp-quote, -apple-system-font, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; font-size: 14px;\">老师，我想问一下，分数什么类型表示，分数之间是如何去运算的</span><br></p>','山西 - JAVA',48,'2020-05-30 15:32:53',1,6,0,NULL,0,'Java基础'),(143,'long整型赋值必须要加L吗','<p><span style=\"color: rgb(154, 154, 154); font-family: mp-quote, -apple-system-font, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; font-size: 14px;\">老师long整型赋值必须要加L吗，我写的long a = 100 不加L也没报错呀</span><br></p>','山西 - JAVA',48,'2020-05-30 15:33:50',1,9,0,NULL,0,'Java基础'),(144,'main方法','<p><span style=\"color: rgb(154, 154, 154); font-family: mp-quote, -apple-system-font, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; font-size: 14px;\">老师，main的意思是什么呀，不太懂这个词，后面括号里面的又代表什么意思呢</span><br></p>','山西 - JAVA',48,'2020-05-30 15:35:01',1,8,0,NULL,0,'Java基础'),(145,'eclipse新建项目','<p>老师我们在eclipse里新建项目点哪个呢？</p>','山西 - JAVA',48,'2020-05-30 19:56:18',1,9,0,NULL,0,'Java基础'),(146,'eclipse如何导出项目','老师我写在eclipse里的项目怎么导出呢','吉林JSD',48,'2020-05-30 20:05:11',1,31,0,NULL,0,'Java基础'),(147,'删除JDK之后我的代码还在吗？','<p>老师，我想删除JDK后再安装一个新版本的，这样我的代码也会被删除吗</p>','山西 - JAVA',48,'2020-05-30 20:19:12',1,8,0,NULL,0,'Java基础'),(148,'转义字符','<p>特殊符号用\\来转义，这种情况可能发生在什么时候会发生<br></p>','山西 - JAVA',48,'2020-05-30 20:21:29',1,12,0,NULL,0,'Java基础');
+/*!40000 ALTER TABLE `question` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `question_tag`
+--
+
 DROP TABLE IF EXISTS `question_tag`;
-CREATE TABLE `question_tag`  (
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `question_tag` (
   `id` int(20) NOT NULL AUTO_INCREMENT,
   `question_id` int(20) NOT NULL,
   `tag_id` int(20) NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 254 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE=InnoDB AUTO_INCREMENT=255 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------
--- Records of question_tag
--- ----------------------------
-INSERT INTO `question_tag` VALUES (1, 1, 1);
-INSERT INTO `question_tag` VALUES (2, 2, 1);
-INSERT INTO `question_tag` VALUES (3, 3, 14);
-INSERT INTO `question_tag` VALUES (4, 1, 14);
-INSERT INTO `question_tag` VALUES (5, 4, 11);
-INSERT INTO `question_tag` VALUES (6, 5, 9);
-INSERT INTO `question_tag` VALUES (7, 6, 16);
-INSERT INTO `question_tag` VALUES (8, 7, 15);
-INSERT INTO `question_tag` VALUES (9, 8, 1);
-INSERT INTO `question_tag` VALUES (10, 9, 17);
-INSERT INTO `question_tag` VALUES (11, 10, 1);
-INSERT INTO `question_tag` VALUES (12, 11, 9);
-INSERT INTO `question_tag` VALUES (13, 11, 14);
-INSERT INTO `question_tag` VALUES (14, 12, 14);
-INSERT INTO `question_tag` VALUES (15, 12, 15);
-INSERT INTO `question_tag` VALUES (16, 13, 1);
-INSERT INTO `question_tag` VALUES (17, 13, 7);
-INSERT INTO `question_tag` VALUES (18, 14, 9);
-INSERT INTO `question_tag` VALUES (19, 14, 15);
-INSERT INTO `question_tag` VALUES (20, 15, 13);
-INSERT INTO `question_tag` VALUES (21, 16, 1);
-INSERT INTO `question_tag` VALUES (22, 16, 15);
-INSERT INTO `question_tag` VALUES (23, 17, 18);
-INSERT INTO `question_tag` VALUES (24, 17, 19);
-INSERT INTO `question_tag` VALUES (25, 18, 15);
-INSERT INTO `question_tag` VALUES (26, 19, 20);
-INSERT INTO `question_tag` VALUES (27, 20, 1);
-INSERT INTO `question_tag` VALUES (28, 20, 7);
-INSERT INTO `question_tag` VALUES (34, 25, 1);
-INSERT INTO `question_tag` VALUES (35, 26, 6);
-INSERT INTO `question_tag` VALUES (36, 27, 1);
-INSERT INTO `question_tag` VALUES (37, 27, 15);
-INSERT INTO `question_tag` VALUES (38, 28, 1);
-INSERT INTO `question_tag` VALUES (39, 28, 15);
-INSERT INTO `question_tag` VALUES (40, 29, 14);
-INSERT INTO `question_tag` VALUES (41, 29, 15);
-INSERT INTO `question_tag` VALUES (43, 31, 15);
-INSERT INTO `question_tag` VALUES (186, 105, 7);
-INSERT INTO `question_tag` VALUES (187, 105, 14);
-INSERT INTO `question_tag` VALUES (188, 106, 7);
-INSERT INTO `question_tag` VALUES (189, 106, 14);
-INSERT INTO `question_tag` VALUES (194, 109, 2);
-INSERT INTO `question_tag` VALUES (195, 109, 7);
-INSERT INTO `question_tag` VALUES (196, 110, 2);
-INSERT INTO `question_tag` VALUES (197, 110, 7);
-INSERT INTO `question_tag` VALUES (202, 113, 8);
-INSERT INTO `question_tag` VALUES (203, 113, 15);
-INSERT INTO `question_tag` VALUES (204, 114, 1);
-INSERT INTO `question_tag` VALUES (205, 114, 8);
-INSERT INTO `question_tag` VALUES (206, 115, 15);
-INSERT INTO `question_tag` VALUES (207, 115, 6);
-INSERT INTO `question_tag` VALUES (208, 116, 15);
-INSERT INTO `question_tag` VALUES (209, 116, 6);
-INSERT INTO `question_tag` VALUES (236, 117, 15);
-INSERT INTO `question_tag` VALUES (237, 117, 6);
-INSERT INTO `question_tag` VALUES (238, 118, 13);
-INSERT INTO `question_tag` VALUES (239, 118, 14);
-INSERT INTO `question_tag` VALUES (240, 119, 8);
-INSERT INTO `question_tag` VALUES (241, 120, 1);
-INSERT INTO `question_tag` VALUES (242, 120, 15);
-INSERT INTO `question_tag` VALUES (243, 121, 1);
-INSERT INTO `question_tag` VALUES (244, 121, 15);
-INSERT INTO `question_tag` VALUES (245, 122, 1);
-INSERT INTO `question_tag` VALUES (246, 122, 15);
-INSERT INTO `question_tag` VALUES (247, 123, 4);
-INSERT INTO `question_tag` VALUES (248, 123, 15);
-INSERT INTO `question_tag` VALUES (249, 124, 3);
-INSERT INTO `question_tag` VALUES (250, 125, 3);
-INSERT INTO `question_tag` VALUES (251, 126, 3);
-INSERT INTO `question_tag` VALUES (252, 127, 8);
-INSERT INTO `question_tag` VALUES (253, 128, 1);
+--
+-- Dumping data for table `question_tag`
+--
 
--- ----------------------------
--- Table structure for role
--- ----------------------------
+LOCK TABLES `question_tag` WRITE;
+/*!40000 ALTER TABLE `question_tag` DISABLE KEYS */;
+INSERT INTO `question_tag` VALUES (1,1,1),(2,2,1),(3,3,14),(4,1,14),(5,4,11),(6,5,9),(7,6,16),(8,7,15),(9,8,1),(10,9,17),(11,10,1),(12,11,9),(13,11,14),(16,13,1),(17,13,7),(18,14,9),(19,14,15),(20,15,13),(21,16,1),(22,16,15),(23,17,18),(24,17,19),(25,18,15),(26,19,20),(27,20,1),(28,20,7),(34,25,1),(35,26,6),(36,27,1),(37,27,15),(38,28,1),(39,28,15),(40,29,14),(41,29,15),(43,31,15),(182,103,1),(183,103,2),(184,104,1),(185,105,1),(186,105,15),(187,106,1),(188,106,3),(189,106,15),(190,107,3),(191,107,15),(192,108,1),(193,108,3),(194,109,1),(195,109,15),(196,110,1),(197,110,15),(198,111,8),(199,111,15),(200,112,8),(201,112,15),(202,113,9),(203,113,15),(204,114,9),(205,114,15),(206,115,14),(207,115,15),(210,117,8),(211,117,9),(212,117,15),(213,118,8),(214,118,15),(215,119,1),(216,119,3),(217,120,1),(218,121,6),(219,116,14),(220,116,15),(221,122,7),(222,123,1),(227,124,1),(228,124,15),(229,125,1),(230,126,2),(231,127,1),(232,128,1),(233,129,1),(234,130,3),(235,131,1),(236,132,4),(237,133,2),(238,134,1),(239,135,3),(240,136,3),(241,137,3),(242,138,1),(243,139,1),(244,140,1),(245,141,1),(246,142,1),(247,143,1),(248,144,1),(249,145,1),(250,146,1),(251,147,1),(252,148,1),(253,12,14),(254,12,15);
+/*!40000 ALTER TABLE `question_tag` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `role`
+--
+
 DROP TABLE IF EXISTS `role`;
-CREATE TABLE `role`  (
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `role` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `name` varchar(255) NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------
--- Records of role
--- ----------------------------
-INSERT INTO `role` VALUES (1, 'ROLE_ADMIN');
-INSERT INTO `role` VALUES (2, 'ROLE_STUDENT');
-INSERT INTO `role` VALUES (3, 'ROLE_TEACHER');
+--
+-- Dumping data for table `role`
+--
 
--- ----------------------------
--- Table structure for role_permission
--- ----------------------------
+LOCK TABLES `role` WRITE;
+/*!40000 ALTER TABLE `role` DISABLE KEYS */;
+INSERT INTO `role` VALUES (1,'ROLE_ADMIN'),(2,'ROLE_STUDENT'),(3,'ROLE_TEACHER');
+/*!40000 ALTER TABLE `role` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `role_permission`
+--
+
 DROP TABLE IF EXISTS `role_permission`;
-CREATE TABLE `role_permission`  (
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `role_permission` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `role_id` int(11) NOT NULL,
   `permission_id` int(11) NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 16 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------
--- Records of role_permission
--- ----------------------------
-INSERT INTO `role_permission` VALUES (1, 1, 1);
-INSERT INTO `role_permission` VALUES (2, 1, 2);
-INSERT INTO `role_permission` VALUES (3, 1, 3);
-INSERT INTO `role_permission` VALUES (4, 1, 4);
-INSERT INTO `role_permission` VALUES (5, 1, 5);
-INSERT INTO `role_permission` VALUES (6, 2, 1);
-INSERT INTO `role_permission` VALUES (7, 2, 2);
-INSERT INTO `role_permission` VALUES (8, 2, 3);
-INSERT INTO `role_permission` VALUES (9, 2, 4);
-INSERT INTO `role_permission` VALUES (11, 3, 1);
-INSERT INTO `role_permission` VALUES (12, 3, 2);
-INSERT INTO `role_permission` VALUES (13, 3, 3);
-INSERT INTO `role_permission` VALUES (14, 3, 4);
-INSERT INTO `role_permission` VALUES (15, 3, 5);
+--
+-- Dumping data for table `role_permission`
+--
 
--- ----------------------------
--- Table structure for tag
--- ----------------------------
+LOCK TABLES `role_permission` WRITE;
+/*!40000 ALTER TABLE `role_permission` DISABLE KEYS */;
+INSERT INTO `role_permission` VALUES (1,1,1),(2,1,2),(3,1,3),(4,1,4),(5,1,5),(6,2,1),(7,2,2),(8,2,3),(9,2,4),(11,3,1),(12,3,2),(13,3,3),(14,3,4),(15,3,5);
+/*!40000 ALTER TABLE `role_permission` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tag`
+--
+
 DROP TABLE IF EXISTS `tag`;
-CREATE TABLE `tag`  (
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tag` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `createby` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `createtime` datetime(0) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `createby` varchar(255) NOT NULL,
+  `createtime` datetime NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 21 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------
--- Records of tag
--- ----------------------------
-INSERT INTO `tag` VALUES (1, 'Java基础', 'admin', '2020-03-09 14:39:48');
-INSERT INTO `tag` VALUES (2, 'Java OOP', 'admin', '2020-03-09 23:30:09');
-INSERT INTO `tag` VALUES (3, 'Java SE', 'admin', '2020-03-09 23:32:13');
-INSERT INTO `tag` VALUES (4, 'WebServer', 'admin', '2020-03-09 23:32:50');
-INSERT INTO `tag` VALUES (5, '二进制', 'admin', '2020-03-09 23:33:18');
-INSERT INTO `tag` VALUES (6, 'Web', 'admin', '2020-03-09 23:33:58');
-INSERT INTO `tag` VALUES (7, 'MySQL', 'admin', '2020-03-09 23:34:20');
-INSERT INTO `tag` VALUES (8, 'Servlet', 'admin', '2020-03-09 23:34:40');
-INSERT INTO `tag` VALUES (9, 'Spring', 'admin', '2020-03-09 23:34:58');
-INSERT INTO `tag` VALUES (10, 'SpringMVC', 'admin', '2020-03-09 23:35:17');
-INSERT INTO `tag` VALUES (11, 'MyBatis', 'admin', '2020-03-09 23:35:38');
-INSERT INTO `tag` VALUES (12, 'Ajax', 'admin', '2020-03-09 23:36:02');
-INSERT INTO `tag` VALUES (13, 'SpringBoot', 'admin', '2020-03-09 23:36:22');
-INSERT INTO `tag` VALUES (14, 'SpringCloud', 'admin', '2020-03-09 23:36:43');
-INSERT INTO `tag` VALUES (15, '面试题', 'admin', '2020-03-09 23:37:28');
-INSERT INTO `tag` VALUES (16, '搜索引擎', 'admin', '2020-03-09 23:40:47');
-INSERT INTO `tag` VALUES (17, 'Docker', 'admin', '2020-03-10 17:19:05');
-INSERT INTO `tag` VALUES (18, 'Linux', 'admin', '2020-03-16 14:44:04');
-INSERT INTO `tag` VALUES (19, 'Centos', 'admin', '2020-03-16 14:44:22');
-INSERT INTO `tag` VALUES (20, 'Dubbo', 'admin', '2020-03-19 09:52:09');
+--
+-- Dumping data for table `tag`
+--
 
--- ----------------------------
--- Table structure for teacher_question
--- ----------------------------
+LOCK TABLES `tag` WRITE;
+/*!40000 ALTER TABLE `tag` DISABLE KEYS */;
+INSERT INTO `tag` VALUES (1,'Java基础','admin','2020-03-09 14:39:48'),(2,'Java OOP','admin','2020-03-09 23:30:09'),(3,'Java SE','admin','2020-03-09 23:32:13'),(4,'WebServer','admin','2020-03-09 23:32:50'),(5,'二进制','admin','2020-03-09 23:33:18'),(6,'Web','admin','2020-03-09 23:33:58'),(7,'MySQL','admin','2020-03-09 23:34:20'),(8,'Servlet','admin','2020-03-09 23:34:40'),(9,'Spring','admin','2020-03-09 23:34:58'),(10,'SpringMVC','admin','2020-03-09 23:35:17'),(11,'MyBatis','admin','2020-03-09 23:35:38'),(12,'Ajax','admin','2020-03-09 23:36:02'),(13,'SpringBoot','admin','2020-03-09 23:36:22'),(14,'SpringCloud','admin','2020-03-09 23:36:43'),(15,'面试题','admin','2020-03-09 23:37:28'),(16,'搜索引擎','admin','2020-03-09 23:40:47'),(17,'Docker','admin','2020-03-10 17:19:05'),(18,'Linux','admin','2020-03-16 14:44:04'),(19,'CentOS','admin','2020-03-16 14:44:22'),(20,'Dubbo','admin','2020-03-19 09:52:09');
+/*!40000 ALTER TABLE `tag` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `teacher_question`
+--
+
 DROP TABLE IF EXISTS `teacher_question`;
-CREATE TABLE `teacher_question`  (
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `teacher_question` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
   `question_id` int(11) NOT NULL,
-  `createtime` datetime(0) DEFAULT NULL,
+  `createtime` datetime DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 265 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE=InnoDB AUTO_INCREMENT=284 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------
--- Records of teacher_question
--- ----------------------------
-INSERT INTO `teacher_question` VALUES (1, 3, 1, '2020-04-01 12:48:50');
-INSERT INTO `teacher_question` VALUES (2, 3, 2, '2020-04-01 12:48:58');
-INSERT INTO `teacher_question` VALUES (3, 3, 3, '2020-04-01 12:49:05');
-INSERT INTO `teacher_question` VALUES (4, 3, 4, '2020-04-01 12:49:10');
-INSERT INTO `teacher_question` VALUES (5, 3, 5, '2020-04-01 12:49:21');
-INSERT INTO `teacher_question` VALUES (6, 3, 6, '2020-04-01 12:49:27');
-INSERT INTO `teacher_question` VALUES (7, 3, 7, '2020-04-01 12:49:35');
-INSERT INTO `teacher_question` VALUES (8, 3, 8, '2020-04-01 12:49:42');
-INSERT INTO `teacher_question` VALUES (9, 3, 9, '2020-04-01 12:49:49');
-INSERT INTO `teacher_question` VALUES (10, 3, 10, '2020-04-01 12:49:56');
-INSERT INTO `teacher_question` VALUES (11, 3, 11, '2020-04-01 12:50:03');
-INSERT INTO `teacher_question` VALUES (12, 3, 12, '2020-04-01 12:50:13');
-INSERT INTO `teacher_question` VALUES (91, 4, 70, '2020-04-03 11:18:20');
-INSERT INTO `teacher_question` VALUES (92, 8, 70, '2020-04-03 12:58:44');
-INSERT INTO `teacher_question` VALUES (93, 8, 63, '2020-04-03 14:19:56');
-INSERT INTO `teacher_question` VALUES (94, 8, 47, '2020-04-03 15:45:59');
-INSERT INTO `teacher_question` VALUES (95, 8, 46, '2020-04-03 15:45:59');
-INSERT INTO `teacher_question` VALUES (96, 8, 50, '2020-04-03 15:47:29');
-INSERT INTO `teacher_question` VALUES (97, 8, 43, '2020-04-03 15:48:16');
-INSERT INTO `teacher_question` VALUES (98, 8, 42, '2020-04-03 15:48:16');
-INSERT INTO `teacher_question` VALUES (99, 8, 53, '2020-04-03 15:49:25');
-INSERT INTO `teacher_question` VALUES (100, 8, 52, '2020-04-03 15:49:25');
-INSERT INTO `teacher_question` VALUES (101, 3, 71, '2020-04-03 17:43:11');
-INSERT INTO `teacher_question` VALUES (102, 4, 71, '2020-04-03 17:43:11');
-INSERT INTO `teacher_question` VALUES (103, 8, 12, '2020-04-03 17:44:47');
-INSERT INTO `teacher_question` VALUES (107, 3, 74, '2020-04-08 10:36:45');
-INSERT INTO `teacher_question` VALUES (108, 4, 74, '2020-04-08 10:36:45');
-INSERT INTO `teacher_question` VALUES (109, 2, 75, '2020-04-08 15:48:28');
-INSERT INTO `teacher_question` VALUES (110, 4, 75, '2020-04-08 15:48:28');
-INSERT INTO `teacher_question` VALUES (111, 1, 10, '2020-04-09 17:18:02');
-INSERT INTO `teacher_question` VALUES (112, 8, 10, '2020-04-09 17:22:50');
-INSERT INTO `teacher_question` VALUES (113, 7, 10, '2020-04-09 17:30:18');
-INSERT INTO `teacher_question` VALUES (114, 2, 9, '2020-04-09 17:32:19');
-INSERT INTO `teacher_question` VALUES (115, 2, 4, '2020-04-09 17:33:11');
-INSERT INTO `teacher_question` VALUES (116, 2, 10, '2020-04-09 19:09:11');
-INSERT INTO `teacher_question` VALUES (117, 4, 7, '2020-04-09 19:22:39');
-INSERT INTO `teacher_question` VALUES (178, 4, 105, '2020-04-20 12:17:29');
-INSERT INTO `teacher_question` VALUES (179, 8, 105, '2020-04-20 12:17:29');
-INSERT INTO `teacher_question` VALUES (180, 4, 106, '2020-04-20 12:17:42');
-INSERT INTO `teacher_question` VALUES (181, 8, 106, '2020-04-20 12:17:42');
-INSERT INTO `teacher_question` VALUES (186, 4, 109, '2020-04-22 17:18:55');
-INSERT INTO `teacher_question` VALUES (187, 8, 109, '2020-04-22 17:18:55');
-INSERT INTO `teacher_question` VALUES (188, 4, 110, '2020-04-22 17:19:20');
-INSERT INTO `teacher_question` VALUES (189, 8, 110, '2020-04-22 17:19:20');
-INSERT INTO `teacher_question` VALUES (190, 9, 109, '2020-04-28 10:53:42');
-INSERT INTO `teacher_question` VALUES (197, 9, 113, '2020-04-28 23:55:21');
-INSERT INTO `teacher_question` VALUES (198, 8, 113, '2020-04-28 23:55:21');
-INSERT INTO `teacher_question` VALUES (199, 5, 113, '2020-04-28 23:55:21');
-INSERT INTO `teacher_question` VALUES (200, 9, 114, '2020-04-29 00:05:39');
-INSERT INTO `teacher_question` VALUES (201, 6, 114, '2020-04-29 00:05:39');
-INSERT INTO `teacher_question` VALUES (202, 8, 114, '2020-04-29 00:05:39');
-INSERT INTO `teacher_question` VALUES (203, 2, 115, '2020-05-03 01:36:23');
-INSERT INTO `teacher_question` VALUES (204, 4, 115, '2020-05-03 01:36:23');
-INSERT INTO `teacher_question` VALUES (205, 9, 115, '2020-05-03 01:36:23');
-INSERT INTO `teacher_question` VALUES (206, 2, 116, '2020-05-03 01:37:35');
-INSERT INTO `teacher_question` VALUES (207, 4, 116, '2020-05-03 01:37:35');
-INSERT INTO `teacher_question` VALUES (208, 9, 116, '2020-05-03 01:37:35');
-INSERT INTO `teacher_question` VALUES (248, 2, 117, '2020-05-04 10:22:07');
-INSERT INTO `teacher_question` VALUES (249, 4, 117, '2020-05-04 10:22:07');
-INSERT INTO `teacher_question` VALUES (250, 9, 117, '2020-05-04 10:22:07');
-INSERT INTO `teacher_question` VALUES (251, 9, 118, '2020-05-04 11:00:53');
-INSERT INTO `teacher_question` VALUES (252, 5, 118, '2020-05-04 11:00:53');
-INSERT INTO `teacher_question` VALUES (253, 9, 119, '2020-05-06 17:31:58');
-INSERT INTO `teacher_question` VALUES (254, 4, 120, '2020-05-11 14:27:35');
-INSERT INTO `teacher_question` VALUES (255, 9, 120, '2020-05-11 14:27:35');
-INSERT INTO `teacher_question` VALUES (256, 4, 121, '2020-05-11 14:48:22');
-INSERT INTO `teacher_question` VALUES (257, 9, 121, '2020-05-11 14:48:22');
-INSERT INTO `teacher_question` VALUES (258, 9, 122, '2020-05-11 17:50:09');
-INSERT INTO `teacher_question` VALUES (259, 4, 123, '2020-05-11 22:52:23');
-INSERT INTO `teacher_question` VALUES (260, 2, 124, '2020-05-22 15:41:58');
-INSERT INTO `teacher_question` VALUES (261, 3, 125, '2020-05-22 15:51:40');
-INSERT INTO `teacher_question` VALUES (262, 3, 126, '2020-05-22 16:08:15');
-INSERT INTO `teacher_question` VALUES (263, 28, 127, '2020-05-22 16:16:38');
-INSERT INTO `teacher_question` VALUES (264, 33, 128, '2020-05-22 16:19:28');
+--
+-- Dumping data for table `teacher_question`
+--
 
--- ----------------------------
--- Table structure for user
--- ----------------------------
+LOCK TABLES `teacher_question` WRITE;
+/*!40000 ALTER TABLE `teacher_question` DISABLE KEYS */;
+INSERT INTO `teacher_question` VALUES (1,3,1,'2020-04-01 12:48:50'),(2,3,2,'2020-04-01 12:48:58'),(3,3,3,'2020-04-01 12:49:05'),(4,3,4,'2020-04-01 12:49:10'),(5,3,5,'2020-04-01 12:49:21'),(6,3,6,'2020-04-01 12:49:27'),(7,3,7,'2020-04-01 12:49:35'),(8,3,8,'2020-04-01 12:49:42'),(9,3,9,'2020-04-01 12:49:49'),(10,3,10,'2020-04-01 12:49:56'),(11,3,11,'2020-04-01 12:50:03'),(91,4,70,'2020-04-03 11:18:20'),(92,8,70,'2020-04-03 12:58:44'),(93,8,63,'2020-04-03 14:19:56'),(94,8,47,'2020-04-03 15:45:59'),(95,8,46,'2020-04-03 15:45:59'),(96,8,50,'2020-04-03 15:47:29'),(97,8,43,'2020-04-03 15:48:16'),(98,8,42,'2020-04-03 15:48:16'),(99,8,53,'2020-04-03 15:49:25'),(100,8,52,'2020-04-03 15:49:25'),(101,3,71,'2020-04-03 17:43:11'),(102,4,71,'2020-04-03 17:43:11'),(107,3,74,'2020-04-08 10:36:45'),(108,4,74,'2020-04-08 10:36:45'),(109,2,75,'2020-04-08 15:48:28'),(110,4,75,'2020-04-08 15:48:28'),(111,1,10,'2020-04-09 17:18:02'),(112,8,10,'2020-04-09 17:22:50'),(113,7,10,'2020-04-09 17:30:18'),(114,2,9,'2020-04-09 17:32:19'),(115,2,4,'2020-04-09 17:33:11'),(116,2,10,'2020-04-09 19:09:11'),(117,4,7,'2020-04-09 19:22:39'),(174,4,103,'2020-04-23 15:11:49'),(175,9,103,'2020-04-23 15:11:49'),(176,4,104,'2020-04-23 15:13:10'),(177,3,104,'2020-04-23 15:13:10'),(178,9,104,'2020-04-23 15:13:10'),(179,4,105,'2020-04-23 15:14:28'),(180,9,105,'2020-04-23 15:14:28'),(181,3,106,'2020-04-23 15:15:21'),(182,4,106,'2020-04-23 15:15:21'),(183,9,106,'2020-04-23 15:15:21'),(184,3,107,'2020-04-23 15:16:15'),(185,9,107,'2020-04-23 15:16:15'),(186,3,108,'2020-04-23 15:16:56'),(187,9,108,'2020-04-23 15:16:56'),(188,4,109,'2020-04-23 15:17:22'),(189,3,109,'2020-04-23 15:17:22'),(190,9,109,'2020-04-23 15:17:22'),(191,9,110,'2020-04-23 15:18:31'),(192,6,111,'2020-04-23 15:19:09'),(193,8,111,'2020-04-23 15:19:09'),(194,9,111,'2020-04-23 15:19:09'),(195,5,112,'2020-04-23 15:19:58'),(196,6,112,'2020-04-23 15:19:58'),(197,7,112,'2020-04-23 15:19:58'),(198,9,112,'2020-04-23 15:19:58'),(199,6,113,'2020-04-23 15:20:37'),(200,8,113,'2020-04-23 15:20:37'),(201,9,113,'2020-04-23 15:20:37'),(202,7,114,'2020-04-23 15:21:23'),(203,2,114,'2020-04-23 15:21:23'),(204,8,114,'2020-04-23 15:21:23'),(205,9,114,'2020-04-23 15:21:23'),(206,9,115,'2020-04-28 17:42:06'),(207,6,115,'2020-04-28 17:42:06'),(210,9,117,'2020-04-29 00:28:56'),(211,7,117,'2020-04-29 00:28:56'),(212,8,117,'2020-04-29 00:28:56'),(213,5,117,'2020-04-29 00:28:56'),(214,6,117,'2020-04-29 00:28:56'),(215,9,118,'2020-04-29 09:31:50'),(216,6,118,'2020-04-29 09:31:50'),(217,8,118,'2020-04-29 09:31:50'),(218,2,118,'2020-04-29 09:31:50'),(219,4,119,'2020-04-30 12:19:22'),(220,9,120,'2020-04-30 12:21:33'),(221,4,120,'2020-04-30 12:21:33'),(222,9,121,'2020-04-30 15:49:47'),(223,9,116,'2020-05-03 23:26:28'),(224,6,116,'2020-05-03 23:26:28'),(225,9,122,'2020-05-06 17:37:37'),(226,39,123,'2020-05-07 14:12:17'),(227,31,123,'2020-05-07 14:12:17'),(228,35,123,'2020-05-07 14:12:17'),(229,33,123,'2020-05-07 14:12:17'),(230,9,119,'2020-05-09 10:16:43'),(231,39,119,'2020-05-10 20:19:15'),(236,4,124,'2020-05-11 14:24:51'),(237,9,124,'2020-05-11 14:24:51'),(238,34,125,'2020-05-11 15:47:36'),(239,34,126,'2020-05-12 00:14:26'),(240,35,127,'2020-05-12 10:15:21'),(241,40,128,'2020-05-12 10:16:12'),(242,40,129,'2020-05-12 10:19:41'),(243,35,130,'2020-05-12 10:33:32'),(244,32,131,'2020-05-12 14:17:44'),(245,34,132,'2020-05-13 16:43:02'),(246,38,133,'2020-05-13 18:48:10'),(247,32,134,'2020-05-14 17:45:53'),(248,34,135,'2020-05-16 12:37:53'),(249,35,136,'2020-05-16 13:30:58'),(250,35,137,'2020-05-16 13:34:09'),(251,37,138,'2020-05-25 13:42:40'),(252,39,138,'2020-05-25 13:42:40'),(253,9,138,'2020-05-25 13:42:40'),(254,39,139,'2020-05-28 17:18:59'),(255,41,140,'2020-05-29 20:09:58'),(256,35,140,'2020-05-29 20:09:58'),(257,33,140,'2020-05-29 20:09:58'),(258,35,141,'2020-05-30 15:30:46'),(259,36,141,'2020-05-30 15:30:46'),(260,38,141,'2020-05-30 15:30:46'),(261,31,142,'2020-05-30 15:32:53'),(262,5,142,'2020-05-30 15:32:53'),(263,41,142,'2020-05-30 15:32:53'),(264,38,143,'2020-05-30 15:33:50'),(265,37,143,'2020-05-30 15:33:50'),(266,33,143,'2020-05-30 15:33:50'),(267,36,144,'2020-05-30 15:35:01'),(268,37,144,'2020-05-30 15:35:01'),(269,34,144,'2020-05-30 15:35:01'),(270,41,145,'2020-05-30 19:56:18'),(271,39,145,'2020-05-30 19:56:18'),(272,40,145,'2020-05-30 19:56:18'),(273,34,146,'2020-05-30 20:05:11'),(274,32,146,'2020-05-30 20:05:11'),(275,9,146,'2020-05-30 20:05:11'),(276,38,147,'2020-05-30 20:19:12'),(277,41,147,'2020-05-30 20:19:12'),(278,31,147,'2020-05-30 20:19:12'),(279,2,148,'2020-05-30 20:21:29'),(280,9,148,'2020-05-30 20:21:29'),(281,8,148,'2020-05-30 20:21:29'),(282,3,12,'2020-06-03 11:06:08'),(283,8,12,'2020-06-03 11:06:08');
+/*!40000 ALTER TABLE `teacher_question` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `user`
+--
+
 DROP TABLE IF EXISTS `user`;
-CREATE TABLE `user`  (
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `username` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '用户名',
-  `nickname` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '昵称',
-  `password` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '密码',
-  `sex` enum('男','女','保密') CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '保密' COMMENT '性别',
+  `username` varchar(50) NOT NULL COMMENT '用户名',
+  `nickname` varchar(50) DEFAULT NULL COMMENT '昵称',
+  `password` varchar(255) NOT NULL COMMENT '密码',
+  `sex` enum('男','女','保密') DEFAULT '保密' COMMENT '性别',
   `birthday` date DEFAULT NULL COMMENT '生日',
-  `phone` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '电话号码',
+  `phone` varchar(20) DEFAULT NULL COMMENT '电话号码',
   `classroom_id` int(11) DEFAULT NULL COMMENT '所属班级id',
-  `createtime` datetime(0) NOT NULL COMMENT '注册时间',
+  `createtime` datetime NOT NULL COMMENT '注册时间',
   `enabled` tinyint(4) NOT NULL COMMENT '账号是否可用，0-》否，1-》是',
   `locked` tinyint(4) NOT NULL COMMENT '账号是否被锁住，0-》否，1-》是',
   `type` tinyint(4) DEFAULT NULL COMMENT '0-》学生，1-》回答问题的老师',
-  `self_introduction` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '自我介绍',
+  `self_introduction` varchar(255) DEFAULT NULL COMMENT '自我介绍',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 39 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------
--- Records of user
--- ----------------------------
-INSERT INTO `user` VALUES (1, 'admin', 'admin', '$2a$10$ELGiEhKyLlO9r3.WVOkHDe16JTCKCErcABhElD5CF7ZwQ.Hm6sVRW', '保密', NULL, NULL, NULL, '2020-03-03 15:04:48', 1, 1, 0, NULL);
-INSERT INTO `user` VALUES (2, 'tc1', '老师1', '$2a$10$ELGiEhKyLlO9r3.WVOkHDe16JTCKCErcABhElD5CF7ZwQ.Hm6sVRW', '保密', NULL, NULL, NULL, '2020-03-13 14:34:40', 1, 1, 1, NULL);
-INSERT INTO `user` VALUES (3, 'tc2', '老师2', '$2a$10$ELGiEhKyLlO9r3.WVOkHDe16JTCKCErcABhElD5CF7ZwQ.Hm6sVRW', '保密', NULL, NULL, NULL, '2020-03-13 14:42:05', 1, 1, 1, NULL);
-INSERT INTO `user` VALUES (4, 'tc3', '老师3', '$2a$10$ELGiEhKyLlO9r3.WVOkHDe16JTCKCErcABhElD5CF7ZwQ.Hm6sVRW', '女', '1983-07-05', '13581726261', NULL, '2020-03-13 14:42:49', 1, 1, 1, 'xxxxx');
-INSERT INTO `user` VALUES (5, 'tc4', '老师4', '$2a$10$ELGiEhKyLlO9r3.WVOkHDe16JTCKCErcABhElD5CF7ZwQ.Hm6sVRW', '保密', NULL, NULL, NULL, '2020-03-13 14:44:13', 1, 1, 1, NULL);
-INSERT INTO `user` VALUES (6, 'tc5', '老师5', '$2a$10$ELGiEhKyLlO9r3.WVOkHDe16JTCKCErcABhElD5CF7ZwQ.Hm6sVRW', '保密', NULL, NULL, NULL, '2020-03-13 14:51:58', 1, 1, 1, NULL);
-INSERT INTO `user` VALUES (7, 'tc6', '老师6', '$2a$10$ELGiEhKyLlO9r3.WVOkHDe16JTCKCErcABhElD5CF7ZwQ.Hm6sVRW', '保密', NULL, NULL, NULL, '2020-03-13 14:52:28', 1, 1, 1, NULL);
-INSERT INTO `user` VALUES (8, 'tc7', '老师7', '$2a$10$ELGiEhKyLlO9r3.WVOkHDe16JTCKCErcABhElD5CF7ZwQ.Hm6sVRW', '保密', NULL, NULL, NULL, '2020-03-13 14:53:45', 1, 1, 1, NULL);
-INSERT INTO `user` VALUES (9, 'tc8', '老师8', '$2a$10$ELGiEhKyLlO9r3.WVOkHDe16JTCKCErcABhElD5CF7ZwQ.Hm6sVRW', '保密', NULL, NULL, NULL, '2020-03-13 14:54:06', 1, 1, 1, NULL);
-INSERT INTO `user` VALUES (10, 'st1', '同学1', '$2a$10$ELGiEhKyLlO9r3.WVOkHDe16JTCKCErcABhElD5CF7ZwQ.Hm6sVRW', '保密', NULL, NULL, NULL, '2020-03-13 22:35:36', 1, 1, 0, NULL);
-INSERT INTO `user` VALUES (11, 'st2', '同学2', '$2a$10$ELGiEhKyLlO9r3.WVOkHDe16JTCKCErcABhElD5CF7ZwQ.Hm6sVRW', '女', '1992-03-06', NULL, NULL, '2020-03-13 22:36:59', 1, 1, 0, '');
-INSERT INTO `user` VALUES (12, 'st3', '同学3', '$2a$10$ELGiEhKyLlO9r3.WVOkHDe16JTCKCErcABhElD5CF7ZwQ.Hm6sVRW', '保密', NULL, NULL, NULL, '2020-03-13 22:37:27', 1, 1, 0, NULL);
-INSERT INTO `user` VALUES (13, 'st4', '同学4', '$2a$10$ELGiEhKyLlO9r3.WVOkHDe16JTCKCErcABhElD5CF7ZwQ.Hm6sVRW', '保密', NULL, NULL, NULL, '2020-03-19 16:09:03', 1, 1, 0, NULL);
-INSERT INTO `user` VALUES (27, 'st5', '同学5', '$2a$10$ELGiEhKyLlO9r3.WVOkHDe16JTCKCErcABhElD5CF7ZwQ.Hm6sVRW', '保密', NULL, NULL, 1, '2020-04-15 17:41:48', 1, 1, 0, NULL);
-INSERT INTO `user` VALUES (28, 'tc9', '老师9', '$2a$10$ELGiEhKyLlO9r3.WVOkHDe16JTCKCErcABhElD5CF7ZwQ.Hm6sVRW', '保密', NULL, NULL, NULL, '2020-05-07 10:39:39', 1, 1, 1, NULL);
-INSERT INTO `user` VALUES (29, 'tc10', '老师10', '$2a$10$ELGiEhKyLlO9r3.WVOkHDe16JTCKCErcABhElD5CF7ZwQ.Hm6sVRW', '保密', NULL, NULL, NULL, '2020-05-07 10:41:53', 1, 1, 1, NULL);
-INSERT INTO `user` VALUES (30, 'tc11', '老师11', '$2a$10$ELGiEhKyLlO9r3.WVOkHDe16JTCKCErcABhElD5CF7ZwQ.Hm6sVRW', '保密', NULL, NULL, NULL, '2020-05-07 10:43:02', 1, 1, 1, NULL);
-INSERT INTO `user` VALUES (31, 'tc12', '老师12', '$2a$10$ELGiEhKyLlO9r3.WVOkHDe16JTCKCErcABhElD5CF7ZwQ.Hm6sVRW', '保密', NULL, NULL, NULL, '2020-05-07 10:44:04', 1, 1, 1, NULL);
-INSERT INTO `user` VALUES (32, 'tc13', '老师13', '$2a$10$ELGiEhKyLlO9r3.WVOkHDe16JTCKCErcABhElD5CF7ZwQ.Hm6sVRW', '保密', NULL, NULL, NULL, '2020-05-07 10:44:56', 1, 1, 1, NULL);
-INSERT INTO `user` VALUES (33, 'tc14', '老师14', '$2a$10$ELGiEhKyLlO9r3.WVOkHDe16JTCKCErcABhElD5CF7ZwQ.Hm6sVRW', '保密', NULL, NULL, NULL, '2020-05-07 10:45:45', 1, 1, 1, NULL);
-INSERT INTO `user` VALUES (34, 'tc15', '老师15', '$2a$10$ELGiEhKyLlO9r3.WVOkHDe16JTCKCErcABhElD5CF7ZwQ.Hm6sVRW', '保密', NULL, NULL, NULL, '2020-05-07 10:50:00', 1, 1, 1, NULL);
-INSERT INTO `user` VALUES (35, 'tc16', '老师16', '$2a$10$ELGiEhKyLlO9r3.WVOkHDe16JTCKCErcABhElD5CF7ZwQ.Hm6sVRW', '保密', NULL, NULL, NULL, '2020-05-07 10:50:47', 1, 1, 1, NULL);
-INSERT INTO `user` VALUES (36, 'tc17', '老师17', '$2a$10$ELGiEhKyLlO9r3.WVOkHDe16JTCKCErcABhElD5CF7ZwQ.Hm6sVRW', '保密', NULL, NULL, NULL, '2020-05-07 10:52:21', 1, 1, 1, NULL);
-INSERT INTO `user` VALUES (37, 'tc18', '老师18', '$2a$10$ELGiEhKyLlO9r3.WVOkHDe16JTCKCErcABhElD5CF7ZwQ.Hm6sVRW', '保密', NULL, NULL, NULL, '2020-05-07 11:01:00', 1, 1, 1, NULL);
-INSERT INTO `user` VALUES (38, 'tc19', '老师19', '$2a$10$ELGiEhKyLlO9r3.WVOkHDe16JTCKCErcABhElD5CF7ZwQ.Hm6sVRW', '保密', NULL, NULL, NULL, '2020-05-07 11:04:58', 1, 1, 1, NULL);
+--
+-- Dumping data for table `user`
+--
 
--- ----------------------------
--- Table structure for user_collect
--- ----------------------------
+LOCK TABLES `user` WRITE;
+/*!40000 ALTER TABLE `user` DISABLE KEYS */;
+INSERT INTO `user` VALUES (1,'admin','admin','{bcrypt}$2a$10$ELGiEhKyLlO9r3.WVOkHDe16JTCKCErcABhElD5CF7ZwQ.Hm6sVRW','保密',NULL,NULL,NULL,'2020-03-03 15:04:48',1,0,0,NULL),(2,'tc1','花倩','{bcrypt}$2a$10$ELGiEhKyLlO9r3.WVOkHDe16JTCKCErcABhElD5CF7ZwQ.Hm6sVRW','保密',NULL,NULL,NULL,'2020-03-13 14:34:40',1,0,1,NULL),(3,'tc2','范传奇','{bcrypt}$2a$10$ELGiEhKyLlO9r3.WVOkHDe16JTCKCErcABhElD5CF7ZwQ.Hm6sVRW','保密',NULL,NULL,NULL,'2020-03-13 14:42:05',1,0,1,NULL),(4,'wangkj','王克晶','{bcrypt}$2a$10$ELGiEhKyLlO9r3.WVOkHDe16JTCKCErcABhElD5CF7ZwQ.Hm6sVRW','女','1983-07-05','13581726261',NULL,'2020-03-13 14:42:49',1,0,1,'xxxxx'),(5,'liugb','刘国斌','{bcrypt}$2a$10$ELGiEhKyLlO9r3.WVOkHDe16JTCKCErcABhElD5CF7ZwQ.Hm6sVRW','保密',NULL,NULL,NULL,'2020-03-13 14:44:13',1,0,1,NULL),(6,'chengh','成恒','{bcrypt}$2a$10$ELGiEhKyLlO9r3.WVOkHDe16JTCKCErcABhElD5CF7ZwQ.Hm6sVRW','保密',NULL,NULL,NULL,'2020-03-13 14:51:58',1,0,1,NULL),(7,'zhanghl','张皓岚','{bcrypt}$2a$10$ELGiEhKyLlO9r3.WVOkHDe16JTCKCErcABhElD5CF7ZwQ.Hm6sVRW','保密',NULL,NULL,NULL,'2020-03-13 14:52:28',1,0,1,NULL),(8,'chengzh','程祖红','{bcrypt}$2a$10$ELGiEhKyLlO9r3.WVOkHDe16JTCKCErcABhElD5CF7ZwQ.Hm6sVRW','保密',NULL,NULL,NULL,'2020-03-13 14:53:45',1,0,1,NULL),(9,'liucs','刘苍松','{bcrypt}$2a$10$ELGiEhKyLlO9r3.WVOkHDe16JTCKCErcABhElD5CF7ZwQ.Hm6sVRW','男',NULL,NULL,NULL,'2020-03-13 14:54:06',1,0,1,NULL),(10,'st1','张三同学','{bcrypt}$2a$10$ELGiEhKyLlO9r3.WVOkHDe16JTCKCErcABhElD5CF7ZwQ.Hm6sVRW','保密',NULL,NULL,NULL,'2020-03-13 22:35:36',1,0,0,NULL),(11,'st2','李四同学','{bcrypt}$2a$10$ELGiEhKyLlO9r3.WVOkHDe16JTCKCErcABhElD5CF7ZwQ.Hm6sVRW','女','1992-03-06',NULL,NULL,'2020-03-13 22:36:59',1,0,0,''),(12,'wangw','王五同学','{bcrypt}$2a$10$ELGiEhKyLlO9r3.WVOkHDe16JTCKCErcABhElD5CF7ZwQ.Hm6sVRW','保密',NULL,NULL,NULL,'2020-03-13 22:37:27',1,0,0,NULL),(13,'xiaom','小明同学','{bcrypt}$2a$10$ELGiEhKyLlO9r3.WVOkHDe16JTCKCErcABhElD5CF7ZwQ.Hm6sVRW','保密',NULL,NULL,NULL,'2020-03-19 16:09:03',1,0,0,NULL),(28,'18601962753','风继续吹','{bcrypt}$2a$10$ELGiEhKyLlO9r3.WVOkHDe16JTCKCErcABhElD5CF7ZwQ.Hm6sVRW','保密',NULL,NULL,1,'2020-04-28 17:39:38',1,0,NULL,NULL),(29,'18501927843','陈海宝','{bcrypt}$2a$10$ELGiEhKyLlO9r3.WVOkHDe16JTCKCErcABhElD5CF7ZwQ.Hm6sVRW','男','1991-07-17',NULL,1,'2020-04-29 17:08:05',1,0,NULL,NULL),(30,'15601035818',' 天王盖地虎','{bcrypt}$2a$10$ELGiEhKyLlO9r3.WVOkHDe16JTCKCErcABhElD5CF7ZwQ.Hm6sVRW','保密',NULL,NULL,3,'2020-04-30 12:18:04',1,0,NULL,NULL),(31,'g-yuyang','于洋','{bcrypt}$2a$10$ELGiEhKyLlO9r3.WVOkHDe16JTCKCErcABhElD5CF7ZwQ.Hm6sVRW','保密',NULL,NULL,NULL,'2020-05-07 10:44:04',1,0,1,NULL),(32,'g-lids','李大帅','{bcrypt}$2a$10$ELGiEhKyLlO9r3.WVOkHDe16JTCKCErcABhElD5CF7ZwQ.Hm6sVRW','保密',NULL,NULL,NULL,'2020-05-07 10:44:56',1,0,1,NULL),(33,'guanjp','关敬培','{bcrypt}$2a$10$ELGiEhKyLlO9r3.WVOkHDe16JTCKCErcABhElD5CF7ZwQ.Hm6sVRW','保密',NULL,NULL,NULL,'2020-05-07 10:45:45',1,0,1,NULL),(34,'baojq','包佳奇','{bcrypt}$2a$10$ELGiEhKyLlO9r3.WVOkHDe16JTCKCErcABhElD5CF7ZwQ.Hm6sVRW','保密',NULL,NULL,NULL,'2020-05-07 10:50:00',1,0,1,NULL),(35,'g-zhaoxj','赵秀佳','{bcrypt}$2a$10$ELGiEhKyLlO9r3.WVOkHDe16JTCKCErcABhElD5CF7ZwQ.Hm6sVRW','保密',NULL,NULL,NULL,'2020-05-07 10:50:47',1,0,1,NULL),(36,'lindf','林得富','{bcrypt}$2a$10$ELGiEhKyLlO9r3.WVOkHDe16JTCKCErcABhElD5CF7ZwQ.Hm6sVRW','保密',NULL,NULL,NULL,'2020-05-07 10:52:21',1,0,1,NULL),(37,'juchao','爼超','{bcrypt}$2a$10$ELGiEhKyLlO9r3.WVOkHDe16JTCKCErcABhElD5CF7ZwQ.Hm6sVRW','女',NULL,NULL,NULL,'2020-05-07 11:01:00',1,0,1,NULL),(38,'g-gaosy','高书瑀','{bcrypt}$2a$10$ELGiEhKyLlO9r3.WVOkHDe16JTCKCErcABhElD5CF7ZwQ.Hm6sVRW','保密',NULL,NULL,NULL,'2020-05-07 11:04:58',1,0,1,NULL),(39,'chenrf','陈瑞丰','{bcrypt}$2a$10$ELGiEhKyLlO9r3.WVOkHDe16JTCKCErcABhElD5CF7ZwQ.Hm6sVRW','保密',NULL,NULL,NULL,'2020-05-07 10:39:39',1,0,1,NULL),(40,'linsen','林森','{bcrypt}$2a$10$ELGiEhKyLlO9r3.WVOkHDe16JTCKCErcABhElD5CF7ZwQ.Hm6sVRW','保密',NULL,NULL,NULL,'2020-05-07 10:41:53',1,0,1,NULL),(41,'dengyn','邓雅宁','{bcrypt}$2a$10$ELGiEhKyLlO9r3.WVOkHDe16JTCKCErcABhElD5CF7ZwQ.Hm6sVRW','保密',NULL,NULL,NULL,'2020-05-07 10:43:02',1,0,1,NULL),(42,'15011339106','晓峰-学员','{bcrypt}$2a$10$ELGiEhKyLlO9r3.WVOkHDe16JTCKCErcABhElD5CF7ZwQ.Hm6sVRW','保密',NULL,NULL,1,'2020-05-07 14:09:59',1,0,NULL,NULL),(43,'17600507517','baozi','{bcrypt}$2a$10$ELGiEhKyLlO9r3.WVOkHDe16JTCKCErcABhElD5CF7ZwQ.Hm6sVRW','保密',NULL,NULL,1,'2020-05-11 15:41:45',1,0,NULL,NULL),(44,'18500690315','旧约0315','{bcrypt}$2a$10$ELGiEhKyLlO9r3.WVOkHDe16JTCKCErcABhElD5CF7ZwQ.Hm6sVRW','保密',NULL,NULL,3,'2020-05-12 10:13:13',1,0,NULL,NULL),(45,'18640969960','林森666','{bcrypt}$2a$10$ELGiEhKyLlO9r3.WVOkHDe16JTCKCErcABhElD5CF7ZwQ.Hm6sVRW','保密',NULL,NULL,1,'2020-05-12 10:14:25',1,0,NULL,NULL),(46,'17621874669','gsy','{bcrypt}$2a$10$ELGiEhKyLlO9r3.WVOkHDe16JTCKCErcABhElD5CF7ZwQ.Hm6sVRW','保密',NULL,NULL,4,'2020-05-13 18:45:26',1,0,NULL,NULL),(47,'18409448596','Anma','{bcrypt}$2a$10$ELGiEhKyLlO9r3.WVOkHDe16JTCKCErcABhElD5CF7ZwQ.Hm6sVRW','保密',NULL,NULL,1,'2020-05-15 16:33:25',1,0,NULL,NULL),(48,'15903436197','山西 - JAVA','{bcrypt}$2a$10$ELGiEhKyLlO9r3.WVOkHDe16JTCKCErcABhElD5CF7ZwQ.Hm6sVRW','保密',NULL,NULL,4,'2020-05-25 13:39:29',1,0,NULL,NULL),(49,'15819498900','Te Fuir','{bcrypt}$2a$10$ELGiEhKyLlO9r3.WVOkHDe16JTCKCErcABhElD5CF7ZwQ.Hm6sVRW','男','1998-11-16',NULL,3,'2020-06-01 20:37:54',1,0,NULL,NULL),(50,'18444161025','小鱼干','{bcrypt}$2a$10$ELGiEhKyLlO9r3.WVOkHDe16JTCKCErcABhElD5CF7ZwQ.Hm6sVRW','保密',NULL,NULL,3,'2020-06-01 20:38:16',1,0,NULL,NULL),(51,'15531554384','彭于晏','{bcrypt}$2a$10$ELGiEhKyLlO9r3.WVOkHDe16JTCKCErcABhElD5CF7ZwQ.Hm6sVRW','保密',NULL,NULL,3,'2020-06-01 20:38:33',1,0,NULL,NULL),(52,'15072125508','璇儿妹妹','{bcrypt}$2a$10$ELGiEhKyLlO9r3.WVOkHDe16JTCKCErcABhElD5CF7ZwQ.Hm6sVRW','保密',NULL,NULL,3,'2020-06-01 20:40:29',1,0,NULL,NULL),(53,'15231114959','中坚力量','{bcrypt}$2a$10$ELGiEhKyLlO9r3.WVOkHDe16JTCKCErcABhElD5CF7ZwQ.Hm6sVRW','保密',NULL,NULL,3,'2020-06-02 10:50:32',1,0,NULL,NULL),(54,'18515561821','乱世小熊','{bcrypt}$2a$10$ELGiEhKyLlO9r3.WVOkHDe16JTCKCErcABhElD5CF7ZwQ.Hm6sVRW','保密',NULL,NULL,3,'2020-06-02 10:52:29',1,0,NULL,NULL),(55,'17662585032','stu','{bcrypt}$2a$10$ELGiEhKyLlO9r3.WVOkHDe16JTCKCErcABhElD5CF7ZwQ.Hm6sVRW','保密',NULL,NULL,3,'2020-06-02 11:49:16',1,0,NULL,NULL),(56,'13500724855','维尼小熊','{bcrypt}$2a$10$ELGiEhKyLlO9r3.WVOkHDe16JTCKCErcABhElD5CF7ZwQ.Hm6sVRW','保密',NULL,NULL,3,'2020-06-04 20:37:42',1,0,NULL,NULL),(57,'18568759779','開心宝貝','{bcrypt}$2a$10$ELGiEhKyLlO9r3.WVOkHDe16JTCKCErcABhElD5CF7ZwQ.Hm6sVRW','保密',NULL,NULL,3,'2020-06-04 21:21:34',1,0,NULL,NULL),(58,'18268895951','破人来学JAVA','{bcrypt}$2a$10$ELGiEhKyLlO9r3.WVOkHDe16JTCKCErcABhElD5CF7ZwQ.Hm6sVRW','保密',NULL,NULL,4,'2020-06-17 15:23:55',1,0,NULL,NULL),(59,'15061075713','卿堇123','{bcrypt}$2a$10$ELGiEhKyLlO9r3.WVOkHDe16JTCKCErcABhElD5CF7ZwQ.Hm6sVRW','保密',NULL,NULL,4,'2020-06-17 15:29:30',1,0,NULL,NULL),(60,'13026130870','hpJava','{bcrypt}$2a$10$ELGiEhKyLlO9r3.WVOkHDe16JTCKCErcABhElD5CF7ZwQ.Hm6sVRW','保密',NULL,NULL,3,'2020-06-24 17:41:00',1,0,NULL,NULL);
+/*!40000 ALTER TABLE `user` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `user_collect`
+--
+
 DROP TABLE IF EXISTS `user_collect`;
-CREATE TABLE `user_collect`  (
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `user_collect` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键id',
   `user_id` int(11) NOT NULL COMMENT '用户id',
   `question_id` int(11) NOT NULL COMMENT '问题id',
-  `createtime` datetime(0) NOT NULL COMMENT '收藏时间',
+  `createtime` datetime NOT NULL COMMENT '收藏时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 22 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------
--- Records of user_collect
--- ----------------------------
-INSERT INTO `user_collect` VALUES (13, 4, 114, '2020-05-09 11:57:30');
-INSERT INTO `user_collect` VALUES (14, 9, 119, '2020-05-09 15:01:47');
-INSERT INTO `user_collect` VALUES (18, 2, 9, '2020-05-29 09:46:03');
-INSERT INTO `user_collect` VALUES (21, 2, 2, '2020-05-29 16:43:12');
+--
+-- Dumping data for table `user_collect`
+--
 
--- ----------------------------
--- Table structure for user_role
--- ----------------------------
+LOCK TABLES `user_collect` WRITE;
+/*!40000 ALTER TABLE `user_collect` DISABLE KEYS */;
+INSERT INTO `user_collect` VALUES (4,4,109,'2020-05-08 09:28:29'),(5,4,109,'2020-05-08 09:32:09'),(6,4,105,'2020-05-09 00:50:41'),(8,4,132,'2020-05-29 09:01:37'),(11,4,10,'2020-06-06 11:08:38');
+/*!40000 ALTER TABLE `user_collect` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `user_question`
+--
+
+DROP TABLE IF EXISTS `user_question`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `user_question` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `question_id` int(11) NOT NULL,
+  `createtime` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=260 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `user_question`
+--
+
+LOCK TABLES `user_question` WRITE;
+/*!40000 ALTER TABLE `user_question` DISABLE KEYS */;
+INSERT INTO `user_question` VALUES (1,3,1,'2020-04-01 12:48:50'),(2,3,2,'2020-04-01 12:48:58'),(3,3,3,'2020-04-01 12:49:05'),(4,3,4,'2020-04-01 12:49:10'),(5,3,5,'2020-04-01 12:49:21'),(6,3,6,'2020-04-01 12:49:27'),(7,3,7,'2020-04-01 12:49:35'),(8,3,8,'2020-04-01 12:49:42'),(9,3,9,'2020-04-01 12:49:49'),(10,3,10,'2020-04-01 12:49:56'),(11,3,11,'2020-04-01 12:50:03'),(12,3,12,'2020-04-01 12:50:13'),(91,4,70,'2020-04-03 11:18:20'),(92,8,70,'2020-04-03 12:58:44'),(93,8,63,'2020-04-03 14:19:56'),(94,8,47,'2020-04-03 15:45:59'),(95,8,46,'2020-04-03 15:45:59'),(96,8,50,'2020-04-03 15:47:29'),(97,8,43,'2020-04-03 15:48:16'),(98,8,42,'2020-04-03 15:48:16'),(99,8,53,'2020-04-03 15:49:25'),(100,8,52,'2020-04-03 15:49:25'),(101,3,71,'2020-04-03 17:43:11'),(102,4,71,'2020-04-03 17:43:11'),(103,8,12,'2020-04-03 17:44:47'),(107,3,74,'2020-04-08 10:36:45'),(108,4,74,'2020-04-08 10:36:45'),(109,2,75,'2020-04-08 15:48:28'),(110,4,75,'2020-04-08 15:48:28'),(111,1,10,'2020-04-09 17:18:02'),(112,8,10,'2020-04-09 17:22:50'),(113,7,10,'2020-04-09 17:30:18'),(114,2,9,'2020-04-09 17:32:19'),(115,2,4,'2020-04-09 17:33:11'),(116,2,10,'2020-04-09 19:09:11'),(117,4,7,'2020-04-09 19:22:39'),(178,4,105,'2020-04-20 12:17:29'),(179,8,105,'2020-04-20 12:17:29'),(180,4,106,'2020-04-20 12:17:42'),(181,8,106,'2020-04-20 12:17:42'),(186,4,109,'2020-04-22 17:18:55'),(187,8,109,'2020-04-22 17:18:55'),(188,4,110,'2020-04-22 17:19:20'),(189,8,110,'2020-04-22 17:19:20'),(190,9,109,'2020-04-28 10:53:42'),(197,9,113,'2020-04-28 23:55:21'),(198,8,113,'2020-04-28 23:55:21'),(199,5,113,'2020-04-28 23:55:21'),(200,9,114,'2020-04-29 00:05:39'),(201,6,114,'2020-04-29 00:05:39'),(202,8,114,'2020-04-29 00:05:39'),(203,2,115,'2020-05-03 01:36:23'),(204,4,115,'2020-05-03 01:36:23'),(205,9,115,'2020-05-03 01:36:23'),(206,2,116,'2020-05-03 01:37:35'),(207,4,116,'2020-05-03 01:37:35'),(208,9,116,'2020-05-03 01:37:35'),(248,2,117,'2020-05-04 10:22:07'),(249,4,117,'2020-05-04 10:22:07'),(250,9,117,'2020-05-04 10:22:07'),(251,9,118,'2020-05-04 11:00:53'),(252,5,118,'2020-05-04 11:00:53'),(253,9,119,'2020-05-06 17:31:58'),(254,4,120,'2020-05-11 14:27:35'),(255,9,120,'2020-05-11 14:27:35'),(256,4,121,'2020-05-11 14:48:22'),(257,9,121,'2020-05-11 14:48:22'),(258,9,122,'2020-05-11 17:50:09'),(259,4,123,'2020-05-11 22:52:23');
+/*!40000 ALTER TABLE `user_question` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `user_role`
+--
+
 DROP TABLE IF EXISTS `user_role`;
-CREATE TABLE `user_role`  (
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `user_role` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL COMMENT '用户id',
   `role_id` int(11) NOT NULL COMMENT '角色id',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 36 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE=InnoDB AUTO_INCREMENT=58 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------
--- Records of user_role
--- ----------------------------
-INSERT INTO `user_role` VALUES (1, 1, 1);
-INSERT INTO `user_role` VALUES (2, 1, 2);
-INSERT INTO `user_role` VALUES (3, 1, 3);
-INSERT INTO `user_role` VALUES (4, 2, 3);
-INSERT INTO `user_role` VALUES (5, 3, 3);
-INSERT INTO `user_role` VALUES (6, 4, 3);
-INSERT INTO `user_role` VALUES (7, 5, 3);
-INSERT INTO `user_role` VALUES (8, 6, 3);
-INSERT INTO `user_role` VALUES (9, 7, 3);
-INSERT INTO `user_role` VALUES (10, 8, 3);
-INSERT INTO `user_role` VALUES (11, 9, 3);
-INSERT INTO `user_role` VALUES (12, 10, 2);
-INSERT INTO `user_role` VALUES (13, 11, 2);
-INSERT INTO `user_role` VALUES (14, 12, 2);
-INSERT INTO `user_role` VALUES (15, 13, 2);
-INSERT INTO `user_role` VALUES (24, 27, 2);
-INSERT INTO `user_role` VALUES (25, 28, 2);
-INSERT INTO `user_role` VALUES (26, 29, 2);
-INSERT INTO `user_role` VALUES (27, 30, 2);
-INSERT INTO `user_role` VALUES (28, 31, 2);
-INSERT INTO `user_role` VALUES (29, 32, 2);
-INSERT INTO `user_role` VALUES (30, 33, 2);
-INSERT INTO `user_role` VALUES (31, 34, 2);
-INSERT INTO `user_role` VALUES (32, 35, 2);
-INSERT INTO `user_role` VALUES (33, 36, 2);
-INSERT INTO `user_role` VALUES (34, 37, 2);
-INSERT INTO `user_role` VALUES (35, 38, 2);
+--
+-- Dumping data for table `user_role`
+--
 
-SET FOREIGN_KEY_CHECKS = 1;
+LOCK TABLES `user_role` WRITE;
+/*!40000 ALTER TABLE `user_role` DISABLE KEYS */;
+INSERT INTO `user_role` VALUES (1,1,1),(2,1,2),(3,1,3),(4,2,3),(5,3,3),(6,4,3),(7,5,3),(8,6,3),(9,7,3),(10,8,3),(11,9,3),(12,10,2),(13,11,2),(14,12,2),(15,13,2),(25,28,2),(26,29,2),(27,30,2),(28,31,3),(29,32,3),(30,33,3),(31,34,3),(32,35,3),(33,36,3),(34,37,3),(35,38,3),(36,39,3),(37,40,3),(38,41,3),(39,42,2),(40,43,2),(41,44,2),(42,45,2),(43,46,2),(44,47,2),(45,48,2),(46,49,2),(47,50,2),(48,51,2),(49,52,2),(50,53,2),(51,54,2),(52,55,2),(53,56,2),(54,57,2),(55,58,2),(56,59,2),(57,60,2);
+/*!40000 ALTER TABLE `user_role` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2020-07-01 16:30:32

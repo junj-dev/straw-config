@@ -35,12 +35,10 @@ public class Tag implements Serializable {
     @TableField("name")
     private String name;
 
-
     @TableField("createby")
     private String createby;
 
     @TableField("createtime")
     private Date createtime;
-
 
 }

@@ -1,54 +1,84 @@
 
 
-const vm = new Vue({
-    el: '#app',
+/*
+显示当前用户的问题
+ */
+let questionsApp = new Vue({
+    el:'#questionsApp',
     data: {
-        page: 0,  //显示的是哪一页
-        pageSize: 5, //每一页显示的数据条数
-        total: 0, //记录总数
-        maxPage:6, //最大页数
         questions:[],
-        isShow:false
-
+        pageInfo:{},
     },
     methods: {
-
-        //查找所有的问题
-        pageHandler:function (pageNum) {
-            //here you can do custom state update
-
-            this.page = pageNum;
-            let pageSize=this.pageSize;
-            let _this=this;
+        loadQuestions:function (pageNum) {
+            if(! pageNum){
+                pageNum = 1;
+            }
             $.ajax({
-                type:"post",
-                url:"/question/findPersonalAllQuestions",
+                url: '/v1/questions/my',
+                method: "GET",
                 data:{
-                    "pageNum":pageNum,
-                    "pageSize":pageSize
-
+                    pageNum:pageNum
                 },
-                dataType: "json",
-                success:function (res) {
-
-                    console.log(res);
-                    if(res.code==200){
-                        _this.total=res.data.total;
-                        _this.pages=res.data.pages;
-                        _this.questions=res.data.list;
-                        if(_this.total==0){
-                            _this.isShow=true;
-                        }else {
-                            _this.isShow=false;
-                        }
+                success: function (r) {
+                    console.log("成功加载数据");
+                    console.log(r);
+                    if(r.code === OK){
+                        questionsApp.questions = r.data.list;
+                        questionsApp.pageInfo = r.data;
+                        //为question对象添加持续时间属性
+                        questionsApp.updateDuration();
+                        questionsApp.updateTagImage();
                     }
                 }
             });
+        },
+        updateTagImage:function(){
+            let questions = this.questions;
+            for(let i=0; i<questions.length; i++){
+               let tags = questions[i].tags;
+               if(tags){
+                   let tagImage = '/img/tags/'+tags[0].id+'.jpg';
+                   console.log(tagImage);
+                   questions[i].tagImage = tagImage;
+               }
+            }
+        },
+        updateDuration:function () {
+            let questions = this.questions;
+            for(let i=0; i<questions.length; i++){
+                //创建问题时候的时间毫秒数
+                let createtime = new Date(questions[i].createtime).getTime();
+                //当前时间毫秒数
+                let now = new Date().getTime();
+                let duration = now - createtime;
+                if (duration < 1000*60){ //一分钟以内
+                    questions[i].duration = "刚刚";
+                }else if(duration < 1000*60*60){ //一小时以内
+                    questions[i].duration =
+                        (duration/1000/60).toFixed(0)+"分钟以前";
+                }else if (duration < 1000*60*60*24){
+                    questions[i].duration =
+                        (duration/1000/60/60).toFixed(0)+"小时以前";
+                }else {
+                    questions[i].duration =
+                        (duration/1000/60/60/24).toFixed(0)+"天以前";
+                }
+            }
         }
     },
-    created:function(){
-        //created  表示页面加载完毕，立即执行
-        this.pageHandler();
+    created:function () {
+        console.log("执行了方法");
+        this.loadQuestions(1);
     }
 });
+
+
+
+
+
+
+
+
+
 

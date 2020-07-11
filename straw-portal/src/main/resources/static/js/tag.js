@@ -5,7 +5,7 @@ const tagVue=new Vue({
     },
     methods:{
         //加载标签
-        loadTgs: function () {
+        loadTags: function () {
             let _this=this;
             $.get("/tag/findAllTags",function(result){
                 if(result.code==200){
@@ -16,6 +16,6 @@ const tagVue=new Vue({
         }
     },
     created:function () {
-        this.loadTgs();
+        loadTags();
     }
 })

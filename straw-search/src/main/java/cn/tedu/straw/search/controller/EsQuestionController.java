@@ -1,7 +1,7 @@
 package cn.tedu.straw.search.controller;
 
 import cn.tedu.straw.common.CommonPage;
-import cn.tedu.straw.common.StrawResult;
+import cn.tedu.straw.common.R;
 import cn.tedu.straw.portal.model.EsQuestion;
 import cn.tedu.straw.search.api.EsQuestionServiceApi;
 import cn.tedu.straw.search.service.IEsQuestionService;
@@ -26,9 +26,9 @@ public class EsQuestionController implements  EsQuestionServiceApi{
 
 
     @Override
-    public StrawResult importAllQuestionFromDB(){
+    public R importAllQuestionFromDB(){
         int count = questionService.importAllQuestionFromDB();
-        return new StrawResult().success("成功导入"+count+"条数据");
+        return new R().success("成功导入"+count+"条数据");
 
     }
 
@@ -40,13 +40,13 @@ public class EsQuestionController implements  EsQuestionServiceApi{
      * @return
      */
     @Override
-    public StrawResult<CommonPage<EsQuestion>> search(@RequestParam(required = false) String keyword,
+    public R<CommonPage<EsQuestion>> search(@RequestParam(required = false) String keyword,
                                                       @RequestParam(required = false, defaultValue = "1") Integer pageNum,
                                                       @RequestParam(required = false, defaultValue = "5") Integer pageSize){
 
         CommonPage<EsQuestion> esQuestionPage = questionService.search(keyword,pageNum,pageSize);
 
-        return new StrawResult().success(esQuestionPage);
+        return new R().success(esQuestionPage);
     }
 
     /**
@@ -57,7 +57,7 @@ public class EsQuestionController implements  EsQuestionServiceApi{
      * @return
      */
    @Override
-    public StrawResult<CommonPage<EsQuestion>> searchOpenQuestion(@RequestParam(required = false,value = "keyword") String keyword,
+    public R<CommonPage<EsQuestion>> searchOpenQuestion(@RequestParam(required = false,value = "keyword") String keyword,
                                                       @RequestParam(required = false, defaultValue = "1",value = "pageNum") Integer pageNum,
                                                       @RequestParam(required = false, defaultValue = "5",value = "pageSize") Integer pageSize,
                                                       @RequestParam(required = true,value = "userId")Integer userId,
@@ -65,7 +65,7 @@ public class EsQuestionController implements  EsQuestionServiceApi{
 
        CommonPage<EsQuestion> esQuestionPage = questionService.searchByUserIdAndPublicStatus(keyword,pageNum,pageSize,userId,publicStatus);
 
-        return new StrawResult().success(esQuestionPage);
+        return new R().success(esQuestionPage);
     }
 
 

@@ -1,7 +1,7 @@
 package cn.tedu.straw.search.api.fallback;
 
 import cn.tedu.straw.common.CommonPage;
-import cn.tedu.straw.common.StrawResult;
+import cn.tedu.straw.common.R;
 import cn.tedu.straw.portal.model.EsQuestion;
 import cn.tedu.straw.search.api.EsQuestionServiceApi;
 
@@ -13,18 +13,18 @@ import cn.tedu.straw.search.api.EsQuestionServiceApi;
  */
 public class EsQuestionServiceClientFallBack  implements EsQuestionServiceApi {
     @Override
-    public StrawResult importAllQuestionFromDB() {
-        return new StrawResult().failed("服务繁忙，请稍后重试！");
+    public R importAllQuestionFromDB() {
+        return new R().failed("服务繁忙，请稍后重试！");
     }
 
     @Override
-    public StrawResult<CommonPage<EsQuestion>> search(String keyword, Integer pageNum, Integer pageSize) {
-        return new StrawResult().failed("服务繁忙，请稍后重试！");
+    public R<CommonPage<EsQuestion>> search(String keyword, Integer pageNum, Integer pageSize) {
+        return new R().failed("服务繁忙，请稍后重试！");
     }
 
     @Override
-    public StrawResult<CommonPage<EsQuestion>> searchOpenQuestion(String keyword, Integer pageNum, Integer pageSize, Integer userId, Integer publicStatus) {
-        return new StrawResult().failed("服务繁忙，请稍后重试！");
+    public R<CommonPage<EsQuestion>> searchOpenQuestion(String keyword, Integer pageNum, Integer pageSize, Integer userId, Integer publicStatus) {
+        return new R().failed("服务繁忙，请稍后重试！");
     }
 
     @Override

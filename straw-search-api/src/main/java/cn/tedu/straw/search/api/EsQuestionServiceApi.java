@@ -1,7 +1,7 @@
 package cn.tedu.straw.search.api;
 
 import cn.tedu.straw.common.CommonPage;
-import cn.tedu.straw.common.StrawResult;
+import cn.tedu.straw.common.R;
 import cn.tedu.straw.portal.model.EsQuestion;
 import cn.tedu.straw.search.api.fallback.EsQuestionServiceClientFallBack;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -23,7 +23,7 @@ public interface EsQuestionServiceApi {
      * @return
      */
     @GetMapping("/importAllQuestion")
-    public StrawResult importAllQuestionFromDB();
+    public R importAllQuestionFromDB();
 
 
     /**
@@ -34,7 +34,7 @@ public interface EsQuestionServiceApi {
      * @return
      */
      @RequestMapping("/esQuestion/search")
-     StrawResult<CommonPage<EsQuestion>> search(@RequestParam(required = false) String keyword,
+     R<CommonPage<EsQuestion>> search(@RequestParam(required = false) String keyword,
                                                 @RequestParam(required = false, defaultValue = "0") Integer pageNum,
                                                 @RequestParam(required = false, defaultValue = "5") Integer pageSize);
 
@@ -47,7 +47,7 @@ public interface EsQuestionServiceApi {
       * @return
       */
      @GetMapping("/esQuestion/searchOpenQuestion")
-      StrawResult<CommonPage<EsQuestion>> searchOpenQuestion(@RequestParam(required = false,value = "keyword") String keyword,
+      R<CommonPage<EsQuestion>> searchOpenQuestion(@RequestParam(required = false,value = "keyword") String keyword,
                                                                    @RequestParam(required = false, defaultValue = "1",value = "pageNum") Integer pageNum,
                                                                    @RequestParam(required = false, defaultValue = "5",value = "pageSize") Integer pageSize,
                                                                    @RequestParam(required = true,value = "userId")Integer userId,
