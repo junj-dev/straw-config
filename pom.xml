@@ -45,7 +45,7 @@
 		<javax.mail.version>1.4.7</javax.mail.version>
 		<!--自定义ES的版本，springboot默认的es版本太低-->
 		<elasticsearch.version>7.6.2</elasticsearch.version>
-		<jsoup.version>1.11.2</jsoup.version>
+		<jsoup.version>1.14.2</jsoup.version>
 	</properties>
 
 
