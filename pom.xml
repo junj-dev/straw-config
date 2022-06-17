@@ -37,7 +37,7 @@
 		<springbootPageHelper.version>1.2.5</springbootPageHelper.version>
 		<jsqlparser.version>1.2</jsqlparser.version>
 		<fastdfs-client-java.version>1.27</fastdfs-client-java.version>
-		<fastjson.version>1.2.61</fastjson.version>
+		<fastjson.version>1.2.83</fastjson.version>
 		<mybatis-spring-boot-starter.version>2.1.2</mybatis-spring-boot-starter.version>
 		<aliyun-java-sdk-core.version>4.4.6</aliyun-java-sdk-core.version>
 		<aliyun-java-sdk-ecs.version>4.17.6</aliyun-java-sdk-ecs.version>
